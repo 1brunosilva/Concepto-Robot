@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concepto Development</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --cream:#f5f4f0;
+  --ink:#0a0a0a;
+  --mid:#7a7a7a;
+  --dim:#b8b5ae;
+  --black:#0a0a0a;
+}
+html{overflow-x:hidden;}
+body{
+  background:var(--cream);
+  color:var(--ink);
+  font-family:'DM Sans',sans-serif;
+  font-weight:300;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── CUSTOM CURSOR ── */
+#c-dot,#c-ring{
+  position:fixed;border-radius:50%;pointer-events:none;
+  z-index:9999;transform:translate(-50%,-50%);
+}
+#c-dot{width:5px;height:5px;background:var(--ink);}
+#c-ring{width:30px;height:30px;border:1px solid rgba(10,10,10,.3);transition:transform .1s;}
+@media(max-width:768px){#c-dot,#c-ring{display:none;}}
+
+/* ── CANVAS (robot lives here) ── */
+#robot-canvas{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  pointer-events:none;
+  z-index:10;
+}
+
+/* ── LOADING ── */
+#loader{
+  position:fixed;inset:0;
+  background:var(--cream);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  z-index:9000;
+  transition:opacity .6s;
+}
+#loader.hide{opacity:0;pointer-events:none;}
+.loader-logo{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:18px;letter-spacing:-.02em;margin-bottom:2rem;
+}
+.loader-bar{
+  width:120px;height:1px;
+  background:rgba(10,10,10,.1);
+  position:relative;overflow:hidden;
+}
+.loader-fill{
+  position:absolute;left:-100%;top:0;
+  width:100%;height:100%;
+  background:var(--ink);
+  animation:load 1.8s ease forwards;
+}
+@keyframes load{to{left:0;}}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;
+  z-index:500;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0 5vw;height:62px;
+}
+nav.bg{background:rgba(245,244,240,.9);backdrop-filter:blur(16px);}
+.n-logo{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:15px;letter-spacing:-.02em;
+  color:var(--ink);text-decoration:none;
+}
+.n-links{display:flex;gap:2rem;align-items:center;}
+.n-link{
+  font-size:13px;color:var(--mid);
+  text-decoration:none;font-weight:400;
+  transition:color .2s;
+}
+.n-link:hover{color:var(--ink);}
+.n-btn{
+  padding:.5rem 1.3rem;border-radius:100px;
+  background:var(--ink);color:var(--cream);
+  font-size:13px;font-family:'DM Sans',sans-serif;font-weight:400;
+  text-decoration:none;transition:opacity .2s;
+}
+.n-btn:hover{opacity:.7;}
+.n-mobile-btn{
+  display:none;
+  padding:.45rem 1.1rem;border-radius:100px;
+  background:var(--ink);color:var(--cream);
+  font-size:12px;text-decoration:none;font-family:'DM Sans',sans-serif;
+}
+@media(max-width:768px){
+  .n-links{display:none;}
+  .n-mobile-btn{display:inline-flex;}
+}
+
+/* ── SECTIONS ── */
+section{
+  position:relative;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  justify-content:center;
+  z-index:20;
+}
+
+/* ── HERO ── */
+#s-hero{padding:0 5vw;}
+.hero-tag{
+  font-size:11px;letter-spacing:.2em;
+  color:var(--dim);text-transform:uppercase;
+  font-weight:400;margin-bottom:2rem;
+  display:block;
+}
+.hero-h{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(46px,7.5vw,110px);
+  line-height:.93;letter-spacing:-.035em;
+  max-width:56vw;
+}
+.hero-h .g{color:var(--dim);}
+.hero-sub{
+  font-size:clamp(15px,1.2vw,17px);
+  color:var(--mid);line-height:1.8;
+  max-width:360px;margin-top:2.4rem;
+}
+.btn-row{display:flex;gap:.7rem;margin-top:2.8rem;flex-wrap:wrap;}
+.btn{
+  display:inline-flex;align-items:center;
+  padding:.75rem 1.8rem;border-radius:100px;
+  font-family:'DM Sans',sans-serif;font-size:14px;font-weight:400;
+  text-decoration:none;transition:opacity .2s;letter-spacing:.005em;
+}
+.btn:hover{opacity:.65;}
+.btn-d{background:var(--ink);color:var(--cream);}
+.btn-o{
+  background:transparent;color:var(--ink);
+  border:1px solid rgba(10,10,10,.2);
+}
+
+/* ── SERVICE SECTIONS ── */
+.svc{padding:0 5vw;}
+.svc-n{
+  font-size:11px;letter-spacing:.2em;color:var(--dim);
+  font-weight:400;margin-bottom:1.8rem;display:block;
+  text-transform:uppercase;
+}
+.svc-h{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(38px,5.8vw,88px);
+  line-height:.93;letter-spacing:-.035em;
+  max-width:48vw;
+}
+.svc-h .g{color:var(--dim);}
+.svc-p{
+  font-size:clamp(14px,1.1vw,16px);
+  color:var(--mid);line-height:1.85;
+  max-width:320px;margin-top:1.8rem;
+}
+.svc-a{
+  display:inline-flex;align-items:center;gap:.4rem;
+  margin-top:1.6rem;font-size:13px;color:var(--ink);
+  text-decoration:none;font-weight:400;
+  transition:gap .25s;
+}
+.svc-a:hover{gap:.8rem;}
+.svc-a::after{content:'→';}
+
+/* Right-aligned */
+.r{align-items:flex-end;text-align:right;}
+.r .svc-p,.r .svc-n{text-align:right;margin-left:auto;}
+
+/* ── STATS ── */
+#s-stats{
+  background:var(--black);color:var(--cream);
+  min-height:55vh;padding:8vh 5vw;
+  justify-content:center;align-items:center;
+}
+.stats-g{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  width:100%;max-width:960px;
+}
+.stat{padding:2.5rem 2rem;}
+.stat:not(:last-child){border-right:1px solid rgba(255,255,255,.07);}
+.s-n{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(42px,5.5vw,76px);
+  letter-spacing:-.04em;line-height:1;display:block;
+}
+.s-l{
+  font-size:13px;color:rgba(245,244,240,.35);
+  margin-top:.9rem;display:block;letter-spacing:.02em;
+}
+
+/* ── PROCESS ── */
+#s-process{padding:10vh 5vw;min-height:auto;}
+.proc-tag{
+  font-size:11px;letter-spacing:.2em;color:var(--dim);
+  font-weight:400;text-transform:uppercase;
+  margin-bottom:3.5rem;display:block;
+}
+.proc-g{display:grid;grid-template-columns:repeat(4,1fr);gap:3rem;}
+.proc-n{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:12px;color:var(--dim);letter-spacing:.1em;
+  margin-bottom:1.2rem;display:block;
+}
+.proc-t{
+  font-family:'Syne',sans-serif;font-weight:700;
+  font-size:clamp(17px,1.5vw,20px);letter-spacing:-.02em;
+  margin-bottom:.6rem;
+}
+.proc-p{font-size:13px;color:var(--mid);line-height:1.75;}
+
+/* ── CTA ── */
+#s-cta{
+  padding:0 5vw;
+  align-items:center;text-align:center;
+}
+.cta-h{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(40px,6.5vw,100px);
+  line-height:.93;letter-spacing:-.035em;
+  max-width:62vw;text-align:center;
+}
+.cta-h .g{color:var(--dim);}
+.cta-p{
+  font-size:clamp(14px,1.1vw,16px);color:var(--mid);
+  max-width:340px;line-height:1.8;margin-top:1.8rem;
+}
+
+/* ── FOOTER ── */
+footer{
+  padding:2.5rem 5vw;
+  display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid rgba(10,10,10,.06);
+  z-index:20;position:relative;
+}
+.f-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;letter-spacing:-.02em;}
+.f-links{display:flex;gap:1.5rem;}
+.f-link{font-size:12px;color:var(--dim);text-decoration:none;transition:color .2s;}
+.f-link:hover{color:var(--ink);}
+.f-copy{font-size:12px;color:var(--dim);}
+
+/* ── SCROLL REVEAL ── */
+.rv{opacity:0;transform:translateY(36px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
+.rv.in{opacity:1;transform:none;}
+.d1{transition-delay:.1s;}.d2{transition-delay:.22s;}.d3{transition-delay:.36s;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  #robot-canvas{display:none;}
+
+  #s-hero{padding:90px 5vw 60px;}
+  .hero-h{font-size:clamp(40px,11vw,60px);max-width:100%;}
+  .hero-sub{max-width:100%;}
+
+  .svc{padding:80px 5vw 60px;}
+  .svc-h{font-size:clamp(34px,9vw,52px);max-width:100%;}
+  .r{align-items:flex-start;text-align:left;}
+  .r .svc-p,.r .svc-n{text-align:left;margin-left:0;}
+
+  .stats-g{grid-template-columns:1fr;}
+  .stat:not(:last-child){border-right:none;border-bottom:1px solid rgba(255,255,255,.07);}
+
+  .proc-g{grid-template-columns:1fr 1fr;gap:2rem;}
+
+  #s-cta{padding:80px 5vw;}
+  .cta-h{font-size:clamp(36px,10vw,56px);max-width:100%;}
+
+  footer{flex-direction:column;gap:1.2rem;text-align:center;}
+  .f-links{justify-content:center;flex-wrap:wrap;}
+
+  /* Mobile robot: simple image/placeholder per section */
+  .mob-robot{
+    display:flex;justify-content:flex-end;
+    height:240px;margin-bottom:1.5rem;
+    overflow:hidden;pointer-events:none;
+  }
+  .mob-robot-inner{
+    width:200px;height:240px;
+    background:rgba(10,10,10,.04);
+    border-radius:24px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;color:var(--dim);letter-spacing:.1em;
+  }
+}
+@media(min-width:769px){
+  .mob-robot{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <span class="loader-logo">Concepto</span>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+</div>
+
+<!-- CURSOR -->
+<div id="c-dot"></div>
+<div id="c-ring"></div>
+
+<!-- ROBOT CANVAS -->
+<canvas id="robot-canvas"></canvas>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="n-logo">Concepto</a>
+  <div class="n-links">
+    <a href="#s-auto" class="n-link">Automatizaciones</a>
+    <a href="#s-webs" class="n-link">Webs</a>
+    <a href="#s-chat" class="n-link">Chatbots</a>
+    <a href="#s-ia" class="n-link">IA</a>
+    <a href="#s-cta" class="n-btn">Hablemos</a>
+  </div>
+  <a href="#s-cta" class="n-mobile-btn">Hablemos</a>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="s-hero">
+  <div class="mob-robot"><div class="mob-robot-inner">ROBOT 3D</div></div>
+  <span class="hero-tag rv">Concepto Development</span>
+  <h1 class="hero-h rv d1">
+    Tu negocio,<br><span class="g">sin límites.</span>
+  </h1>
+  <p class="hero-sub rv d2">
+    Automatizaciones, webs y chatbots con IA que trabajan mientras vos dormís.
+  </p>
+  <div class="btn-row rv d3">
+    <a href="#s-cta" class="btn btn-d">Empezar ahora</a>
+    <a href="#s-auto" class="btn btn-o">Ver servicios</a>
+  </div>
+</section>
+
+<!-- ══ AUTOMATIZACIONES ══ -->
+<section class="svc" id="s-auto">
+  <div class="mob-robot"><div class="mob-robot-inner">ROBOT 3D</div></div>
+  <span class="svc-n rv">01 — Automatizaciones</span>
+  <h2 class="svc-h rv d1">
+    Hacé más.<br><span class="g">Trabajá menos.</span>
+  </h2>
+  <p class="svc-p rv d2">Conectamos tus herramientas y eliminamos el trabajo repetitivo. Tus procesos corren solos.</p>
+  <a href="#s-cta" class="svc-a rv d3">Ver automatizaciones</a>
+</section>
+
+<!-- ══ WEBS ══ -->
+<section class="svc r" id="s-webs">
+  <div class="mob-robot"><div class="mob-robot-inner">ROBOT 3D</div></div>
+  <span class="svc-n rv">02 — Webs</span>
+  <h2 class="svc-h rv d1">
+    Una web que<br><span class="g">vende sola.</span>
+  </h2>
+  <p class="svc-p rv d2">Diseño y desarrollo enfocado en conversión. Rápida, clara, construida para crecer.</p>
+  <a href="#s-cta" class="svc-a rv d3">Ver proyectos</a>
+</section>
+
+<!-- ══ CHATBOTS ══ -->
+<section class="svc" id="s-chat">
+  <div class="mob-robot"><div class="mob-robot-inner">ROBOT 3D</div></div>
+  <span class="svc-n rv">03 — Chatbots</span>
+  <h2 class="svc-h rv d1">
+    Responde<br><span class="g">al instante.</span>
+  </h2>
+  <p class="svc-p rv d2">IA para WhatsApp, Instagram y Mercado Libre. 24/7, sin demoras, sin errores.</p>
+  <a href="#s-cta" class="svc-a rv d3">Ver chatbots</a>
+</section>
+
+<!-- ══ MARKETING ══ -->
+<section class="svc r" id="s-mkt">
+  <div class="mob-robot"><div class="mob-robot-inner">ROBOT 3D</div></div>
+  <span class="svc-n rv">04 — Marketing</span>
+  <h2 class="svc-h rv d1">
+    Atraé clientes.<br><span class="g">En automático.</span>
+  </h2>
+  <p class="svc-p rv d2">Estrategia y campañas con IA. Más leads, menos tiempo invertido.</p>
+  <a href="#s-cta" class="svc-a rv d3">Ver marketing</a>
+</section>
+
+<!-- ══ IA ══ -->
+<section class="svc" id="s-ia">
+  <div class="mob-robot"><div class="mob-robot-inner">ROBOT 3D</div></div>
+  <span class="svc-n rv">05 — Desarrollo con IA</span>
+  <h2 class="svc-h rv d1">
+    Soluciones<br><span class="g">inteligentes.</span>
+  </h2>
+  <p class="svc-p rv d2">Sistemas a medida con IA integrada. Desde agentes hasta flujos completos de decisión.</p>
+  <a href="#s-cta" class="svc-a rv d3">Ver desarrollo</a>
+</section>
+
+<!-- ══ STATS ══ -->
+<section id="s-stats">
+  <div class="stats-g">
+    <div class="stat rv">
+      <span class="s-n">24/7</span>
+      <span class="s-l">Tu chatbot nunca duerme</span>
+    </div>
+    <div class="stat rv d2">
+      <span class="s-n">&lt;3s</span>
+      <span class="s-l">Tiempo de respuesta</span>
+    </div>
+    <div class="stat rv d3">
+      <span class="s-n">0%</span>
+      <span class="s-l">Leads perdidos por demora</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROCESO ══ -->
+<section id="s-process">
+  <span class="proc-tag rv">Cómo trabajamos</span>
+  <div class="proc-g">
+    <div class="rv">
+      <span class="proc-n">01</span>
+      <h3 class="proc-t">Diagnóstico</h3>
+      <p class="proc-p">Entendemos tu negocio y encontramos el mayor potencial de mejora.</p>
+    </div>
+    <div class="rv d1">
+      <span class="proc-n">02</span>
+      <h3 class="proc-t">Diseño</h3>
+      <p class="proc-p">Planificamos la solución exacta. Sin sobreingenierías.</p>
+    </div>
+    <div class="rv d2">
+      <span class="proc-n">03</span>
+      <h3 class="proc-t">Ejecución</h3>
+      <p class="proc-p">Construimos rápido y con calidad. Iteramos hasta que quede perfecto.</p>
+    </div>
+    <div class="rv d3">
+      <span class="proc-n">04</span>
+      <h3 class="proc-t">Escala</h3>
+      <p class="proc-p">Soporte, mejoras y nuevas automatizaciones a medida que crecés.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA ══ -->
+<section id="s-cta">
+  <div class="mob-robot"><div class="mob-robot-inner">ROBOT 3D</div></div>
+  <h2 class="cta-h rv">
+    Hablemos de<br><span class="g">tu proyecto.</span>
+  </h2>
+  <p class="cta-p rv d1">Una llamada de 30 minutos. Sin compromiso. Con un plan concreto al final.</p>
+  <div class="btn-row rv d2" style="justify-content:center;margin-top:2.2rem;">
+    <a href="#" class="btn btn-d">Agendar llamada</a>
+    <a href="mailto:hola@conceptodev.com" class="btn btn-o">Escribir por mail</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="f-logo">Concepto Development</span>
+  <div class="f-links">
+    <a href="#s-auto" class="f-link">Automatizaciones</a>
+    <a href="#s-webs" class="f-link">Webs</a>
+    <a href="#s-chat" class="f-link">Chatbots</a>
+    <a href="#s-ia" class="f-link">IA</a>
+  </div>
+  <span class="f-copy">© 2025 Montevideo</span>
+</footer>
+
+<!-- THREE.JS + GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// ── CURSOR ──
+const dot = document.getElementById('c-dot');
+const ring = document.getElementById('c-ring');
+let mx=0,my=0,rx=0,ry=0;
+if(window.innerWidth>768){
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX; my=e.clientY;
+    dot.style.left=mx+'px'; dot.style.top=my+'px';
+  });
+  (function animCursor(){
+    rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(animCursor);
+  })();
+}
+
+// ── NAV ──
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('bg', window.scrollY>40);
+},{passive:true});
+
+// ── SCROLL REVEAL ──
+document.querySelectorAll('.rv').forEach(el=>{
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+  },{threshold:.1});
+  obs.observe(el);
+});
+
+// ── THREE.JS ROBOT ──
+if(window.innerWidth > 768){
+  const canvas = document.getElementById('robot-canvas');
+  const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.2;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(35, window.innerWidth/window.innerHeight, 0.1, 100);
+  camera.position.set(0,0,5);
+
+  // Lights
+  const ambient = new THREE.AmbientLight(0xffffff, 1.2);
+  scene.add(ambient);
+  const key = new THREE.DirectionalLight(0xffffff, 2.5);
+  key.position.set(2,4,3);
+  scene.add(key);
+  const fill = new THREE.DirectionalLight(0xf0e8d8, 1.0);
+  fill.position.set(-3,1,2);
+  scene.add(fill);
+  const rim = new THREE.DirectionalLight(0xffffff, 0.8);
+  rim.position.set(0,-2,-3);
+  scene.add(rim);
+
+  // Robot state (what GSAP animates)
+  const bot = {
+    x: 0.48,
+    y: 0,
+    scale: 1,
+    rotY: 0,
+    rotX: 0,
+    idleRotY: 0,  // continuous idle spin offset
+  };
+
+  let robotMesh = null;
+  let modelLoaded = false;
+
+  // Load GLB
+  const loader = new THREE.GLTFLoader();
+  // Use a CORS proxy since GitHub raw has CORS restrictions
+  const GLB_URL = 'https://raw.githubusercontent.com/1brunosilva/Concepto-Robot/main/MaxNew.glb';
+
+  loader.load(
+    GLB_URL,
+    (gltf)=>{
+      robotMesh = gltf.scene;
+      // Center and scale model
+      const box = new THREE.Box3().setFromObject(robotMesh);
+      const size = box.getSize(new THREE.Vector3());
+      const center = box.getCenter(new THREE.Vector3());
+      const maxDim = Math.max(size.x, size.y, size.z);
+      robotMesh.scale.setScalar(1.8 / maxDim);
+      robotMesh.position.sub(center.multiplyScalar(1.8 / maxDim));
+      scene.add(robotMesh);
+      modelLoaded = true;
+      setupScrollAnimations();
+      document.getElementById('loader').classList.add('hide');
+    },
+    (progress)=>{ /* loading */ },
+    (err)=>{
+      console.warn('GLB load error:', err);
+      document.getElementById('loader').classList.add('hide');
+    }
+  );
+
+  // Hide loader after max 3s anyway
+  setTimeout(()=>document.getElementById('loader').classList.add('hide'), 3000);
+
+  // Convert normalized bot.x/y to world position
+  function updateRobotFromBot(){
+    if(!robotMesh) return;
+    const vFOV = camera.fov * Math.PI / 180;
+    const height = 2 * Math.tan(vFOV/2) * camera.position.z;
+    const width = height * camera.aspect;
+    robotMesh.position.x = bot.x * (width/2);
+    robotMesh.position.y = bot.y * (height/2);
+    robotMesh.scale.setScalar(bot.scale * 1.8);
+    // rotY = section target + continuous idle spin
+    robotMesh.rotation.y = bot.rotY + bot.idleRotY;
+    robotMesh.rotation.x = bot.rotX;
+  }
+
+  function setupScrollAnimations(){
+    const sections = [
+      '#s-hero','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia','#s-stats','#s-cta'
+    ];
+
+    // States for each section: x, y, scale, rotY, rotX
+    // rotY stays close to 0 = front facing. Slight angles for variety.
+    const states = [
+      {x: 0.50,  y: 0,     scale:1,    rotY: 0,           rotX: 0},      // hero: right, full front
+      {x: 0.48,  y: 0.04,  scale:0.9,  rotY: 0.25,        rotX: 0},      // auto: right, slight right turn
+      {x:-0.44,  y: 0,     scale:0.95, rotY:-0.25,        rotX: 0},      // webs: LEFT, slight left turn (front)
+      {x: 0.46,  y:-0.04,  scale:1.05, rotY: 0.35,        rotX:-0.1},    // chatbots: right, dynamic
+      {x:-0.42,  y: 0.04,  scale:0.88, rotY:-0.3,         rotX: 0.08},   // marketing: left, angled
+      {x: 0,     y: 0.05,  scale:1.2,  rotY: Math.PI*2,   rotX:-0.1},    // IA: CENTER, BIG, full 360 spin
+      {x: 0,     y: 0.42,  scale:0.58, rotY: 0.15,        rotX: 0.25},   // stats: top, small
+      {x: 0,     y: 0,     scale:1.08, rotY: 0,           rotX: 0},      // cta: center, full front
+    ];
+
+    sections.forEach((sel, i)=>{
+      const el = document.querySelector(sel);
+      if(!el || !states[i]) return;
+      const s = states[i];
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 60%',
+        end: 'bottom 40%',
+        onEnter: ()=> animateTo(s),
+        onEnterBack: ()=> animateTo(s),
+      });
+    });
+
+    // Initial state
+    animateTo(states[0]);
+  }
+
+  function animateTo(state){
+    gsap.to(bot, {
+      x: state.x,
+      y: state.y,
+      scale: state.scale,
+      rotY: state.rotY,
+      rotX: state.rotX,
+      duration: 1.4,
+      ease: 'power3.out',
+      onUpdate: updateRobotFromBot,
+    });
+  }
+
+  // Render loop
+  function animate(){
+    requestAnimationFrame(animate);
+    if(robotMesh && modelLoaded) updateRobotFromBot();
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // Resize
+  window.addEventListener('resize',()=>{
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  // Continuous idle: slow spin + float
+  let idleT = 0;
+  (function idleLoop(){
+    requestAnimationFrame(idleLoop);
+    idleT += 0.008; // slow spin speed — increase for faster
+    bot.idleRotY = idleT;
+    if(robotMesh){
+      // gentle float up/down
+      const vFOV = camera.fov * Math.PI / 180;
+      const h = 2 * Math.tan(vFOV/2) * camera.position.z;
+      robotMesh.position.y = (bot.y * h/2) + Math.sin(idleT * 0.6) * 0.04;
+    }
+  })();
+}
+
+// Desktop loader hide on load
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('loader').classList.add('hide');
+  }, 2000);
+});
+</script>
+</body>
+</html>
