@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concepto Development</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --cream:#f5f4f0;
+  --ink:#0d0d0d;
+  --mid:#5a5a5a;
+  --dim:#9e9b96;
+  --black:#0d0d0d;
+  --pad:clamp(24px,6vw,80px);
+}
+html{overflow-x:hidden;scroll-behavior:auto;}
+body{
+  background:var(--cream);
+  color:var(--ink);
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  font-weight:300;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* ── CURSOR ── */
+#cd,#cr{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+#cd{width:5px;height:5px;background:var(--ink);}
+#cr{width:28px;height:28px;border:1px solid rgba(13,13,13,.28);}
+@media(hover:none){#cd,#cr{display:none;}}
+
+/* ── LOADER ── */
+#ldr{
+  position:fixed;inset:0;background:var(--cream);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:8000;transition:opacity .5s;
+}
+#ldr.out{opacity:0;pointer-events:none;}
+.ldr-logo{font-size:16px;font-weight:500;letter-spacing:-.02em;margin-bottom:2rem;color:var(--ink);}
+.ldr-track{width:100px;height:1px;background:rgba(13,13,13,.1);overflow:hidden;}
+.ldr-bar{width:0%;height:100%;background:var(--ink);animation:ldranim 1.6s ease forwards;}
+@keyframes ldranim{to{width:100%;}}
+
+/* ── CANVAS ── */
+#rc{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:8;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:400;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0 var(--pad);height:60px;
+}
+nav.bg{background:rgba(245,244,240,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);}
+.nl{font-size:15px;font-weight:500;letter-spacing:-.025em;color:var(--ink);text-decoration:none;}
+.nlinks{display:flex;gap:2rem;align-items:center;}
+.nlink{font-size:13px;color:var(--mid);text-decoration:none;font-weight:400;transition:color .18s;}
+.nlink:hover{color:var(--ink);}
+.nbtn{
+  padding:.5rem 1.2rem;border-radius:100px;
+  background:var(--ink);color:var(--cream);
+  font-size:13px;font-weight:400;text-decoration:none;
+  transition:opacity .18s;letter-spacing:-.01em;
+}
+.nbtn:hover{opacity:.72;}
+.nmb{display:none;}
+@media(max-width:680px){
+  .nlinks{display:none;}
+  .nmb{
+    display:inline-flex;padding:.45rem 1rem;border-radius:100px;
+    background:var(--ink);color:var(--cream);
+    font-size:12px;font-weight:400;text-decoration:none;
+  }
+}
+
+/* ── SECTIONS ── */
+/* Each section is a full row: text LEFT, robot RIGHT */
+/* Robot right half = transparent space (canvas draws there) */
+section{
+  position:relative;
+  min-height:100vh;
+  display:flex;align-items:center;
+  padding:0 var(--pad);
+  z-index:20;
+}
+.srow{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  width:100%;
+  align-items:center;
+  gap:4vw;
+}
+.srow.flip{direction:rtl;}
+.srow.flip .scol{direction:ltr;}
+.scol{display:flex;flex-direction:column;justify-content:center;}
+/* Right col: robot space - transparent, canvas renders there */
+.rcol{
+  height:70vh;
+  position:relative;
+  /* Invisible — robot canvas draws here */
+}
+
+/* ── TYPOGRAPHY ── */
+.tag{
+  font-size:11px;font-weight:500;letter-spacing:.16em;
+  color:var(--dim);text-transform:uppercase;
+  margin-bottom:1.6rem;display:block;
+}
+.h1{
+  font-size:clamp(44px,6.5vw,96px);
+  font-weight:600;
+  letter-spacing:-.04em;
+  line-height:.92;
+  color:var(--ink);
+}
+.h2{
+  font-size:clamp(38px,5.2vw,78px);
+  font-weight:600;
+  letter-spacing:-.04em;
+  line-height:.92;
+}
+.fade{color:var(--dim);}
+.sub{
+  font-size:clamp(15px,1.15vw,17px);
+  color:var(--mid);
+  line-height:1.75;
+  max-width:400px;
+  margin-top:2rem;
+  font-weight:300;
+}
+.lnk{
+  display:inline-flex;align-items:center;gap:.35rem;
+  margin-top:1.6rem;font-size:13px;color:var(--ink);
+  text-decoration:none;font-weight:400;
+  transition:gap .2s;
+}
+.lnk:hover{gap:.7rem;}
+.lnk::after{content:'→';}
+
+/* ── BUTTONS ── */
+.brow{display:flex;gap:.65rem;margin-top:2.4rem;flex-wrap:wrap;}
+.btn{
+  display:inline-flex;align-items:center;
+  padding:.72rem 1.7rem;border-radius:100px;
+  font-family:'Inter',sans-serif;font-size:14px;font-weight:400;
+  text-decoration:none;transition:opacity .18s;letter-spacing:-.01em;
+}
+.btn:hover{opacity:.65;}
+.bd{background:var(--ink);color:var(--cream);}
+.bo{background:transparent;color:var(--ink);border:1px solid rgba(13,13,13,.18);}
+
+/* ── STATS ── */
+#s-stats{
+  background:var(--black);color:var(--cream);
+  min-height:60vh;padding:8vh var(--pad);
+  display:flex;align-items:center;justify-content:center;
+}
+.sg{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  width:100%;max-width:980px;
+}
+.st{padding:2.5rem 2rem;}
+.st:not(:last-child){border-right:1px solid rgba(255,255,255,.07);}
+.stn{
+  font-size:clamp(48px,5.5vw,80px);
+  font-weight:600;letter-spacing:-.04em;line-height:1;
+  display:block;color:var(--cream);
+}
+.stl{
+  font-size:12px;color:rgba(245,244,240,.35);
+  margin-top:.8rem;display:block;letter-spacing:.04em;
+  text-transform:uppercase;font-weight:400;
+}
+
+/* ── PROCESS ── */
+#s-proc{
+  min-height:auto;padding:10vh var(--pad);
+  display:block;
+}
+.ptag{
+  font-size:11px;font-weight:500;letter-spacing:.16em;
+  color:var(--dim);text-transform:uppercase;
+  margin-bottom:3.5rem;display:block;
+}
+.pg{display:grid;grid-template-columns:repeat(4,1fr);gap:3rem;}
+.pn{
+  font-size:11px;font-weight:500;color:var(--dim);
+  letter-spacing:.1em;margin-bottom:1rem;display:block;
+}
+.pt{
+  font-size:clamp(16px,1.4vw,19px);font-weight:500;
+  letter-spacing:-.02em;margin-bottom:.5rem;
+}
+.pp{font-size:13px;color:var(--mid);line-height:1.75;font-weight:300;}
+
+/* ── CTA ── */
+#s-cta{
+  display:flex;flex-direction:column;
+  align-items:center;text-align:center;
+  justify-content:flex-start;
+  padding-top:14vh;
+  min-height:100vh;padding-left:var(--pad);padding-right:var(--pad);
+}
+.ctah{
+  font-size:clamp(42px,6.5vw,100px);
+  font-weight:600;letter-spacing:-.04em;line-height:.92;
+  max-width:62vw;text-align:center;
+}
+.ctap{
+  font-size:clamp(14px,1.1vw,16px);color:var(--mid);
+  max-width:340px;line-height:1.8;margin-top:1.6rem;font-weight:300;
+}
+
+/* ── FOOTER ── */
+footer{
+  padding:2.5rem var(--pad);
+  display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid rgba(13,13,13,.06);z-index:20;position:relative;
+}
+.fl{font-size:14px;font-weight:500;letter-spacing:-.02em;}
+.fls{display:flex;gap:1.5rem;}
+.fla{font-size:12px;color:var(--dim);text-decoration:none;transition:color .18s;}
+.fla:hover{color:var(--ink);}
+.fc{font-size:12px;color:var(--dim);}
+
+/* ── REVEAL ── */
+.rv{opacity:0;transform:translateY(32px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
+.rv.in{opacity:1;transform:none;}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.32s;}
+
+/* ── MOBILE ── */
+@media(max-width:680px){
+  /* Mobile sections: text at top, robot moves freely via canvas */
+  section{
+    min-height:100vh;
+    padding:80px var(--pad) 80px;
+    display:flex;align-items:flex-start;
+  }
+  #s-hero{padding-top:110px;padding-bottom:80px;}
+
+  .srow{grid-template-columns:1fr;direction:ltr !important;width:100%;}
+  .rcol{display:none;}
+
+  .h1{font-size:clamp(38px,12vw,56px);line-height:.95;}
+  .h2{font-size:clamp(32px,10.5vw,50px);line-height:.95;}
+  .sub{max-width:100%;font-size:15px;margin-top:1.4rem;}
+  .brow{margin-top:1.8rem;}
+  .tag{margin-bottom:1.2rem;}
+
+  /* Stats */
+  #s-stats{
+    min-height:auto;padding:60px var(--pad);
+    display:flex;align-items:center;
+  }
+  .sg{grid-template-columns:1fr;}
+  .st:not(:last-child){border-right:none;border-bottom:1px solid rgba(255,255,255,.07);}
+  .st{padding:1.8rem 0;}
+  .stn{font-size:clamp(44px,12vw,64px);}
+
+  /* Process */
+  #s-proc{min-height:auto;padding:60px var(--pad);}
+  .pg{grid-template-columns:1fr 1fr;gap:1.8rem;}
+
+  /* CTA */
+  #s-cta{
+    min-height:100vh;padding:80px var(--pad) 80px;
+    align-items:flex-start;text-align:left;
+    justify-content:flex-start;
+  }
+  .ctah{font-size:clamp(34px,11vw,52px);max-width:100%;text-align:left;}
+  .ctap{max-width:100%;}
+  #s-cta .brow{justify-content:flex-start;}
+
+  footer{flex-direction:column;gap:1rem;text-align:center;padding:2rem var(--pad);}
+  .fls{justify-content:center;flex-wrap:wrap;}
+}
+@media(max-width:400px){
+  .pg{grid-template-columns:1fr;}
+  section{padding-bottom:300px;}
+}
+</style>
+</head>
+<body>
+
+<div id="ldr">
+  <span class="ldr-logo">Concepto</span>
+  <div class="ldr-track"><div class="ldr-bar"></div></div>
+</div>
+
+<div id="cd"></div><div id="cr"></div>
+<canvas id="rc"></canvas>
+
+<nav id="nav">
+  <a href="#" class="nl">Concepto</a>
+  <div class="nlinks">
+    <a href="#s-auto" class="nlink">Automatizaciones</a>
+    <a href="#s-webs" class="nlink">Webs</a>
+    <a href="#s-chat" class="nlink">Chatbots</a>
+    <a href="#s-ia" class="nlink">IA</a>
+    <a href="#s-cta" class="nbtn">Hablemos</a>
+  </div>
+  <a href="#s-cta" class="nmb">Hablemos</a>
+</nav>
+
+<!-- HERO -->
+<section id="s-hero">
+  <div class="srow">
+    <div class="scol">
+      <span class="tag rv">Concepto Development</span>
+      <h1 class="h1 rv d1">Tu negocio,<br><span class="fade">nuevos límites.</span></h1>
+      <p class="sub rv d2">Tu negocio trabaja mientras vos dormís.</p>
+      <div class="brow rv d3">
+        <a href="#s-cta" class="btn bd">Empezar ahora</a>
+        <a href="#s-auto" class="btn bo">Ver servicios</a>
+      </div>
+    </div>
+    <div class="rcol"></div>
+  </div>
+</section>
+
+<!-- AUTOMATIZACIONES -->
+<section id="s-auto">
+  <div class="srow flip">
+    <div class="scol">
+      <span class="tag rv">01 — Automatizaciones</span>
+      <h2 class="h2 rv d1">Hacé más.<br><span class="fade">Trabajá menos.</span></h2>
+      <p class="sub rv d2">Sistemas que operan solos, escalan solos y nunca duermen.</p>
+      <a href="#s-cta" class="lnk rv d3">Ver automatizaciones</a>
+    </div>
+    <div class="rcol"></div>
+  </div>
+</section>
+
+<!-- WEBS -->
+<section id="s-webs">
+  <div class="srow">
+    <div class="scol">
+      <span class="tag rv">02 — Webs</span>
+      <h2 class="h2 rv d1">Tu primera impresión,<br><span class="fade">perfeccionada.</span></h2>
+      <p class="sub rv d2">Tu web, tu mejor vendedor.</p>
+      <a href="#s-cta" class="lnk rv d3">Ver proyectos</a>
+    </div>
+    <div class="rcol"></div>
+  </div>
+</section>
+
+<!-- CHATBOTS -->
+<section id="s-chat">
+  <div class="srow flip">
+    <div class="scol">
+      <span class="tag rv">03 — Chatbots</span>
+      <h2 class="h2 rv d1">Conversaciones que<br><span class="fade">convierten.</span></h2>
+      <p class="sub rv d2">Un asistente que atiende y vende las 24 horas.</p>
+      <a href="#s-cta" class="lnk rv d3">Ver chatbots</a>
+    </div>
+    <div class="rcol"></div>
+  </div>
+</section>
+
+<!-- MARKETING -->
+<section id="s-mkt">
+  <div class="srow">
+    <div class="scol">
+      <span class="tag rv">04 — Marketing</span>
+      <h2 class="h2 rv d1">Tu marca,<br><span class="fade">en todos lados.</span></h2>
+      <p class="sub rv d2">El marketing que tu negocio necesitaba.</p>
+      <a href="#s-cta" class="lnk rv d3">Ver marketing</a>
+    </div>
+    <div class="rcol"></div>
+  </div>
+</section>
+
+<!-- IA -->
+<section id="s-ia">
+  <div class="srow flip">
+    <div class="scol">
+      <span class="tag rv">05 — Desarrollo con IA</span>
+      <h2 class="h2 rv d1">Automatizá decisiones.<br><span class="fade">Potenciá resultados.</span></h2>
+      <p class="sub rv d2">El futuro de tu negocio, hoy.</p>
+      <a href="#s-cta" class="lnk rv d3">Ver desarrollo</a>
+    </div>
+    <div class="rcol"></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="s-stats">
+  <div class="sg">
+    <div class="st rv"><span class="stn">24/7</span><span class="stl">Tu chatbot nunca duerme</span></div>
+    <div class="st rv d2"><span class="stn">&lt;3s</span><span class="stl">Tiempo de respuesta</span></div>
+    <div class="st rv d3"><span class="stn">0%</span><span class="stl">Leads perdidos</span></div>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section id="s-proc">
+  <span class="ptag rv">Cómo trabajamos</span>
+  <div class="pg">
+    <div class="rv"><span class="pn">01</span><h3 class="pt">Diagnóstico</h3><p class="pp">Entendemos tu negocio y encontramos el mayor potencial de mejora.</p></div>
+    <div class="rv d1"><span class="pn">02</span><h3 class="pt">Diseño</h3><p class="pp">Planificamos la solución exacta. Sin sobreingenierías.</p></div>
+    <div class="rv d2"><span class="pn">03</span><h3 class="pt">Ejecución</h3><p class="pp">Construimos rápido y con calidad. Iteramos hasta que quede perfecto.</p></div>
+    <div class="rv d3"><span class="pn">04</span><h3 class="pt">Escala</h3><p class="pp">Soporte, mejoras y automatizaciones a medida que crecés.</p></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="s-cta">
+  <h2 class="ctah rv">Hablemos de<br><span class="fade">tu proyecto.</span></h2>
+  <p class="ctap rv d1">Una llamada de 30 minutos. Sin compromiso. Con un plan concreto al final.</p>
+  <div class="brow rv d2" style="justify-content:center;margin-top:2rem;">
+    <a href="#" class="btn bd">Agendar llamada</a>
+    <a href="mailto:hola@conceptodevelopment.com" class="btn bo">Escribir por mail</a>
+  </div>
+</section>
+
+<footer>
+  <span class="fl">Concepto Development</span>
+  <div class="fls">
+    <a href="#s-auto" class="fla">Automatizaciones</a>
+    <a href="#s-webs" class="fla">Webs</a>
+    <a href="#s-chat" class="fla">Chatbots</a>
+    <a href="#s-ia" class="fla">IA</a>
+  </div>
+  <span class="fc">© 2025 Montevideo</span>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// ── CURSOR ──
+const cd=document.getElementById('cd'),cr=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cd.style.left=mx+'px';cd.style.top=my+'px';
+});
+(function ac(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(ac);})();
+
+// ── NAV ──
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('bg',window.scrollY>30);
+},{passive:true});
+
+// ── REVEAL ──
+document.querySelectorAll('.rv').forEach(el=>{
+  new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.08}).observe(el);
+});
+
+// ── THREE.JS ──
+const isMobile = window.innerWidth <= 680;
+const canvas = document.getElementById('rc');
+const renderer = new THREE.WebGLRenderer({canvas,alpha:true,antialias:!isMobile});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile?1.5:2));
+renderer.setSize(window.innerWidth,window.innerHeight);
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.3;
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(35,window.innerWidth/window.innerHeight,.1,100);
+camera.position.z = 5;
+
+// Lights
+scene.add(new THREE.AmbientLight(0xffffff,1.4));
+const kl=new THREE.DirectionalLight(0xffffff,2.8);kl.position.set(2,4,3);scene.add(kl);
+const fl=new THREE.DirectionalLight(0xf5f0e8,1.1);fl.position.set(-3,1,2);scene.add(fl);
+const rl=new THREE.DirectionalLight(0xffffff,.7);rl.position.set(0,-2,-4);scene.add(rl);
+
+// State object GSAP animates
+const S={x:.26,y:0,sc:1,ry:0,rx:0,idle:0};
+let mesh=null,loaded=false,idleT=0;
+
+// World coordinate helpers
+function worldW(){
+  const h=2*Math.tan(camera.fov*Math.PI/360)*camera.position.z;
+  return h*camera.aspect;
+}
+function worldH(){
+  return 2*Math.tan(camera.fov*Math.PI/360)*camera.position.z;
+}
+
+function applyState(){
+  if(!mesh)return;
+  mesh.position.x = S.x*(worldW()/2);
+  mesh.position.y = S.y*(worldH()/2)+Math.sin(idleT*.7)*.045;
+  mesh.scale.setScalar(S.sc*1.85);
+  mesh.rotation.y = S.ry+S.idle;
+  mesh.rotation.x = S.rx;
+}
+
+// Sections → states
+// x: .26=right half, -.26=left half, 0=center
+// sc: scale drama — from .6 to 1.6
+// x: -0.5=left edge, 0=center, 0.5=right edge
+// y: -0.5=bottom, 0=center, 0.5=top
+const DESKTOP_STATES=[
+  // hero: right center, large, front
+  {x:.28,  y:.02,  sc:1.1,  ry:0,         rx:0,    dur:1.2},
+  // auto: left center, medium
+  {x:-.28, y:-.05, sc:.92,  ry:.2,        rx:0,    dur:1.3},
+  // webs: right center, normal
+  {x:.26,  y:.05,  sc:1.0,  ry:-.2,       rx:0,    dur:1.2},
+  // chatbots: left, LARGE closeup, center-low
+  {x:-.24, y:-.08, sc:1.38, ry:.28,       rx:-.1,  dur:1.4},
+  // marketing: right, small-far, center-high
+  {x:.30,  y:.08,  sc:.68,  ry:-.25,      rx:.06,  dur:1.3},
+  // ia: CENTER, MASSIVE, full spin
+  {x:0,    y:0,    sc:1.55, ry:Math.PI*2, rx:-.1,  dur:1.6},
+  // stats: background, center-top, tiny
+  {x:0,    y:.42,  sc:.44,  ry:.1,        rx:.18,  dur:1.0},
+  // cta: center, medium — leave room for text above
+  {x:.05,  y:-.28, sc:1.05, ry:0,         rx:0,    dur:1.4},
+];
+// Mobile: robot travels around — different corner each section
+// x range tighter (-0.35 to 0.35) so robot stays on screen
+// y: .35=top area, -.35=bottom area
+const MOBILE_STATES=[
+  // hero: right, upper-center
+  {x:.22,  y:.10,  sc:.70, ry:0,         rx:0,    dur:1.2},
+  // auto: left, lower
+  {x:-.18, y:-.30, sc:.62, ry:.2,        rx:0,    dur:1.3},
+  // webs: right, lower
+  {x:.20,  y:-.28, sc:.66, ry:-.2,       rx:0,    dur:1.2},
+  // chatbots: left, upper
+  {x:-.16, y:.14,  sc:.78, ry:.3,        rx:-.08, dur:1.4},
+  // marketing: right, upper
+  {x:.22,  y:.18,  sc:.58, ry:-.22,      rx:.05,  dur:1.3},
+  // ia: center, BIG
+  {x:0,    y:-.05, sc:.88, ry:Math.PI*2, rx:-.08, dur:1.6},
+  // stats: center small
+  {x:0,    y:.05,  sc:.42, ry:.1,        rx:.15,  dur:1.0},
+  // cta: center lower
+  {x:0,    y:-.32, sc:.72, ry:0,         rx:0,    dur:1.4},
+];
+const STATES = isMobile ? MOBILE_STATES : DESKTOP_STATES;
+
+const SECS=['#s-hero','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia','#s-stats','#s-cta'];
+
+function goTo(state){
+  gsap.to(S,{
+    x:state.x,y:state.y,sc:state.sc,ry:state.ry,rx:state.rx,
+    duration:state.dur,
+    ease:'power3.out',
+    overwrite:'auto',
+    onUpdate:applyState
+  });
+}
+
+function setupST(){
+  SECS.forEach((sel,i)=>{
+    const el=document.querySelector(sel);
+    if(!el||!STATES[i])return;
+    ScrollTrigger.create({
+      trigger:el,
+      start:'top 58%',
+      onEnter:()=>goTo(STATES[i]),
+      onEnterBack:()=>goTo(STATES[i]),
+    });
+  });
+  goTo(STATES[0]);
+}
+
+// Load robot
+const loader=new THREE.GLTFLoader();
+loader.load(
+  'https://raw.githubusercontent.com/1brunosilva/Concepto-Robot/main/MaxNew.glb',
+  gltf=>{
+    mesh=gltf.scene;
+    const box=new THREE.Box3().setFromObject(mesh);
+    const c=box.getCenter(new THREE.Vector3());
+    const sz=box.getSize(new THREE.Vector3());
+    mesh.position.sub(c.multiplyScalar(1));
+    // normalize
+    const mx2=Math.max(sz.x,sz.y,sz.z);
+    mesh.scale.setScalar(1/mx2);
+    scene.add(mesh);
+    loaded=true;
+    setupST();
+    setTimeout(()=>document.getElementById('ldr').classList.add('out'),400);
+  },
+  null,
+  ()=>{ setTimeout(()=>document.getElementById('ldr').classList.add('out'),500); }
+);
+setTimeout(()=>document.getElementById('ldr').classList.add('out'),3500);
+
+// Render + idle
+(function loop(){
+  requestAnimationFrame(loop);
+  idleT+=.012;
+  S.idle+=.006; // slow continuous spin
+  if(loaded)applyState();
+  renderer.render(scene,camera);
+})();
+
+// Resize
+window.addEventListener('resize',()=>{
+  camera.aspect=window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+});
+</script>
+</body>
+</html>
