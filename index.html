@@ -156,6 +156,50 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
 @media(max-width:680px){.pg{grid-template-columns:1fr 1fr;gap:1.6rem;}}
 @media(max-width:400px){.pg{grid-template-columns:1fr;}}
 
+/* ═══ COMPARE SECTION ═══ */
+#s-compare{
+  min-height:auto;padding:8vh clamp(28px,7vw,100px);
+  display:block;z-index:20;position:relative;
+}
+@media(max-width:680px){#s-compare{padding:56px 7vw;min-height:auto;}}
+.cmp-inner{max-width:860px;}
+.cmp-grid{
+  display:grid;grid-template-columns:1fr 1px 1fr;
+  gap:0;margin-top:2.5rem;
+  border:1px solid rgba(13,13,13,.07);
+  border-radius:20px;overflow:hidden;
+}
+@media(max-width:680px){
+  .cmp-grid{grid-template-columns:1fr;border-radius:16px;}
+}
+.cmp-col{padding:2rem 2.2rem;}
+@media(max-width:680px){.cmp-col{padding:1.5rem 1.4rem;}}
+.cmp-before{background:rgba(13,13,13,.02);}
+.cmp-after{background:rgba(13,13,13,.03);}
+.cmp-divider{background:rgba(13,13,13,.07);}
+@media(max-width:680px){.cmp-divider{height:1px;width:100%;}}
+.cmp-label{
+  font-size:11px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--dim);
+  display:block;margin-bottom:1.4rem;
+}
+.cmp-label-after{color:var(--ink);}
+.cmp-list{list-style:none;display:flex;flex-direction:column;gap:.85rem;}
+.cmp-list li{
+  font-size:clamp(13px,1vw,15px);line-height:1.55;
+  font-weight:300;color:var(--mid);
+  padding-left:1.2rem;position:relative;
+}
+.cmp-before .cmp-list li::before{
+  content:'—';position:absolute;left:0;
+  color:rgba(13,13,13,.2);font-size:11px;top:2px;
+}
+.cmp-after .cmp-list li{color:var(--ink);}
+.cmp-after .cmp-list li::before{
+  content:'✓';position:absolute;left:0;
+  color:var(--ink);font-size:10px;top:3px;font-weight:500;
+}
+
 /* ═══ NIGHT SECTION ═══ */
 #s-night{
   background:#06040f;
@@ -315,8 +359,8 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   <div class="srow flip">
     <div class="scol">
       <span class="tag rv">01 — Automatizaciones</span>
-      <h2 class="h2 rv d1">Hacé más.<br><span class="fade">Trabajá menos.</span></h2>
-      <p class="sub mob-hide rv d2">Tareas repetitivas convertidas en sistemas que corren solos.</p>
+      <h2 class="h2 rv d1">Tu negocio trabaja<br><span class="fade">mientras vos dormís.</span></h2>
+      <p class="sub mob-hide rv d2">Sistemas que operan solos, escalan solos y nunca duermen.</p>
       <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Hablemos</a>
     </div>
     <div class="rcol"></div>
@@ -341,7 +385,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   <div class="srow flip">
     <div class="scol">
       <span class="tag rv">03 — Chatbots</span>
-      <h2 class="h2 rv d1">Conversaciones que<br><span class="fade">convierten.</span></h2>
+      <h2 class="h2 rv d1">Conversaciones que<br><span class="fade">convierten, todo el día.</span></h2>
       <p class="sub mob-hide rv d2">Un asistente que atiende y vende las 24 horas.</p>
       <a href="#s-night" class="lnk rv d3">Ver demo</a>
     </div>
@@ -354,7 +398,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   <div class="srow">
     <div class="scol">
       <span class="tag rv">04 — Marketing</span>
-      <h2 class="h2 rv d1">Tu marca,<br><span class="fade">en todos lados.</span></h2>
+      <h2 class="h2 rv d1">Tu marca,<br><span class="fade">presente en todos lados.</span></h2>
       <p class="sub mob-hide rv d2">El marketing que tu negocio necesitaba.</p>
       <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Ver marketing</a>
     </div>
@@ -386,13 +430,43 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
+<!-- ANTES / DESPUÉS -->
+<section id="s-compare">
+  <div class="cmp-inner">
+    <span class="ptag rv">La diferencia</span>
+    <div class="cmp-grid rv d1">
+      <div class="cmp-col cmp-before">
+        <span class="cmp-label">Sin Concepto</span>
+        <ul class="cmp-list">
+          <li>Mensajes sin responder hasta el día siguiente</li>
+          <li>Clientes que no esperan y se van</li>
+          <li>Una web que no convierte</li>
+          <li>Horas perdidas en tareas manuales</li>
+          <li>Tu competencia aparece primero</li>
+        </ul>
+      </div>
+      <div class="cmp-divider"></div>
+      <div class="cmp-col cmp-after">
+        <span class="cmp-label cmp-label-after">Con Concepto</span>
+        <ul class="cmp-list">
+          <li>Respuestas automáticas al instante, siempre</li>
+          <li>Clientes atendidos a cualquier hora</li>
+          <li>Tu web trabaja como tu mejor vendedor</li>
+          <li>Sistemas que operan solos mientras crecés</li>
+          <li>Tu negocio, donde están tus clientes</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- NIGHT — DARK VIOLET -->
 <section id="s-night">
   <div class="night-inner">
     <div class="night-text">
       <span class="ntag rv">Chatbots con IA</span>
-      <h2 class="nh rv d1">Tu negocio cerró<br>ventas a las<br><span class="na">3:14 AM.</span></h2>
-      <p class="nsub rv d2">Vos dormías. Tu chatbot atendió, respondió y confirmó la venta. Sin intervención humana.</p>
+      <h2 class="nh rv d1">Conversaciones que<br>convierten,<br><span class="na">todo el día.</span></h2>
+      <p class="nsub rv d2">Un asistente inteligente que atiende, responde y vende. Las 24 horas, sin intervención humana.</p>
       <a href="https://wa.me/59897976574" class="ncta rv d3" target="_blank">Quiero un chatbot así →</a>
       <p class="nstamp rv d3">Última actividad: <strong>3:14 AM</strong> · Venta confirmada ✓</p>
     </div>
@@ -521,13 +595,47 @@ const scene=new THREE.Scene();
 const camera=new THREE.PerspectiveCamera(35,window.innerWidth/window.innerHeight,.1,100);
 camera.position.z=5;
 
+// ── LIGHTS ──────────────────────────
 const ambLight=new THREE.AmbientLight(0xffffff,1.5);scene.add(ambLight);
 const kl=new THREE.DirectionalLight(0xffffff,2.6);kl.position.set(2,4,3);scene.add(kl);
 const fl=new THREE.DirectionalLight(0xf5f0e8,1.0);fl.position.set(-3,1,2);scene.add(fl);
-const vl=new THREE.PointLight(0xa855f7,0,8);vl.position.set(0,1,3);scene.add(vl);
+// accent lights — arrancan apagadas
+const vl=new THREE.PointLight(0xa855f7,0,8);vl.position.set(0,1,3);scene.add(vl);   // violet
+const bl=new THREE.PointLight(0x3b82f6,0,8);bl.position.set(-2,2,2);scene.add(bl);  // blue
+const wl=new THREE.PointLight(0xfbbf24,0,8);wl.position.set(2,0,2);scene.add(wl);   // warm
+
+// Paletas de luz por sección
+const LIGHT_STATES={
+  cream:  ()=>{ gsap.to(ambLight,{intensity:1.5,duration:1}); gsap.to(kl,{intensity:2.6,duration:1}); gsap.to(vl,{intensity:0,duration:.8}); gsap.to(bl,{intensity:0,duration:.8}); gsap.to(wl,{intensity:0,duration:.8}); },
+  blue:   ()=>{ gsap.to(ambLight,{intensity:.6,duration:1}); gsap.to(kl,{intensity:1.0,duration:1}); gsap.to(vl,{intensity:0,duration:.8}); gsap.to(bl,{intensity:3.5,duration:1}); gsap.to(wl,{intensity:0,duration:.8}); },
+  warm:   ()=>{ gsap.to(ambLight,{intensity:.8,duration:1}); gsap.to(kl,{intensity:1.4,duration:1}); gsap.to(vl,{intensity:0,duration:.8}); gsap.to(bl,{intensity:0,duration:.8}); gsap.to(wl,{intensity:3.0,duration:1}); },
+  violet: ()=>{ gsap.to(ambLight,{intensity:.4,duration:1}); gsap.to(kl,{intensity:.8,duration:1}); gsap.to(vl,{intensity:4.0,duration:1}); gsap.to(bl,{intensity:0,duration:.8}); gsap.to(wl,{intensity:0,duration:.8}); },
+};
+
+// ── GESTURES — inclinaciones del cuerpo completo ──
+// El robot no tiene rig pero podemos rotar el mesh entero
+// para simular gestos expresivos
+const G={
+  // tilt: inclinación lateral (Z), lean: inclinación adelante/atrás (X), nod: movimiento cabeza (rx extra)
+  tilt:0, lean:0
+};
 
 const S={x:0,y:0,sc:1,ry:0,rx:0,idle:0};
 let mesh=null,idleT=0;
+
+// Gestos por sección — se aplican ADEMÁS de la posición
+const GESTURES={
+  '#s-hero':   {tilt:0,    lean:0,    dur:1.2}, // neutro
+  '#s-auto':   {tilt:.08,  lean:-.05, dur:1.1}, // leve inclinación — "activo, trabajando"
+  '#s-webs':   {tilt:-.06, lean:.04,  dur:1.2}, // leve otro lado
+  '#s-chat':   {tilt:.10,  lean:-.08, dur:1.0}, // más inclinado — "atento, escuchando"
+  '#s-mkt':    {tilt:-.08, lean:.03,  dur:1.1},
+  '#s-ia':     {tilt:0,    lean:.12,  dur:1.4}, // se inclina hacia adelante — "mirando algo"
+  '#s-proc':   {tilt:0,    lean:0,    dur:1.0},
+  '#s-compare':{tilt:.05,  lean:-.04, dur:1.0},
+  '#s-night':  {tilt:-.12, lean:.08,  dur:1.3}, // relajado, recostado
+  '#s-cta':    {tilt:0,    lean:-.06, dur:1.1}, // se inclina hacia el visitante
+};
 
 function worldW(){return 2*Math.tan(camera.fov*Math.PI/360)*camera.position.z*camera.aspect;}
 function worldH(){return 2*Math.tan(camera.fov*Math.PI/360)*camera.position.z;}
@@ -538,7 +646,8 @@ function applyS(){
   mesh.position.y=S.y*(worldH()/2)+Math.sin(idleT*.65)*.04;
   mesh.scale.setScalar(S.sc*(isMob?1.1:1.85));
   mesh.rotation.y=S.ry+S.idle;
-  mesh.rotation.x=S.rx;
+  mesh.rotation.x=S.rx+G.lean;
+  mesh.rotation.z=G.tilt;
 }
 
 // DESKTOP states — exactamente como el original + night + proc
@@ -550,7 +659,8 @@ const DS=[
   {x:.32,  y:.08,  sc:.72,  ry:-.1,       rx:.04,  dur:1.1}, // mkt
   {x:0,    y:.02,  sc:1.55, ry:Math.PI*2, rx:-.1,  dur:1.4}, // ia — 360
   {x:.05,  y:-.28, sc:1.0,  ry:0,         rx:0,    dur:1.0}, // proc
-  {x:-.22, y:-.05, sc:1.2,  ry:.25,       rx:-.05, dur:1.3}, // night — izquierda, visible junto al chat
+  {x:.30,  y:.10,  sc:.80,  ry:-.12,      rx:0,    dur:1.0}, // compare — derecha, pequeño, no pisa
+  {x:-.22, y:-.05, sc:1.2,  ry:.25,       rx:-.05, dur:1.3}, // night
   {x:.05,  y:-.30, sc:1.1,  ry:0,         rx:0,    dur:1.1}, // cta
 ];
 
@@ -563,22 +673,27 @@ const MS=[
   {x:-.18, y:.28,  sc:1.15, ry:-.08,      rx:.04,  dur:1.1}, // mkt: TOP-RIGHT
   {x:.16,  y:-.30, sc:1.05, ry:Math.PI*2, rx:-.06, dur:1.4}, // ia: 360
   {x:0,    y:.20,  sc:.90,  ry:0,         rx:0,    dur:1.0}, // proc
-  {x:0,    y:.28,  sc:1.05, ry:.1,        rx:-.04, dur:1.3}, // night: TOP center móvil
+  {x:.25,  y:.30,  sc:.78,  ry:-.1,       rx:0,    dur:1.0}, // compare — esquina superior derecha
+  {x:0,    y:.28,  sc:1.05, ry:.1,        rx:-.04, dur:1.3}, // night
   {x:0,    y:-.36, sc:.92,  ry:0,         rx:0,    dur:1.1}, // cta
 ];
 
 const STATES=isMob?MS:DS;
-const SECS=['#s-hero','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia','#s-proc','#s-night','#s-cta'];
+const SECS=['#s-hero','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia','#s-proc','#s-compare','#s-night','#s-cta'];
 
-function enterNight(){
-  gsap.to(ambLight,{intensity:.5,duration:1.1});
-  gsap.to(kl,{intensity:.9,duration:1.1});
-  gsap.to(vl,{intensity:4,duration:1.1});
+function enterNight(){LIGHT_STATES.violet();}
+function exitNight(){} // las luces las maneja applyLights
+
+function applyLights(sel){
+  if(sel==='#s-night')     LIGHT_STATES.violet();
+  else if(sel==='#s-ia')   LIGHT_STATES.blue();
+  else if(sel==='#s-cta')  LIGHT_STATES.warm();
+  else                     LIGHT_STATES.cream();
 }
-function exitNight(){
-  gsap.to(ambLight,{intensity:1.5,duration:1.0});
-  gsap.to(kl,{intensity:2.6,duration:1.0});
-  gsap.to(vl,{intensity:0,duration:1.0});
+
+function applyGesture(sel){
+  const g=GESTURES[sel]||{tilt:0,lean:0,dur:1};
+  gsap.to(G,{tilt:g.tilt,lean:g.lean,duration:g.dur,ease:'power2.out',overwrite:'auto'});
 }
 
 function goTo(st){
@@ -588,7 +703,7 @@ function goTo(st){
 
 const loader=new THREE.GLTFLoader();
 loader.load(
-  'https://raw.githubusercontent.com/1brunosilva/Concepto-Robot/main/MaxNew.glb',
+  'https://raw.githubusercontent.com/1brunosilva/Concepto-Robot/main/Max23.glb',
   gltf=>{
     mesh=gltf.scene;
     const box=new THREE.Box3().setFromObject(mesh);
@@ -605,15 +720,18 @@ loader.load(
         trigger:el,start:'top 58%',
         onEnter:()=>{
           goTo(STATES[i]);
-          if(sel==='#s-night')enterNight(); else exitNight();
+          applyLights(sel);
+          applyGesture(sel);
         },
         onEnterBack:()=>{
           goTo(STATES[i]);
-          if(sel==='#s-night')enterNight(); else exitNight();
+          applyLights(sel);
+          applyGesture(sel);
         }
       });
     });
     goTo(STATES[0]);
+    applyGesture('#s-hero');
     setTimeout(()=>document.getElementById('ldr').classList.add('out'),400);
   },
   null,
