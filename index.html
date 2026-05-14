@@ -76,6 +76,8 @@ nav.bg{background:rgba(245,244,240,.9);backdrop-filter:blur(20px);}
 
 /* ═══════════════════
    MOBILE SECTIONS
+   Text lives top-left half
+   Robot fixed — positions keep to bottom/right areas
 ═══════════════════ */
 @media(max-width:680px){
   section{
@@ -88,30 +90,41 @@ nav.bg{background:rgba(245,244,240,.9);backdrop-filter:blur(20px);}
   .srow{display:block;direction:ltr !important;}
   .rcol{display:none;}
 
+  /* Each section: text in different corner, robot in opposite area */
+  /* pos-bc = text bottom center, pos-tl = text top left, etc */
+
+  /* HERO: text center-bottom */
   #s-hero{justify-content:flex-end;padding-bottom:14vh;padding-top:70px;}
   #s-hero .scol{align-items:center;text-align:center;}
   #s-hero .sub{max-width:100%;text-align:center;}
   #s-hero .brow{justify-content:center;}
 
+  /* AUTO: text top-left */
   #s-auto{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
   #s-auto .scol{align-items:flex-start;text-align:left;}
 
+  /* WEBS: text bottom-right */
   #s-webs{justify-content:flex-end;padding-bottom:12vh;padding-top:70px;}
   #s-webs .scol{align-items:flex-end;text-align:right;}
   #s-webs .sub{text-align:right;max-width:100%;}
 
+  /* CHAT: text top-left */
   #s-chat{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
   #s-chat .scol{align-items:flex-start;text-align:left;}
 
+  /* MKT: text bottom-left */
   #s-mkt{justify-content:flex-end;padding-bottom:12vh;padding-top:70px;}
   #s-mkt .scol{align-items:flex-start;text-align:left;}
 
+  /* IA: text top-right */
   #s-ia{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
   #s-ia .scol{align-items:flex-end;text-align:right;}
   #s-ia .sub{text-align:right;max-width:100%;}
 
+  /* PROC */
   #s-proc{min-height:auto;padding:64px 7vw;display:block;}
 
+  /* CTA: text center */
   #s-cta{
     min-height:100vh;justify-content:center;
     padding-top:0;padding-bottom:0;
@@ -134,12 +147,14 @@ nav.bg{background:rgba(245,244,240,.9);backdrop-filter:blur(20px);}
 .lnk:hover{gap:.65rem;}
 .lnk::after{content:'→';}
 
+/* BUTTONS */
 .brow{display:flex;gap:.6rem;margin-top:2rem;flex-wrap:wrap;}
 .btn{display:inline-flex;align-items:center;padding:.7rem 1.65rem;border-radius:100px;font-family:'Inter',sans-serif;font-size:14px;font-weight:400;text-decoration:none;transition:opacity .18s;letter-spacing:-.01em;}
 .btn:hover{opacity:.62;}
 .bd{background:var(--ink);color:var(--cream);}
 .bo{background:transparent;color:var(--ink);border:1px solid rgba(13,13,13,.2);}
 
+/* PROCESS */
 .ptag{font-size:11px;font-weight:500;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;margin-bottom:3rem;display:block;}
 .pg{display:grid;grid-template-columns:repeat(4,1fr);gap:3rem;}
 .pn{font-size:11px;font-weight:500;color:var(--dim);letter-spacing:.1em;margin-bottom:.9rem;display:block;}
@@ -148,9 +163,11 @@ nav.bg{background:rgba(245,244,240,.9);backdrop-filter:blur(20px);}
 @media(max-width:680px){.pg{grid-template-columns:1fr 1fr;gap:1.6rem;}}
 @media(max-width:400px){.pg{grid-template-columns:1fr;}}
 
+/* CTA */
 .ctah{font-size:clamp(38px,6vw,96px);font-weight:600;letter-spacing:-.04em;line-height:.93;}
 .ctap{font-size:clamp(14px,1.1vw,16px);color:var(--mid);max-width:320px;line-height:1.78;margin-top:1.4rem;font-weight:300;}
 
+/* FOOTER */
 footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(13,13,13,.06);z-index:20;position:relative;}
 .fl{font-size:14px;font-weight:500;letter-spacing:-.02em;}
 .fls{display:flex;gap:1.4rem;}
@@ -159,6 +176,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 .fc{font-size:12px;color:var(--dim);}
 @media(max-width:680px){footer{flex-direction:column;gap:.9rem;text-align:center;padding:1.8rem 7vw;}.fls{justify-content:center;flex-wrap:wrap;}}
 
+/* REVEAL */
 .rv{opacity:0;transform:translateY(26px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
 .rv.in{opacity:1;transform:none;}
 .d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.32s;}
@@ -324,6 +342,7 @@ scene.add(new THREE.AmbientLight(0xffffff,1.5));
 const kl=new THREE.DirectionalLight(0xffffff,2.6);kl.position.set(2,4,3);scene.add(kl);
 const fl=new THREE.DirectionalLight(0xf5f0e8,1.0);fl.position.set(-3,1,2);scene.add(fl);
 
+// Animated state
 const S={x:0,y:0,sc:1,ry:0,rx:0,idle:0};
 let mesh=null,idleT=0;
 
@@ -339,24 +358,35 @@ function applyS(){
   mesh.rotation.x=S.rx;
 }
 
+// DESKTOP states: x(-1=left, 1=right), y(-1=bottom, 1=top)
 const DS=[
-  {x:.30,  y:.05,  sc:1.15, ry:0,         rx:0,    dur:1.2}, 
-  {x:-.30, y:-.10, sc:1.35, ry:.08,       rx:0,    dur:1.1}, 
-  {x:.28,  y:.12,  sc:.85,  ry:-.1,       rx:0,    dur:1.2}, 
-  {x:-.28, y:-.08, sc:1.20, ry:.15,       rx:-.06, dur:1.0}, 
-  {x:.32,  y:.08,  sc:.72,  ry:-.1,       rx:.04,  dur:1.1}, 
-  {x:0,    y:.02,  sc:1.55, ry:Math.PI*2, rx:-.1,  dur:1.4}, 
-  {x:.05,  y:-.30, sc:1.1,  ry:0,         rx:0,    dur:1.1}, 
+  {x:.30,  y:.05,  sc:1.15, ry:0,         rx:0,    dur:1.2}, // hero: right-high, large
+  {x:-.30, y:-.10, sc:1.35, ry:.08,       rx:0,    dur:1.1}, // auto: left-low, BIGGEST
+  {x:.28,  y:.12,  sc:.85,  ry:-.1,       rx:0,    dur:1.2}, // webs: right-high, smaller
+  {x:-.28, y:-.08, sc:1.20, ry:.15,       rx:-.06, dur:1.0}, // chat: left-low, large
+  {x:.32,  y:.08,  sc:.72,  ry:-.1,       rx:.04,  dur:1.1}, // mkt: right-high, small
+  {x:0,    y:.02,  sc:1.55, ry:Math.PI*2, rx:-.1,  dur:1.4}, // ia: center MASSIVE 360
+  {x:.05,  y:-.30, sc:1.1,  ry:0,         rx:0,    dur:1.1}, // cta: center low, front
 ];
 
+// MOBILE states: drama! big size changes, left/right variation, mostly front-facing
+// y around -0.38 to -0.48 keeps robot in bottom half always
+// Mobile: robot always in OPPOSITE area from text
+// hero text=bottom-center  → robot TOP area (y positive)
+// auto text=top-left       → robot BOTTOM-RIGHT
+// webs text=bottom-right   → robot TOP-LEFT
+// chat text=top-left       → robot BOTTOM-RIGHT bigger
+// mkt  text=bottom-left    → robot TOP-RIGHT
+// ia   text=top-right      → robot BOTTOM-LEFT huge
+// cta  text=center         → robot center-bottom
 const MS=[
-  {x:0,    y:.32,  sc:1.0,  ry:0,         rx:0,    dur:1.2}, 
-  {x:.22,  y:-.36, sc:1.12, ry:.1,        rx:0,    dur:1.1}, 
-  {x:-.20, y:.30,  sc:1.22, ry:-.1,       rx:0,    dur:1.2}, 
-  {x:.20,  y:-.34, sc:.80,  ry:.18,       rx:-.06, dur:1.0}, 
-  {x:-.18, y:.28,  sc:1.15, ry:-.08,      rx:.04,  dur:1.1}, 
-  {x:.16,  y:-.30, sc:1.05, ry:Math.PI*2, rx:-.06, dur:1.4}, 
-  {x:0,    y:-.36, sc:.92,  ry:0,         rx:0,    dur:1.1}, 
+  {x:0,    y:.32,  sc:1.0,  ry:0,         rx:0,    dur:1.2}, // hero: TOP center (text bottom)
+  {x:.22,  y:-.36, sc:1.12, ry:.1,        rx:0,    dur:1.1}, // auto: BOTTOM-RIGHT big (text top-left)
+  {x:-.20, y:.30,  sc:1.22, ry:-.1,       rx:0,    dur:1.2}, // webs: TOP-LEFT bigger (text bottom-right)
+  {x:.20,  y:-.34, sc:.80,  ry:.18,       rx:-.06, dur:1.0}, // chat: BOTTOM-RIGHT small (text top-left)
+  {x:-.18, y:.28,  sc:1.15, ry:-.08,      rx:.04,  dur:1.1}, // mkt: TOP-RIGHT big (text bottom-left)
+  {x:.16,  y:-.30, sc:1.05, ry:Math.PI*2, rx:-.06, dur:1.4}, // ia: BOTTOM-LEFT 360 (text top-right)
+  {x:0,    y:-.36, sc:.92,  ry:0,         rx:0,    dur:1.1}, // cta: center-bottom
 ];
 
 const STATES = isMob ? MS : DS;
@@ -367,9 +397,8 @@ function goTo(st){
 }
 
 const loader=new THREE.GLTFLoader();
-// AQUÍ ESTÁ EL CAMBIO: URL actualizada a Max23.glb (usando raw.githubusercontent)
 loader.load(
-  'https://raw.githubusercontent.com/1brunosilva/Concepto-Robot/main/Max23.glb',
+  'https://raw.githubusercontent.com/1brunosilva/Concepto-Robot/main/MaxNew.glb',
   gltf=>{
     mesh=gltf.scene;
     const box=new THREE.Box3().setFromObject(mesh);
