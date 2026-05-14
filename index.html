@@ -369,16 +369,7 @@ const DS=[
   {x:.05,  y:-.30, sc:1.1,  ry:0,         rx:0,    dur:1.1}, // cta: center low, front
 ];
 
-// MOBILE states: drama! big size changes, left/right variation, mostly front-facing
-// y around -0.38 to -0.48 keeps robot in bottom half always
-// Mobile: robot always in OPPOSITE area from text
-// hero text=bottom-center  → robot TOP area (y positive)
-// auto text=top-left       → robot BOTTOM-RIGHT
-// webs text=bottom-right   → robot TOP-LEFT
-// chat text=top-left       → robot BOTTOM-RIGHT bigger
-// mkt  text=bottom-left    → robot TOP-RIGHT
-// ia   text=top-right      → robot BOTTOM-LEFT huge
-// cta  text=center         → robot center-bottom
+// MOBILE states
 const MS=[
   {x:0,    y:.32,  sc:1.0,  ry:0,         rx:0,    dur:1.2}, // hero: TOP center (text bottom)
   {x:.22,  y:-.36, sc:1.12, ry:.1,        rx:0,    dur:1.1}, // auto: BOTTOM-RIGHT big (text top-left)
@@ -398,7 +389,7 @@ function goTo(st){
 
 const loader=new THREE.GLTFLoader();
 loader.load(
-  'https://raw.githubusercontent.com/1brunosilva/Concepto-Robot/main/MaxNew.glb',
+  'https://raw.githubusercontent.com/1brunosilva/Concepto-Robot/main/Max23.glb',
   gltf=>{
     mesh=gltf.scene;
     const box=new THREE.Box3().setFromObject(mesh);
