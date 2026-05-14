@@ -12,12 +12,11 @@
 :root{
   --cream:#f5f4f0;
   --ink:#0d0d0d;
-  --mid:#5a5a5a;
-  --dim:#9e9b96;
-  --black:#0d0d0d;
-  --pad:clamp(24px,6vw,80px);
+  --mid:#585858;
+  --dim:#a0a0a0;
+  --pad:clamp(28px,7vw,100px);
 }
-html{overflow-x:hidden;scroll-behavior:auto;}
+html{overflow-x:hidden;}
 body{
   background:var(--cream);
   color:var(--ink);
@@ -25,254 +24,169 @@ body{
   font-weight:300;
   overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
 }
 
-/* ── CURSOR ── */
+/* CURSOR */
 #cd,#cr{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
 #cd{width:5px;height:5px;background:var(--ink);}
-#cr{width:28px;height:28px;border:1px solid rgba(13,13,13,.28);}
+#cr{width:28px;height:28px;border:1px solid rgba(13,13,13,.22);}
 @media(hover:none){#cd,#cr{display:none;}}
 
-/* ── LOADER ── */
-#ldr{
-  position:fixed;inset:0;background:var(--cream);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  z-index:8000;transition:opacity .5s;
-}
+/* LOADER */
+#ldr{position:fixed;inset:0;background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:8000;transition:opacity .6s;}
 #ldr.out{opacity:0;pointer-events:none;}
-.ldr-logo{font-size:16px;font-weight:500;letter-spacing:-.02em;margin-bottom:2rem;color:var(--ink);}
-.ldr-track{width:100px;height:1px;background:rgba(13,13,13,.1);overflow:hidden;}
-.ldr-bar{width:0%;height:100%;background:var(--ink);animation:ldranim 1.6s ease forwards;}
-@keyframes ldranim{to{width:100%;}}
+.ldr-logo{font-size:15px;font-weight:500;letter-spacing:-.02em;margin-bottom:1.8rem;}
+.ldr-t{width:80px;height:1px;background:rgba(13,13,13,.1);overflow:hidden;}
+.ldr-b{width:0;height:100%;background:var(--ink);animation:la 1.8s ease forwards;}
+@keyframes la{to{width:100%;}}
 
-/* ── CANVAS ── */
-#rc{
-  position:fixed;top:0;left:0;width:100%;height:100%;
-  pointer-events:none;z-index:8;
-}
+/* DESKTOP CANVAS - fixed, full screen */
+#rc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:8;}
 
-/* ── NAV ── */
+/* NAV */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:400;
   display:flex;justify-content:space-between;align-items:center;
-  padding:0 var(--pad);height:60px;
+  padding:0 var(--pad);height:58px;
 }
-nav.bg{background:rgba(245,244,240,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);}
+nav.bg{background:rgba(245,244,240,.88);backdrop-filter:blur(20px);}
 .nl{font-size:15px;font-weight:500;letter-spacing:-.025em;color:var(--ink);text-decoration:none;}
 .nlinks{display:flex;gap:2rem;align-items:center;}
 .nlink{font-size:13px;color:var(--mid);text-decoration:none;font-weight:400;transition:color .18s;}
 .nlink:hover{color:var(--ink);}
-.nbtn{
-  padding:.5rem 1.2rem;border-radius:100px;
-  background:var(--ink);color:var(--cream);
-  font-size:13px;font-weight:400;text-decoration:none;
-  transition:opacity .18s;letter-spacing:-.01em;
-}
-.nbtn:hover{opacity:.72;}
+.nbtn{padding:.48rem 1.2rem;border-radius:100px;background:var(--ink);color:var(--cream);font-size:13px;font-weight:400;text-decoration:none;}
 .nmb{display:none;}
-@media(max-width:680px){
-  .nlinks{display:none;}
-  .nmb{
-    display:inline-flex;padding:.45rem 1rem;border-radius:100px;
-    background:var(--ink);color:var(--cream);
-    font-size:12px;font-weight:400;text-decoration:none;
+@media(max-width:680px){.nlinks{display:none;}.nmb{display:inline-flex;padding:.42rem 1rem;border-radius:100px;background:var(--ink);color:var(--cream);font-size:12px;font-weight:400;text-decoration:none;}}
+
+/* ═══════════════════════════════
+   DESKTOP SECTIONS (>680px)
+   2-col grid, robot in canvas
+═══════════════════════════════ */
+@media(min-width:681px){
+  section{
+    position:relative;min-height:100vh;
+    display:flex;align-items:center;
+    padding:0 var(--pad);z-index:20;
   }
+  .srow{
+    display:grid;grid-template-columns:1fr 1fr;
+    width:100%;align-items:center;gap:4vw;
+  }
+  .srow.flip{direction:rtl;}
+  .srow.flip .scol{direction:ltr;}
+  .scol{display:flex;flex-direction:column;}
+  /* Right col = transparent space for canvas robot */
+  .rcol{height:70vh;}
+  /* Mobile robot canvas hidden on desktop */
+  .mob-canvas-wrap{display:none;}
+
+  /* CTA special */
+  #s-cta{flex-direction:column;align-items:center;text-align:center;justify-content:center;padding-top:0;}
+  #s-cta .ctah{max-width:58vw;text-align:center;}
+  #s-cta .brow{justify-content:center;}
+
+  /* Process */
+  #s-proc{min-height:auto;padding:10vh var(--pad);display:block;align-items:unset;}
 }
 
-/* ── SECTIONS ── */
-/* Each section is a full row: text LEFT, robot RIGHT */
-/* Robot right half = transparent space (canvas draws there) */
-section{
-  position:relative;
-  min-height:100vh;
-  display:flex;align-items:center;
-  padding:0 var(--pad);
-  z-index:20;
-}
-.srow{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  width:100%;
-  align-items:center;
-  gap:4vw;
-}
-.srow.flip{direction:rtl;}
-.srow.flip .scol{direction:ltr;}
-.scol{display:flex;flex-direction:column;justify-content:center;}
-/* Right col: robot space - transparent, canvas renders there */
-.rcol{
-  height:70vh;
-  position:relative;
-  /* Invisible — robot canvas draws here */
+/* ═══════════════════════════════
+   MOBILE SECTIONS (≤680px)
+   Single col, robot INLINE above text
+   Robot = small canvas per section
+═══════════════════════════════ */
+@media(max-width:680px){
+  /* Hide desktop fixed canvas */
+  #rc{display:none;}
+
+  section{
+    position:relative;
+    display:flex;flex-direction:column;
+    padding:0 6vw;
+    min-height:auto;
+    z-index:20;
+  }
+  #s-hero{padding-top:88px;padding-bottom:70px;}
+  .svc-sec{padding-top:70px;padding-bottom:70px;}
+  #s-proc{padding:60px 6vw;display:block;}
+  #s-cta{padding:70px 6vw 80px;align-items:flex-start;text-align:left;}
+
+  .srow{display:block;width:100%;direction:ltr !important;}
+  .rcol{display:none;}
+
+  /* Mobile inline robot canvas */
+  .mob-canvas-wrap{
+    width:100%;
+    height:52vw;
+    max-height:220px;
+    position:relative;
+    margin-bottom:28px;
+    flex-shrink:0;
+  }
+  .mob-canvas-wrap canvas{
+    width:100% !important;
+    height:100% !important;
+    display:block;
+  }
+
+  /* CTA mobile */
+  #s-cta .ctah{text-align:left;max-width:100%;font-size:clamp(34px,11vw,52px);}
+  #s-cta .ctap{max-width:100%;}
+  #s-cta .brow{justify-content:flex-start;}
 }
 
-/* ── TYPOGRAPHY ── */
-.tag{
-  font-size:11px;font-weight:500;letter-spacing:.16em;
-  color:var(--dim);text-transform:uppercase;
-  margin-bottom:1.6rem;display:block;
-}
-.h1{
-  font-size:clamp(44px,6.5vw,96px);
-  font-weight:600;
-  letter-spacing:-.04em;
-  line-height:.92;
-  color:var(--ink);
-}
-.h2{
-  font-size:clamp(38px,5.2vw,78px);
-  font-weight:600;
-  letter-spacing:-.04em;
-  line-height:.92;
-}
+/* ═══════════════════════════════
+   TYPOGRAPHY
+═══════════════════════════════ */
+.tag{font-size:11px;font-weight:500;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;margin-bottom:1.4rem;display:block;}
+.h1{font-size:clamp(42px,6.2vw,94px);font-weight:600;letter-spacing:-.04em;line-height:.92;}
+.h2{font-size:clamp(36px,5vw,76px);font-weight:600;letter-spacing:-.04em;line-height:.92;}
 .fade{color:var(--dim);}
-.sub{
-  font-size:clamp(15px,1.15vw,17px);
-  color:var(--mid);
-  line-height:1.75;
-  max-width:400px;
-  margin-top:2rem;
-  font-weight:300;
-}
-.lnk{
-  display:inline-flex;align-items:center;gap:.35rem;
-  margin-top:1.6rem;font-size:13px;color:var(--ink);
-  text-decoration:none;font-weight:400;
-  transition:gap .2s;
-}
-.lnk:hover{gap:.7rem;}
+.sub{font-size:clamp(14px,1.1vw,16px);color:var(--mid);line-height:1.78;max-width:380px;margin-top:1.8rem;font-weight:300;}
+.lnk{display:inline-flex;align-items:center;gap:.32rem;margin-top:1.5rem;font-size:13px;color:var(--ink);text-decoration:none;font-weight:400;transition:gap .2s;}
+.lnk:hover{gap:.65rem;}
 .lnk::after{content:'→';}
 
-/* ── BUTTONS ── */
-.brow{display:flex;gap:.65rem;margin-top:2.4rem;flex-wrap:wrap;}
-.btn{
-  display:inline-flex;align-items:center;
-  padding:.72rem 1.7rem;border-radius:100px;
-  font-family:'Inter',sans-serif;font-size:14px;font-weight:400;
-  text-decoration:none;transition:opacity .18s;letter-spacing:-.01em;
-}
-.btn:hover{opacity:.65;}
+/* BUTTONS */
+.brow{display:flex;gap:.6rem;margin-top:2.2rem;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;padding:.7rem 1.65rem;border-radius:100px;font-family:'Inter',sans-serif;font-size:14px;font-weight:400;text-decoration:none;transition:opacity .18s;letter-spacing:-.01em;}
+.btn:hover{opacity:.62;}
 .bd{background:var(--ink);color:var(--cream);}
-.bo{background:transparent;color:var(--ink);border:1px solid rgba(13,13,13,.18);}
+.bo{background:transparent;color:var(--ink);border:1px solid rgba(13,13,13,.2);}
 
-/* ── STATS ── */
-#s-stats{
-  background:var(--black);color:var(--cream);
-  min-height:60vh;padding:8vh var(--pad);
-  display:flex;align-items:center;justify-content:center;
-}
-.sg{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  width:100%;max-width:980px;
-}
-.st{padding:2.5rem 2rem;}
-.st:not(:last-child){border-right:1px solid rgba(255,255,255,.07);}
-.stn{
-  font-size:clamp(48px,5.5vw,80px);
-  font-weight:600;letter-spacing:-.04em;line-height:1;
-  display:block;color:var(--cream);
-}
-.stl{
-  font-size:12px;color:rgba(245,244,240,.35);
-  margin-top:.8rem;display:block;letter-spacing:.04em;
-  text-transform:uppercase;font-weight:400;
-}
-
-/* ── PROCESS ── */
-#s-proc{
-  min-height:auto;padding:10vh var(--pad);
-  display:block;
-}
-.ptag{
-  font-size:11px;font-weight:500;letter-spacing:.16em;
-  color:var(--dim);text-transform:uppercase;
-  margin-bottom:3.5rem;display:block;
-}
+/* PROCESS */
+.ptag{font-size:11px;font-weight:500;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;margin-bottom:3rem;display:block;}
 .pg{display:grid;grid-template-columns:repeat(4,1fr);gap:3rem;}
-.pn{
-  font-size:11px;font-weight:500;color:var(--dim);
-  letter-spacing:.1em;margin-bottom:1rem;display:block;
-}
-.pt{
-  font-size:clamp(16px,1.4vw,19px);font-weight:500;
-  letter-spacing:-.02em;margin-bottom:.5rem;
-}
+.pn{font-size:11px;font-weight:500;color:var(--dim);letter-spacing:.1em;margin-bottom:.9rem;display:block;}
+.pt{font-size:clamp(15px,1.3vw,18px);font-weight:500;letter-spacing:-.02em;margin-bottom:.45rem;}
 .pp{font-size:13px;color:var(--mid);line-height:1.75;font-weight:300;}
+@media(max-width:680px){.pg{grid-template-columns:1fr 1fr;gap:1.6rem;}}
+@media(max-width:400px){.pg{grid-template-columns:1fr;}}
 
-/* ── CTA ── */
-#s-cta{
-  display:flex;flex-direction:column;
-  align-items:center;text-align:center;
-  justify-content:center;
-  min-height:80vh;padding:0 var(--pad);
-}
-.ctah{
-  font-size:clamp(42px,6.5vw,100px);
-  font-weight:600;letter-spacing:-.04em;line-height:.92;
-  max-width:62vw;text-align:center;
-}
-.ctap{
-  font-size:clamp(14px,1.1vw,16px);color:var(--mid);
-  max-width:340px;line-height:1.8;margin-top:1.6rem;font-weight:300;
-}
+/* CTA */
+.ctah{font-size:clamp(40px,6vw,96px);font-weight:600;letter-spacing:-.04em;line-height:.92;}
+.ctap{font-size:clamp(14px,1.1vw,16px);color:var(--mid);max-width:320px;line-height:1.78;margin-top:1.5rem;font-weight:300;}
 
-/* ── FOOTER ── */
-footer{
-  padding:2.5rem var(--pad);
-  display:flex;justify-content:space-between;align-items:center;
-  border-top:1px solid rgba(13,13,13,.06);z-index:20;position:relative;
-}
+/* FOOTER */
+footer{padding:2.2rem var(--pad);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(13,13,13,.06);z-index:20;position:relative;}
 .fl{font-size:14px;font-weight:500;letter-spacing:-.02em;}
-.fls{display:flex;gap:1.5rem;}
+.fls{display:flex;gap:1.4rem;}
 .fla{font-size:12px;color:var(--dim);text-decoration:none;transition:color .18s;}
 .fla:hover{color:var(--ink);}
 .fc{font-size:12px;color:var(--dim);}
+@media(max-width:680px){footer{flex-direction:column;gap:.9rem;text-align:center;padding:1.8rem 6vw;}.fls{justify-content:center;flex-wrap:wrap;}}
 
-/* ── REVEAL ── */
-.rv{opacity:0;transform:translateY(32px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
+/* REVEAL */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
 .rv.in{opacity:1;transform:none;}
 .d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.32s;}
-
-/* ── MOBILE ── */
-@media(max-width:680px){
-  section{min-height:auto;padding:80px var(--pad) 70px;}
-  #s-hero{padding-top:100px;}
-
-  .srow{grid-template-columns:1fr;direction:ltr !important;}
-  .rcol{display:none;}/* canvas handles mobile robot */
-
-  .h1{font-size:clamp(40px,13vw,60px);}
-  .h2{font-size:clamp(34px,11vw,52px);}
-  .sub{max-width:100%;}
-
-  #s-stats{min-height:auto;padding:60px var(--pad);}
-  .sg{grid-template-columns:1fr;}
-  .st:not(:last-child){border-right:none;border-bottom:1px solid rgba(255,255,255,.07);}
-  .st{padding:2rem 0;}
-
-  #s-proc{padding:60px var(--pad);}
-  .pg{grid-template-columns:1fr 1fr;gap:1.8rem;}
-
-  #s-cta{min-height:auto;padding:80px var(--pad);}
-  .ctah{font-size:clamp(36px,12vw,56px);max-width:100%;}
-
-  footer{flex-direction:column;gap:1rem;text-align:center;padding:2rem var(--pad);}
-  .fls{justify-content:center;flex-wrap:wrap;}
-}
-@media(max-width:400px){
-  .pg{grid-template-columns:1fr;}
-}
 </style>
 </head>
 <body>
 
-<div id="ldr">
-  <span class="ldr-logo">Concepto</span>
-  <div class="ldr-track"><div class="ldr-bar"></div></div>
-</div>
-
+<div id="ldr"><span class="ldr-logo">Concepto</span><div class="ldr-t"><div class="ldr-b"></div></div></div>
 <div id="cd"></div><div id="cr"></div>
+
+<!-- Desktop canvas -->
 <canvas id="rc"></canvas>
 
 <nav id="nav">
@@ -282,20 +196,22 @@ footer{
     <a href="#s-webs" class="nlink">Webs</a>
     <a href="#s-chat" class="nlink">Chatbots</a>
     <a href="#s-ia" class="nlink">IA</a>
-    <a href="#s-cta" class="nbtn">Hablemos</a>
+    <a href="https://wa.me/59897976574" class="nbtn" target="_blank">Hablemos</a>
   </div>
-  <a href="#s-cta" class="nmb">Hablemos</a>
+  <a href="https://wa.me/59897976574" class="nmb" target="_blank">Hablemos</a>
 </nav>
 
 <!-- HERO -->
 <section id="s-hero">
   <div class="srow">
     <div class="scol">
+      <!-- Mobile robot -->
+      <div class="mob-canvas-wrap"><canvas class="mc" data-idx="0"></canvas></div>
       <span class="tag rv">Concepto Development</span>
-      <h1 class="h1 rv d1">Tu negocio,<br><span class="fade">sin límites.</span></h1>
-      <p class="sub rv d2">Automatizaciones, webs y chatbots con IA que trabajan mientras vos dormís.</p>
+      <h1 class="h1 rv d1">Tu negocio,<br><span class="fade">nuevos límites.</span></h1>
+      <p class="sub rv d2">Tu negocio trabaja mientras vos dormís.</p>
       <div class="brow rv d3">
-        <a href="#s-cta" class="btn bd">Empezar ahora</a>
+        <a href="https://wa.me/59897976574" class="btn bd" target="_blank">Empezar ahora</a>
         <a href="#s-auto" class="btn bo">Ver servicios</a>
       </div>
     </div>
@@ -304,76 +220,72 @@ footer{
 </section>
 
 <!-- AUTOMATIZACIONES -->
-<section id="s-auto">
+<section class="svc-sec" id="s-auto">
   <div class="srow flip">
     <div class="scol">
+      <div class="mob-canvas-wrap"><canvas class="mc" data-idx="1"></canvas></div>
       <span class="tag rv">01 — Automatizaciones</span>
       <h2 class="h2 rv d1">Hacé más.<br><span class="fade">Trabajá menos.</span></h2>
-      <p class="sub rv d2">Conectamos tus herramientas y eliminamos el trabajo repetitivo. Tus procesos corren solos.</p>
-      <a href="#s-cta" class="lnk rv d3">Ver automatizaciones</a>
+      <p class="sub rv d2">Sistemas que operan solos, escalan solos y nunca duermen.</p>
+      <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Hablemos de automatizaciones</a>
     </div>
     <div class="rcol"></div>
   </div>
 </section>
 
 <!-- WEBS -->
-<section id="s-webs">
+<section class="svc-sec" id="s-webs">
   <div class="srow">
     <div class="scol">
+      <div class="mob-canvas-wrap"><canvas class="mc" data-idx="2"></canvas></div>
       <span class="tag rv">02 — Webs</span>
-      <h2 class="h2 rv d1">Una web que<br><span class="fade">vende sola.</span></h2>
-      <p class="sub rv d2">Diseño y desarrollo enfocado en conversión. Rápida, clara, construida para crecer.</p>
-      <a href="#s-cta" class="lnk rv d3">Ver proyectos</a>
+      <h2 class="h2 rv d1">Tu primera impresión,<br><span class="fade">perfeccionada.</span></h2>
+      <p class="sub rv d2">Tu web, tu mejor vendedor.</p>
+      <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Ver proyectos</a>
     </div>
     <div class="rcol"></div>
   </div>
 </section>
 
 <!-- CHATBOTS -->
-<section id="s-chat">
+<section class="svc-sec" id="s-chat">
   <div class="srow flip">
     <div class="scol">
+      <div class="mob-canvas-wrap"><canvas class="mc" data-idx="3"></canvas></div>
       <span class="tag rv">03 — Chatbots</span>
-      <h2 class="h2 rv d1">Responde<br><span class="fade">al instante.</span></h2>
-      <p class="sub rv d2">IA para WhatsApp, Instagram y Mercado Libre. 24/7, sin demoras, sin errores.</p>
-      <a href="#s-cta" class="lnk rv d3">Ver chatbots</a>
+      <h2 class="h2 rv d1">Conversaciones que<br><span class="fade">convierten.</span></h2>
+      <p class="sub rv d2">Un asistente que atiende y vende las 24 horas.</p>
+      <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Ver chatbots</a>
     </div>
     <div class="rcol"></div>
   </div>
 </section>
 
 <!-- MARKETING -->
-<section id="s-mkt">
+<section class="svc-sec" id="s-mkt">
   <div class="srow">
     <div class="scol">
+      <div class="mob-canvas-wrap"><canvas class="mc" data-idx="4"></canvas></div>
       <span class="tag rv">04 — Marketing</span>
-      <h2 class="h2 rv d1">Atraé clientes.<br><span class="fade">En automático.</span></h2>
-      <p class="sub rv d2">Estrategia y campañas con IA. Más leads, menos tiempo invertido.</p>
-      <a href="#s-cta" class="lnk rv d3">Ver marketing</a>
+      <h2 class="h2 rv d1">Tu marca,<br><span class="fade">en todos lados.</span></h2>
+      <p class="sub rv d2">El marketing que tu negocio necesitaba.</p>
+      <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Ver marketing</a>
     </div>
     <div class="rcol"></div>
   </div>
 </section>
 
 <!-- IA -->
-<section id="s-ia">
+<section class="svc-sec" id="s-ia">
   <div class="srow flip">
     <div class="scol">
+      <div class="mob-canvas-wrap"><canvas class="mc" data-idx="5"></canvas></div>
       <span class="tag rv">05 — Desarrollo con IA</span>
-      <h2 class="h2 rv d1">Soluciones<br><span class="fade">inteligentes.</span></h2>
-      <p class="sub rv d2">Sistemas a medida con IA integrada. Desde agentes hasta flujos completos de decisión.</p>
-      <a href="#s-cta" class="lnk rv d3">Ver desarrollo</a>
+      <h2 class="h2 rv d1">Automatizá decisiones.<br><span class="fade">Potenciá resultados.</span></h2>
+      <p class="sub rv d2">El futuro de tu negocio, hoy.</p>
+      <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Ver desarrollo</a>
     </div>
     <div class="rcol"></div>
-  </div>
-</section>
-
-<!-- STATS -->
-<section id="s-stats">
-  <div class="sg">
-    <div class="st rv"><span class="stn">24/7</span><span class="stl">Tu chatbot nunca duerme</span></div>
-    <div class="st rv d2"><span class="stn">&lt;3s</span><span class="stl">Tiempo de respuesta</span></div>
-    <div class="st rv d3"><span class="stn">0%</span><span class="stl">Leads perdidos</span></div>
   </div>
 </section>
 
@@ -381,20 +293,20 @@ footer{
 <section id="s-proc">
   <span class="ptag rv">Cómo trabajamos</span>
   <div class="pg">
-    <div class="rv"><span class="pn">01</span><h3 class="pt">Diagnóstico</h3><p class="pp">Entendemos tu negocio y encontramos el mayor potencial de mejora.</p></div>
+    <div class="rv"><span class="pn">01</span><h3 class="pt">Diagnóstico</h3><p class="pp">Entendemos tu negocio y encontramos el mayor potencial.</p></div>
     <div class="rv d1"><span class="pn">02</span><h3 class="pt">Diseño</h3><p class="pp">Planificamos la solución exacta. Sin sobreingenierías.</p></div>
-    <div class="rv d2"><span class="pn">03</span><h3 class="pt">Ejecución</h3><p class="pp">Construimos rápido y con calidad. Iteramos hasta que quede perfecto.</p></div>
-    <div class="rv d3"><span class="pn">04</span><h3 class="pt">Escala</h3><p class="pp">Soporte, mejoras y automatizaciones a medida que crecés.</p></div>
+    <div class="rv d2"><span class="pn">03</span><h3 class="pt">Ejecución</h3><p class="pp">Construimos rápido y con calidad. Iteramos hasta la perfección.</p></div>
+    <div class="rv d3"><span class="pn">04</span><h3 class="pt">Escala</h3><p class="pp">Soporte y mejoras a medida que crecés.</p></div>
   </div>
 </section>
 
 <!-- CTA -->
 <section id="s-cta">
+  <div class="mob-canvas-wrap"><canvas class="mc" data-idx="6"></canvas></div>
   <h2 class="ctah rv">Hablemos de<br><span class="fade">tu proyecto.</span></h2>
   <p class="ctap rv d1">Una llamada de 30 minutos. Sin compromiso. Con un plan concreto al final.</p>
-  <div class="brow rv d2" style="justify-content:center;margin-top:2rem;">
-    <a href="#" class="btn bd">Agendar llamada</a>
-    <a href="mailto:hola@conceptodevelopment.com" class="btn bo">Escribir por mail</a>
+  <div class="brow rv d2">
+    <a href="https://wa.me/59897976574" class="btn bd" target="_blank">Agendar llamada →</a>
   </div>
 </section>
 
@@ -413,157 +325,203 @@ footer{
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
 <script>
 gsap.registerPlugin(ScrollTrigger);
+const GLB='https://raw.githubusercontent.com/1brunosilva/Concepto-Robot/main/MaxNew.glb';
+const isMob=window.innerWidth<=680;
 
 // ── CURSOR ──
 const cd=document.getElementById('cd'),cr=document.getElementById('cr');
 let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{
-  mx=e.clientX;my=e.clientY;
-  cd.style.left=mx+'px';cd.style.top=my+'px';
-});
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.left=mx+'px';cd.style.top=my+'px';});
 (function ac(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(ac);})();
 
 // ── NAV ──
-window.addEventListener('scroll',()=>{
-  document.getElementById('nav').classList.toggle('bg',window.scrollY>30);
-},{passive:true});
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('bg',window.scrollY>30),{passive:true});
 
 // ── REVEAL ──
-document.querySelectorAll('.rv').forEach(el=>{
-  new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.08}).observe(el);
-});
+document.querySelectorAll('.rv').forEach(el=>new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.08}).observe(el));
 
-// ── THREE.JS ──
-const isMobile = window.innerWidth <= 680;
-const canvas = document.getElementById('rc');
-const renderer = new THREE.WebGLRenderer({canvas,alpha:true,antialias:!isMobile});
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile?1.5:2));
-renderer.setSize(window.innerWidth,window.innerHeight);
-renderer.outputEncoding = THREE.sRGBEncoding;
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.3;
-
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(35,window.innerWidth/window.innerHeight,.1,100);
-camera.position.z = 5;
-
-// Lights
-scene.add(new THREE.AmbientLight(0xffffff,1.4));
-const kl=new THREE.DirectionalLight(0xffffff,2.8);kl.position.set(2,4,3);scene.add(kl);
-const fl=new THREE.DirectionalLight(0xf5f0e8,1.1);fl.position.set(-3,1,2);scene.add(fl);
-const rl=new THREE.DirectionalLight(0xffffff,.7);rl.position.set(0,-2,-4);scene.add(rl);
-
-// State object GSAP animates
-const S={x:.26,y:0,sc:1,ry:0,rx:0,idle:0};
-let mesh=null,loaded=false,idleT=0;
-
-// World coordinate helpers
-function worldW(){
-  const h=2*Math.tan(camera.fov*Math.PI/360)*camera.position.z;
-  return h*camera.aspect;
-}
-function worldH(){
-  return 2*Math.tan(camera.fov*Math.PI/360)*camera.position.z;
+// ── LIGHTS helper ──
+function makeLights(scene){
+  scene.add(new THREE.AmbientLight(0xffffff,1.5));
+  const k=new THREE.DirectionalLight(0xffffff,2.6);k.position.set(2,4,3);scene.add(k);
+  const f=new THREE.DirectionalLight(0xf5f0e8,1.0);f.position.set(-3,1,2);scene.add(f);
 }
 
-function applyState(){
-  if(!mesh)return;
-  mesh.position.x = S.x*(worldW()/2);
-  mesh.position.y = S.y*(worldH()/2)+Math.sin(idleT*.7)*.045;
-  mesh.scale.setScalar(S.sc*1.85);
-  mesh.rotation.y = S.ry+S.idle;
-  mesh.rotation.x = S.rx;
-}
+// ═══════════════════════════════
+// DESKTOP: single fixed canvas
+// ═══════════════════════════════
+if(!isMob){
+  const canvas=document.getElementById('rc');
+  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  renderer.outputEncoding=THREE.sRGBEncoding;
+  renderer.toneMapping=THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure=1.3;
 
-// Sections → states
-// x: .26=right half, -.26=left half, 0=center
-// sc: scale drama — from .6 to 1.6
-const STATES=[
-  // hero: right, large, front
-  {x:.26, y:.02,  sc:1.15, ry:0,          rx:0,    dur:1.2},
-  // auto: left, medium
-  {x:-.26,y:0,    sc:.95,  ry:.2,         rx:0,    dur:1.3},
-  // webs: right, slightly bigger
-  {x:.26, y:-.02, sc:1.05, ry:-.2,        rx:0,    dur:1.2},
-  // chatbots: left, LARGE closeup
-  {x:-.22,y:.05,  sc:1.45, ry:.3,         rx:-.1,  dur:1.4},
-  // marketing: right, small far
-  {x:.28, y:0,    sc:.72,  ry:-.25,       rx:.06,  dur:1.3},
-  // ia: CENTER, MASSIVE, full spin
-  {x:0,   y:.04,  sc:1.6,  ry:Math.PI*2,  rx:-.12, dur:1.6},
-  // stats: EXIT up, tiny (background feel)
-  {x:0,   y:.55,  sc:.5,   ry:.1,         rx:.2,   dur:1.0},
-  // cta: center, large, front
-  {x:0,   y:.02,  sc:1.2,  ry:0,          rx:0,    dur:1.4},
-];
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(35,window.innerWidth/window.innerHeight,.1,100);
+  camera.position.z=5;
+  makeLights(scene);
 
-const SECS=['#s-hero','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia','#s-stats','#s-cta'];
+  const S={x:.28,y:.02,sc:1.1,ry:0,rx:0,idle:0};
+  let mesh=null,idleT=0;
 
-function goTo(state){
-  gsap.to(S,{
-    x:state.x,y:state.y,sc:state.sc,ry:state.ry,rx:state.rx,
-    duration:state.dur,
-    ease:'power3.out',
-    overwrite:'auto',
-    onUpdate:applyState
-  });
-}
+  // x: positive=right, negative=left (fraction of half-width)
+  // y: positive=up, negative=down
+  // sc: scale
+  const DS=[
+    {x:.28,  y:.02,  sc:1.1,  ry:0,         rx:0,   dur:1.2}, // hero right
+    {x:-.28, y:-.04, sc:.9,   ry:.18,        rx:0,   dur:1.3}, // auto left
+    {x:.26,  y:.06,  sc:1.0,  ry:-.18,       rx:0,   dur:1.2}, // webs right
+    {x:-.24, y:-.06, sc:1.35, ry:.25,        rx:-.08,dur:1.4}, // chatbots left LARGE
+    {x:.30,  y:.10,  sc:.65,  ry:-.22,       rx:.05, dur:1.3}, // marketing right SMALL
+    {x:.0,   y:.0,   sc:1.5,  ry:Math.PI*2,  rx:-.1, dur:1.6}, // ia CENTER HUGE
+    {x:.08,  y:-.32, sc:1.05, ry:0,          rx:0,   dur:1.4}, // cta center-low
+  ];
 
-function setupST(){
-  SECS.forEach((sel,i)=>{
-    const el=document.querySelector(sel);
-    if(!el||!STATES[i])return;
-    ScrollTrigger.create({
-      trigger:el,
-      start:'top 58%',
-      onEnter:()=>goTo(STATES[i]),
-      onEnterBack:()=>goTo(STATES[i]),
-    });
-  });
-  goTo(STATES[0]);
-}
+  const SECS=['#s-hero','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia','#s-cta'];
 
-// Load robot
-const loader=new THREE.GLTFLoader();
-loader.load(
-  'https://raw.githubusercontent.com/1brunosilva/Concepto-Robot/main/MaxNew.glb',
-  gltf=>{
+  function worldW(){return 2*Math.tan(camera.fov*Math.PI/360)*camera.position.z*camera.aspect;}
+  function worldH(){return 2*Math.tan(camera.fov*Math.PI/360)*camera.position.z;}
+
+  function applyS(){
+    if(!mesh)return;
+    mesh.position.x=S.x*(worldW()/2);
+    mesh.position.y=S.y*(worldH()/2)+Math.sin(idleT*.65)*.04;
+    mesh.scale.setScalar(S.sc*1.85);
+    mesh.rotation.y=S.ry+S.idle;
+    mesh.rotation.x=S.rx;
+  }
+
+  function goTo(st){gsap.to(S,{x:st.x,y:st.y,sc:st.sc,ry:st.ry,rx:st.rx,duration:st.dur,ease:'power3.out',overwrite:'auto',onUpdate:applyS});}
+
+  const loader=new THREE.GLTFLoader();
+  loader.load(GLB,gltf=>{
     mesh=gltf.scene;
     const box=new THREE.Box3().setFromObject(mesh);
     const c=box.getCenter(new THREE.Vector3());
     const sz=box.getSize(new THREE.Vector3());
-    mesh.position.sub(c.multiplyScalar(1));
-    // normalize
-    const mx2=Math.max(sz.x,sz.y,sz.z);
-    mesh.scale.setScalar(1/mx2);
+    mesh.position.sub(c);
+    mesh.scale.setScalar(1/Math.max(sz.x,sz.y,sz.z));
     scene.add(mesh);
-    loaded=true;
-    setupST();
+    SECS.forEach((sel,i)=>{
+      const el=document.querySelector(sel);
+      if(!el||!DS[i])return;
+      ScrollTrigger.create({trigger:el,start:'top 58%',onEnter:()=>goTo(DS[i]),onEnterBack:()=>goTo(DS[i])});
+    });
+    goTo(DS[0]);
     setTimeout(()=>document.getElementById('ldr').classList.add('out'),400);
-  },
-  null,
-  ()=>{ setTimeout(()=>document.getElementById('ldr').classList.add('out'),500); }
-);
-setTimeout(()=>document.getElementById('ldr').classList.add('out'),3500);
+  },null,()=>document.getElementById('ldr').classList.add('out'));
 
-// Render + idle
-(function loop(){
-  requestAnimationFrame(loop);
-  idleT+=.012;
-  S.idle+=.006; // slow continuous spin
-  if(loaded)applyState();
-  renderer.render(scene,camera);
-})();
+  setTimeout(()=>document.getElementById('ldr').classList.add('out'),3500);
 
-// Resize
-window.addEventListener('resize',()=>{
-  camera.aspect=window.innerWidth/window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth,window.innerHeight);
-});
+  (function loop(){
+    requestAnimationFrame(loop);
+    idleT+=.012;S.idle+=.005;
+    if(mesh)applyS();
+    renderer.render(scene,camera);
+  })();
+
+  window.addEventListener('resize',()=>{
+    camera.aspect=window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth,window.innerHeight);
+  });
+
+// ═══════════════════════════════
+// MOBILE: one small canvas per section
+// Robot renders inline, never overlaps text
+// ═══════════════════════════════
+} else {
+  // Mobile states: robot fills its own canvas box
+  // Just rotation and slight x offset — no position needed (canvas IS the position)
+  const MS=[
+    {ry:0,    rx:0,    sc:1},    // hero
+    {ry:.25,  rx:0,    sc:.88},  // auto
+    {ry:-.22, rx:0,    sc:.95},  // webs
+    {ry:.3,   rx:-.08, sc:1.15}, // chatbots slightly larger
+    {ry:-.2,  rx:.05,  sc:.82},  // marketing smaller
+    {ry:0,    rx:-.1,  sc:1.2},  // ia big
+    {ry:0,    rx:0,    sc:1},    // cta
+  ];
+
+  const canvases=document.querySelectorAll('.mc');
+  let sharedMesh=null;
+  let loadDone=false;
+  const renderers=[];
+
+  canvases.forEach((cv,i)=>{
+    const wrap=cv.parentElement;
+    const r=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:false});
+    r.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
+    r.outputEncoding=THREE.sRGBEncoding;
+    r.toneMapping=THREE.ACESFilmicToneMapping;
+    r.toneMappingExposure=1.3;
+
+    const sc=new THREE.Scene();
+    const cam=new THREE.PerspectiveCamera(38,1,.1,100);
+    cam.position.z=3.2;
+    makeLights(sc);
+
+    renderers.push({r,sc,cam,wrap,i,mesh:null,idleT:Math.random()*10});
+  });
+
+  // Load once, clone for each canvas
+  const loader=new THREE.GLTFLoader();
+  loader.load(GLB,gltf=>{
+    sharedMesh=gltf.scene;
+    const box=new THREE.Box3().setFromObject(sharedMesh);
+    const c=box.getCenter(new THREE.Vector3());
+    const sz=box.getSize(new THREE.Vector3());
+    sharedMesh.position.sub(c);
+    const norm=1/Math.max(sz.x,sz.y,sz.z);
+    sharedMesh.scale.setScalar(norm);
+
+    renderers.forEach(rd=>{
+      const m=sharedMesh.clone(true);
+      rd.sc.add(m);
+      rd.mesh=m;
+      const st=MS[rd.i]||MS[0];
+      m.scale.setScalar(norm*st.sc*1.6);
+      m.rotation.y=st.ry;
+      m.rotation.x=st.rx;
+    });
+
+    loadDone=true;
+    document.getElementById('ldr').classList.add('out');
+  },null,()=>document.getElementById('ldr').classList.add('out'));
+  setTimeout(()=>document.getElementById('ldr').classList.add('out'),3500);
+
+  // Resize each canvas to match its wrapper
+  function resizeMob(){
+    renderers.forEach(rd=>{
+      const w=rd.wrap.offsetWidth;
+      const h=rd.wrap.offsetHeight;
+      rd.r.setSize(w,h,false);
+      rd.cam.aspect=w/h;
+      rd.cam.updateProjectionMatrix();
+    });
+  }
+  resizeMob();
+  window.addEventListener('resize',resizeMob,{passive:true});
+
+  // Render loop
+  (function loop(){
+    requestAnimationFrame(loop);
+    if(!loadDone)return;
+    renderers.forEach(rd=>{
+      rd.idleT+=.012;
+      if(rd.mesh){
+        rd.mesh.position.y=Math.sin(rd.idleT*.65)*.04;
+        rd.mesh.rotation.y=(MS[rd.i]||MS[0]).ry+rd.idleT*.004;
+      }
+      rd.r.render(rd.sc,rd.cam);
+    });
+  })();
+}
 </script>
 </body>
 </html>
