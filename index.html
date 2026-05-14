@@ -330,25 +330,25 @@ function applyS(){
 
 // DESKTOP states: x(-1=left, 1=right), y(-1=bottom, 1=top)
 const DS=[
-  {x:.30,  y:.02,  sc:1.15, ry:0,         rx:0,    dur:1.2}, // hero: right, large, FRONT
-  {x:-.30, y:-.08, sc:.80,  ry:.12,       rx:0,    dur:1.0}, // auto: left, small
-  {x:.28,  y:.08,  sc:1.25, ry:-.1,       rx:0,    dur:1.2}, // webs: right, BIGGER
-  {x:-.26, y:-.04, sc:.75,  ry:.18,       rx:-.06, dur:1.0}, // chatbots: left, smaller
-  {x:.32,  y:.06,  sc:1.1,  ry:-.12,      rx:.04,  dur:1.1}, // marketing: right, medium
+  {x:.30,  y:.02,  sc:1.15, ry:0,         rx:0,    dur:1.2}, // hero: right, large, front
+  {x:-.28, y:-.02, sc:1.30, ry:.1,        rx:0,    dur:1.1}, // auto: left, BIG closeup
+  {x:.28,  y:.06,  sc:1.0,  ry:-.1,       rx:0,    dur:1.2}, // webs: right, normal
+  {x:-.30, y:-.04, sc:.70,  ry:.18,       rx:-.06, dur:1.0}, // chatbots: left, small contrast
+  {x:.30,  y:.04,  sc:1.35, ry:-.1,       rx:.04,  dur:1.1}, // marketing: right, BIGGEST
   {x:0,    y:.02,  sc:1.55, ry:Math.PI*2, rx:-.1,  dur:1.4}, // ia: center MASSIVE 360
-  {x:.05,  y:-.32, sc:1.1,  ry:0,         rx:0,    dur:1.1}, // cta: center low, front
+  {x:.05,  y:-.30, sc:1.1,  ry:0,         rx:0,    dur:1.1}, // cta: center low, front
 ];
 
 // MOBILE states: drama! big size changes, left/right variation, mostly front-facing
 // y around -0.38 to -0.48 keeps robot in bottom half always
 const MS=[
-  {x:.22,  y:-.38, sc:.95, ry:0,         rx:0,    dur:1.2}, // hero: right, LARGER, front
-  {x:-.20, y:-.44, sc:.72, ry:.15,       rx:0,    dur:1.0}, // auto: left, smaller
-  {x:.18,  y:-.36, sc:1.05, ry:-.12,     rx:0,    dur:1.2}, // webs: right, BIGGEST mobile
-  {x:-.16, y:-.46, sc:.68, ry:.18,       rx:-.06, dur:1.0}, // chatbots: left, small
-  {x:.20,  y:-.38, sc:.90, ry:-.1,       rx:.04,  dur:1.1}, // marketing: right, medium
-  {x:0,    y:-.34, sc:1.0, ry:Math.PI*2, rx:-.06, dur:1.4}, // ia: center, big, 360 spin
-  {x:0,    y:-.40, sc:.85, ry:0,         rx:0,    dur:1.1}, // cta: center, medium, front
+  {x:.20,  y:-.36, sc:.95,  ry:0,         rx:0,    dur:1.2}, // hero: right, large, front
+  {x:-.18, y:-.34, sc:1.08, ry:.1,        rx:0,    dur:1.1}, // auto: left, BIG closeup
+  {x:.16,  y:-.36, sc:1.05, ry:-.1,       rx:0,    dur:1.2}, // webs: right, big
+  {x:-.14, y:-.38, sc:.72,  ry:.18,       rx:-.06, dur:1.0}, // chatbots: left, small contrast
+  {x:.22,  y:-.34, sc:1.12, ry:-.08,      rx:.04,  dur:1.1}, // marketing: right, BIGGEST
+  {x:0,    y:-.32, sc:1.0,  ry:Math.PI*2, rx:-.06, dur:1.4}, // ia: center, big, 360 spin
+  {x:0,    y:-.38, sc:.92,  ry:0,         rx:0,    dur:1.1}, // cta: center, medium, front
 ];
 
 const STATES = isMob ? MS : DS;
