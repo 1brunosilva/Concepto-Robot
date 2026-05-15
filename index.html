@@ -211,6 +211,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   <a href="https://wa.me/59897976574" class="nmb" target="_blank">Hablemos</a>
 </nav>
 
+<!-- HERO -->
 <section id="s-hero">
   <div class="srow">
     <div class="scol">
@@ -226,6 +227,30 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
+<!-- NIGHT (ahora segunda, justo después del hero) -->
+<section id="s-night">
+  <div class="night-inner">
+    <div class="night-text">
+      <span class="ntag rv">Chatbots con IA</span>
+      <h2 class="nh rv d1">Tu negocio cerró<br>ventas a las<br><span class="na">3:14 AM.</span></h2>
+      <p class="nsub rv d2">Vos dormías. Tu chatbot atendió, respondió y confirmó la venta. Sin intervención humana.</p>
+      <a href="https://wa.me/59897976574" class="ncta rv d3" target="_blank">Quiero un chatbot así →</a>
+      <p class="nstamp rv d3">Última actividad: <strong>3:14 AM</strong> · Venta confirmada ✓</p>
+    </div>
+    <div class="night-chat-col">
+      <div class="cw">
+        <div class="cw-head">
+          <div class="cw-av">🤖</div>
+          <div><div class="cw-name">Asistente IA</div><div class="cw-status">en línea</div></div>
+          <div class="cw-dots"><div class="cw-dot"></div><div class="cw-dot"></div><div class="cw-dot"></div></div>
+        </div>
+        <div class="cw-body" id="cwBody"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
 <section class="svc-sec" id="s-auto">
   <div class="srow flip">
     <div class="scol">
@@ -293,28 +318,6 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
     <div class="rv d1"><span class="pn">02</span><h3 class="pt">Diseño</h3><p class="pp">Planificamos la solución exacta. Sin sobreingenierías.</p></div>
     <div class="rv d2"><span class="pn">03</span><h3 class="pt">Ejecución</h3><p class="pp">Construimos rápido y con calidad.</p></div>
     <div class="rv d3"><span class="pn">04</span><h3 class="pt">Escala</h3><p class="pp">Soporte y mejoras a medida que crecés.</p></div>
-  </div>
-</section>
-
-<section id="s-night">
-  <div class="night-inner">
-    <div class="night-text">
-      <span class="ntag rv">Chatbots con IA</span>
-      <h2 class="nh rv d1">Tu negocio cerró<br>ventas a las<br><span class="na">3:14 AM.</span></h2>
-      <p class="nsub rv d2">Vos dormías. Tu chatbot atendió, respondió y confirmó la venta. Sin intervención humana.</p>
-      <a href="https://wa.me/59897976574" class="ncta rv d3" target="_blank">Quiero un chatbot así →</a>
-      <p class="nstamp rv d3">Última actividad: <strong>3:14 AM</strong> · Venta confirmada ✓</p>
-    </div>
-    <div class="night-chat-col">
-      <div class="cw">
-        <div class="cw-head">
-          <div class="cw-av">🤖</div>
-          <div><div class="cw-name">Asistente IA</div><div class="cw-status">en línea</div></div>
-          <div class="cw-dots"><div class="cw-dot"></div><div class="cw-dot"></div><div class="cw-dot"></div></div>
-        </div>
-        <div class="cw-body" id="cwBody"></div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -461,7 +464,8 @@ const MS=[
   {x:0,    y:-.36, sc:.92,  ry:0,         rx:0,    dur:1.1},
 ];
 const STATES=isMob?MS:DS;
-const SECS=['#s-hero','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia','#s-proc','#s-night','#s-cta'];
+// Orden actualizado: hero, night, auto, webs, chat, mkt, ia, proc, cta
+const SECS=['#s-hero','#s-night','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia','#s-proc','#s-cta'];
 
 function enterNight(){gsap.to(ambLight,{intensity:.5,duration:1.1});gsap.to(kl,{intensity:.9,duration:1.1});gsap.to(vl,{intensity:4,duration:1.1});}
 function exitNight(){gsap.to(ambLight,{intensity:1.5,duration:1.0});gsap.to(kl,{intensity:2.6,duration:1.0});gsap.to(vl,{intensity:0,duration:1.0});}
@@ -509,20 +513,19 @@ window.addEventListener('resize',()=>{
 },{passive:true});
 
 // ── SCROLL SNAP ──────────────────────────────────────────────────
+// Solo activo en mobile (≤680px). En desktop nunca.
 (function(){
-  const SNAP_SECS = Array.from(document.querySelectorAll('section'));
+  if(window.innerWidth > 680) return; // DESKTOP: snap desactivado totalmente
+
+  // Secciones que participan en snap: solo s-auto en adelante hasta s-mkt
+  // Excluido: el tramo hero→night (libre) y desde s-ia en adelante (libre)
+  const snapSections=['#s-auto','#s-webs','#s-chat','#s-mkt'];
+  const ALL_SECS = Array.from(document.querySelectorAll('section'));
+  const SNAP_ACTIVE = ALL_SECS.filter(el => snapSections.includes('#'+el.id));
+
   let isSnapping = false;
   let lastSnapTime = 0;
-  const COOLDOWN = 800; // ms between snaps — prevents double-firing
-
-  function getNearest(){
-    let best=SNAP_SECS[0], bestD=Infinity;
-    SNAP_SECS.forEach(el=>{
-      const d=Math.abs(el.getBoundingClientRect().top);
-      if(d<bestD){bestD=d;best=el;}
-    });
-    return {el:best,dist:bestD};
-  }
+  const COOLDOWN = 800;
 
   function snapTo(el){
     const now=Date.now();
@@ -533,23 +536,6 @@ window.addEventListener('resize',()=>{
     setTimeout(()=>{isSnapping=false;},COOLDOWN);
   }
 
-  function snapNext(dir){
-    const {el:cur}=getNearest();
-    const idx=SNAP_SECS.indexOf(cur);
-    const next=SNAP_SECS[Math.max(0,Math.min(SNAP_SECS.length-1,idx+dir))];
-    if(next!==cur)snapTo(next);
-  }
-
-  // Sections that participate in snap (only up to and including #s-ia)
-  const snapSections=['#s-hero','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia'];
-  const SNAP_ACTIVE = SNAP_SECS.filter(el=>snapSections.includes('#'+el.id));
-
-  function isBeyondSnap(){
-    const ia=document.getElementById('s-ia');
-    return ia.getBoundingClientRect().bottom < window.innerHeight*0.5;
-  }
-
-  // Override getNearest to only consider snap sections
   function getNearestSnap(){
     let best=SNAP_ACTIVE[0], bestD=Infinity;
     SNAP_ACTIVE.forEach(el=>{
@@ -559,10 +545,21 @@ window.addEventListener('resize',()=>{
     return {el:best,dist:bestD};
   }
 
-  // WHEEL — debounced, direction determined by accumulated delta
+  // ¿El scroll actual está dentro de la zona de snap?
+  function inSnapZone(){
+    const first = document.getElementById('s-auto');
+    const last  = document.getElementById('s-mkt');
+    if(!first||!last) return false;
+    const topOfFirst = first.getBoundingClientRect().top;
+    const bottomOfLast = last.getBoundingClientRect().bottom;
+    // Estamos en zona si s-auto ya apareció y s-mkt aún no pasó completa
+    return topOfFirst <= window.innerHeight * 0.5 && bottomOfLast > window.innerHeight * 0.5;
+  }
+
+  // WHEEL
   let wheelAccum=0, wheelTimer=null;
   window.addEventListener('wheel',e=>{
-    if(isBeyondSnap())return; // free scroll after ia section
+    if(!inSnapZone()) return;
     e.preventDefault();
     wheelAccum+=e.deltaY;
     clearTimeout(wheelTimer);
@@ -577,11 +574,11 @@ window.addEventListener('resize',()=>{
     },80);
   },{passive:false});
 
-  // TOUCH — only snap if swipe is intentional (>40px)
+  // TOUCH
   let ty0=0,txTime=0;
   window.addEventListener('touchstart',e=>{ty0=e.touches[0].clientY;txTime=Date.now();},{passive:true});
   window.addEventListener('touchend',e=>{
-    if(isBeyondSnap())return; // free scroll after ia section
+    if(!inSnapZone()) return;
     const dy=ty0-e.changedTouches[0].clientY;
     const dt=Date.now()-txTime;
     if(Math.abs(dy)>40&&dt<500){
@@ -592,21 +589,14 @@ window.addEventListener('resize',()=>{
     }
   },{passive:true});
 
-  // SCROLL END — snap to nearest if scroll stops between sections
-  // BUT only for sections BEFORE #s-ia
-  const snapBoundary = document.getElementById('s-ia');
-
-  function isBeyondBoundary(){
-    return snapBoundary.getBoundingClientRect().bottom < window.innerHeight * 0.5;
-  }
-
+  // SCROLL END — snap al más cercano si el scroll se detiene entre secciones
   let scrollEndTimer=null;
   window.addEventListener('scroll',()=>{
     clearTimeout(scrollEndTimer);
     scrollEndTimer=setTimeout(()=>{
-      if(isSnapping||isBeyondBoundary())return;
-      const {dist}=getNearest();
-      if(dist>10)snapTo(getNearest().el);
+      if(isSnapping||!inSnapZone())return;
+      const {dist,el}=getNearestSnap();
+      if(dist>10)snapTo(el);
     },150);
   },{passive:true});
 })();
