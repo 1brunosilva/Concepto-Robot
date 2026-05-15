@@ -634,6 +634,57 @@ window.addEventListener('resize',()=>{
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth,window.innerHeight);
 },{passive:true});
+// ── SCROLL SNAP (JS) ─────────────────────────────────────────────────────────
+(function(){
+  const secs = Array.from(document.querySelectorAll('section, footer'));
+  let snapping = false;
+
+  function snapTo(el){
+    if(snapping) return;
+    snapping = true;
+    el.scrollIntoView({behavior:'smooth', block:'start'});
+    setTimeout(()=>{ snapping = false; }, 900);
+  }
+
+  function nearest(){
+    let best = secs[0], bestD = Infinity;
+    secs.forEach(el=>{
+      const d = Math.abs(el.getBoundingClientRect().top);
+      if(d < bestD){ bestD = d; best = el; }
+    });
+    return best;
+  }
+
+  function next(dir){
+    const cur = nearest();
+    const idx = secs.indexOf(cur);
+    const target = secs[Math.max(0, Math.min(secs.length-1, idx + dir))];
+    snapTo(target);
+  }
+
+  // WHEEL
+  let wheelTimer;
+  window.addEventListener('wheel', e=>{
+    e.preventDefault();
+    clearTimeout(wheelTimer);
+    wheelTimer = setTimeout(()=>{ next(e.deltaY > 0 ? 1 : -1); }, 50);
+  }, {passive: false});
+
+  // TOUCH
+  let ty0 = 0;
+  window.addEventListener('touchstart', e=>{ ty0 = e.touches[0].clientY; }, {passive:true});
+  window.addEventListener('touchend', e=>{
+    const dy = ty0 - e.changedTouches[0].clientY;
+    if(Math.abs(dy) > 30) next(dy > 0 ? 1 : -1);
+  }, {passive:true});
+
+  // SCROLL
+  let scrollTimer;
+  window.addEventListener('scroll', ()=>{
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(()=>{ snapTo(nearest()); }, 120);
+  }, {passive:true});
+})();
 </script>
 </body>
 </html>
