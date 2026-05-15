@@ -646,9 +646,12 @@ if(isMob){
     const MIN_VEL=0.25;
 
     function inSnapZone(){
+      // s-auto tiene que estar ya en pantalla (top ≤ 0, es decir se scrolleó hasta ahí)
       const autoTop=document.getElementById('s-auto').getBoundingClientRect().top;
-      const iaBot=document.getElementById('s-ia').getBoundingClientRect().bottom;
-      return autoTop<=window.innerHeight*.6&&iaBot>=window.innerHeight*.4;
+      // s-ia tiene que seguir visible (su top todavía está dentro del viewport)
+      const iaTop=document.getElementById('s-ia').getBoundingClientRect().top;
+      // Activo solo cuando el usuario YA pasó el hero/night y todavía no pasó s-ia completo
+      return autoTop<=0&&iaTop<=window.innerHeight;
     }
 
     function getNearest(){
