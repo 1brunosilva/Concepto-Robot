@@ -18,8 +18,8 @@
 }
 html{
   overflow-x:hidden;
-  scroll-snap-type:y mandatory;
   overflow-y:scroll;
+  scroll-snap-type:y mandatory;
 }
 body{
   background:var(--cream);color:var(--ink);
@@ -578,30 +578,28 @@ function applyS(){
   mesh.rotation.x=S.rx;
 }
 
-// DESKTOP states
 const DS=[
-  {x:.30,  y:.05,  sc:1.15, ry:0,         rx:0,    dur:1.2}, // hero
-  {x:-.30, y:-.10, sc:1.35, ry:.08,       rx:0,    dur:1.1}, // auto
-  {x:.28,  y:.12,  sc:.85,  ry:-.1,       rx:0,    dur:1.2}, // webs
-  {x:-.28, y:-.08, sc:1.20, ry:.15,       rx:-.06, dur:1.0}, // chat
-  {x:.32,  y:.08,  sc:.72,  ry:-.1,       rx:.04,  dur:1.1}, // mkt
-  {x:0,    y:.02,  sc:1.55, ry:Math.PI*2, rx:-.1,  dur:1.4}, // ia — 360
-  {x:.05,  y:-.28, sc:1.0,  ry:0,         rx:0,    dur:1.0}, // proc
-  {x:-.22, y:-.05, sc:1.2,  ry:.25,       rx:-.05, dur:1.3}, // night
-  {x:.05,  y:-.30, sc:1.1,  ry:0,         rx:0,    dur:1.1}, // cta
+  {x:.30,  y:.05,  sc:1.15, ry:0,         rx:0,    dur:1.2},
+  {x:-.30, y:-.10, sc:1.35, ry:.08,       rx:0,    dur:1.1},
+  {x:.28,  y:.12,  sc:.85,  ry:-.1,       rx:0,    dur:1.2},
+  {x:-.28, y:-.08, sc:1.20, ry:.15,       rx:-.06, dur:1.0},
+  {x:.32,  y:.08,  sc:.72,  ry:-.1,       rx:.04,  dur:1.1},
+  {x:0,    y:.02,  sc:1.55, ry:Math.PI*2, rx:-.1,  dur:1.4},
+  {x:.05,  y:-.28, sc:1.0,  ry:0,         rx:0,    dur:1.0},
+  {x:-.22, y:-.05, sc:1.2,  ry:.25,       rx:-.05, dur:1.3},
+  {x:.05,  y:-.30, sc:1.1,  ry:0,         rx:0,    dur:1.1},
 ];
 
-// MOBILE states
 const MS=[
-  {x:0,    y:.32,  sc:1.0,  ry:0,         rx:0,    dur:1.2}, // hero
-  {x:.22,  y:-.36, sc:1.12, ry:.1,        rx:0,    dur:1.1}, // auto
-  {x:-.20, y:.30,  sc:1.22, ry:-.1,       rx:0,    dur:1.2}, // webs
-  {x:.20,  y:-.34, sc:.80,  ry:.18,       rx:-.06, dur:1.0}, // chat
-  {x:-.18, y:.28,  sc:1.15, ry:-.08,      rx:.04,  dur:1.1}, // mkt
-  {x:.16,  y:-.30, sc:1.05, ry:Math.PI*2, rx:-.06, dur:1.4}, // ia
-  {x:0,    y:.20,  sc:.90,  ry:0,         rx:0,    dur:1.0}, // proc
-  {x:0,    y:.28,  sc:1.05, ry:.1,        rx:-.04, dur:1.3}, // night
-  {x:0,    y:-.36, sc:.92,  ry:0,         rx:0,    dur:1.1}, // cta
+  {x:0,    y:.32,  sc:1.0,  ry:0,         rx:0,    dur:1.2},
+  {x:.22,  y:-.36, sc:1.12, ry:.1,        rx:0,    dur:1.1},
+  {x:-.20, y:.30,  sc:1.22, ry:-.1,       rx:0,    dur:1.2},
+  {x:.20,  y:-.34, sc:.80,  ry:.18,       rx:-.06, dur:1.0},
+  {x:-.18, y:.28,  sc:1.15, ry:-.08,      rx:.04,  dur:1.1},
+  {x:.16,  y:-.30, sc:1.05, ry:Math.PI*2, rx:-.06, dur:1.4},
+  {x:0,    y:.20,  sc:.90,  ry:0,         rx:0,    dur:1.0},
+  {x:0,    y:.28,  sc:1.05, ry:.1,        rx:-.04, dur:1.3},
+  {x:0,    y:-.36, sc:.92,  ry:0,         rx:0,    dur:1.1},
 ];
 
 const STATES=isMob?MS:DS;
