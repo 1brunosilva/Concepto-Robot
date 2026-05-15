@@ -63,22 +63,28 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
 
 /* ═══ DESKTOP SECTIONS ═══ */
 @media(min-width:681px){
-  section{position:relative;min-height:100vh;display:flex;align-items:center;padding:0 clamp(28px,7vw,100px);z-index:20;}
+  section{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:0 clamp(28px,7vw,100px);z-index:20;}
   .srow{display:grid;grid-template-columns:1fr 1fr;width:100%;align-items:center;gap:4vw;}
   .srow.flip{direction:rtl;}
   .srow.flip .scol{direction:ltr;}
   .scol{display:flex;flex-direction:column;}
   .rcol{height:70vh;}
   #s-proc{min-height:auto;padding:10vh clamp(28px,7vw,100px);display:block;}
-  #s-night{min-height:100vh;display:flex;align-items:center;padding:0 clamp(28px,7vw,100px);}
-  #s-cta{flex-direction:column;align-items:center;text-align:center;min-height:100vh;padding-top:0;justify-content:center;}
+  #s-night{min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:0 clamp(28px,7vw,100px);}
+  #s-cta{flex-direction:column;align-items:center;text-align:center;min-height:100vh;min-height:100svh;padding-top:0;justify-content:center;}
   #s-cta .ctah{text-align:center;max-width:58vw;}
   #s-cta .brow{justify-content:center;}
 }
 
 /* ═══ MOBILE SECTIONS ═══ */
 @media(max-width:680px){
-  section{position:relative;min-height:100vh;display:flex;flex-direction:column;padding:0 7vw;z-index:20;}
+  html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+  section { position:relative; min-height:100vh; min-height:100svh; display:flex; flex-direction:column; padding:0 7vw; z-index:20; scroll-snap-align: start; scroll-snap-stop: always; }
+  
+  /* Excepciones de snap o dimensiones */
+  #s-proc { scroll-snap-align: none; }
+  footer { scroll-snap-align: none; }
+
   .srow{display:block;direction:ltr !important;}
   .rcol{display:none;}
 
@@ -87,7 +93,7 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
   #s-hero .sub{max-width:100%;text-align:center;}
   #s-hero .brow{justify-content:center;}
 
-  #s-night{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:80px 7vw;}
+  #s-night{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:80px 7vw;}
 
   #s-auto{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
   #s-auto .scol{align-items:flex-start;text-align:left;}
@@ -107,31 +113,10 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
   #s-ia .sub{text-align:right;max-width:100%;}
 
   #s-proc{min-height:auto;padding:64px 7vw;display:block;}
-  #s-cta{min-height:100vh;justify-content:center;padding-top:0;padding-bottom:0;flex-direction:column;align-items:center;text-align:center;}
+  #s-cta{min-height:100vh;min-height:100svh;justify-content:center;padding-top:0;padding-bottom:0;flex-direction:column;align-items:center;text-align:center;}
   #s-cta .ctah{text-align:center;max-width:100%;font-size:clamp(34px,11vw,52px);}
   #s-cta .ctap{max-width:100%;text-align:center;}
   #s-cta .brow{justify-content:center;}
-
-}
-
-/* ── CSS SCROLL SNAP — solo mobile ── */
-/*
-  El snap se activa/desactiva con la clase .snap-on en <html>.
-  JS la agrega solo cuando el usuario YA está dentro de la zona de servicios.
-  Afuera de esa zona: scroll completamente libre, sin ninguna fricción.
-*/
-@media(max-width:680px){
-  html.snap-on{
-    scroll-snap-type: y mandatory;
-  }
-  html.snap-on #s-auto,
-  html.snap-on #s-webs,
-  html.snap-on #s-chat,
-  html.snap-on #s-mkt,
-  html.snap-on #s-ia{
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-  }
 }
 
 /* ═══ TYPOGRAPHY ═══ */
@@ -216,8 +201,8 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 .fc{font-size:12px;color:var(--dim);}
 @media(max-width:680px){footer{flex-direction:column;gap:.9rem;text-align:center;padding:1.8rem 7vw;}.fls{justify-content:center;flex-wrap:wrap;}}
 
-/* REVEAL */
-.rv{opacity:0;transform:translateY(26px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
+/* REVEAL - Optimizado con will-change */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1); will-change: opacity, transform;}
 .rv.in{opacity:1;transform:none;}
 .d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.32s;}
 </style>
@@ -383,11 +368,13 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 gsap.registerPlugin(ScrollTrigger);
 const isMob = window.innerWidth <= 680;
 
-// ── CURSOR ──
+// ── CURSOR (Optimizado: solo se ejecuta en Desktop para no gastar batería) ──
 const cd=document.getElementById('cd'),cr=document.getElementById('cr');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.left=mx+'px';cd.style.top=my+'px';});
-(function ac(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(ac);})();
+if(!isMob){
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.left=mx+'px';cd.style.top=my+'px';});
+  (function ac(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(ac);})();
+}
 
 // ── NAV ──
 const navEl=document.getElementById('nav');
@@ -402,20 +389,20 @@ function updateNav(){
 }
 window.addEventListener('scroll',updateNav,{passive:true});
 
-// ── REVEAL — FIX C: desconectar el observer una vez activado ──
+// ── REVEAL ──
 document.querySelectorAll('.rv').forEach(el=>{
   const obs = new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(e.isIntersecting){
         e.target.classList.add('in');
-        obs.unobserve(e.target); // ← FIX C: se desconecta, no sigue escuchando
+        obs.unobserve(e.target); 
       }
     });
   },{threshold:.08});
   obs.observe(el);
 });
 
-// ── CHAT ANIMATION — FIX A: un solo loop, sin duplicados ──
+// ── CHAT ANIMATION ──
 const msgs=[
   {t:'in',  txt:'Hola! cuánto sale un chatbot?', d:0},
   {t:'typing', d:1100},
@@ -429,7 +416,6 @@ const msgs=[
 const CHAT_TOTAL = msgs[msgs.length-1].d + 4500;
 const cwBody=document.getElementById('cwBody');
 
-// FIX A: guardamos el ID del timeout para poder cancelarlo
 let chatTimeouts = [];
 let chatRunning = false;
 
@@ -467,7 +453,6 @@ function runChat(){
     chatTimeouts.push(id);
   });
 
-  // Reinicio del loop con el mismo ID trackeado
   const loopId = setTimeout(()=>{
     chatRunning=false;
     runChat();
@@ -475,12 +460,11 @@ function runChat(){
   chatTimeouts.push(loopId);
 }
 
-// FIX A: IntersectionObserver controla start/stop del loop
 const chatObs = new IntersectionObserver(entries=>{
   if(entries[0].isIntersecting){
     runChat();
   } else {
-    clearChatTimers();  // ← detiene el loop cuando sale de pantalla
+    clearChatTimers();
   }
 },{threshold:.25});
 chatObs.observe(nightEl);
@@ -504,13 +488,12 @@ const vl=new THREE.PointLight(0xa855f7,0,8);vl.position.set(0,1,3);scene.add(vl)
 const S={x:0,y:0,sc:1,ry:0,rx:0,idle:0};
 let mesh=null,idleT=0;
 
-// FIX E: cachear worldW/worldH — solo recalcular en resize
 let _worldW=0,_worldH=0;
 function calcWorld(){
   _worldW=2*Math.tan(camera.fov*Math.PI/360)*camera.position.z*camera.aspect;
   _worldH=2*Math.tan(camera.fov*Math.PI/360)*camera.position.z;
 }
-calcWorld(); // calcular una vez al inicio
+calcWorld();
 
 function applyS(){
   if(!mesh)return;
@@ -567,14 +550,13 @@ function goTo(st){
     duration:st.dur,ease:'power3.out',overwrite:'auto',onUpdate:applyS});
 }
 
-// FIX B: RAF pausado cuando la pestaña está oculta (Page Visibility API)
 let rafId=null;
 let isPageVisible=true;
 
 function startLoop(){
   if(rafId) return;
   function loop(){
-    if(!isPageVisible){ rafId=null; return; } // ← pausa si tab oculta
+    if(!isPageVisible){ rafId=null; return; } 
     rafId=requestAnimationFrame(loop);
     idleT+=.012; S.idle+=.018;
     if(mesh) applyS();
@@ -584,7 +566,7 @@ function startLoop(){
 }
 document.addEventListener('visibilitychange',()=>{
   isPageVisible=!document.hidden;
-  if(isPageVisible) startLoop(); // reanudar cuando vuelve
+  if(isPageVisible) startLoop(); 
 });
 
 const loader=new THREE.GLTFLoader();
@@ -604,7 +586,6 @@ loader.load(
       if(!el||!STATES[i])return;
       ScrollTrigger.create({
         trigger:el,
-        // FIX 2 (de la IA): top center evita la race condition
         start:'top center',
         onEnter:()=>{
           goTo(STATES[i]);
@@ -618,18 +599,13 @@ loader.load(
     });
 
     goTo(STATES[0]);
-
-    // FIX 4 (de la IA): refresh después de que el modelo está en el DOM
     ScrollTrigger.refresh();
-
     document.getElementById('ldr').classList.add('out');
   },
   null,
   ()=>document.getElementById('ldr').classList.add('out')
 );
 
-// FIX F: fallback más seguro — si el modelo no cargó a los 4s,
-// igual mostramos el sitio (sin robot)
 setTimeout(()=>{
   const ldr=document.getElementById('ldr');
   if(!ldr.classList.contains('out')) ldr.classList.add('out');
@@ -637,46 +613,22 @@ setTimeout(()=>{
 
 startLoop();
 
-// FIX D: resize recalcula mundo 3D + refresca ScrollTrigger
+// ── OPTIMIZACIÓN DE RESIZE (La magia antibloqueo en Mobile) ──
+let winWidth = window.innerWidth;
 window.addEventListener('resize',()=>{
+  // En móviles, si la altura cambia (por ocultarse la barra URL) pero el ancho es el mismo, no hagas nada.
+  if(isMob && window.innerWidth === winWidth) return; 
+  
+  winWidth = window.innerWidth;
   camera.aspect=window.innerWidth/window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth,window.innerHeight);
-  calcWorld(); // ← recalcular cache de worldW/worldH
-  ScrollTrigger.refresh(); // ← FIX D
+  calcWorld(); 
+  ScrollTrigger.refresh(); 
 },{passive:true});
 
-
-// ── SNAP SCROLL DINÁMICO — mobile ────────────────────────────
-// La clase .snap-on en <html> activa el CSS scroll-snap mandatory.
-// Se agrega solo cuando el usuario está dentro de la zona de servicios
-// (entre s-auto y el final de s-ia), garantizando scroll libre en hero y night.
-if(isMob){
-  const autoEl = document.getElementById('s-auto');
-  const iaEl   = document.getElementById('s-ia');
-  const htmlEl = document.documentElement;
-
-  function updateSnap(){
-    const autoTop = autoEl.getBoundingClientRect().top;
-    const iaBot   = iaEl.getBoundingClientRect().bottom;
-    // Zona activa: s-auto ya cruzó el top del viewport (top <= 0)
-    // Y s-ia todavía no salió completamente por arriba (bottom > 0)
-    const inZone = autoTop <= 0 && iaBot > 0;
-    htmlEl.classList.toggle('snap-on', inZone);
-  }
-
-  // Escuchar scroll con throttle mínimo para no bloquear el hilo
-  let ticking = false;
-  window.addEventListener('scroll', ()=>{
-    if(!ticking){
-      requestAnimationFrame(()=>{ updateSnap(); ticking=false; });
-      ticking=true;
-    }
-  }, {passive:true});
-
-  // Chequeo inicial por si la página carga con scroll parcial
-  updateSnap();
-}
+// Se ha eliminado todo el bloque de lógica JS que forzaba el scroll-snap en móvil. 
+// Ahora el CSS (html { scroll-snap-type... }) lo gestiona de forma nativa a 60 FPS.
 </script>
 </body>
 </html>
