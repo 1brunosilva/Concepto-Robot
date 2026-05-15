@@ -118,7 +118,7 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
 /* El scroll container es html. Solo las 5 secciones de servicio tienen snap. */
 @media(max-width:680px){
   html{
-    scroll-snap-type: y mandatory;
+    scroll-snap-type: y proximity;
   }
   /* Estas 5 secciones se imanan al top */
   #s-auto,
@@ -127,7 +127,6 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
   #s-mkt,
   #s-ia{
     scroll-snap-align: start;
-    scroll-snap-stop: always; /* no saltear secciones en swipe rápido */
   }
   /* Hero, night, proc, cta y footer: scroll completamente libre */
   #s-hero,
