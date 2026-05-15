@@ -115,26 +115,22 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
 }
 
 /* ── CSS SCROLL SNAP — solo mobile ── */
-/* El scroll container es html. Solo las 5 secciones de servicio tienen snap. */
+/*
+  El snap se activa/desactiva con la clase .snap-on en <html>.
+  JS la agrega solo cuando el usuario YA está dentro de la zona de servicios.
+  Afuera de esa zona: scroll completamente libre, sin ninguna fricción.
+*/
 @media(max-width:680px){
-  html{
-    scroll-snap-type: y proximity;
+  html.snap-on{
+    scroll-snap-type: y mandatory;
   }
-  /* Estas 5 secciones se imanan al top */
-  #s-auto,
-  #s-webs,
-  #s-chat,
-  #s-mkt,
-  #s-ia{
+  html.snap-on #s-auto,
+  html.snap-on #s-webs,
+  html.snap-on #s-chat,
+  html.snap-on #s-mkt,
+  html.snap-on #s-ia{
     scroll-snap-align: start;
-  }
-  /* Hero, night, proc, cta y footer: scroll completamente libre */
-  #s-hero,
-  #s-night,
-  #s-proc,
-  #s-cta,
-  footer{
-    scroll-snap-align: none;
+    scroll-snap-stop: always;
   }
 }
 
@@ -651,8 +647,36 @@ window.addEventListener('resize',()=>{
 },{passive:true});
 
 
-// Snap scroll mobile: manejado 100% por CSS scroll-snap (ver estilos).
-// No se necesita JS — el navegador lo resuelve en el hilo de composición.
+// ── SNAP SCROLL DINÁMICO — mobile ────────────────────────────
+// La clase .snap-on en <html> activa el CSS scroll-snap mandatory.
+// Se agrega solo cuando el usuario está dentro de la zona de servicios
+// (entre s-auto y el final de s-ia), garantizando scroll libre en hero y night.
+if(isMob){
+  const autoEl = document.getElementById('s-auto');
+  const iaEl   = document.getElementById('s-ia');
+  const htmlEl = document.documentElement;
+
+  function updateSnap(){
+    const autoTop = autoEl.getBoundingClientRect().top;
+    const iaBot   = iaEl.getBoundingClientRect().bottom;
+    // Zona activa: s-auto ya cruzó el top del viewport (top <= 0)
+    // Y s-ia todavía no salió completamente por arriba (bottom > 0)
+    const inZone = autoTop <= 0 && iaBot > 0;
+    htmlEl.classList.toggle('snap-on', inZone);
+  }
+
+  // Escuchar scroll con throttle mínimo para no bloquear el hilo
+  let ticking = false;
+  window.addEventListener('scroll', ()=>{
+    if(!ticking){
+      requestAnimationFrame(()=>{ updateSnap(); ticking=false; });
+      ticking=true;
+    }
+  }, {passive:true});
+
+  // Chequeo inicial por si la página carga con scroll parcial
+  updateSnap();
+}
 </script>
 </body>
 </html>
