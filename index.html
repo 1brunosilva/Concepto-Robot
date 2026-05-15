@@ -636,7 +636,8 @@ window.addEventListener('resize',()=>{
 },{passive:true});
 // ── SCROLL SNAP (JS) ─────────────────────────────────────────────────────────
 (function(){
-  const secs = Array.from(document.querySelectorAll('section, footer'));
+  const secs = Array.from(document.querySelectorAll('section:not(#s-proc):not(#s-night):not(#s-cta), footer'));
+
   let snapping = false;
 
   function snapTo(el){
