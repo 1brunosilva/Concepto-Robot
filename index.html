@@ -540,39 +540,74 @@ window.addEventListener('resize',()=>{
     if(next!==cur)snapTo(next);
   }
 
+  // Sections that participate in snap (only up to and including #s-ia)
+  const snapSections=['#s-hero','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia'];
+  const SNAP_ACTIVE = SNAP_SECS.filter(el=>snapSections.includes('#'+el.id));
+
+  function isBeyondSnap(){
+    const ia=document.getElementById('s-ia');
+    return ia.getBoundingClientRect().bottom < window.innerHeight*0.5;
+  }
+
+  // Override getNearest to only consider snap sections
+  function getNearestSnap(){
+    let best=SNAP_ACTIVE[0], bestD=Infinity;
+    SNAP_ACTIVE.forEach(el=>{
+      const d=Math.abs(el.getBoundingClientRect().top);
+      if(d<bestD){bestD=d;best=el;}
+    });
+    return {el:best,dist:bestD};
+  }
+
   // WHEEL — debounced, direction determined by accumulated delta
   let wheelAccum=0, wheelTimer=null;
   window.addEventListener('wheel',e=>{
+    if(isBeyondSnap())return; // free scroll after ia section
     e.preventDefault();
     wheelAccum+=e.deltaY;
     clearTimeout(wheelTimer);
     wheelTimer=setTimeout(()=>{
-      if(Math.abs(wheelAccum)>20){ // minimum threshold
-        snapNext(wheelAccum>0?1:-1);
+      if(Math.abs(wheelAccum)>20){
+        const {el:cur}=getNearestSnap();
+        const idx=SNAP_ACTIVE.indexOf(cur);
+        const next=SNAP_ACTIVE[Math.max(0,Math.min(SNAP_ACTIVE.length-1,idx+(wheelAccum>0?1:-1)))];
+        if(next!==cur)snapTo(next);
       }
       wheelAccum=0;
-    },80); // wait 80ms for wheel to settle before deciding direction
+    },80);
   },{passive:false});
 
   // TOUCH — only snap if swipe is intentional (>40px)
   let ty0=0,txTime=0;
   window.addEventListener('touchstart',e=>{ty0=e.touches[0].clientY;txTime=Date.now();},{passive:true});
   window.addEventListener('touchend',e=>{
+    if(isBeyondSnap())return; // free scroll after ia section
     const dy=ty0-e.changedTouches[0].clientY;
     const dt=Date.now()-txTime;
-    // Fast swipe OR long swipe
-    if(Math.abs(dy)>40&&dt<500)snapNext(dy>0?1:-1);
+    if(Math.abs(dy)>40&&dt<500){
+      const {el:cur}=getNearestSnap();
+      const idx=SNAP_ACTIVE.indexOf(cur);
+      const next=SNAP_ACTIVE[Math.max(0,Math.min(SNAP_ACTIVE.length-1,idx+(dy>0?1:-1)))];
+      if(next!==cur)snapTo(next);
+    }
   },{passive:true});
 
   // SCROLL END — snap to nearest if scroll stops between sections
+  // BUT only for sections BEFORE #s-ia
+  const snapBoundary = document.getElementById('s-ia');
+
+  function isBeyondBoundary(){
+    return snapBoundary.getBoundingClientRect().bottom < window.innerHeight * 0.5;
+  }
+
   let scrollEndTimer=null;
   window.addEventListener('scroll',()=>{
     clearTimeout(scrollEndTimer);
     scrollEndTimer=setTimeout(()=>{
-      if(isSnapping)return;
+      if(isSnapping||isBeyondBoundary())return;
       const {dist}=getNearest();
-      if(dist>10)snapTo(getNearest().el); // only snap if not already aligned
-    },150); // wait 150ms after scroll stops
+      if(dist>10)snapTo(getNearest().el);
+    },150);
   },{passive:true});
 })();
 </script>
