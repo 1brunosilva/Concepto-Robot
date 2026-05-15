@@ -415,7 +415,7 @@ function setupSectionObserver(){
 const loader=new THREE.GLTFLoader();
 loader.load(
   // ── ROBOT NUEVO ──
-  'https://raw.githubusercontent.com/1brunosilva/Concepto-Robot/main/MaxBlack-v1.glb',
+  'https://concepto-robot.vercel.app/MaxBlack-v1.glb',
   gltf=>{
     mesh=gltf.scene;
     const box=new THREE.Box3().setFromObject(mesh);
