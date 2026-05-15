@@ -15,12 +15,19 @@
   --mid:#585858;
   --dim:#a0a0a0;
 }
-html{overflow-x:hidden;}
+html{
+  overflow-x:hidden;
+  /* SCROLL SNAP — solo eje Y, mandatory = siempre snappea */
+  scroll-snap-type:y mandatory;
+  overflow-y:scroll;
+  height:100%;
+}
 body{
   background:var(--cream);color:var(--ink);
   font-family:'Inter',system-ui,-apple-system,sans-serif;
   font-weight:300;overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
+  height:100%;
 }
 
 /* CURSOR */
@@ -37,7 +44,7 @@ body{
 .ldr-b{width:0;height:100%;background:var(--ink);animation:la 1.8s ease forwards;}
 @keyframes la{to{width:100%;}}
 
-/* ROBOT CANVAS — fixed, full screen, both desktop and mobile */
+/* ROBOT CANVAS */
 #rc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:8;}
 
 /* NAV */
@@ -55,6 +62,18 @@ nav.bg{background:rgba(245,244,240,.9);backdrop-filter:blur(20px);}
 }
 
 /* ═══════════════════
+   SNAP SECTIONS
+   Todas las secciones que snappean: height 100vh, scroll-snap-align start
+   La sección proceso queda fuera del snap
+═══════════════════ */
+
+/* Secciones que snappean */
+section.snap{
+  scroll-snap-align:start;
+  scroll-snap-stop:always;
+}
+
+/* ═══════════════════
    DESKTOP SECTIONS
 ═══════════════════ */
 @media(min-width:681px){
@@ -68,7 +87,7 @@ nav.bg{background:rgba(245,244,240,.9);backdrop-filter:blur(20px);}
   .srow.flip .scol{direction:ltr;}
   .scol{display:flex;flex-direction:column;}
   .rcol{height:70vh;}
-  #s-proc{min-height:auto;padding:10vh clamp(28px,7vw,100px);display:block;}
+  #s-proc{min-height:auto;padding:10vh clamp(28px,7vw,100px);display:block;scroll-snap-align:none;}
   #s-cta{flex-direction:column;align-items:center;text-align:center;min-height:100vh;padding-top:0;justify-content:center;}
   #s-cta .ctah{text-align:center;max-width:58vw;}
   #s-cta .brow{justify-content:center;}
@@ -110,7 +129,7 @@ nav.bg{background:rgba(245,244,240,.9);backdrop-filter:blur(20px);}
   #s-ia .scol{align-items:flex-end;text-align:right;}
   #s-ia .sub{text-align:right;max-width:100%;}
 
-  #s-proc{min-height:auto;padding:64px 7vw;display:block;}
+  #s-proc{min-height:auto;padding:64px 7vw;display:block;scroll-snap-align:none;}
 
   #s-cta{
     min-height:100vh;justify-content:center;
@@ -134,12 +153,14 @@ nav.bg{background:rgba(245,244,240,.9);backdrop-filter:blur(20px);}
 .lnk:hover{gap:.65rem;}
 .lnk::after{content:'→';}
 
+/* BUTTONS */
 .brow{display:flex;gap:.6rem;margin-top:2rem;flex-wrap:wrap;}
 .btn{display:inline-flex;align-items:center;padding:.7rem 1.65rem;border-radius:100px;font-family:'Inter',sans-serif;font-size:14px;font-weight:400;text-decoration:none;transition:opacity .18s;letter-spacing:-.01em;}
 .btn:hover{opacity:.62;}
 .bd{background:var(--ink);color:var(--cream);}
 .bo{background:transparent;color:var(--ink);border:1px solid rgba(13,13,13,.2);}
 
+/* PROCESS */
 .ptag{font-size:11px;font-weight:500;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;margin-bottom:3rem;display:block;}
 .pg{display:grid;grid-template-columns:repeat(4,1fr);gap:3rem;}
 .pn{font-size:11px;font-weight:500;color:var(--dim);letter-spacing:.1em;margin-bottom:.9rem;display:block;}
@@ -148,9 +169,11 @@ nav.bg{background:rgba(245,244,240,.9);backdrop-filter:blur(20px);}
 @media(max-width:680px){.pg{grid-template-columns:1fr 1fr;gap:1.6rem;}}
 @media(max-width:400px){.pg{grid-template-columns:1fr;}}
 
+/* CTA */
 .ctah{font-size:clamp(38px,6vw,96px);font-weight:600;letter-spacing:-.04em;line-height:.93;}
 .ctap{font-size:clamp(14px,1.1vw,16px);color:var(--mid);max-width:320px;line-height:1.78;margin-top:1.4rem;font-weight:300;}
 
+/* FOOTER */
 footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(13,13,13,.06);z-index:20;position:relative;}
 .fl{font-size:14px;font-weight:500;letter-spacing:-.02em;}
 .fls{display:flex;gap:1.4rem;}
@@ -159,6 +182,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 .fc{font-size:12px;color:var(--dim);}
 @media(max-width:680px){footer{flex-direction:column;gap:.9rem;text-align:center;padding:1.8rem 7vw;}.fls{justify-content:center;flex-wrap:wrap;}}
 
+/* REVEAL */
 .rv{opacity:0;transform:translateY(26px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
 .rv.in{opacity:1;transform:none;}
 .d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.32s;}
@@ -182,7 +206,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   <a href="https://wa.me/59897976574" class="nmb" target="_blank">Hablemos</a>
 </nav>
 
-<section id="s-hero">
+<section id="s-hero" class="snap">
   <div class="srow">
     <div class="scol">
       <span class="tag rv">Concepto Development</span>
@@ -197,7 +221,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
-<section class="svc-sec" id="s-auto">
+<section class="svc-sec snap" id="s-auto">
   <div class="srow flip">
     <div class="scol">
       <span class="tag rv">01 — Automatizaciones</span>
@@ -209,7 +233,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
-<section class="svc-sec" id="s-webs">
+<section class="svc-sec snap" id="s-webs">
   <div class="srow">
     <div class="scol">
       <span class="tag rv">02 — Webs</span>
@@ -221,7 +245,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
-<section class="svc-sec" id="s-chat">
+<section class="svc-sec snap" id="s-chat">
   <div class="srow flip">
     <div class="scol">
       <span class="tag rv">03 — Chatbots</span>
@@ -233,7 +257,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
-<section class="svc-sec" id="s-mkt">
+<section class="svc-sec snap" id="s-mkt">
   <div class="srow">
     <div class="scol">
       <span class="tag rv">04 — Marketing</span>
@@ -245,7 +269,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
-<section class="svc-sec" id="s-ia">
+<section class="svc-sec snap" id="s-ia">
   <div class="srow flip">
     <div class="scol">
       <span class="tag rv">05 — Desarrollo con IA</span>
@@ -257,6 +281,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
+<!-- PROCESO: sin snap, scroll libre -->
 <section id="s-proc">
   <span class="ptag rv">Cómo trabajamos</span>
   <div class="pg">
@@ -267,7 +292,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
-<section id="s-cta">
+<section id="s-cta" class="snap">
   <h2 class="ctah rv">Hablemos de<br><span class="fade">tu proyecto.</span></h2>
   <p class="ctap rv d1">Una llamada de 30 minutos. Sin compromiso. Con un plan concreto al final.</p>
   <div class="brow rv d2">
@@ -305,7 +330,10 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.lef
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('bg',window.scrollY>30),{passive:true});
 
 // REVEAL
-document.querySelectorAll('.rv').forEach(el=>new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.08}).observe(el));
+// Con scroll snap el IntersectionObserver funciona perfecto — cada sección entra de golpe
+document.querySelectorAll('.rv').forEach(el=>new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
+},{threshold:.08}).observe(el));
 
 // THREE.JS SETUP
 const canvas=document.getElementById('rc');
@@ -340,23 +368,23 @@ function applyS(){
 }
 
 const DS=[
-  {x:.30,  y:.05,  sc:1.15, ry:0,         rx:0,    dur:1.2}, 
-  {x:-.30, y:-.10, sc:1.35, ry:.08,       rx:0,    dur:1.1}, 
-  {x:.28,  y:.12,  sc:.85,  ry:-.1,       rx:0,    dur:1.2}, 
-  {x:-.28, y:-.08, sc:1.20, ry:.15,       rx:-.06, dur:1.0}, 
-  {x:.32,  y:.08,  sc:.72,  ry:-.1,       rx:.04,  dur:1.1}, 
-  {x:0,    y:.02,  sc:1.55, ry:Math.PI*2, rx:-.1,  dur:1.4}, 
-  {x:.05,  y:-.30, sc:1.1,  ry:0,         rx:0,    dur:1.1}, 
+  {x:.30,  y:.05,  sc:1.15, ry:0,         rx:0,    dur:1.2},
+  {x:-.30, y:-.10, sc:1.35, ry:.08,       rx:0,    dur:1.1},
+  {x:.28,  y:.12,  sc:.85,  ry:-.1,       rx:0,    dur:1.2},
+  {x:-.28, y:-.08, sc:1.20, ry:.15,       rx:-.06, dur:1.0},
+  {x:.32,  y:.08,  sc:.72,  ry:-.1,       rx:.04,  dur:1.1},
+  {x:0,    y:.02,  sc:1.55, ry:Math.PI*2, rx:-.1,  dur:1.4},
+  {x:.05,  y:-.30, sc:1.1,  ry:0,         rx:0,    dur:1.1},
 ];
 
 const MS=[
-  {x:0,    y:.32,  sc:1.0,  ry:0,         rx:0,    dur:1.2}, 
-  {x:.22,  y:-.36, sc:1.12, ry:.1,        rx:0,    dur:1.1}, 
-  {x:-.20, y:.30,  sc:1.22, ry:-.1,       rx:0,    dur:1.2}, 
-  {x:.20,  y:-.34, sc:.80,  ry:.18,       rx:-.06, dur:1.0}, 
-  {x:-.18, y:.28,  sc:1.15, ry:-.08,      rx:.04,  dur:1.1}, 
-  {x:.16,  y:-.30, sc:1.05, ry:Math.PI*2, rx:-.06, dur:1.4}, 
-  {x:0,    y:-.36, sc:.92,  ry:0,         rx:0,    dur:1.1}, 
+  {x:0,    y:.32,  sc:1.0,  ry:0,         rx:0,    dur:1.2},
+  {x:.22,  y:-.36, sc:1.12, ry:.1,        rx:0,    dur:1.1},
+  {x:-.20, y:.30,  sc:1.22, ry:-.1,       rx:0,    dur:1.2},
+  {x:.20,  y:-.34, sc:.80,  ry:.18,       rx:-.06, dur:1.0},
+  {x:-.18, y:.28,  sc:1.15, ry:-.08,      rx:.04,  dur:1.1},
+  {x:.16,  y:-.30, sc:1.05, ry:Math.PI*2, rx:-.06, dur:1.4},
+  {x:0,    y:-.36, sc:.92,  ry:0,         rx:0,    dur:1.1},
 ];
 
 const STATES = isMob ? MS : DS;
@@ -366,10 +394,28 @@ function goTo(st){
   gsap.to(S,{x:st.x,y:st.y,sc:st.sc,ry:st.ry,rx:st.rx,duration:st.dur,ease:'power3.out',overwrite:'auto',onUpdate:applyS});
 }
 
+// Con scroll snap usamos IntersectionObserver en lugar de ScrollTrigger
+// para detectar qué sección es la activa — más confiable con snap
+function setupSectionObserver(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const idx=SECS.indexOf('#'+entry.target.id);
+        if(idx!==-1&&STATES[idx])goTo(STATES[idx]);
+      }
+    });
+  },{threshold:0.5});
+
+  SECS.forEach(sel=>{
+    const el=document.querySelector(sel);
+    if(el)obs.observe(el);
+  });
+}
+
 const loader=new THREE.GLTFLoader();
-// AQUÍ ESTÁ EL CAMBIO: URL actualizada a Max23.glb (usando raw.githubusercontent)
 loader.load(
-  'https://raw.githubusercontent.com/1brunosilva/Concepto-Robot/main/Max23.glb',
+  // ── ROBOT NUEVO ──
+  'https://raw.githubusercontent.com/1brunosilva/Concepto-Robot/main/MaxBlack-v1.glb',
   gltf=>{
     mesh=gltf.scene;
     const box=new THREE.Box3().setFromObject(mesh);
@@ -379,15 +425,7 @@ loader.load(
     mesh.scale.setScalar(1/Math.max(sz.x,sz.y,sz.z));
     scene.add(mesh);
 
-    SECS.forEach((sel,i)=>{
-      const el=document.querySelector(sel);
-      if(!el||!STATES[i])return;
-      ScrollTrigger.create({
-        trigger:el,start:'top 58%',
-        onEnter:()=>goTo(STATES[i]),
-        onEnterBack:()=>goTo(STATES[i])
-      });
-    });
+    setupSectionObserver();
     goTo(STATES[0]);
     setTimeout(()=>document.getElementById('ldr').classList.add('out'),400);
   },
