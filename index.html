@@ -423,7 +423,7 @@ loader.load(
     const sz=box.getSize(new THREE.Vector3());
     mesh.position.sub(c);
     mesh.scale.setScalar(1/Math.max(sz.x,sz.y,sz.z));
-    mesh.rotation.x = Math.PI / 2; // corrige orientación del modelo
+    
     scene.add(mesh);
 
     setupSectionObserver();
