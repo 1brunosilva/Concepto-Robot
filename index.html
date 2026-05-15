@@ -19,9 +19,7 @@
 /* ── SOLUCIÓN DE RAÍZ AL SCROLL ── */
 html {
   overflow-x: hidden;
-  /* Desactivamos el suavizado nativo para que no choque con GSAP */
   scroll-behavior: auto !important; 
-  /* Activamos el imán de secciones nativo del navegador */
   scroll-snap-type: y proximity;
 }
 
@@ -38,10 +36,8 @@ section {
   scroll-snap-stop: always;
 }
 
-/* Secciones que NO deben tener imán (scroll libre) */
-#s-proc, footer {
-  scroll-snap-align: none;
-}
+/* Secciones libres de snap */
+#s-proc, footer { scroll-snap-align: none; }
 
 /* CURSOR */
 #cd,#cr{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:background .3s,border-color .3s;}
@@ -102,29 +98,54 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
   #s-webs, #s-mkt{justify-content:flex-end;padding-bottom:12vh;padding-top:70px;}
 }
 
-/* TYPOGRAPHY & BUTTONS */
+/* TYPOGRAPHY */
 .tag{font-size:11px;font-weight:500;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;margin-bottom:1.4rem;display:block;}
 .h1{font-size:clamp(40px,6.2vw,94px);font-weight:600;letter-spacing:-.04em;line-height:.93;}
 .h2{font-size:clamp(34px,5vw,76px);font-weight:600;letter-spacing:-.04em;line-height:.93;}
 .fade{color:var(--dim);}
 .sub{font-size:clamp(14px,1.1vw,16px);color:var(--mid);line-height:1.78;max-width:380px;margin-top:1.6rem;font-weight:300;}
-.btn{display:inline-flex;align-items:center;padding:.7rem 1.65rem;border-radius:100px;font-size:14px;text-decoration:none;transition:opacity .18s;}
+.lnk{display:inline-flex;align-items:center;gap:.32rem;margin-top:1.4rem;font-size:13px;color:var(--ink);text-decoration:none;font-weight:400;transition:gap .2s;}
+.lnk:hover{gap:.65rem;}
+.lnk::after{content:'→';}
+
+/* BUTTONS */
+.brow{display:flex;gap:.6rem;margin-top:2rem;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;padding:.7rem 1.65rem;border-radius:100px;font-family:'Inter',sans-serif;font-size:14px;font-weight:400;text-decoration:none;transition:opacity .18s;letter-spacing:-.01em;}
+.btn:hover{opacity:.62;}
 .bd{background:var(--ink);color:var(--cream);}
 .bo{background:transparent;color:var(--ink);border:1px solid rgba(13,13,13,.2);}
 
 /* NIGHT SECTION */
 #s-night{background:#06040f;position:relative;overflow:hidden;}
-.nh{font-size:clamp(36px,4.8vw,72px);font-weight:600;line-height:.93;color:#fff;}
+.night-inner{position:relative;z-index:25;display:flex;align-items:center;gap:clamp(3rem,6vw,8rem);width:100%;}
+.nh{font-size:clamp(36px,4.8vw,72px);font-weight:600;letter-spacing:-.04em;line-height:.93;color:#fff;}
 .nh .na{color:#a855f7;}
-.ncta{display:inline-flex;align-items:center;padding:.72rem 1.75rem;border-radius:100px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;text-decoration:none;margin-top:2rem;}
+.nsub{font-size:clamp(14px,1.1vw,15px);color:rgba(255,255,255,.4);line-height:1.75;max-width:360px;margin-top:1.4rem;font-weight:300;}
+.ncta{display:inline-flex;align-items:center;gap:.5rem;margin-top:2rem;padding:.72rem 1.75rem;border-radius:100px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;font-size:14px;font-weight:400;text-decoration:none;letter-spacing:-.01em;transition:opacity .2s;box-shadow:0 8px 32px rgba(124,58,237,.35);}
+.nstamp{margin-top:1.2rem;font-size:11px;color:rgba(255,255,255,.2);font-weight:300;}
 
 /* CHAT WIDGET */
-.cw{background:#0f1120;border-radius:18px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.6);}
+.cw{background:#0f1120;border-radius:18px;overflow:hidden;box-shadow:0 0 0 1px rgba(124,58,237,.2),0 24px 60px rgba(0,0,0,.6);}
 .cw-body{padding:.9rem;min-height:220px;display:flex;flex-direction:column;gap:.5rem;}
 .cm{max-width:84%;padding:.55rem .8rem;border-radius:13px;font-size:12px;opacity:0;transform:translateY(6px);transition:opacity .35s,transform .35s;}
 .cm.vis{opacity:1;transform:none;}
 .cm.in{background:#1c2035;color:rgba(255,255,255,.75);align-self:flex-start;}
 .cm.out{background:linear-gradient(135deg,#166534,#15803d);color:#fff;align-self:flex-end;}
+
+/* PROCESS */
+.pg{display:grid;grid-template-columns:repeat(4,1fr);gap:3rem;padding-top:2rem;}
+.pt{font-size:clamp(15px,1.3vw,18px);font-weight:500;margin-bottom:.45rem;}
+.pp{font-size:13px;color:var(--mid);line-height:1.75;font-weight:300;}
+@media(max-width:680px){.pg{grid-template-columns:1fr 1fr;gap:1.6rem;}}
+
+/* FOOTER */
+footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(13,13,13,.06);z-index:20;position:relative;background:var(--cream);}
+.fl{font-size:14px;font-weight:500;letter-spacing:-.02em;}
+.fls{display:flex;gap:1.4rem;}
+.fla{font-size:12px;color:var(--dim);text-decoration:none;transition:color .18s;}
+.fla:hover{color:var(--ink);}
+.fc{font-size:12px;color:var(--dim);}
+@media(max-width:680px){footer{flex-direction:column;gap:.9rem;text-align:center;}}
 
 /* REVEAL */
 .rv{opacity:0;transform:translateY(26px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
@@ -170,8 +191,9 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
     <div class="night-text">
       <span class="ntag rv">Chatbots con IA</span>
       <h2 class="nh rv d1">Tu negocio cerró<br>ventas a las<br><span class="na">3:14 AM.</span></h2>
-      <p class="nsub rv d2">Tu chatbot atendió y vendió mientras dormías.</p>
+      <p class="nsub rv d2">Vos dormías. Tu chatbot atendió y confirmó la venta sin intervención humana.</p>
       <a href="https://wa.me/59897976574" class="ncta rv d3" target="_blank">Quiero un chatbot así →</a>
+      <p class="nstamp rv d3">Última actividad: 3:14 AM · ✓</p>
     </div>
     <div class="night-chat-col">
       <div class="cw"><div class="cw-body" id="cwBody"></div></div>
@@ -235,12 +257,12 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
 </section>
 
 <section id="s-proc">
-  <span class="ptag rv">Cómo trabajamos</span>
+  <span class="tag rv">Cómo trabajamos</span>
   <div class="pg">
-    <div class="rv"><span class="pn">01</span><h3 class="pt">Diagnóstico</h3></div>
-    <div class="rv d1"><span class="pn">02</span><h3 class="pt">Diseño</h3></div>
-    <div class="rv d2"><span class="pn">03</span><h3 class="pt">Ejecución</h3></div>
-    <div class="rv d3"><span class="pn">04</span><h3 class="pt">Escala</h3></div>
+    <div class="rv"><h3 class="pt">01. Diagnóstico</h3><p class="pp">Entendemos tu negocio a fondo.</p></div>
+    <div class="rv d1"><h3 class="pt">02. Diseño</h3><p class="pp">Planificamos la solución a medida.</p></div>
+    <div class="rv d2"><h3 class="pt">03. Ejecución</h3><p class="pp">Construimos rápido y con calidad.</p></div>
+    <div class="rv d3"><h3 class="pt">04. Escala</h3><p class="pp">Soporte y optimización constante.</p></div>
   </div>
 </section>
 
@@ -248,6 +270,17 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
   <h2 class="ctah rv">Hablemos de<br><span class="fade">tu proyecto.</span></h2>
   <a href="https://wa.me/59897976574" class="btn bd rv d2" target="_blank">Agendar llamada →</a>
 </section>
+
+<footer>
+  <span class="fl">Concepto Development</span>
+  <div class="fls">
+    <a href="#s-auto" class="fla">Automatizaciones</a>
+    <a href="#s-webs" class="fla">Webs</a>
+    <a href="#s-chat" class="fla">Chatbots</a>
+    <a href="#s-ia" class="fla">IA</a>
+  </div>
+  <span class="fc">© 2025 Montevideo</span>
+</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -309,15 +342,15 @@ function applyS(){
 }
 
 const DS = [
-  {x: .30, y: .05, sc: 1.15, ry: 0, rx: 0, dur: 1.2}, // hero
-  {x: .28, y: .00, sc: 1.45, ry: .12, rx: -.05, dur: 1.3}, // night
-  {x: -.30, y: -.10, sc: 1.35, ry: .08, rx: 0, dur: 1.1}, // auto
-  {x: .28, y: .12, sc: .85, ry: -.10, rx: 0, dur: 1.2}, // webs
-  {x: -.28, y: -.08, sc: 1.20, ry: .15, rx: -.06, dur: 1.0}, // chat
-  {x: .32, y: .08, sc: .72, ry: -.10, rx: .04, dur: 1.1}, // mkt
-  {x: -.22, y: -.05, sc: 1.20, ry: Math.PI*2, rx: -.05, dur: 1.4}, // ia
-  {x: .05, y: -.28, sc: 1.00, ry: 0, rx: 0, dur: 1.0}, // proc
-  {x: .05, y: -.30, sc: 1.10, ry: 0, rx: 0, dur: 1.1} // cta
+  {x: .30, y: .05, sc: 1.15, ry: 0, rx: 0, dur: 1.2},
+  {x: .28, y: .00, sc: 1.45, ry: .12, rx: -.05, dur: 1.3},
+  {x: -.30, y: -.10, sc: 1.35, ry: .08, rx: 0, dur: 1.1},
+  {x: .28, y: .12, sc: .85, ry: -.10, rx: 0, dur: 1.2},
+  {x: -.28, y: -.08, sc: 1.20, ry: .15, rx: -.06, dur: 1.0},
+  {x: .32, y: .08, sc: .72, ry: -.10, rx: .04, dur: 1.1},
+  {x: -.22, y: -.05, sc: 1.20, ry: Math.PI*2, rx: -.05, dur: 1.4},
+  {x: .05, y: -.28, sc: 1.00, ry: 0, rx: 0, dur: 1.0},
+  {x: .05, y: -.30, sc: 1.10, ry: 0, rx: 0, dur: 1.1}
 ];
 
 const MS = [
@@ -347,20 +380,19 @@ loader.load('https://concepto-robot.vercel.app/Prueba1.glb', gltf=>{
   mesh.scale.setScalar(1/Math.max(...box.getSize(new THREE.Vector3()).toArray()));
   scene.add(mesh);
 
-  // REFRESH DE GSAP TRAS CARGAR MODELO
   ScrollTrigger.refresh();
 
   SECS.forEach((sel,i)=>{
     ScrollTrigger.create({
       trigger:sel,
-      start:'top center', // Punto de activación estable
+      start:'top center',
       onEnter:()=>{ 
         goTo(STATES[i]); 
-        if(sel==='#s-night') gsap.to(vl,{intensity:4}); else gsap.to(vl,{intensity:0});
+        if(sel==='#s-night') gsap.to(vl,{intensity:4, duration:0.8}); else gsap.to(vl,{intensity:0, duration:0.8});
       },
       onEnterBack:()=>{ 
         goTo(STATES[i]);
-        if(sel==='#s-night') gsap.to(vl,{intensity:4}); else gsap.to(vl,{intensity:0});
+        if(sel==='#s-night') gsap.to(vl,{intensity:4, duration:0.8}); else gsap.to(vl,{intensity:0, duration:0.8});
       }
     });
   });
@@ -380,6 +412,31 @@ window.addEventListener('resize',()=>{
   camera.aspect=window.innerWidth/window.innerHeight; camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth,window.innerHeight);
 },{passive:true});
+
+// ── CHAT ANIMATION ──
+const msgs=[
+  {t:'in', txt:'Hola! cuánto sale un chatbot?', d:0},
+  {t:'out', txt:'Hola! Arrancamos desde $400. ¿Para qué negocio?', d:2000},
+  {t:'in', txt:'Peluquería, quiero que tome turnos solo', d:4000},
+  {t:'out', txt:'Perfecto! El bot confirma y manda recordatorios 24hs. ¿Demo?', d:6000},
+];
+let chatGoing=false;
+function runChat(){
+  if(chatGoing)return; chatGoing=true;
+  const cwBody=document.getElementById('cwBody');
+  cwBody.innerHTML='';
+  msgs.forEach(m=>{
+    setTimeout(()=>{
+      const el=document.createElement('div');
+      el.className=`cm ${m.t}`;
+      el.innerText=m.txt;
+      cwBody.appendChild(el);
+      setTimeout(()=>el.classList.add('vis'),20);
+    },m.d);
+  });
+  setTimeout(()=>{chatGoing=false; runChat();}, 10000);
+}
+new IntersectionObserver(es=>{if(es[0].isIntersecting)runChat();},{threshold:.25}).observe(nightEl);
 </script>
 </body>
 </html>
