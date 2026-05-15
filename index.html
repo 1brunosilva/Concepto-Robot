@@ -112,12 +112,31 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
   #s-cta .ctap{max-width:100%;text-align:center;}
   #s-cta .brow{justify-content:center;}
 
-  /* ── CSS SCROLL SNAP — solo mobile ── */
-  /* El wrapper del snap es el body/html; las secciones snappables son las de servicio */
-  html,body{scroll-snap-type:none;} /* el snap lo maneja JS con scrollIntoView, CSS snap solo en snap-zone */
+}
 
-  /* Alternativa: aplicar snap container en un wrapper específico si se prefiere CSS puro */
-  /* Por ahora mantenemos la lógica JS mejorada del original + correcciones */
+/* ── CSS SCROLL SNAP — solo mobile ── */
+/* El scroll container es html. Solo las 5 secciones de servicio tienen snap. */
+@media(max-width:680px){
+  html{
+    scroll-snap-type: y mandatory;
+  }
+  /* Estas 5 secciones se imanan al top */
+  #s-auto,
+  #s-webs,
+  #s-chat,
+  #s-mkt,
+  #s-ia{
+    scroll-snap-align: start;
+    scroll-snap-stop: always; /* no saltear secciones en swipe rápido */
+  }
+  /* Hero, night, proc, cta y footer: scroll completamente libre */
+  #s-hero,
+  #s-night,
+  #s-proc,
+  #s-cta,
+  footer{
+    scroll-snap-align: none;
+  }
 }
 
 /* ═══ TYPOGRAPHY ═══ */
@@ -633,67 +652,8 @@ window.addEventListener('resize',()=>{
 },{passive:true});
 
 
-// ── SNAP SCROLL — mobile ─────────────────────────────────────
-if(isMob){
-  (function(){
-    const SNAP_IDS=['s-auto','s-webs','s-chat','s-mkt','s-ia'];
-    const SNAP_ELS=SNAP_IDS.map(id=>document.getElementById(id));
-
-    let isSnapping=false;
-    let lastSnap=0;
-    const COOLDOWN=900;
-    const MIN_DIST=30;
-    const MIN_VEL=0.25;
-
-    function inSnapZone(){
-      // s-auto tiene que estar ya en pantalla (top ≤ 0, es decir se scrolleó hasta ahí)
-      const autoTop=document.getElementById('s-auto').getBoundingClientRect().top;
-      // s-ia tiene que seguir visible (su top todavía está dentro del viewport)
-      const iaTop=document.getElementById('s-ia').getBoundingClientRect().top;
-      // Activo solo cuando el usuario YA pasó el hero/night y todavía no pasó s-ia completo
-      return autoTop<=0&&iaTop<=window.innerHeight;
-    }
-
-    function getNearest(){
-      let best=SNAP_ELS[0],bestD=Infinity;
-      SNAP_ELS.forEach(el=>{
-        const d=Math.abs(el.getBoundingClientRect().top);
-        if(d<bestD){bestD=d;best=el;}
-      });
-      return{el:best,dist:bestD};
-    }
-
-    function snapTo(el){
-      const now=Date.now();
-      if(isSnapping||now-lastSnap<COOLDOWN)return;
-      isSnapping=true;
-      lastSnap=now;
-      el.scrollIntoView({behavior:'smooth',block:'start'});
-      setTimeout(()=>{isSnapping=false;},COOLDOWN);
-    }
-
-    let ty0=0,ty1=0,tStart=0;
-    window.addEventListener('touchstart',e=>{ty0=e.touches[0].clientY;ty1=ty0;tStart=Date.now();},{passive:true});
-    window.addEventListener('touchmove',e=>{ty1=e.touches[0].clientY;},{passive:true});
-    window.addEventListener('touchend',()=>{
-      if(!inSnapZone())return;
-      const dy=ty0-ty1;
-      const dt=Date.now()-tStart;
-      const vel=Math.abs(dy)/Math.max(dt,1);
-      if(Math.abs(dy)<MIN_DIST&&vel<MIN_VEL)return;
-      const dir=dy>0?1:-1;
-      const{el:nearest,dist}=getNearest();
-      const idx=SNAP_ELS.indexOf(nearest);
-      let target;
-      if(dist<window.innerHeight*.15){
-        target=SNAP_ELS[Math.max(0,Math.min(SNAP_ELS.length-1,idx+dir))];
-      } else {
-        target=nearest;
-      }
-      snapTo(target);
-    },{passive:true});
-  })();
-}
+// Snap scroll mobile: manejado 100% por CSS scroll-snap (ver estilos).
+// No se necesita JS — el navegador lo resuelve en el hilo de composición.
 </script>
 </body>
 </html>
