@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -26,18 +25,18 @@ body{
 
 /* CURSOR */
 #cd,#cr{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:background .3s,border-color .3s;}
-#cd{width:5px;height:5px;background:var(–ink);}
+#cd{width:5px;height:5px;background:var(--ink);}
 #cr{width:28px;height:28px;border:1px solid rgba(13,13,13,.22);}
 #cd.vlt{background:#a855f7;}
 #cr.vlt{border-color:rgba(168,85,247,.6);}
 @media(hover:none){#cd,#cr{display:none;}}
 
 /* LOADER */
-#ldr{position:fixed;inset:0;background:var(–cream);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:8000;transition:opacity .6s;}
+#ldr{position:fixed;inset:0;background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:8000;transition:opacity .6s;}
 #ldr.out{opacity:0;pointer-events:none;}
 .ldr-logo{font-size:15px;font-weight:500;letter-spacing:-.02em;margin-bottom:1.8rem;}
 .ldr-t{width:80px;height:1px;background:rgba(13,13,13,.1);overflow:hidden;}
-.ldr-b{width:0;height:100%;background:var(–ink);animation:la 1.8s ease forwards;}
+.ldr-b{width:0;height:100%;background:var(--ink);animation:la 1.8s ease forwards;}
 @keyframes la{to{width:100%;}}
 
 /* ROBOT CANVAS */
@@ -51,92 +50,107 @@ nav.dk .nl{color:#fff;}
 nav.dk .nlink{color:rgba(255,255,255,.45);}
 nav.dk .nlink:hover{color:#fff;}
 nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
-.nl{font-size:15px;font-weight:500;letter-spacing:-.025em;color:var(–ink);text-decoration:none;transition:color .3s;}
+.nl{font-size:15px;font-weight:500;letter-spacing:-.025em;color:var(--ink);text-decoration:none;transition:color .3s;}
 .nlinks{display:flex;gap:2rem;align-items:center;}
-.nlink{font-size:13px;color:var(–mid);text-decoration:none;font-weight:400;transition:color .18s;}
-.nlink:hover{color:var(–ink);}
-.nbtn{padding:.48rem 1.2rem;border-radius:100px;background:var(–ink);color:var(–cream);font-size:13px;font-weight:400;text-decoration:none;transition:background .3s,color .3s;}
+.nlink{font-size:13px;color:var(--mid);text-decoration:none;font-weight:400;transition:color .18s;}
+.nlink:hover{color:var(--ink);}
+.nbtn{padding:.48rem 1.2rem;border-radius:100px;background:var(--ink);color:var(--cream);font-size:13px;font-weight:400;text-decoration:none;transition:background .3s,color .3s;}
 .nmb{display:none;}
 @media(max-width:680px){
-.nlinks{display:none;}
-.nmb{display:inline-flex;padding:.42rem 1rem;border-radius:100px;background:var(–ink);color:var(–cream);font-size:12px;font-weight:400;text-decoration:none;transition:background .3s,color .3s;}
+  .nlinks{display:none;}
+  .nmb{display:inline-flex;padding:.42rem 1rem;border-radius:100px;background:var(--ink);color:var(--cream);font-size:12px;font-weight:400;text-decoration:none;transition:background .3s,color .3s;}
 }
 
 /* ═══ DESKTOP SECTIONS ═══ */
 @media(min-width:681px){
-section{position:relative;min-height:100vh;display:flex;align-items:center;padding:0 clamp(28px,7vw,100px);z-index:20;}
-.srow{display:grid;grid-template-columns:1fr 1fr;width:100%;align-items:center;gap:4vw;}
-.srow.flip{direction:rtl;}
-.srow.flip .scol{direction:ltr;}
-.scol{display:flex;flex-direction:column;}
-.rcol{height:70vh;}
-#s-proc{min-height:auto;padding:10vh clamp(28px,7vw,100px);display:block;}
-#s-night{min-height:100vh;display:flex;align-items:center;padding:0 clamp(28px,7vw,100px);}
-#s-cta{flex-direction:column;align-items:center;text-align:center;min-height:100vh;padding-top:0;justify-content:center;}
-#s-cta .ctah{text-align:center;max-width:58vw;}
-#s-cta .brow{justify-content:center;}
+  section{position:relative;min-height:100vh;display:flex;align-items:center;padding:0 clamp(28px,7vw,100px);z-index:20;}
+  .srow{display:grid;grid-template-columns:1fr 1fr;width:100%;align-items:center;gap:4vw;}
+  .srow.flip{direction:rtl;}
+  .srow.flip .scol{direction:ltr;}
+  .scol{display:flex;flex-direction:column;}
+  .rcol{height:70vh;}
+  #s-proc{min-height:auto;padding:10vh clamp(28px,7vw,100px);display:block;}
+  #s-night{min-height:100vh;display:flex;align-items:center;padding:0 clamp(28px,7vw,100px);}
+  #s-cta{flex-direction:column;align-items:center;text-align:center;min-height:100vh;padding-top:0;justify-content:center;}
+  #s-cta .ctah{text-align:center;max-width:58vw;}
+  #s-cta .brow{justify-content:center;}
 }
 
 /* ═══ MOBILE SECTIONS ═══ */
 @media(max-width:680px){
-section{position:relative;min-height:100vh;display:flex;flex-direction:column;padding:0 7vw;z-index:20;}
-.srow{display:block;direction:ltr !important;}
-.rcol{display:none;}
-#s-hero{justify-content:flex-end;padding-bottom:14vh;padding-top:70px;}
-#s-hero .scol{align-items:center;text-align:center;}
-#s-hero .sub{max-width:100%;text-align:center;}
-#s-hero .brow{justify-content:center;}
-#s-auto{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
-#s-auto .scol{align-items:flex-start;text-align:left;}
-#s-webs{justify-content:flex-end;padding-bottom:12vh;padding-top:70px;}
-#s-webs .scol{align-items:flex-end;text-align:right;}
-#s-webs .sub{text-align:right;max-width:100%;}
-#s-chat{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
-#s-chat .scol{align-items:flex-start;text-align:left;}
-#s-mkt{justify-content:flex-end;padding-bottom:12vh;padding-top:70px;}
-#s-mkt .scol{align-items:flex-start;text-align:left;}
-#s-ia{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
-#s-ia .scol{align-items:flex-end;text-align:right;}
-#s-ia .sub{text-align:right;max-width:100%;}
-#s-proc{min-height:auto;padding:64px 7vw;display:block;}
-#s-night{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:80px 7vw;}
-#s-cta{min-height:100vh;justify-content:center;padding-top:0;padding-bottom:0;flex-direction:column;align-items:center;text-align:center;}
-#s-cta .ctah{text-align:center;max-width:100%;font-size:clamp(34px,11vw,52px);}
-#s-cta .ctap{max-width:100%;text-align:center;}
-#s-cta .brow{justify-content:center;}
+  section{position:relative;min-height:100vh;display:flex;flex-direction:column;padding:0 7vw;z-index:20;}
+  .srow{display:block;direction:ltr !important;}
+  .rcol{display:none;}
+
+  /* hero */
+  #s-hero{justify-content:flex-end;padding-bottom:14vh;padding-top:70px;}
+  #s-hero .scol{align-items:center;text-align:center;}
+  #s-hero .sub{max-width:100%;text-align:center;}
+  #s-hero .brow{justify-content:center;}
+
+  /* night — justo debajo del hero, scroll libre */
+  #s-night{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:80px 7vw;}
+
+  /* auto */
+  #s-auto{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
+  #s-auto .scol{align-items:flex-start;text-align:left;}
+
+  /* webs */
+  #s-webs{justify-content:flex-end;padding-bottom:12vh;padding-top:70px;}
+  #s-webs .scol{align-items:flex-end;text-align:right;}
+  #s-webs .sub{text-align:right;max-width:100%;}
+
+  /* chat */
+  #s-chat{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
+  #s-chat .scol{align-items:flex-start;text-align:left;}
+
+  /* mkt */
+  #s-mkt{justify-content:flex-end;padding-bottom:12vh;padding-top:70px;}
+  #s-mkt .scol{align-items:flex-start;text-align:left;}
+
+  /* ia */
+  #s-ia{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
+  #s-ia .scol{align-items:flex-end;text-align:right;}
+  #s-ia .sub{text-align:right;max-width:100%;}
+
+  #s-proc{min-height:auto;padding:64px 7vw;display:block;}
+  #s-cta{min-height:100vh;justify-content:center;padding-top:0;padding-bottom:0;flex-direction:column;align-items:center;text-align:center;}
+  #s-cta .ctah{text-align:center;max-width:100%;font-size:clamp(34px,11vw,52px);}
+  #s-cta .ctap{max-width:100%;text-align:center;}
+  #s-cta .brow{justify-content:center;}
 }
 
 /* ═══ TYPOGRAPHY ═══ */
-.tag{font-size:11px;font-weight:500;letter-spacing:.16em;color:var(–dim);text-transform:uppercase;margin-bottom:1.4rem;display:block;}
+.tag{font-size:11px;font-weight:500;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;margin-bottom:1.4rem;display:block;}
 .h1{font-size:clamp(40px,6.2vw,94px);font-weight:600;letter-spacing:-.04em;line-height:.93;}
 .h2{font-size:clamp(34px,5vw,76px);font-weight:600;letter-spacing:-.04em;line-height:.93;}
-.fade{color:var(–dim);}
-.sub{font-size:clamp(14px,1.1vw,16px);color:var(–mid);line-height:1.78;max-width:380px;margin-top:1.6rem;font-weight:300;}
+.fade{color:var(--dim);}
+.sub{font-size:clamp(14px,1.1vw,16px);color:var(--mid);line-height:1.78;max-width:380px;margin-top:1.6rem;font-weight:300;}
 @media(max-width:680px){.sub{font-size:14px;max-width:100%;}.sub.mob-hide{display:none;}}
-.lnk{display:inline-flex;align-items:center;gap:.32rem;margin-top:1.4rem;font-size:13px;color:var(–ink);text-decoration:none;font-weight:400;transition:gap .2s;}
+.lnk{display:inline-flex;align-items:center;gap:.32rem;margin-top:1.4rem;font-size:13px;color:var(--ink);text-decoration:none;font-weight:400;transition:gap .2s;}
 .lnk:hover{gap:.65rem;}
-.lnk::after{content:‘→’;}
+.lnk::after{content:'→';}
 
 /* BUTTONS */
 .brow{display:flex;gap:.6rem;margin-top:2rem;flex-wrap:wrap;}
-.btn{display:inline-flex;align-items:center;padding:.7rem 1.65rem;border-radius:100px;font-family:‘Inter’,sans-serif;font-size:14px;font-weight:400;text-decoration:none;transition:opacity .18s;letter-spacing:-.01em;}
+.btn{display:inline-flex;align-items:center;padding:.7rem 1.65rem;border-radius:100px;font-family:'Inter',sans-serif;font-size:14px;font-weight:400;text-decoration:none;transition:opacity .18s;letter-spacing:-.01em;}
 .btn:hover{opacity:.62;}
-.bd{background:var(–ink);color:var(–cream);}
-.bo{background:transparent;color:var(–ink);border:1px solid rgba(13,13,13,.2);}
+.bd{background:var(--ink);color:var(--cream);}
+.bo{background:transparent;color:var(--ink);border:1px solid rgba(13,13,13,.2);}
 
 /* PROCESS */
-.ptag{font-size:11px;font-weight:500;letter-spacing:.16em;color:var(–dim);text-transform:uppercase;margin-bottom:3rem;display:block;}
+.ptag{font-size:11px;font-weight:500;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;margin-bottom:3rem;display:block;}
 .pg{display:grid;grid-template-columns:repeat(4,1fr);gap:3rem;}
-.pn{font-size:11px;font-weight:500;color:var(–dim);letter-spacing:.1em;margin-bottom:.9rem;display:block;}
+.pn{font-size:11px;font-weight:500;color:var(--dim);letter-spacing:.1em;margin-bottom:.9rem;display:block;}
 .pt{font-size:clamp(15px,1.3vw,18px);font-weight:500;letter-spacing:-.02em;margin-bottom:.45rem;}
-.pp{font-size:13px;color:var(–mid);line-height:1.75;font-weight:300;}
+.pp{font-size:13px;color:var(--mid);line-height:1.75;font-weight:300;}
 @media(max-width:680px){.pg{grid-template-columns:1fr 1fr;gap:1.6rem;}}
 @media(max-width:400px){.pg{grid-template-columns:1fr;}}
 
 /* ═══ NIGHT SECTION ═══ */
 #s-night{background:#06040f;position:relative;overflow:hidden;}
-#s-night::before{content:’’;position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(124,58,237,.2) 0%,transparent 70%);top:-150px;right:-100px;pointer-events:none;z-index:0;}
-#s-night::after{content:’’;position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(168,85,247,.1) 0%,transparent 70%);bottom:0;left:0;pointer-events:none;z-index:0;}
+#s-night::before{content:'';position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(124,58,237,.2) 0%,transparent 70%);top:-150px;right:-100px;pointer-events:none;z-index:0;}
+#s-night::after{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(168,85,247,.1) 0%,transparent 70%);bottom:0;left:0;pointer-events:none;z-index:0;}
 .night-inner{position:relative;z-index:25;display:flex;align-items:center;gap:clamp(3rem,6vw,8rem);width:100%;}
 @media(max-width:680px){.night-inner{flex-direction:column;gap:2rem;}.night-chat-col{order:-1;width:100%;}}
 .night-text{flex:1;}
@@ -177,15 +191,15 @@ section{position:relative;min-height:100vh;display:flex;flex-direction:column;pa
 
 /* CTA */
 .ctah{font-size:clamp(38px,6vw,96px);font-weight:600;letter-spacing:-.04em;line-height:.93;}
-.ctap{font-size:clamp(14px,1.1vw,16px);color:var(–mid);max-width:320px;line-height:1.78;margin-top:1.4rem;font-weight:300;}
+.ctap{font-size:clamp(14px,1.1vw,16px);color:var(--mid);max-width:320px;line-height:1.78;margin-top:1.4rem;font-weight:300;}
 
 /* FOOTER */
-footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(13,13,13,.06);z-index:20;position:relative;background:var(–cream);}
+footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(13,13,13,.06);z-index:20;position:relative;background:var(--cream);}
 .fl{font-size:14px;font-weight:500;letter-spacing:-.02em;}
 .fls{display:flex;gap:1.4rem;}
-.fla{font-size:12px;color:var(–dim);text-decoration:none;transition:color .18s;}
-.fla:hover{color:var(–ink);}
-.fc{font-size:12px;color:var(–dim);}
+.fla{font-size:12px;color:var(--dim);text-decoration:none;transition:color .18s;}
+.fla:hover{color:var(--ink);}
+.fc{font-size:12px;color:var(--dim);}
 @media(max-width:680px){footer{flex-direction:column;gap:.9rem;text-align:center;padding:1.8rem 7vw;}.fls{justify-content:center;flex-wrap:wrap;}}
 
 /* REVEAL */
@@ -193,7 +207,6 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 .rv.in{opacity:1;transform:none;}
 .d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.32s;}
 </style>
-
 </head>
 <body>
 
@@ -213,8 +226,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   <a href="https://wa.me/59897976574" class="nmb" target="_blank">Hablemos</a>
 </nav>
 
-<!-- HERO -->
-
+<!-- 1. HERO -->
 <section id="s-hero">
   <div class="srow">
     <div class="scol">
@@ -230,8 +242,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
-<!-- NIGHT (ahora segunda, justo después del hero) -->
-
+<!-- 2. NIGHT — scroll libre entre hero y aquí -->
 <section id="s-night">
   <div class="night-inner">
     <div class="night-text">
@@ -254,8 +265,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
-<!-- SERVICIOS -->
-
+<!-- 3. AUTOMATIZACIONES — empieza el snap en mobile -->
 <section class="svc-sec" id="s-auto">
   <div class="srow flip">
     <div class="scol">
@@ -268,6 +278,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
+<!-- 4. WEBS -->
 <section class="svc-sec" id="s-webs">
   <div class="srow">
     <div class="scol">
@@ -280,6 +291,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
+<!-- 5. CHATBOTS -->
 <section class="svc-sec" id="s-chat">
   <div class="srow flip">
     <div class="scol">
@@ -292,6 +304,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
+<!-- 6. MARKETING -->
 <section class="svc-sec" id="s-mkt">
   <div class="srow">
     <div class="scol">
@@ -304,6 +317,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
+<!-- 7. IA — último snap en mobile -->
 <section class="svc-sec" id="s-ia">
   <div class="srow flip">
     <div class="scol">
@@ -316,6 +330,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
+<!-- 8. PROCESO — scroll libre -->
 <section id="s-proc">
   <span class="ptag rv">Cómo trabajamos</span>
   <div class="pg">
@@ -326,6 +341,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
+<!-- 9. CTA -->
 <section id="s-cta">
   <h2 class="ctah rv">Hablemos de<br><span class="fade">tu proyecto.</span></h2>
   <p class="ctap rv d1">30 minutos. Sin compromiso. Con un plan concreto al final.</p>
@@ -346,13 +362,9 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
 <script>
 gsap.registerPlugin(ScrollTrigger);
 const isMob = window.innerWidth <= 680;
@@ -450,37 +462,89 @@ function applyS(){
   mesh.rotation.y=S.ry+S.idle;
   mesh.rotation.x=S.rx;
 }
-// Nuevo orden: hero(0), night(1), auto(2), webs(3), chat(4), mkt(5), ia(6), proc(7), cta(8)
-// Posiciones originales reasignadas: night toma su slot original (idx7), resto se mantiene en su sección
-const DS=[
-  {x:.30,  y:.05,  sc:1.15, ry:0,         rx:0,    dur:1.2}, // 0 hero
-  {x:-.22, y:-.05, sc:1.2,  ry:.25,       rx:-.05, dur:1.3}, // 1 night (era idx7)
-  {x:-.30, y:-.10, sc:1.35, ry:.08,       rx:0,    dur:1.1}, // 2 auto
-  {x:.28,  y:.12,  sc:.85,  ry:-.1,       rx:0,    dur:1.2}, // 3 webs
-  {x:-.28, y:-.08, sc:1.20, ry:.15,       rx:-.06, dur:1.0}, // 4 chat
-  {x:.32,  y:.08,  sc:.72,  ry:-.1,       rx:.04,  dur:1.1}, // 5 mkt
-  {x:0,    y:.02,  sc:1.55, ry:Math.PI*2, rx:-.1,  dur:1.4}, // 6 ia
-  {x:.05,  y:-.28, sc:1.0,  ry:0,         rx:0,    dur:1.0}, // 7 proc
-  {x:.05,  y:-.30, sc:1.1,  ry:0,         rx:0,    dur:1.1}, // 8 cta
-];
-const MS=[
-  {x:0,    y:.32,  sc:1.0,  ry:0,         rx:0,    dur:1.2}, // 0 hero
-  {x:0,    y:.28,  sc:1.05, ry:.1,        rx:-.04, dur:1.3}, // 1 night (era idx7)
-  {x:.22,  y:-.36, sc:1.12, ry:.1,        rx:0,    dur:1.1}, // 2 auto
-  {x:-.20, y:.30,  sc:1.22, ry:-.1,       rx:0,    dur:1.2}, // 3 webs
-  {x:.20,  y:-.34, sc:.80,  ry:.18,       rx:-.06, dur:1.0}, // 4 chat
-  {x:-.18, y:.28,  sc:1.15, ry:-.08,      rx:.04,  dur:1.1}, // 5 mkt
-  {x:.16,  y:-.30, sc:1.05, ry:Math.PI*2, rx:-.06, dur:1.4}, // 6 ia
-  {x:0,    y:.20,  sc:.90,  ry:0,         rx:0,    dur:1.0}, // 7 proc
-  {x:0,    y:-.36, sc:.92,  ry:0,         rx:0,    dur:1.1}, // 8 cta
-];
-const STATES=isMob?MS:DS;
-// Orden actualizado: hero, night, auto, webs, chat, mkt, ia, proc, cta
-const SECS=['#s-hero','#s-night','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia','#s-proc','#s-cta'];
 
-function enterNight(){gsap.to(ambLight,{intensity:.5,duration:1.1});gsap.to(kl,{intensity:.9,duration:1.1});gsap.to(vl,{intensity:4,duration:1.1});}
-function exitNight(){gsap.to(ambLight,{intensity:1.5,duration:1.0});gsap.to(kl,{intensity:2.6,duration:1.0});gsap.to(vl,{intensity:0,duration:1.0});}
-function goTo(st){gsap.to(S,{x:st.x,y:st.y,sc:st.sc,ry:st.ry,rx:st.rx,duration:st.dur,ease:'power3.out',overwrite:'auto',onUpdate:applyS});}
+// ─────────────────────────────────────────────────────────────
+// NUEVO ORDEN DE SECCIONES:
+//   0  s-hero    1  s-night   2  s-auto    3  s-webs
+//   4  s-chat    5  s-mkt     6  s-ia      7  s-proc   8  s-cta
+//
+// DS: robot en el lado DERECHO de la pantalla cuando el texto
+//     está a la izquierda, e IZQUIERDO cuando está a la derecha
+//     (.flip). Night: robot centrado-derecha, apagado de luces
+//     blancas + PointLight púrpura.
+// ─────────────────────────────────────────────────────────────
+
+const DS = [
+  // 0  s-hero   — texto izq → robot derecha
+  {x: .30,  y: .05,  sc: 1.15, ry:  0,         rx:  0,    dur: 1.2},
+  // 1  s-night  — texto izq, robot derecha, ambiente oscuro
+  {x: .28,  y: .00,  sc: 1.45, ry:  .12,       rx: -.05,  dur: 1.3},
+  // 2  s-auto   — texto derecha (.flip) → robot izquierda
+  {x:-.30,  y:-.10,  sc: 1.35, ry:  .08,       rx:  0,    dur: 1.1},
+  // 3  s-webs   — texto izq → robot derecha
+  {x: .28,  y: .12,  sc:  .85, ry: -.10,       rx:  0,    dur: 1.2},
+  // 4  s-chat   — texto derecha (.flip) → robot izquierda
+  {x:-.28,  y:-.08,  sc: 1.20, ry:  .15,       rx: -.06,  dur: 1.0},
+  // 5  s-mkt    — texto izq → robot derecha
+  {x: .32,  y: .08,  sc:  .72, ry: -.10,       rx:  .04,  dur: 1.1},
+  // 6  s-ia     — texto derecha (.flip) → robot izquierda, spin
+  {x:-.22,  y:-.05,  sc: 1.20, ry: Math.PI*2,  rx: -.05,  dur: 1.4},
+  // 7  s-proc   — centrado, pequeño, discreto
+  {x: .05,  y:-.28,  sc: 1.00, ry:  0,         rx:  0,    dur: 1.0},
+  // 8  s-cta    — centrado, grande
+  {x: .05,  y:-.30,  sc: 1.10, ry:  0,         rx:  0,    dur: 1.1},
+];
+
+const MS = [
+  // 0  s-hero
+  {x:  0,   y: .32,  sc: 1.00, ry:  0,         rx:  0,    dur: 1.2},
+  // 1  s-night
+  {x:  0,   y: .28,  sc: 1.15, ry:  .10,       rx: -.04,  dur: 1.2},
+  // 2  s-auto
+  {x: .22,  y:-.36,  sc: 1.12, ry:  .10,       rx:  0,    dur: 1.1},
+  // 3  s-webs
+  {x:-.20,  y: .30,  sc: 1.22, ry: -.10,       rx:  0,    dur: 1.2},
+  // 4  s-chat
+  {x: .20,  y:-.34,  sc:  .80, ry:  .18,       rx: -.06,  dur: 1.0},
+  // 5  s-mkt
+  {x:-.18,  y: .28,  sc: 1.15, ry: -.08,       rx:  .04,  dur: 1.1},
+  // 6  s-ia
+  {x: .16,  y:-.30,  sc: 1.05, ry: Math.PI*2,  rx: -.06,  dur: 1.4},
+  // 7  s-proc
+  {x:  0,   y: .20,  sc:  .90, ry:  0,         rx:  0,    dur: 1.0},
+  // 8  s-cta
+  {x:  0,   y:-.36,  sc:  .92, ry:  0,         rx:  0,    dur: 1.1},
+];
+
+const STATES = isMob ? MS : DS;
+
+// Orden DOM exacto
+const SECS = [
+  '#s-hero',
+  '#s-night',
+  '#s-auto',
+  '#s-webs',
+  '#s-chat',
+  '#s-mkt',
+  '#s-ia',
+  '#s-proc',
+  '#s-cta',
+];
+
+function enterNight(){
+  gsap.to(ambLight,{intensity:.5,duration:1.1});
+  gsap.to(kl,{intensity:.9,duration:1.1});
+  gsap.to(vl,{intensity:4,duration:1.1});
+}
+function exitNight(){
+  gsap.to(ambLight,{intensity:1.5,duration:1.0});
+  gsap.to(kl,{intensity:2.6,duration:1.0});
+  gsap.to(vl,{intensity:0,duration:1.0});
+}
+function goTo(st){
+  gsap.to(S,{x:st.x,y:st.y,sc:st.sc,ry:st.ry,rx:st.rx,
+    duration:st.dur,ease:'power3.out',overwrite:'auto',onUpdate:applyS});
+}
 
 const loader=new THREE.GLTFLoader();
 loader.load(
@@ -493,15 +557,24 @@ loader.load(
     mesh.position.sub(c);
     mesh.scale.setScalar(1/Math.max(sz.x,sz.y,sz.z));
     scene.add(mesh);
+
     SECS.forEach((sel,i)=>{
       const el=document.querySelector(sel);
       if(!el||!STATES[i])return;
       ScrollTrigger.create({
-        trigger:el,start:'top 58%',
-        onEnter:()=>{goTo(STATES[i]);if(sel==='#s-night')enterNight();else exitNight();},
-        onEnterBack:()=>{goTo(STATES[i]);if(sel==='#s-night')enterNight();else exitNight();}
+        trigger:el,
+        start:'top 58%',
+        onEnter:()=>{
+          goTo(STATES[i]);
+          if(sel==='#s-night') enterNight(); else exitNight();
+        },
+        onEnterBack:()=>{
+          goTo(STATES[i]);
+          if(sel==='#s-night') enterNight(); else exitNight();
+        }
       });
     });
+
     goTo(STATES[0]);
     setTimeout(()=>document.getElementById('ldr').classList.add('out'),400);
   },
@@ -512,8 +585,8 @@ setTimeout(()=>document.getElementById('ldr').classList.add('out'),3500);
 
 (function loop(){
   requestAnimationFrame(loop);
-  idleT+=.012;S.idle+=.018;
-  if(mesh)applyS();
+  idleT+=.012; S.idle+=.018;
+  if(mesh) applyS();
   renderer.render(scene,camera);
 })();
 
@@ -523,95 +596,102 @@ window.addEventListener('resize',()=>{
   renderer.setSize(window.innerWidth,window.innerHeight);
 },{passive:true});
 
-// ── SCROLL SNAP ──────────────────────────────────────────────────
-// Solo activo en mobile (≤680px). En desktop nunca.
-(function(){
-  if(window.innerWidth > 680) return; // DESKTOP: snap desactivado totalmente
 
-  // Secciones que participan en snap: solo s-auto en adelante hasta s-mkt
-  // Excluido: el tramo hero→night (libre) y desde s-ia en adelante (libre)
-  const snapSections=['#s-auto','#s-webs','#s-chat','#s-mkt'];
-  const ALL_SECS = Array.from(document.querySelectorAll('section'));
-  const SNAP_ACTIVE = ALL_SECS.filter(el => snapSections.includes('#'+el.id));
+// ── SNAP SCROLL ── solo mobile ────────────────────────────────
+// Reglas:
+//   • Solo se activa en mobile (≤680px). En desktop: nada.
+//   • Secciones con snap: s-auto → s-ia  (hero y night quedan fuera)
+//   • Desde s-ia hacia abajo: scroll libre
+// ─────────────────────────────────────────────────────────────
+if(isMob){
+  (function(){
+    const SNAP_IDS = ['s-auto','s-webs','s-chat','s-mkt','s-ia'];
+    const SNAP_ELS = SNAP_IDS.map(id=>document.getElementById(id));
 
-  let isSnapping = false;
-  let lastSnapTime = 0;
-  const COOLDOWN = 800;
+    let isSnapping = false;
+    let lastSnapTime = 0;
+    const COOLDOWN = 800;
 
-  function snapTo(el){
-    const now=Date.now();
-    if(isSnapping||now-lastSnapTime<COOLDOWN)return;
-    isSnapping=true;
-    lastSnapTime=now;
-    el.scrollIntoView({behavior:'smooth',block:'start'});
-    setTimeout(()=>{isSnapping=false;},COOLDOWN);
-  }
-
-  function getNearestSnap(){
-    let best=SNAP_ACTIVE[0], bestD=Infinity;
-    SNAP_ACTIVE.forEach(el=>{
-      const d=Math.abs(el.getBoundingClientRect().top);
-      if(d<bestD){bestD=d;best=el;}
-    });
-    return {el:best,dist:bestD};
-  }
-
-  // ¿El scroll actual está dentro de la zona de snap?
-  function inSnapZone(){
-    const first = document.getElementById('s-auto');
-    const last  = document.getElementById('s-mkt');
-    if(!first||!last) return false;
-    const topOfFirst = first.getBoundingClientRect().top;
-    const bottomOfLast = last.getBoundingClientRect().bottom;
-    // Estamos en zona si s-auto ya apareció y s-mkt aún no pasó completa
-    return topOfFirst <= window.innerHeight * 0.5 && bottomOfLast > window.innerHeight * 0.5;
-  }
-
-  // WHEEL
-  let wheelAccum=0, wheelTimer=null;
-  window.addEventListener('wheel',e=>{
-    if(!inSnapZone()) return;
-    e.preventDefault();
-    wheelAccum+=e.deltaY;
-    clearTimeout(wheelTimer);
-    wheelTimer=setTimeout(()=>{
-      if(Math.abs(wheelAccum)>20){
-        const {el:cur}=getNearestSnap();
-        const idx=SNAP_ACTIVE.indexOf(cur);
-        const next=SNAP_ACTIVE[Math.max(0,Math.min(SNAP_ACTIVE.length-1,idx+(wheelAccum>0?1:-1)))];
-        if(next!==cur)snapTo(next);
-      }
-      wheelAccum=0;
-    },80);
-  },{passive:false});
-
-  // TOUCH
-  let ty0=0,txTime=0;
-  window.addEventListener('touchstart',e=>{ty0=e.touches[0].clientY;txTime=Date.now();},{passive:true});
-  window.addEventListener('touchend',e=>{
-    if(!inSnapZone()) return;
-    const dy=ty0-e.changedTouches[0].clientY;
-    const dt=Date.now()-txTime;
-    if(Math.abs(dy)>40&&dt<500){
-      const {el:cur}=getNearestSnap();
-      const idx=SNAP_ACTIVE.indexOf(cur);
-      const next=SNAP_ACTIVE[Math.max(0,Math.min(SNAP_ACTIVE.length-1,idx+(dy>0?1:-1)))];
-      if(next!==cur)snapTo(next);
+    // ¿El scroll ya pasó s-ia?
+    function isBeyondSnap(){
+      const ia = document.getElementById('s-ia');
+      return ia.getBoundingClientRect().bottom < window.innerHeight * 0.5;
     }
-  },{passive:true});
 
-  // SCROLL END — snap al más cercano si el scroll se detiene entre secciones
-  let scrollEndTimer=null;
-  window.addEventListener('scroll',()=>{
-    clearTimeout(scrollEndTimer);
-    scrollEndTimer=setTimeout(()=>{
-      if(isSnapping||!inSnapZone())return;
-      const {dist,el}=getNearestSnap();
-      if(dist>10)snapTo(el);
-    },150);
-  },{passive:true});
-})();
+    // ¿El scroll todavía está en hero o night (antes del snap)?
+    function isBeforeSnap(){
+      const auto = document.getElementById('s-auto');
+      return auto.getBoundingClientRect().top > window.innerHeight * 0.5;
+    }
+
+    function getNearestSnap(){
+      let best = SNAP_ELS[0], bestD = Infinity;
+      SNAP_ELS.forEach(el=>{
+        const d = Math.abs(el.getBoundingClientRect().top);
+        if(d < bestD){ bestD = d; best = el; }
+      });
+      return {el: best, dist: bestD};
+    }
+
+    function snapTo(el){
+      const now = Date.now();
+      if(isSnapping || now - lastSnapTime < COOLDOWN) return;
+      isSnapping = true;
+      lastSnapTime = now;
+      el.scrollIntoView({behavior:'smooth', block:'start'});
+      setTimeout(()=>{ isSnapping = false; }, COOLDOWN);
+    }
+
+    // WHEEL (trackpad externo en mobile — raro pero posible)
+    let wheelAccum = 0, wheelTimer = null;
+    window.addEventListener('wheel', e=>{
+      if(isBeyondSnap() || isBeforeSnap()) return;
+      e.preventDefault();
+      wheelAccum += e.deltaY;
+      clearTimeout(wheelTimer);
+      wheelTimer = setTimeout(()=>{
+        if(Math.abs(wheelAccum) > 20){
+          const {el: cur} = getNearestSnap();
+          const idx = SNAP_ELS.indexOf(cur);
+          const next = SNAP_ELS[Math.max(0, Math.min(SNAP_ELS.length-1, idx+(wheelAccum>0?1:-1)))];
+          if(next !== cur) snapTo(next);
+        }
+        wheelAccum = 0;
+      }, 80);
+    },{passive: false});
+
+    // TOUCH
+    let ty0 = 0, txTime = 0;
+    window.addEventListener('touchstart', e=>{
+      ty0 = e.touches[0].clientY;
+      txTime = Date.now();
+    },{passive: true});
+
+    window.addEventListener('touchend', e=>{
+      if(isBeyondSnap() || isBeforeSnap()) return;
+      const dy = ty0 - e.changedTouches[0].clientY;
+      const dt = Date.now() - txTime;
+      if(Math.abs(dy) > 40 && dt < 500){
+        const {el: cur} = getNearestSnap();
+        const idx = SNAP_ELS.indexOf(cur);
+        const next = SNAP_ELS[Math.max(0, Math.min(SNAP_ELS.length-1, idx+(dy>0?1:-1)))];
+        if(next !== cur) snapTo(next);
+      }
+    },{passive: true});
+
+    // SCROLL END — corrige si el scroll queda entre dos secciones snap
+    let scrollEndTimer = null;
+    window.addEventListener('scroll', ()=>{
+      clearTimeout(scrollEndTimer);
+      scrollEndTimer = setTimeout(()=>{
+        if(isSnapping || isBeyondSnap() || isBeforeSnap()) return;
+        const {dist} = getNearestSnap();
+        if(dist > 10) snapTo(getNearestSnap().el);
+      }, 150);
+    },{passive: true});
+
+  })();
+}
 </script>
-
 </body>
 </html>
