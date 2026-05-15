@@ -24,7 +24,7 @@ body{
 }
 
 /* CURSOR */
-#cd,#cr{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:background .3s,border-color .3s,width .3s,height .3s;}
+#cd,#cr{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:background .3s,border-color .3s;}
 #cd{width:5px;height:5px;background:var(--ink);}
 #cr{width:28px;height:28px;border:1px solid rgba(13,13,13,.22);}
 #cd.vlt{background:#a855f7;}
@@ -63,21 +63,14 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
 
 /* ═══ DESKTOP SECTIONS ═══ */
 @media(min-width:681px){
-  section{
-    position:relative;min-height:100vh;
-    display:flex;align-items:center;
-    padding:0 clamp(28px,7vw,100px);z-index:20;
-  }
+  section{position:relative;min-height:100vh;display:flex;align-items:center;padding:0 clamp(28px,7vw,100px);z-index:20;}
   .srow{display:grid;grid-template-columns:1fr 1fr;width:100%;align-items:center;gap:4vw;}
   .srow.flip{direction:rtl;}
   .srow.flip .scol{direction:ltr;}
   .scol{display:flex;flex-direction:column;}
   .rcol{height:70vh;}
   #s-proc{min-height:auto;padding:10vh clamp(28px,7vw,100px);display:block;}
-  #s-night{
-    min-height:100vh;display:flex;align-items:center;
-    padding:0 clamp(28px,7vw,100px);
-  }
+  #s-night{min-height:100vh;display:flex;align-items:center;padding:0 clamp(28px,7vw,100px);}
   #s-cta{flex-direction:column;align-items:center;text-align:center;min-height:100vh;padding-top:0;justify-content:center;}
   #s-cta .ctah{text-align:center;max-width:58vw;}
   #s-cta .brow{justify-content:center;}
@@ -85,11 +78,7 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
 
 /* ═══ MOBILE SECTIONS ═══ */
 @media(max-width:680px){
-  section{
-    position:relative;min-height:100vh;
-    display:flex;flex-direction:column;
-    padding:0 7vw;z-index:20;
-  }
+  section{position:relative;min-height:100vh;display:flex;flex-direction:column;padding:0 7vw;z-index:20;}
   .srow{display:block;direction:ltr !important;}
   .rcol{display:none;}
   #s-hero{justify-content:flex-end;padding-bottom:14vh;padding-top:70px;}
@@ -109,15 +98,8 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
   #s-ia .scol{align-items:flex-end;text-align:right;}
   #s-ia .sub{text-align:right;max-width:100%;}
   #s-proc{min-height:auto;padding:64px 7vw;display:block;}
-  #s-night{
-    min-height:100vh;display:flex;flex-direction:column;
-    justify-content:center;padding:80px 7vw;
-  }
-  #s-cta{
-    min-height:100vh;justify-content:center;
-    padding-top:0;padding-bottom:0;
-    flex-direction:column;align-items:center;text-align:center;
-  }
+  #s-night{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:80px 7vw;}
+  #s-cta{min-height:100vh;justify-content:center;padding-top:0;padding-bottom:0;flex-direction:column;align-items:center;text-align:center;}
   #s-cta .ctah{text-align:center;max-width:100%;font-size:clamp(34px,11vw,52px);}
   #s-cta .ctap{max-width:100%;text-align:center;}
   #s-cta .brow{justify-content:center;}
@@ -129,13 +111,7 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
 .h2{font-size:clamp(34px,5vw,76px);font-weight:600;letter-spacing:-.04em;line-height:.93;}
 .fade{color:var(--dim);}
 .sub{font-size:clamp(14px,1.1vw,16px);color:var(--mid);line-height:1.78;max-width:380px;margin-top:1.6rem;font-weight:300;}
-
-/* mobile: sub más corto */
-@media(max-width:680px){
-  .sub{font-size:14px;max-width:100%;}
-  .sub.mob-hide{display:none;}
-}
-
+@media(max-width:680px){.sub{font-size:14px;max-width:100%;}.sub.mob-hide{display:none;}}
 .lnk{display:inline-flex;align-items:center;gap:.32rem;margin-top:1.4rem;font-size:13px;color:var(--ink);text-decoration:none;font-weight:400;transition:gap .2s;}
 .lnk:hover{gap:.65rem;}
 .lnk::after{content:'→';}
@@ -157,100 +133,41 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
 @media(max-width:400px){.pg{grid-template-columns:1fr;}}
 
 /* ═══ NIGHT SECTION ═══ */
-#s-night{
-  background:#06040f;
-  position:relative;
-  overflow:hidden;
-}
-#s-night::before{
-  content:'';position:absolute;
-  width:700px;height:700px;
-  background:radial-gradient(circle,rgba(124,58,237,.2) 0%,transparent 70%);
-  top:-150px;right:-100px;pointer-events:none;z-index:0;
-}
-#s-night::after{
-  content:'';position:absolute;
-  width:400px;height:400px;
-  background:radial-gradient(circle,rgba(168,85,247,.1) 0%,transparent 70%);
-  bottom:0;left:0;pointer-events:none;z-index:0;
-}
-
-.night-inner{
-  position:relative;z-index:25;
-  display:flex;align-items:center;
-  gap:clamp(3rem,6vw,8rem);
-  width:100%;
-}
-@media(max-width:680px){
-  .night-inner{flex-direction:column;gap:2rem;}
-  .night-chat-col{order:-1;width:100%;}
-}
-
+#s-night{background:#06040f;position:relative;overflow:hidden;}
+#s-night::before{content:'';position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(124,58,237,.2) 0%,transparent 70%);top:-150px;right:-100px;pointer-events:none;z-index:0;}
+#s-night::after{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(168,85,247,.1) 0%,transparent 70%);bottom:0;left:0;pointer-events:none;z-index:0;}
+.night-inner{position:relative;z-index:25;display:flex;align-items:center;gap:clamp(3rem,6vw,8rem);width:100%;}
+@media(max-width:680px){.night-inner{flex-direction:column;gap:2rem;}.night-chat-col{order:-1;width:100%;}}
 .night-text{flex:1;}
 .night-chat-col{flex:0 0 auto;width:clamp(250px,28vw,320px);}
 @media(max-width:680px){.night-chat-col{width:100%;max-width:320px;margin:0 auto;}}
-
 .ntag{font-size:11px;font-weight:500;letter-spacing:.16em;color:rgba(168,85,247,.7);text-transform:uppercase;margin-bottom:1.4rem;display:block;}
 .nh{font-size:clamp(36px,4.8vw,72px);font-weight:600;letter-spacing:-.04em;line-height:.93;color:#fff;}
 .nh .na{color:#a855f7;}
 .nsub{font-size:clamp(14px,1.1vw,15px);color:rgba(255,255,255,.4);line-height:1.75;max-width:360px;margin-top:1.4rem;font-weight:300;}
 @media(max-width:680px){.nsub{display:none;}}
-.ncta{
-  display:inline-flex;align-items:center;gap:.5rem;
-  margin-top:2rem;padding:.72rem 1.75rem;
-  border-radius:100px;
-  background:linear-gradient(135deg,#7c3aed,#a855f7);
-  color:#fff;font-size:14px;font-weight:400;
-  text-decoration:none;letter-spacing:-.01em;
-  transition:opacity .2s,transform .2s;
-  box-shadow:0 8px 32px rgba(124,58,237,.35);
-}
+.ncta{display:inline-flex;align-items:center;gap:.5rem;margin-top:2rem;padding:.72rem 1.75rem;border-radius:100px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;font-size:14px;font-weight:400;text-decoration:none;letter-spacing:-.01em;transition:opacity .2s,transform .2s;box-shadow:0 8px 32px rgba(124,58,237,.35);}
 .ncta:hover{opacity:.82;transform:translateY(-2px);}
 .nstamp{margin-top:1.2rem;font-size:11px;color:rgba(255,255,255,.2);font-weight:300;letter-spacing:.04em;}
 .nstamp strong{color:rgba(168,85,247,.55);font-weight:500;}
 
 /* CHAT WIDGET */
-.cw{
-  background:#0f1120;border-radius:18px;overflow:hidden;
-  box-shadow:0 0 0 1px rgba(124,58,237,.2),0 24px 60px rgba(0,0,0,.6),0 0 60px rgba(124,58,237,.08);
-}
-.cw-head{
-  background:#161830;padding:.8rem 1rem;
-  display:flex;align-items:center;gap:.65rem;
-  border-bottom:1px solid rgba(124,58,237,.12);
-}
-.cw-av{
-  width:32px;height:32px;border-radius:50%;
-  background:linear-gradient(135deg,#7c3aed,#a855f7);
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;flex-shrink:0;
-  box-shadow:0 0 10px rgba(124,58,237,.35);
-}
+.cw{background:#0f1120;border-radius:18px;overflow:hidden;box-shadow:0 0 0 1px rgba(124,58,237,.2),0 24px 60px rgba(0,0,0,.6),0 0 60px rgba(124,58,237,.08);}
+.cw-head{background:#161830;padding:.8rem 1rem;display:flex;align-items:center;gap:.65rem;border-bottom:1px solid rgba(124,58,237,.12);}
+.cw-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#a855f7);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;box-shadow:0 0 10px rgba(124,58,237,.35);}
 .cw-name{font-size:12.5px;font-weight:500;color:#fff;letter-spacing:-.01em;}
 .cw-status{font-size:10.5px;color:rgba(255,255,255,.3);margin-top:1px;}
 .cw-dots{margin-left:auto;display:flex;gap:3px;}
 .cw-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.15);}
-
 .cw-body{padding:.9rem;min-height:220px;display:flex;flex-direction:column;gap:.5rem;}
-
-.cm{
-  max-width:84%;padding:.55rem .8rem;border-radius:13px;
-  font-size:12px;line-height:1.55;font-weight:300;
-  opacity:0;transform:translateY(6px);
-  transition:opacity .35s ease,transform .35s ease;
-}
+.cm{max-width:84%;padding:.55rem .8rem;border-radius:13px;font-size:12px;line-height:1.55;font-weight:300;opacity:0;transform:translateY(6px);transition:opacity .35s ease,transform .35s ease;}
 .cm.vis{opacity:1;transform:none;}
 .cm.in{background:#1c2035;color:rgba(255,255,255,.75);align-self:flex-start;border-bottom-left-radius:3px;}
 .cm.out{background:linear-gradient(135deg,#166534,#15803d);color:rgba(255,255,255,.9);align-self:flex-end;border-bottom-right-radius:3px;}
 .cm.sys{align-self:center;background:rgba(124,58,237,.15);color:rgba(168,85,247,.9);border-radius:100px;font-size:10.5px;padding:.28rem .75rem;}
 .ct{font-size:9.5px;opacity:.35;margin-top:.2rem;text-align:right;}
 .ck{color:#25d366;font-size:9px;}
-
-.cw-typing{
-  display:flex;align-items:center;gap:3px;padding:.5rem .8rem;
-  background:#1c2035;border-radius:13px;border-bottom-left-radius:3px;
-  align-self:flex-start;opacity:0;transition:opacity .3s;width:48px;
-}
+.cw-typing{display:flex;align-items:center;gap:3px;padding:.5rem .8rem;background:#1c2035;border-radius:13px;border-bottom-left-radius:3px;align-self:flex-start;opacity:0;transition:opacity .3s;width:48px;}
 .cw-typing.vis{opacity:1;}
 .td{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.35);animation:tb 1.1s infinite;}
 .td:nth-child(2){animation-delay:.18s;}
@@ -294,7 +211,6 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   <a href="https://wa.me/59897976574" class="nmb" target="_blank">Hablemos</a>
 </nav>
 
-<!-- HERO -->
 <section id="s-hero">
   <div class="srow">
     <div class="scol">
@@ -310,7 +226,6 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
-<!-- AUTOMATIZACIONES -->
 <section class="svc-sec" id="s-auto">
   <div class="srow flip">
     <div class="scol">
@@ -323,7 +238,6 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
-<!-- WEBS -->
 <section class="svc-sec" id="s-webs">
   <div class="srow">
     <div class="scol">
@@ -336,7 +250,6 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
-<!-- CHATBOTS -->
 <section class="svc-sec" id="s-chat">
   <div class="srow flip">
     <div class="scol">
@@ -349,7 +262,6 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
-<!-- MARKETING -->
 <section class="svc-sec" id="s-mkt">
   <div class="srow">
     <div class="scol">
@@ -362,7 +274,6 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
-<!-- IA -->
 <section class="svc-sec" id="s-ia">
   <div class="srow flip">
     <div class="scol">
@@ -375,7 +286,6 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
-<!-- PROCESO -->
 <section id="s-proc">
   <span class="ptag rv">Cómo trabajamos</span>
   <div class="pg">
@@ -386,7 +296,6 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
-<!-- NIGHT — DARK VIOLET -->
 <section id="s-night">
   <div class="night-inner">
     <div class="night-text">
@@ -400,10 +309,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
       <div class="cw">
         <div class="cw-head">
           <div class="cw-av">🤖</div>
-          <div>
-            <div class="cw-name">Asistente IA</div>
-            <div class="cw-status">en línea</div>
-          </div>
+          <div><div class="cw-name">Asistente IA</div><div class="cw-status">en línea</div></div>
           <div class="cw-dots"><div class="cw-dot"></div><div class="cw-dot"></div><div class="cw-dot"></div></div>
         </div>
         <div class="cw-body" id="cwBody"></div>
@@ -412,7 +318,6 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
-<!-- CTA -->
 <section id="s-cta">
   <h2 class="ctah rv">Hablemos de<br><span class="fade">tu proyecto.</span></h2>
   <p class="ctap rv d1">30 minutos. Sin compromiso. Con un plan concreto al final.</p>
@@ -436,18 +341,17 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
 <script>
 gsap.registerPlugin(ScrollTrigger);
 const isMob = window.innerWidth <= 680;
 
-// ── CURSOR ──────────────────────────
+// ── CURSOR ──
 const cd=document.getElementById('cd'),cr=document.getElementById('cr');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.left=mx+'px';cd.style.top=my+'px';});
 (function ac(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(ac);})();
 
-// ── NAV ─────────────────────────────
+// ── NAV ──
 const navEl=document.getElementById('nav');
 const nightEl=document.getElementById('s-night');
 function updateNav(){
@@ -460,25 +364,24 @@ function updateNav(){
 }
 window.addEventListener('scroll',updateNav,{passive:true});
 
-// ── REVEAL ──────────────────────────
+// ── REVEAL ──
 document.querySelectorAll('.rv').forEach(el=>new IntersectionObserver(es=>{
   es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
 },{threshold:.08}).observe(el));
 
-// ── CHAT ANIMATION ──────────────────
+// ── CHAT ANIMATION ──
 const msgs=[
-  {t:'in', txt:'Hola! cuánto sale un chatbot?', d:0},
+  {t:'in',  txt:'Hola! cuánto sale un chatbot?', d:0},
   {t:'typing', d:1100},
   {t:'out', txt:'Hola! Armamos bots para WhatsApp e Instagram. Arrancamos desde $400. ¿Para qué negocio?', d:2200},
-  {t:'in', txt:'Peluquería, quiero que tome turnos solo', d:3600},
+  {t:'in',  txt:'Peluquería, quiero que tome turnos solo', d:3600},
   {t:'typing', d:4700},
   {t:'out', txt:'Perfecto, es exactamente para eso 🤖 El bot confirma, manda recordatorios y responde 24hs. ¿Querés una demo?', d:5600},
-  {t:'in', txt:'Sí! cuándo empezamos?', d:7000},
+  {t:'in',  txt:'Sí! cuándo empezamos?', d:7000},
   {t:'sys', txt:'✓ Venta cerrada · 3:14 AM', d:8200},
 ];
 let chatGoing=false;
 const cwBody=document.getElementById('cwBody');
-
 function runChat(){
   if(chatGoing)return;
   chatGoing=true;
@@ -497,8 +400,7 @@ function runChat(){
       }
       const el=document.createElement('div');
       el.className=`cm ${m.t}`;
-      if(m.t==='sys'){el.textContent=m.txt;}
-      else{el.innerHTML=m.txt+(m.t==='out'?`<div class="ct">3:14 AM <span class="ck">✓✓</span></div>`:`<div class="ct">3:14 AM</div>`);}
+      el.innerHTML=m.t==='sys'?m.txt:m.txt+(m.t==='out'?`<div class="ct">3:14 AM <span class="ck">✓✓</span></div>`:`<div class="ct">3:14 AM</div>`);
       cwBody.appendChild(el);
       setTimeout(()=>el.classList.add('vis'),20);
       cwBody.scrollTop=cwBody.scrollHeight;
@@ -508,7 +410,7 @@ function runChat(){
 }
 new IntersectionObserver(es=>{if(es[0].isIntersecting)runChat();},{threshold:.25}).observe(nightEl);
 
-// ── THREE.JS ────────────────────────
+// ── THREE.JS ──
 const canvas=document.getElementById('rc');
 const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:!isMob});
 renderer.setPixelRatio(Math.min(window.devicePixelRatio,isMob?1.5:2));
@@ -516,11 +418,9 @@ renderer.setSize(window.innerWidth,window.innerHeight);
 renderer.outputEncoding=THREE.sRGBEncoding;
 renderer.toneMapping=THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure=1.3;
-
 const scene=new THREE.Scene();
 const camera=new THREE.PerspectiveCamera(35,window.innerWidth/window.innerHeight,.1,100);
 camera.position.z=5;
-
 const ambLight=new THREE.AmbientLight(0xffffff,1.5);scene.add(ambLight);
 const kl=new THREE.DirectionalLight(0xffffff,2.6);kl.position.set(2,4,3);scene.add(kl);
 const fl=new THREE.DirectionalLight(0xf5f0e8,1.0);fl.position.set(-3,1,2);scene.add(fl);
@@ -528,10 +428,8 @@ const vl=new THREE.PointLight(0xa855f7,0,8);vl.position.set(0,1,3);scene.add(vl)
 
 const S={x:0,y:0,sc:1,ry:0,rx:0,idle:0};
 let mesh=null,idleT=0;
-
 function worldW(){return 2*Math.tan(camera.fov*Math.PI/360)*camera.position.z*camera.aspect;}
 function worldH(){return 2*Math.tan(camera.fov*Math.PI/360)*camera.position.z;}
-
 function applyS(){
   if(!mesh)return;
   mesh.position.x=S.x*(worldW()/2);
@@ -540,55 +438,38 @@ function applyS(){
   mesh.rotation.y=S.ry+S.idle;
   mesh.rotation.x=S.rx;
 }
-
-// DESKTOP states — exactamente como el original + night + proc
 const DS=[
-  {x:.30,  y:.05,  sc:1.15, ry:0,         rx:0,    dur:1.2}, // hero
-  {x:-.30, y:-.10, sc:1.35, ry:.08,       rx:0,    dur:1.1}, // auto
-  {x:.28,  y:.12,  sc:.85,  ry:-.1,       rx:0,    dur:1.2}, // webs
-  {x:-.28, y:-.08, sc:1.20, ry:.15,       rx:-.06, dur:1.0}, // chat
-  {x:.32,  y:.08,  sc:.72,  ry:-.1,       rx:.04,  dur:1.1}, // mkt
-  {x:0,    y:.02,  sc:1.55, ry:Math.PI*2, rx:-.1,  dur:1.4}, // ia — 360
-  {x:.05,  y:-.28, sc:1.0,  ry:0,         rx:0,    dur:1.0}, // proc
-  {x:-.22, y:-.05, sc:1.2,  ry:.25,       rx:-.05, dur:1.3}, // night — izquierda, visible junto al chat
-  {x:.05,  y:-.30, sc:1.1,  ry:0,         rx:0,    dur:1.1}, // cta
+  {x:.30,  y:.05,  sc:1.15, ry:0,         rx:0,    dur:1.2},
+  {x:-.30, y:-.10, sc:1.35, ry:.08,       rx:0,    dur:1.1},
+  {x:.28,  y:.12,  sc:.85,  ry:-.1,       rx:0,    dur:1.2},
+  {x:-.28, y:-.08, sc:1.20, ry:.15,       rx:-.06, dur:1.0},
+  {x:.32,  y:.08,  sc:.72,  ry:-.1,       rx:.04,  dur:1.1},
+  {x:0,    y:.02,  sc:1.55, ry:Math.PI*2, rx:-.1,  dur:1.4},
+  {x:.05,  y:-.28, sc:1.0,  ry:0,         rx:0,    dur:1.0},
+  {x:-.22, y:-.05, sc:1.2,  ry:.25,       rx:-.05, dur:1.3},
+  {x:.05,  y:-.30, sc:1.1,  ry:0,         rx:0,    dur:1.1},
 ];
-
-// MOBILE states — exactamente como el original + night + proc
 const MS=[
-  {x:0,    y:.32,  sc:1.0,  ry:0,         rx:0,    dur:1.2}, // hero: TOP center
-  {x:.22,  y:-.36, sc:1.12, ry:.1,        rx:0,    dur:1.1}, // auto: BOTTOM-RIGHT
-  {x:-.20, y:.30,  sc:1.22, ry:-.1,       rx:0,    dur:1.2}, // webs: TOP-LEFT
-  {x:.20,  y:-.34, sc:.80,  ry:.18,       rx:-.06, dur:1.0}, // chat: BOTTOM-RIGHT
-  {x:-.18, y:.28,  sc:1.15, ry:-.08,      rx:.04,  dur:1.1}, // mkt: TOP-RIGHT
-  {x:.16,  y:-.30, sc:1.05, ry:Math.PI*2, rx:-.06, dur:1.4}, // ia: 360
-  {x:0,    y:.20,  sc:.90,  ry:0,         rx:0,    dur:1.0}, // proc
-  {x:0,    y:.28,  sc:1.05, ry:.1,        rx:-.04, dur:1.3}, // night: TOP center móvil
-  {x:0,    y:-.36, sc:.92,  ry:0,         rx:0,    dur:1.1}, // cta
+  {x:0,    y:.32,  sc:1.0,  ry:0,         rx:0,    dur:1.2},
+  {x:.22,  y:-.36, sc:1.12, ry:.1,        rx:0,    dur:1.1},
+  {x:-.20, y:.30,  sc:1.22, ry:-.1,       rx:0,    dur:1.2},
+  {x:.20,  y:-.34, sc:.80,  ry:.18,       rx:-.06, dur:1.0},
+  {x:-.18, y:.28,  sc:1.15, ry:-.08,      rx:.04,  dur:1.1},
+  {x:.16,  y:-.30, sc:1.05, ry:Math.PI*2, rx:-.06, dur:1.4},
+  {x:0,    y:.20,  sc:.90,  ry:0,         rx:0,    dur:1.0},
+  {x:0,    y:.28,  sc:1.05, ry:.1,        rx:-.04, dur:1.3},
+  {x:0,    y:-.36, sc:.92,  ry:0,         rx:0,    dur:1.1},
 ];
-
 const STATES=isMob?MS:DS;
 const SECS=['#s-hero','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia','#s-proc','#s-night','#s-cta'];
 
-function enterNight(){
-  gsap.to(ambLight,{intensity:.5,duration:1.1});
-  gsap.to(kl,{intensity:.9,duration:1.1});
-  gsap.to(vl,{intensity:4,duration:1.1});
-}
-function exitNight(){
-  gsap.to(ambLight,{intensity:1.5,duration:1.0});
-  gsap.to(kl,{intensity:2.6,duration:1.0});
-  gsap.to(vl,{intensity:0,duration:1.0});
-}
-
-function goTo(st){
-  gsap.to(S,{x:st.x,y:st.y,sc:st.sc,ry:st.ry,rx:st.rx,
-    duration:st.dur,ease:'power3.out',overwrite:'auto',onUpdate:applyS});
-}
+function enterNight(){gsap.to(ambLight,{intensity:.5,duration:1.1});gsap.to(kl,{intensity:.9,duration:1.1});gsap.to(vl,{intensity:4,duration:1.1});}
+function exitNight(){gsap.to(ambLight,{intensity:1.5,duration:1.0});gsap.to(kl,{intensity:2.6,duration:1.0});gsap.to(vl,{intensity:0,duration:1.0});}
+function goTo(st){gsap.to(S,{x:st.x,y:st.y,sc:st.sc,ry:st.ry,rx:st.rx,duration:st.dur,ease:'power3.out',overwrite:'auto',onUpdate:applyS});}
 
 const loader=new THREE.GLTFLoader();
 loader.load(
-  'https://raw.githubusercontent.com/1brunosilva/Concepto-Robot/main/Prueba1.glb',
+  'https://concepto-robot.vercel.app/MaxNew.glb',
   gltf=>{
     mesh=gltf.scene;
     const box=new THREE.Box3().setFromObject(mesh);
@@ -597,20 +478,13 @@ loader.load(
     mesh.position.sub(c);
     mesh.scale.setScalar(1/Math.max(sz.x,sz.y,sz.z));
     scene.add(mesh);
-
     SECS.forEach((sel,i)=>{
       const el=document.querySelector(sel);
       if(!el||!STATES[i])return;
       ScrollTrigger.create({
         trigger:el,start:'top 58%',
-        onEnter:()=>{
-          goTo(STATES[i]);
-          if(sel==='#s-night')enterNight(); else exitNight();
-        },
-        onEnterBack:()=>{
-          goTo(STATES[i]);
-          if(sel==='#s-night')enterNight(); else exitNight();
-        }
+        onEnter:()=>{goTo(STATES[i]);if(sel==='#s-night')enterNight();else exitNight();},
+        onEnterBack:()=>{goTo(STATES[i]);if(sel==='#s-night')enterNight();else exitNight();}
       });
     });
     goTo(STATES[0]);
@@ -621,7 +495,6 @@ loader.load(
 );
 setTimeout(()=>document.getElementById('ldr').classList.add('out'),3500);
 
-// ── RENDER LOOP ─────────────────────
 (function loop(){
   requestAnimationFrame(loop);
   idleT+=.012;S.idle+=.018;
@@ -634,57 +507,73 @@ window.addEventListener('resize',()=>{
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth,window.innerHeight);
 },{passive:true});
-// ── SCROLL SNAP (JS) ─────────────────────────────────────────────────────────
-(function(){
-  const secs = Array.from(document.querySelectorAll('section:not(#s-proc):not(#s-night):not(#s-cta), footer'));
 
-  let snapping = false;
+// ── SCROLL SNAP ──────────────────────────────────────────────────
+(function(){
+  const SNAP_SECS = Array.from(document.querySelectorAll('section'));
+  let isSnapping = false;
+  let lastSnapTime = 0;
+  const COOLDOWN = 800; // ms between snaps — prevents double-firing
+
+  function getNearest(){
+    let best=SNAP_SECS[0], bestD=Infinity;
+    SNAP_SECS.forEach(el=>{
+      const d=Math.abs(el.getBoundingClientRect().top);
+      if(d<bestD){bestD=d;best=el;}
+    });
+    return {el:best,dist:bestD};
+  }
 
   function snapTo(el){
-    if(snapping) return;
-    snapping = true;
-    el.scrollIntoView({behavior:'smooth', block:'start'});
-    setTimeout(()=>{ snapping = false; }, 900);
+    const now=Date.now();
+    if(isSnapping||now-lastSnapTime<COOLDOWN)return;
+    isSnapping=true;
+    lastSnapTime=now;
+    el.scrollIntoView({behavior:'smooth',block:'start'});
+    setTimeout(()=>{isSnapping=false;},COOLDOWN);
   }
 
-  function nearest(){
-    let best = secs[0], bestD = Infinity;
-    secs.forEach(el=>{
-      const d = Math.abs(el.getBoundingClientRect().top);
-      if(d < bestD){ bestD = d; best = el; }
-    });
-    return best;
+  function snapNext(dir){
+    const {el:cur}=getNearest();
+    const idx=SNAP_SECS.indexOf(cur);
+    const next=SNAP_SECS[Math.max(0,Math.min(SNAP_SECS.length-1,idx+dir))];
+    if(next!==cur)snapTo(next);
   }
 
-  function next(dir){
-    const cur = nearest();
-    const idx = secs.indexOf(cur);
-    const target = secs[Math.max(0, Math.min(secs.length-1, idx + dir))];
-    snapTo(target);
-  }
-
-  // WHEEL
-  let wheelTimer;
-  window.addEventListener('wheel', e=>{
+  // WHEEL — debounced, direction determined by accumulated delta
+  let wheelAccum=0, wheelTimer=null;
+  window.addEventListener('wheel',e=>{
     e.preventDefault();
+    wheelAccum+=e.deltaY;
     clearTimeout(wheelTimer);
-    wheelTimer = setTimeout(()=>{ next(e.deltaY > 0 ? 1 : -1); }, 50);
-  }, {passive: false});
+    wheelTimer=setTimeout(()=>{
+      if(Math.abs(wheelAccum)>20){ // minimum threshold
+        snapNext(wheelAccum>0?1:-1);
+      }
+      wheelAccum=0;
+    },80); // wait 80ms for wheel to settle before deciding direction
+  },{passive:false});
 
-  // TOUCH
-  let ty0 = 0;
-  window.addEventListener('touchstart', e=>{ ty0 = e.touches[0].clientY; }, {passive:true});
-  window.addEventListener('touchend', e=>{
-    const dy = ty0 - e.changedTouches[0].clientY;
-    if(Math.abs(dy) > 30) next(dy > 0 ? 1 : -1);
-  }, {passive:true});
+  // TOUCH — only snap if swipe is intentional (>40px)
+  let ty0=0,txTime=0;
+  window.addEventListener('touchstart',e=>{ty0=e.touches[0].clientY;txTime=Date.now();},{passive:true});
+  window.addEventListener('touchend',e=>{
+    const dy=ty0-e.changedTouches[0].clientY;
+    const dt=Date.now()-txTime;
+    // Fast swipe OR long swipe
+    if(Math.abs(dy)>40&&dt<500)snapNext(dy>0?1:-1);
+  },{passive:true});
 
-  // SCROLL
-  let scrollTimer;
-  window.addEventListener('scroll', ()=>{
-    clearTimeout(scrollTimer);
-    scrollTimer = setTimeout(()=>{ snapTo(nearest()); }, 120);
-  }, {passive:true});
+  // SCROLL END — snap to nearest if scroll stops between sections
+  let scrollEndTimer=null;
+  window.addEventListener('scroll',()=>{
+    clearTimeout(scrollEndTimer);
+    scrollEndTimer=setTimeout(()=>{
+      if(isSnapping)return;
+      const {dist}=getNearest();
+      if(dist>10)snapTo(getNearest().el); // only snap if not already aligned
+    },150); // wait 150ms after scroll stops
+  },{passive:true});
 })();
 </script>
 </body>
