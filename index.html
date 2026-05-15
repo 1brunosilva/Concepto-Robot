@@ -598,33 +598,38 @@ window.addEventListener('resize',()=>{
 
 
 // ── SNAP SCROLL ── solo mobile ────────────────────────────────
-// Reglas:
-//   • Solo se activa en mobile (≤680px). En desktop: nada.
-//   • Secciones con snap: s-auto → s-ia  (hero y night quedan fuera)
-//   • Desde s-ia hacia abajo: scroll libre
+// Lógica:
+//   • Solo mobile (≤680px). Desktop: scroll nativo libre.
+//   • Zona de snap: s-auto → s-ia. Hero y night: scroll libre.
+//   • El snap se decide SOLO en touchend, con intención clara
+//     del usuario (velocidad o distancia del swipe).
+//   • NO hay corrector de scroll-end — elimina el movimiento
+//     fantasma causado por el momentum nativo de iOS/Android.
 // ─────────────────────────────────────────────────────────────
 if(isMob){
   (function(){
     const SNAP_IDS = ['s-auto','s-webs','s-chat','s-mkt','s-ia'];
     const SNAP_ELS = SNAP_IDS.map(id=>document.getElementById(id));
 
-    let isSnapping = false;
-    let lastSnapTime = 0;
-    const COOLDOWN = 800;
+    let isSnapping  = false;
+    let lastSnap    = 0;
+    const COOLDOWN  = 900;   // ms mínimos entre snaps
 
-    // ¿El scroll ya pasó s-ia?
-    function isBeyondSnap(){
-      const ia = document.getElementById('s-ia');
-      return ia.getBoundingClientRect().bottom < window.innerHeight * 0.5;
+    // Umbrales del swipe
+    const MIN_DIST  = 30;    // px mínimos de desplazamiento
+    const MIN_VEL   = 0.25;  // px/ms mínima velocidad (intención real)
+
+    // ── Zona activa ──────────────────────────────────────────
+    function inSnapZone(){
+      const autoTop = document.getElementById('s-auto').getBoundingClientRect().top;
+      const iaBot   = document.getElementById('s-ia').getBoundingClientRect().bottom;
+      // Activo cuando s-auto ya está cerca del top Y s-ia todavía está en pantalla
+      return autoTop <= window.innerHeight * 0.6
+          && iaBot    >= window.innerHeight * 0.4;
     }
 
-    // ¿El scroll todavía está en hero o night (antes del snap)?
-    function isBeforeSnap(){
-      const auto = document.getElementById('s-auto');
-      return auto.getBoundingClientRect().top > window.innerHeight * 0.5;
-    }
-
-    function getNearestSnap(){
+    // ── Sección más cercana al top ───────────────────────────
+    function getNearest(){
       let best = SNAP_ELS[0], bestD = Infinity;
       SNAP_ELS.forEach(el=>{
         const d = Math.abs(el.getBoundingClientRect().top);
@@ -633,62 +638,59 @@ if(isMob){
       return {el: best, dist: bestD};
     }
 
+    // ── Ejecutar snap ────────────────────────────────────────
     function snapTo(el){
       const now = Date.now();
-      if(isSnapping || now - lastSnapTime < COOLDOWN) return;
+      if(isSnapping || now - lastSnap < COOLDOWN) return;
       isSnapping = true;
-      lastSnapTime = now;
+      lastSnap   = now;
       el.scrollIntoView({behavior:'smooth', block:'start'});
+      // Liberar flag cuando el scroll nativo ya terminó (~700ms)
       setTimeout(()=>{ isSnapping = false; }, COOLDOWN);
     }
 
-    // WHEEL (trackpad externo en mobile — raro pero posible)
-    let wheelAccum = 0, wheelTimer = null;
-    window.addEventListener('wheel', e=>{
-      if(isBeyondSnap() || isBeforeSnap()) return;
-      e.preventDefault();
-      wheelAccum += e.deltaY;
-      clearTimeout(wheelTimer);
-      wheelTimer = setTimeout(()=>{
-        if(Math.abs(wheelAccum) > 20){
-          const {el: cur} = getNearestSnap();
-          const idx = SNAP_ELS.indexOf(cur);
-          const next = SNAP_ELS[Math.max(0, Math.min(SNAP_ELS.length-1, idx+(wheelAccum>0?1:-1)))];
-          if(next !== cur) snapTo(next);
-        }
-        wheelAccum = 0;
-      }, 80);
-    },{passive: false});
+    // ── Touch tracking ───────────────────────────────────────
+    let ty0 = 0, ty1 = 0, tStart = 0;
 
-    // TOUCH
-    let ty0 = 0, txTime = 0;
     window.addEventListener('touchstart', e=>{
-      ty0 = e.touches[0].clientY;
-      txTime = Date.now();
-    },{passive: true});
+      ty0    = e.touches[0].clientY;
+      ty1    = ty0;
+      tStart = Date.now();
+    },{passive:true});
+
+    // Actualizar posición durante el movimiento para calcular vel
+    window.addEventListener('touchmove', e=>{
+      ty1 = e.touches[0].clientY;
+    },{passive:true});
 
     window.addEventListener('touchend', e=>{
-      if(isBeyondSnap() || isBeforeSnap()) return;
-      const dy = ty0 - e.changedTouches[0].clientY;
-      const dt = Date.now() - txTime;
-      if(Math.abs(dy) > 40 && dt < 500){
-        const {el: cur} = getNearestSnap();
-        const idx = SNAP_ELS.indexOf(cur);
-        const next = SNAP_ELS[Math.max(0, Math.min(SNAP_ELS.length-1, idx+(dy>0?1:-1)))];
-        if(next !== cur) snapTo(next);
-      }
-    },{passive: true});
+      if(!inSnapZone()) return;
 
-    // SCROLL END — corrige si el scroll queda entre dos secciones snap
-    let scrollEndTimer = null;
-    window.addEventListener('scroll', ()=>{
-      clearTimeout(scrollEndTimer);
-      scrollEndTimer = setTimeout(()=>{
-        if(isSnapping || isBeyondSnap() || isBeforeSnap()) return;
-        const {dist} = getNearestSnap();
-        if(dist > 10) snapTo(getNearestSnap().el);
-      }, 150);
-    },{passive: true});
+      const dy  = ty0 - ty1;                     // positivo = swipe arriba
+      const dt  = Date.now() - tStart;
+      const vel = Math.abs(dy) / Math.max(dt, 1); // px/ms
+
+      // Ignorar toques sin intención real
+      if(Math.abs(dy) < MIN_DIST && vel < MIN_VEL) return;
+
+      const dir = dy > 0 ? 1 : -1;
+
+      // Decidir destino: si la sección actual está casi alineada
+      // vamos a la siguiente; si no, snap a la más cercana.
+      const {el: nearest, dist} = getNearest();
+      const idx = SNAP_ELS.indexOf(nearest);
+
+      let target;
+      if(dist < window.innerHeight * 0.15){
+        // Ya estamos cerca de una sección: ir a la siguiente en dir
+        target = SNAP_ELS[Math.max(0, Math.min(SNAP_ELS.length-1, idx+dir))];
+      } else {
+        // Estamos en medio: snap a la más cercana (sin avanzar)
+        target = nearest;
+      }
+
+      snapTo(target);
+    },{passive:true});
 
   })();
 }
