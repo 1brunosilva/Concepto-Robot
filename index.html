@@ -135,12 +135,22 @@ padding:0 clamp(28px,7vw,100px);z-index:20;
 
 /* ─── SECTIONS MOBILE ────────────────────────────────── */
 @media(max-width:680px){
-html{scroll-snap-type:y mandatory;scroll-behavior:smooth;}
+/* Apple-style smooth snap:
+- proximity (no mandatory): el snap “atrae” solo cerca del borde,
+respeta el gesto del usuario, no se pelea con el scroll natural.
+- scroll-behavior:smooth: easing nativo en navegaciones por hash.
+- scroll-padding-top:58px: compensa la nav fija al snap. */
+html{
+scroll-snap-type:y proximity;
+scroll-behavior:smooth;
+scroll-padding-top:58px;
+}
 section{
 position:relative;min-height:100vh;min-height:100svh;
 display:flex;flex-direction:column;
 padding:0 7vw;z-index:20;
-scroll-snap-align:start;scroll-snap-stop:always;
+scroll-snap-align:start;
+scroll-snap-stop:normal;
 }
 #s-proc{scroll-snap-align:none;}
 footer{scroll-snap-align:none;}
@@ -316,16 +326,24 @@ transition:opacity .38s cubic-bezier(.16,1,.3,1);
 overscroll-behavior:none;
 }
 #demo-modal.open{opacity:1;pointer-events:all;}
+
+/* Panel — usa custom property –kb-offset que JS actualiza con la altura del teclado.
+Cuando no hay teclado, –kb-offset es 0. Cuando aparece, JS lo setea al alto del teclado.
+El transform translate3d mueve el panel hacia arriba en proporción al teclado.
+translate3d activa GPU compositing para que el movimiento sea suave. */
 .dm-panel{
 position:relative;background:#0b0d1a;
 border:1px solid rgba(124,58,237,.2);border-radius:24px;
 width:100%;max-width:420px;max-height:min(600px,80vh);
 display:flex;flex-direction:column;overflow:hidden;
 box-shadow:0 32px 80px rgba(0,0,0,.7),0 0 0 1px rgba(124,58,237,.1),0 0 60px rgba(124,58,237,.08);
-transform:translateY(16px) scale(.97);
+transform:translate3d(0,16px,0) scale(.97);
 transition:transform .38s cubic-bezier(.16,1,.3,1);
+–kb-offset:0px;
 }
-#demo-modal.open .dm-panel{transform:translateY(0) scale(1);}
+#demo-modal.open .dm-panel{
+transform:translate3d(0, calc(var(–kb-offset) * -.5), 0) scale(1);
+}
 .dm-panel::before{content:’’;position:absolute;width:300px;height:300px;background:radial-gradient(circle,rgba(124,58,237,.12) 0%,transparent 70%);top:-80px;right:-60px;pointer-events:none;z-index:0;}
 .dm-header{position:relative;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:.85rem 1.1rem;border-bottom:1px solid rgba(124,58,237,.1);flex-shrink:0;background:#0f1120;}
 .dm-brand-row{display:flex;align-items:center;gap:.65rem;}
@@ -771,6 +789,29 @@ async function sendMessage(text){
 function initDemoChat(){dmMsgs.innerHTML='<div class="dm-spacer"></div>';conversationHistory=[];quickDismissed=false;dmQuick.classList.remove('hidden');setTimeout(()=>{appendBotMsg('¡Hola! Soy el asistente de Concepto 🤖 Podés elegir una opción o escribirme directamente.');},320);}
 function openModal(){modal.classList.add('open');initDemoChat();setTimeout(()=>{dmInput.focus();},400);}
 function closeModal(){modal.classList.remove('open');dmInput.blur();}
+
+// ── KEYBOARD HANDLER (VisualViewport API) ──
+// Cuando el teclado de iOS aparece, window.visualViewport.height
+// se reduce. Calculamos cuánto bajó y movemos el panel hacia arriba
+// la mitad de esa distancia, de forma que quede centrado en el
+// espacio visible restante.
+const dmPanel = document.querySelector('.dm-panel');
+function handleViewportChange(){
+  if(!modal.classList.contains('open')) return;
+  if(!window.visualViewport) return;
+  const kbHeight = window.innerHeight - window.visualViewport.height;
+  // Si hay teclado (más de 50px de diferencia), seteamos offset
+  if(kbHeight > 50){
+    dmPanel.style.setProperty('--kb-offset', kbHeight + 'px');
+  } else {
+    dmPanel.style.setProperty('--kb-offset', '0px');
+  }
+}
+if(window.visualViewport){
+  window.visualViewport.addEventListener('resize', handleViewportChange);
+  window.visualViewport.addEventListener('scroll', handleViewportChange);
+}
+
 openBtn.addEventListener('click',openModal);
 closeBtn.addEventListener('click',closeModal);
 modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
