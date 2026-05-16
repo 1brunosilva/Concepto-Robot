@@ -17,12 +17,18 @@
   --violet:#a855f7;
   --violet-dark:#7c3aed;
 }
-html{overflow-x:hidden;}
+html{
+  overflow:hidden; /* necesario para que body sea el scroll container real */
+  height:100%;
+}
 body{
   background:var(--cream);color:var(--ink);
   font-family:'Inter',system-ui,-apple-system,sans-serif;
-  font-weight:300;overflow-x:hidden;
+  font-weight:300;
   -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  overflow-y:auto;
+  height:100%;
 }
 
 /* CURSOR */
@@ -395,13 +401,13 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 
 /* Desktop: snap suave sin romper el feel */
 @media(min-width:681px){
-  html{
-    scroll-snap-type: y proximity; /* proximity = solo frena si ya estás cerca del snap point, no fuerza */
+  body{
+    scroll-snap-type: y proximity;
     scroll-behavior: smooth;
   }
   section{
     scroll-snap-align: start;
-    scroll-snap-stop: normal; /* normal = puede pasar por encima si el scroll es rápido */
+    scroll-snap-stop: normal;
   }
   #s-proc{ scroll-snap-align: none; }
   footer{ scroll-snap-align: none; }
@@ -409,7 +415,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 
 /* Mobile: snap más firme */
 @media(max-width:680px){
-  html{
+  body{
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
   }
@@ -830,19 +836,17 @@ async function sendMessage(userText) {
   showTyping(true);
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('https://conceptodemo.conceptodevelopment.workers.dev', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
         system: SYSTEM_PROMPT,
         messages: demoHistory
       })
     });
 
     const data = await response.json();
-    const botText = data.content?.find(b => b.type === 'text')?.text || 'No pude procesar eso. Intentá de nuevo.';
+    const botText = data.text || 'No pude procesar eso. Intentá de nuevo.';
 
     showTyping(false);
     addMessage(botText, 'bot');
