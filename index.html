@@ -124,16 +124,20 @@ min-height:100vh;min-height:100svh;padding-top:0;justify-content:center;
 }
 
 /* ════════════════════════════════════
-MOBILE LAYOUT — scroll snapping corregido
+MOBILE LAYOUT
 ════════════════════════════════════ */
 @media(max-width:680px){
-/* Snap en el body, no en html, para que el overflow:hidden del demo
-no rompa el snap container */
-html{overflow-y:auto;}
-body{
-scroll-snap-type:y mandatory;
+/* Snap en html — ScrollTrigger escucha window, así que esto es correcto.
+Para bloquear scroll cuando el demo está abierto usamos body.demo-lock
+con position:fixed (no overflow:hidden que rompe el snap container) */
+html{
 overflow-y:scroll;
-height:100%;
+scroll-snap-type:y mandatory;
+}
+/* Trick para bloquear scroll sin romper snap: fijamos body */
+body.demo-lock{
+position:fixed;
+width:100%;
 }
 
 section{
@@ -207,27 +211,25 @@ line-height:1.78;max-width:380px;margin-top:1.6rem;font-weight:300;
 @media(max-width:680px){.sub{font-size:14px;max-width:100%;}.sub.mob-hide{display:none;}}
 a{color:inherit;text-decoration:none;}
 
-/* ── APPLE-STYLE CTA LINKS (corregidos) ── */
+/* ── APPLE-STYLE CTA LINKS ── */
 .lnk{
-display:inline-flex;align-items:center;gap:.4rem;
+display:inline-flex;align-items:center;gap:.5rem;
 margin-top:1.6rem;
 font-size:14px;color:var(–purple);
 text-decoration:none;font-weight:400;
-transition:gap .2s;
 letter-spacing:-.01em;
+transition:gap .2s,opacity .18s;
 }
-.lnk:hover{gap:.7rem;}
-/* Chevron estilo Apple */
+.lnk:hover{gap:.8rem;opacity:.75;}
 .lnk::after{
-content:’’;
+content:’›’;
+font-size:18px;
+line-height:1;
 display:inline-block;
-width:6px;height:6px;
-border-right:1.5px solid currentColor;
-border-top:1.5px solid currentColor;
-transform:rotate(45deg) translateY(-.5px);
 transition:transform .2s;
+font-weight:300;
 }
-.lnk:hover::after{transform:rotate(45deg) translateX(3px) translateY(-1.5px);}
+.lnk:hover::after{transform:translateX(2px);}
 
 /* ── BOTONES ── */
 .brow{display:flex;gap:.6rem;margin-top:2rem;flex-wrap:wrap;}
@@ -256,17 +258,15 @@ transition:opacity .18s,transform .18s,box-shadow .18s;
 -webkit-appearance:none;appearance:none;
 }
 .btn-demo:hover{opacity:.85;transform:translateY(-2px);box-shadow:0 10px 32px rgba(124,58,237,.42);}
-/* Chevron en botón demo */
 .btn-demo::after{
-content:’’;
+content:’›’;
+font-size:18px;
+line-height:1;
 display:inline-block;
-width:6px;height:6px;
-border-right:1.5px solid #fff;
-border-top:1.5px solid #fff;
-transform:rotate(45deg) translateY(-.5px);
 transition:transform .2s;
+font-weight:300;
 }
-.btn-demo:hover::after{transform:rotate(45deg) translateX(3px) translateY(-1.5px);}
+.btn-demo:hover::after{transform:translateX(2px);}
 
 /* ── PROCESO ── */
 .ptag{
@@ -335,17 +335,15 @@ transition:opacity .2s,transform .2s;
 box-shadow:0 8px 32px rgba(124,58,237,.35);
 }
 .ncta:hover{opacity:.82;transform:translateY(-2px);}
-/* Chevron en ncta */
 .ncta::after{
-content:’’;
+content:’›’;
+font-size:18px;
+line-height:1;
 display:inline-block;
-width:6px;height:6px;
-border-right:1.5px solid #fff;
-border-top:1.5px solid #fff;
-transform:rotate(45deg) translateY(-.5px);
 transition:transform .2s;
+font-weight:300;
 }
-.ncta:hover::after{transform:rotate(45deg) translateX(3px) translateY(-1.5px);}
+.ncta:hover::after{transform:translateX(2px);}
 
 .nstamp{
 margin-top:1.2rem;font-size:11px;
@@ -1061,7 +1059,7 @@ function applyS() {
   if (!mesh) return;
   mesh.position.x = S.x * (_worldW / 2);
   mesh.position.y = S.y * (_worldH / 2) + Math.sin(idleT * .65) * .04;
-  mesh.scale.setScalar(S.sc * (isMob ? 1.1 : 1.85));
+  mesh.scale.setScalar(S.sc * (isMob ? 1.6 : 1.85));
   mesh.rotation.y = S.ry + S.idle;
   mesh.rotation.x = S.rx;
 }
@@ -1078,15 +1076,15 @@ const DS = [
   { x: .05, y: -.30, sc: 1.10, ry: 0, rx: 0, dur: 1.1 },
 ];
 const MS = [
-  { x: 0, y: .32, sc: 1.00, ry: 0, rx: 0, dur: 1.2 },
-  { x: 0, y: .28, sc: 1.15, ry: .10, rx: -.04, dur: 1.2 },
-  { x: .22, y: -.36, sc: 1.12, ry: .10, rx: 0, dur: 1.1 },
-  { x: -.20, y: .30, sc: 1.22, ry: -.10, rx: 0, dur: 1.2 },
-  { x: .20, y: -.34, sc: .80, ry: .18, rx: -.06, dur: 1.0 },
-  { x: -.18, y: .28, sc: 1.15, ry: -.08, rx: .04, dur: 1.1 },
-  { x: .16, y: -.30, sc: 1.05, ry: Math.PI * 2, rx: -.06, dur: 1.4 },
-  { x: 0, y: .20, sc: .90, ry: 0, rx: 0, dur: 1.0 },
-  { x: 0, y: -.36, sc: .92, ry: 0, rx: 0, dur: 1.1 },
+  { x: 0,    y: .08,  sc: 1.00, ry: 0,           rx: 0,    dur: 1.2 }, // hero — más centrado, no pisa el tag
+  { x: 0,    y: .10,  sc: 1.15, ry: .10,          rx: -.04, dur: 1.2 }, // night
+  { x: .18,  y: -.28, sc: 1.12, ry: .10,          rx: 0,    dur: 1.1 }, // auto
+  { x: -.16, y: .22,  sc: 1.22, ry: -.10,         rx: 0,    dur: 1.2 }, // webs
+  { x: .18,  y: -.26, sc: .80,  ry: .18,          rx: -.06, dur: 1.0 }, // chat
+  { x: -.16, y: .20,  sc: 1.15, ry: -.08,         rx: .04,  dur: 1.1 }, // mkt
+  { x: .14,  y: -.24, sc: 1.05, ry: Math.PI * 2, rx: -.06, dur: 1.4 }, // ia
+  { x: 0,    y: .15,  sc: .90,  ry: 0,           rx: 0,    dur: 1.0 }, // proc
+  { x: 0,    y: -.28, sc: .92,  ry: 0,           rx: 0,    dur: 1.1 }, // cta
 ];
 const STATES = isMob ? MS : DS;
 const SECS = ['#s-hero', '#s-night', '#s-auto', '#s-webs', '#s-chat', '#s-mkt', '#s-ia', '#s-proc', '#s-cta'];
