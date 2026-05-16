@@ -17,11 +17,23 @@
   --vlt:#7c3aed;
   --vlt-l:#a855f7;
 }
-html{overflow-x:hidden;}
+
+/*
+  FIX 1: overflow-x:hidden removido de html.
+  Antes: html{overflow-x:hidden} → Safari iOS lo usaba como señal
+  para transferir el scroll container de html al viewport interno,
+  dejando el scroll-snap-type huérfano.
+  Solución: html queda limpio. body absorbe el overflow.
+*/
+html{
+  /* Sin overflow aquí — crítico para que Safari iOS reconozca
+     a html como el scroll container en mobile. */
+}
 body{
   background:var(--cream);color:var(--ink);
   font-family:'Inter',system-ui,-apple-system,sans-serif;
-  font-weight:300;overflow-x:hidden;
+  font-weight:300;
+  overflow-x:hidden; /* ← movido de html a body */
   -webkit-font-smoothing:antialiased;
 }
 
@@ -76,18 +88,55 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
   #s-cta{flex-direction:column;align-items:center;text-align:center;min-height:100vh;min-height:100svh;padding-top:0;justify-content:center;}
   #s-cta .ctah{text-align:center;max-width:58vw;}
   #s-cta .brow{justify-content:center;}
-
-  /* HERO: push text down to give robot space */
   #s-hero{align-items:flex-end;padding-bottom:14vh;}
 }
 
-/* ═══ MOBILE SECTIONS ═══ */
+/* ═══ MOBILE SECTIONS ═══
+   FIX 2: El bloque completo reescrito.
+
+   Antes los problemas eran:
+   a) html{overflow-x:hidden} (global) + scroll-snap-type en html → snap huérfano en Safari.
+   b) min-height:100svh → secciones podían ser más altas que el viewport,
+      el snap ancla al top pero el contenido visual queda desalineado.
+   c) Sin scroll-padding-top → contenido tapado por la nav fija de 58px.
+   d) Sin overscroll-behavior → el bounce elástico de iOS interfería con el snap.
+   e) Sin scroll-snap-stop:always → un flick fuerte saltaba 2-3 secciones.
+═══════════════════════════════════════════════════════════════════ */
 @media(max-width:680px){
-  html { scroll-snap-type: y proximity; }
-  section { position:relative; min-height:100vh; min-height:100svh; display:flex; flex-direction:column; padding:0 7vw; z-index:20; scroll-snap-align: start; }
-  
-  #s-proc { scroll-snap-align: none; }
-  footer { scroll-snap-align: none; }
+
+  /* FIX 2a: html como scroll container explícito.
+     overflow-y:scroll fuerza a Safari a reconocer html como el
+     contenedor del scroll, no el viewport interno.
+     scroll-padding-top compensa la nav fija de 58px.
+     overscroll-behavior-y:none elimina el bounce de iOS al inicio/final. */
+  html{
+    overflow-y:scroll;
+    scroll-snap-type:y proximity;
+    scroll-padding-top:58px;
+    overscroll-behavior-y:none;
+  }
+
+  /* FIX 2b: height exacto en lugar de min-height.
+     Los snap points necesitan secciones matemáticamente exactas.
+     Antes: min-height:100svh → sección podía ser 120svh → snap correcto
+     pero visualmente desalineado.
+     scroll-snap-stop:always → Apple style: no saltás más de una sección
+     por flick, cada sección se confirma. */
+  section{
+    position:relative;
+    height:100svh;            /* exacto, no min */
+    overflow:hidden;          /* clips content that doesn't fit */
+    display:flex;
+    flex-direction:column;
+    padding:0 7vw;
+    z-index:20;
+    scroll-snap-align:start;
+    scroll-snap-stop:always;  /* FIX 2c: Apple-style — 1 sección por flick */
+  }
+
+  /* #s-proc y footer fuera del flujo snap — scroll libre al final */
+  #s-proc{scroll-snap-align:none;scroll-snap-stop:normal;}
+  footer{scroll-snap-align:none;scroll-snap-stop:normal;}
 
   .srow{display:block;direction:ltr !important;}
   .rcol{display:none;}
@@ -97,7 +146,16 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
   #s-hero .sub{max-width:100%;text-align:center;}
   #s-hero .brow{justify-content:center;}
 
-  #s-night{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:80px 7vw;}
+  /* #s-night: contenido más denso (chat widget), necesita min-height como fallback.
+     overflow:hidden evita que el chat widget agrande la sección. */
+  #s-night{
+    height:100svh;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:80px 7vw 40px;
+  }
 
   #s-auto{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
   #s-auto .scol{align-items:flex-start;text-align:left;}
@@ -116,8 +174,8 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
   #s-ia .scol{align-items:flex-end;text-align:right;}
   #s-ia .sub{text-align:right;max-width:100%;}
 
-  #s-proc{min-height:auto;padding:64px 7vw;display:block;}
-  #s-cta{min-height:100vh;min-height:100svh;justify-content:center;padding-top:0;padding-bottom:0;flex-direction:column;align-items:center;text-align:center;}
+  #s-proc{height:auto;padding:64px 7vw;display:block;overflow:visible;}
+  #s-cta{height:100svh;overflow:hidden;justify-content:center;padding-top:0;padding-bottom:0;flex-direction:column;align-items:center;text-align:center;}
   #s-cta .ctah{text-align:center;max-width:100%;font-size:clamp(34px,11vw,52px);}
   #s-cta .ctap{max-width:100%;text-align:center;}
   #s-cta .brow{justify-content:center;}
@@ -173,10 +231,13 @@ a{color:inherit;text-decoration:none;}
 #s-night::before{content:'';position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(124,58,237,.2) 0%,transparent 70%);top:-150px;right:-100px;pointer-events:none;z-index:0;}
 #s-night::after{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(168,85,247,.1) 0%,transparent 70%);bottom:0;left:0;pointer-events:none;z-index:0;}
 .night-inner{position:relative;z-index:25;display:flex;align-items:center;gap:clamp(3rem,6vw,8rem);width:100%;}
-@media(max-width:680px){.night-inner{flex-direction:column;gap:2rem;}.night-chat-col{order:-1;width:100%;}}
+@media(max-width:680px){
+  .night-inner{flex-direction:column;gap:1.5rem;}
+  .night-chat-col{order:-1;width:100%;}
+}
 .night-text{flex:1;}
 .night-chat-col{flex:0 0 auto;width:clamp(250px,28vw,320px);}
-@media(max-width:680px){.night-chat-col{width:100%;max-width:320px;margin:0 auto;}}
+@media(max-width:680px){.night-chat-col{width:100%;max-width:300px;margin:0 auto;}}
 .ntag{font-size:11px;font-weight:500;letter-spacing:.16em;color:rgba(168,85,247,.7);text-transform:uppercase;margin-bottom:1.4rem;display:block;}
 .nh{font-size:clamp(36px,4.8vw,72px);font-weight:600;letter-spacing:-.04em;line-height:.93;color:#fff;}
 .nh .na{color:#a855f7;}
@@ -187,6 +248,13 @@ a{color:inherit;text-decoration:none;}
 .nstamp{margin-top:1.2rem;font-size:11px;color:rgba(255,255,255,.2);font-weight:300;letter-spacing:.04em;}
 .nstamp strong{color:rgba(168,85,247,.55);font-weight:500;}
 
+/* Mobile night: ocultar elementos que no entran en 100svh */
+@media(max-width:680px){
+  .ncta{margin-top:1rem;padding:.58rem 1.3rem;font-size:13px;}
+  .nstamp{display:none;}
+  .nh{font-size:clamp(28px,9vw,42px);}
+}
+
 /* CHAT WIDGET decorativo */
 .cw{background:#0f1120;border-radius:18px;overflow:hidden;box-shadow:0 0 0 1px rgba(124,58,237,.2),0 24px 60px rgba(0,0,0,.6),0 0 60px rgba(124,58,237,.08);}
 .cw-head{background:#161830;padding:.8rem 1rem;display:flex;align-items:center;gap:.65rem;border-bottom:1px solid rgba(124,58,237,.12);}
@@ -195,7 +263,8 @@ a{color:inherit;text-decoration:none;}
 .cw-status{font-size:10.5px;color:rgba(255,255,255,.3);margin-top:1px;}
 .cw-dots{margin-left:auto;display:flex;gap:3px;}
 .cw-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.15);}
-.cw-body{padding:.9rem;min-height:220px;display:flex;flex-direction:column;gap:.5rem;}
+.cw-body{padding:.9rem;min-height:180px;max-height:200px;overflow:hidden;display:flex;flex-direction:column;gap:.5rem;}
+@media(max-width:680px){.cw-body{min-height:140px;max-height:160px;}}
 .cm{max-width:84%;padding:.55rem .8rem;border-radius:13px;font-size:12px;line-height:1.55;font-weight:300;opacity:0;transform:translateY(6px);transition:opacity .35s ease,transform .35s ease;}
 .cm.vis{opacity:1;transform:none;}
 .cm.in{background:#1c2035;color:rgba(255,255,255,.75);align-self:flex-start;border-bottom-left-radius:3px;}
@@ -223,10 +292,26 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 .fc{font-size:12px;color:var(--dim);}
 @media(max-width:680px){footer{flex-direction:column;gap:.9rem;text-align:center;padding:1.8rem 7vw;}.fls{justify-content:center;flex-wrap:wrap;}}
 
-/* REVEAL */
-.rv{opacity:0;transform:translateY(26px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);will-change:opacity,transform;}
+/* REVEAL
+   FIX 3: will-change removido de aquí.
+   Antes: will-change en todos los .rv al mismo tiempo → decenas de
+   capas GPU en mobile antes de que el usuario scrollee nada.
+   Ahora: will-change se agrega justo antes de la transición y
+   se elimina después (manejado en JS con onComplete callback).
+*/
+.rv{opacity:0;transform:translateY(26px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
 .rv.in{opacity:1;transform:none;}
 .d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.32s;}
+
+/* FIX 4: prefers-reduced-motion — accesibilidad */
+@media(prefers-reduced-motion:reduce){
+  .rv{transition:opacity .3s ease;transform:none;}
+  .rv.in{transform:none;}
+  .ldr-b{animation:none;width:100%;}
+  .td{animation:none;}
+  .cm{transition:opacity .2s;}
+  .mh-dot{animation:none;}
+}
 
 /* ══════════════════════════════════════════════
    MODAL BASE — shared by all demo overlays
@@ -259,6 +344,8 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   transform:translateY(20px) scale(.97);
   transition:transform .45s cubic-bezier(.16,1,.3,1);
   box-shadow:0 32px 80px rgba(0,0,0,.7),0 0 0 1px rgba(124,58,237,.1),0 0 80px rgba(124,58,237,.06);
+  /* FIX 5: overscroll en modales — el scroll interno no propaga al document */
+  overscroll-behavior:contain;
 }
 .modal-overlay.open .modal-panel{transform:translateY(0) scale(1);}
 
@@ -295,6 +382,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   padding:1rem;
   scrollbar-width:thin;
   scrollbar-color:rgba(124,58,237,.2) transparent;
+  overscroll-behavior:contain; /* FIX 5: evita que scroll del modal mueva la página */
 }
 .modal-body::-webkit-scrollbar{width:4px;}
 .modal-body::-webkit-scrollbar-track{background:transparent;}
@@ -365,7 +453,6 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 }
 .hint-chip:hover{background:rgba(124,58,237,.22);border-color:rgba(168,85,247,.4);color:#a855f7;}
 
-/* iOS keyboard fix: input area stays fixed at bottom of modal */
 #demo-input-area{
   display:flex;align-items:flex-end;gap:.6rem;
   padding:.75rem 1rem;
@@ -378,7 +465,8 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   border:1px solid rgba(124,58,237,.15);
   border-radius:12px;
   padding:.6rem .85rem;
-  color:#fff;font-size:16px;/* 16px prevents iOS zoom */
+  color:#fff;
+  font-size:16px; /* 16px: previene zoom en iOS */
   font-family:'Inter',sans-serif;font-weight:300;
   resize:none;max-height:80px;min-height:40px;
   transition:border-color .18s;
@@ -402,7 +490,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 #demo-send:disabled{opacity:.35;transform:none;cursor:not-allowed;}
 
 /* ══════════════════════════════════════════════
-   DEMO MARKETING — copy generator
+   DEMO MARKETING
    ══════════════════════════════════════════════ */
 #mkt-body{padding:1.25rem;display:flex;flex-direction:column;gap:1rem;}
 
@@ -415,7 +503,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   border-radius:12px;
   padding:.75rem 1rem;
   color:#fff;
-  font-size:14px; /* 14px is fine here as it's the main content area, not a textarea for iOS */
+  font-size:16px; /* 16px: previene zoom en iOS */
   font-family:'Inter',sans-serif;font-weight:300;
   outline:none;
   transition:border-color .18s;
@@ -472,7 +560,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 .mkt-spinner.vis{display:block;}
 
 /* ══════════════════════════════════════════════
-   DEMO IA — text analyzer
+   DEMO IA
    ══════════════════════════════════════════════ */
 #ia-body{padding:1.25rem;display:flex;flex-direction:column;gap:1rem;}
 
@@ -493,11 +581,18 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   border:1px solid rgba(124,58,237,.2);
   border-radius:12px;
   padding:.75rem 1rem;
-  color:#fff;font-size:13px;
+  color:#fff;
+  /*
+    FIX 6: font-size era 13px → causaba zoom automático en iOS al enfocar.
+    iOS hace zoom cuando font-size < 16px en inputs/textareas.
+    Cambiado a 16px.
+  */
+  font-size:16px;
   font-family:'Inter',sans-serif;font-weight:300;
   outline:none;resize:none;height:90px;
   transition:border-color .18s;
   line-height:1.55;
+  -webkit-text-size-adjust:100%;
 }
 .ia-textarea::placeholder{color:rgba(255,255,255,.25);}
 .ia-textarea:focus{border-color:rgba(168,85,247,.4);}
@@ -530,10 +625,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 .ia-rs-label svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 .ia-rs-value{font-size:13px;color:rgba(255,255,255,.8);font-weight:300;line-height:1.55;}
 .ia-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.3rem;}
-.ia-tag{
-  padding:.22rem .6rem;border-radius:100px;
-  font-size:11px;font-weight:400;
-}
+.ia-tag{padding:.22rem .6rem;border-radius:100px;font-size:11px;font-weight:400;}
 .ia-tag.cat{background:rgba(59,130,246,.15);color:#93c5fd;border:1px solid rgba(59,130,246,.2);}
 .ia-tag.key{background:rgba(168,85,247,.12);color:#c084fc;border:1px solid rgba(168,85,247,.2);}
 .ia-action-box{
@@ -546,7 +638,6 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 }
 .ia-action-box strong{color:#4ade80;font-weight:500;}
 
-/* Sentiment indicator */
 .ia-sentiment{display:flex;align-items:center;gap:.55rem;}
 .ia-sent-bar{flex:1;height:5px;border-radius:3px;background:rgba(255,255,255,.06);overflow:hidden;}
 .ia-sent-fill{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.16,1,.3,1);}
@@ -675,7 +766,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
-<!-- 8. PROCESO -->
+<!-- 8. PROCESO — fuera del flujo snap, scroll libre -->
 <section id="s-proc">
   <span class="ptag rv">Cómo trabajamos</span>
   <div class="pg">
@@ -706,9 +797,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   <span class="fc">© 2025 Montevideo</span>
 </footer>
 
-<!-- ══════════════════════════════════════════════════
-     MODAL: CHATBOT
-     ══════════════════════════════════════════════════ -->
+<!-- MODAL: CHATBOT -->
 <div class="modal-overlay" id="mo-chat">
   <div class="modal-backdrop" onclick="closeModal('chat')"></div>
   <div class="modal-panel">
@@ -738,9 +827,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     MODAL: MARKETING
-     ══════════════════════════════════════════════════ -->
+<!-- MODAL: MARKETING -->
 <div class="modal-overlay" id="mo-mkt">
   <div class="modal-backdrop" onclick="closeModal('mkt')"></div>
   <div class="modal-panel">
@@ -766,9 +853,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     MODAL: IA ANALYZER
-     ══════════════════════════════════════════════════ -->
+<!-- MODAL: IA ANALYZER -->
 <div class="modal-overlay" id="mo-ia">
   <div class="modal-backdrop" onclick="closeModal('ia')"></div>
   <div class="modal-panel">
@@ -806,113 +891,137 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script>
 gsap.registerPlugin(ScrollTrigger);
-const isMob = window.innerWidth <= 680;
+
+/*
+  FIX 7: isMob evaluado en función, no como constante.
+  Antes: const isMob = window.innerWidth <= 680 (evaluado una vez al cargar).
+  Si el usuario rotaba el dispositivo o redimensionaba, isMob quedaba desactualizado.
+  Ahora: función que se re-evalúa en cada uso.
+*/
+const isMob = () => window.innerWidth <= 680;
 
 // ── CURSOR ──
-const cd=document.getElementById('cd'),cr=document.getElementById('cr');
-if(!isMob){
-  let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.left=mx+'px';cd.style.top=my+'px';});
-  (function ac(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(ac);})();
+const cd = document.getElementById('cd'), cr = document.getElementById('cr');
+if (!isMob()) {
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cd.style.left = mx + 'px'; cd.style.top = my + 'px'; });
+  (function ac() { rx += (mx - rx) * .11; ry += (my - ry) * .11; cr.style.left = rx + 'px'; cr.style.top = ry + 'px'; requestAnimationFrame(ac); })();
 }
 
 // ── NAV ──
-const navEl=document.getElementById('nav');
-const nightEl=document.getElementById('s-night');
-function updateNav(){
-  const r=nightEl.getBoundingClientRect();
-  const inNight=r.top<58&&r.bottom>0;
-  navEl.classList.toggle('dk',inNight);
-  navEl.classList.toggle('bg',!inNight&&window.scrollY>30);
-  cd.classList.toggle('vlt',inNight);
-  cr.classList.toggle('vlt',inNight);
+const navEl = document.getElementById('nav');
+const nightEl = document.getElementById('s-night');
+function updateNav() {
+  const r = nightEl.getBoundingClientRect();
+  const inNight = r.top < 58 && r.bottom > 0;
+  navEl.classList.toggle('dk', inNight);
+  navEl.classList.toggle('bg', !inNight && window.scrollY > 30);
+  cd.classList.toggle('vlt', inNight);
+  cr.classList.toggle('vlt', inNight);
 }
-window.addEventListener('scroll',updateNav,{passive:true});
+window.addEventListener('scroll', updateNav, { passive: true });
 
-// ── REVEAL ──
-document.querySelectorAll('.rv').forEach(el=>{
-  const obs=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});
-  },{threshold:.08});
-  obs.observe(el);
-});
+/*
+  FIX 8: Un solo IntersectionObserver compartido para todos los .rv.
+  Antes: se creaba un observer individual por cada elemento .rv.
+  Con ~20 elementos .rv en la página, eso son 20 observers corriendo
+  en paralelo — carga innecesaria en el main thread, especialmente en mobile.
+  Ahora: un único observer, con will-change activado justo antes de
+  la transición y desactivado en onComplete para liberar la capa GPU.
+*/
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    // Activar will-change justo antes — crea la capa GPU solo cuando se necesita
+    el.style.willChange = 'opacity, transform';
+    el.classList.add('in');
+    // Liberar la capa GPU al terminar la transición
+    el.addEventListener('transitionend', () => {
+      el.style.willChange = 'auto';
+    }, { once: true });
+    revealObs.unobserve(el);
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.rv').forEach(el => revealObs.observe(el));
 
 // ── CHAT DECORATIVO ──
-const msgs=[
-  {t:'in',  txt:'Hola! cuánto sale un chatbot?', d:0},
-  {t:'typing', d:1100},
-  {t:'out', txt:'Hola! Armamos bots para WhatsApp e Instagram. Arrancamos desde $400. ¿Para qué negocio?', d:2200},
-  {t:'in',  txt:'Peluquería, quiero que tome turnos solo', d:3600},
-  {t:'typing', d:4700},
-  {t:'out', txt:'Perfecto, es exactamente para eso 🤖 El bot confirma, manda recordatorios y responde 24hs. ¿Querés una demo?', d:5600},
-  {t:'in',  txt:'Sí! cuándo empezamos?', d:7000},
-  {t:'sys', txt:'✓ Venta cerrada · 3:14 AM', d:8200},
+const msgs = [
+  { t: 'in',     txt: 'Hola! cuánto sale un chatbot?', d: 0 },
+  { t: 'typing', d: 1100 },
+  { t: 'out',    txt: 'Hola! Armamos bots para WhatsApp e Instagram. Arrancamos desde $400. ¿Para qué negocio?', d: 2200 },
+  { t: 'in',     txt: 'Peluquería, quiero que tome turnos solo', d: 3600 },
+  { t: 'typing', d: 4700 },
+  { t: 'out',    txt: 'Perfecto, es exactamente para eso 🤖 El bot confirma, manda recordatorios y responde 24hs. ¿Querés una demo?', d: 5600 },
+  { t: 'in',     txt: 'Sí! cuándo empezamos?', d: 7000 },
+  { t: 'sys',    txt: '✓ Venta cerrada · 3:14 AM', d: 8200 },
 ];
-const CHAT_TOTAL=msgs[msgs.length-1].d+4500;
-const cwBody=document.getElementById('cwBody');
-let chatTimeouts=[],chatRunning=false;
-function clearChatTimers(){chatTimeouts.forEach(id=>clearTimeout(id));chatTimeouts=[];chatRunning=false;}
-function runChat(){
-  if(chatRunning)return;chatRunning=true;cwBody.innerHTML='';
-  msgs.forEach(m=>{
-    const id=setTimeout(()=>{
-      const prev=cwBody.querySelector('.cw-typing');
-      if(prev&&m.t!=='typing')prev.remove();
-      if(m.t==='typing'){
-        const ti=document.createElement('div');ti.className='cw-typing';
-        ti.innerHTML='<div class="td"></div><div class="td"></div><div class="td"></div>';
-        cwBody.appendChild(ti);setTimeout(()=>ti.classList.add('vis'),20);
-        cwBody.scrollTop=cwBody.scrollHeight;return;
+const CHAT_TOTAL = msgs[msgs.length - 1].d + 4500;
+const cwBody = document.getElementById('cwBody');
+let chatTimeouts = [], chatRunning = false;
+function clearChatTimers() { chatTimeouts.forEach(id => clearTimeout(id)); chatTimeouts = []; chatRunning = false; }
+function runChat() {
+  if (chatRunning) return; chatRunning = true; cwBody.innerHTML = '';
+  msgs.forEach(m => {
+    const id = setTimeout(() => {
+      const prev = cwBody.querySelector('.cw-typing');
+      if (prev && m.t !== 'typing') prev.remove();
+      if (m.t === 'typing') {
+        const ti = document.createElement('div'); ti.className = 'cw-typing';
+        ti.innerHTML = '<div class="td"></div><div class="td"></div><div class="td"></div>';
+        cwBody.appendChild(ti); setTimeout(() => ti.classList.add('vis'), 20);
+        cwBody.scrollTop = cwBody.scrollHeight; return;
       }
-      const el=document.createElement('div');el.className=`cm ${m.t}`;
-      el.innerHTML=m.t==='sys'?m.txt:m.txt+(m.t==='out'?`<div class="ct">3:14 AM <span class="ck">✓✓</span></div>`:`<div class="ct">3:14 AM</div>`);
-      cwBody.appendChild(el);setTimeout(()=>el.classList.add('vis'),20);
-      cwBody.scrollTop=cwBody.scrollHeight;
-    },m.d);
+      const el = document.createElement('div'); el.className = `cm ${m.t}`;
+      el.innerHTML = m.t === 'sys' ? m.txt : m.txt + (m.t === 'out' ? `<div class="ct">3:14 AM <span class="ck">✓✓</span></div>` : `<div class="ct">3:14 AM</div>`);
+      cwBody.appendChild(el); setTimeout(() => el.classList.add('vis'), 20);
+      cwBody.scrollTop = cwBody.scrollHeight;
+    }, m.d);
     chatTimeouts.push(id);
   });
-  const loopId=setTimeout(()=>{chatRunning=false;runChat();},CHAT_TOTAL);
+  const loopId = setTimeout(() => { chatRunning = false; runChat(); }, CHAT_TOTAL);
   chatTimeouts.push(loopId);
 }
-const chatObs=new IntersectionObserver(entries=>{
-  if(entries[0].isIntersecting)runChat();else clearChatTimers();
-},{threshold:.25});
+const chatObs = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) runChat(); else clearChatTimers();
+}, { threshold: .25 });
 chatObs.observe(nightEl);
 
 // ══════════════════════════════════════════════
 // MODAL SYSTEM
 // ══════════════════════════════════════════════
-const MODAL_MAP = {auto:'mo-auto',webs:'mo-webs',chat:'mo-chat',mkt:'mo-mkt',ia:'mo-ia'};
+const MODAL_MAP = { auto: 'mo-auto', webs: 'mo-webs', chat: 'mo-chat', mkt: 'mo-mkt', ia: 'mo-ia' };
 let openModalKey = null;
 
-function openModal(key){
-  if(openModalKey) closeModal(openModalKey);
+function openModal(key) {
+  if (openModalKey) closeModal(openModalKey);
   const el = document.getElementById(MODAL_MAP[key]);
-  if(!el) return;
+  if (!el) return;
   openModalKey = key;
   el.classList.add('open');
-  document.documentElement.style.overflow='hidden';
-  if(key==='chat' && document.getElementById('demo-messages').children.length===0){
-    setTimeout(()=>addBotMessage('¡Hola! Soy el asistente de Concepto Development. ¿En qué puedo ayudarte hoy?'),300);
+  document.documentElement.style.overflow = 'hidden';
+  if (key === 'chat' && document.getElementById('demo-messages').children.length === 0) {
+    setTimeout(() => addBotMessage('¡Hola! Soy el asistente de Concepto Development. ¿En qué puedo ayudarte hoy?'), 300);
   }
-  if(key==='chat') setTimeout(()=>document.getElementById('demo-input').focus(),500);
+  if (key === 'chat') setTimeout(() => document.getElementById('demo-input').focus(), 500);
 }
 
-function closeModal(key){
+function closeModal(key) {
   const el = document.getElementById(MODAL_MAP[key]);
-  if(!el) return;
+  if (!el) return;
   el.classList.remove('open');
-  document.documentElement.style.overflow='';
+  document.documentElement.style.overflow = '';
   openModalKey = null;
 }
 
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&openModalKey)closeModal(openModalKey);});
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && openModalKey) closeModal(openModalKey); });
 
 // ══════════════════════════════════════════════
 // CHATBOT DEMO
 // ══════════════════════════════════════════════
-const WORKER_URL='https://conceptodemo.conceptodevelopment.workers.dev';
-const SYSTEM_PROMPT=`Sos el asistente virtual de Concepto Development, una agencia digital de Montevideo, Uruguay.
+const WORKER_URL = 'https://conceptodemo.conceptodevelopment.workers.dev';
+const SYSTEM_PROMPT = `Sos el asistente virtual de Concepto Development, una agencia digital de Montevideo, Uruguay.
 
 Concepto Development se especializa en:
 - Automatizaciones: sistemas que corren solos y eliminan trabajo manual repetitivo
@@ -929,79 +1038,87 @@ Si alguien pregunta por precios, decí que depende del proyecto y los invitás a
 Máximo 3 oraciones por respuesta. Directo al punto.
 El WhatsApp de contacto es: https://wa.me/59897976574`;
 
-let demoHistory=[];
-let isSending=false;
+/*
+  FIX 9: historial del chatbot limitado a las últimas 10 interacciones.
+  Antes: el array crecía sin límite → cada request enviaba más tokens
+  → latencia creciente y costos de API sin control.
+  10 mensajes = ~5 pares user/assistant, suficiente contexto conversacional.
+*/
+const MAX_HISTORY = 10;
+let demoHistory = [];
+let isSending = false;
 
-const demoMessages=document.getElementById('demo-messages');
-const demoTyping=document.getElementById('demo-typing');
-const demoHints=document.getElementById('demo-hints');
-const demoInput=document.getElementById('demo-input');
-const demoSend=document.getElementById('demo-send');
+const demoMessages = document.getElementById('demo-messages');
+const demoTyping = document.getElementById('demo-typing');
+const demoHints = document.getElementById('demo-hints');
+const demoInput = document.getElementById('demo-input');
+const demoSend = document.getElementById('demo-send');
 
-function addBotMessage(text){
-  const el=document.createElement('div');
-  el.className='dm bot';
-  el.textContent=text;
+function addBotMessage(text) {
+  const el = document.createElement('div');
+  el.className = 'dm bot';
+  el.textContent = text;
   demoMessages.appendChild(el);
-  const body=document.getElementById('chat-modal-body');
-  body.scrollTop=body.scrollHeight;
+  const body = document.getElementById('chat-modal-body');
+  body.scrollTop = body.scrollHeight;
 }
 
-function addUserMessage(text){
-  const el=document.createElement('div');
-  el.className='dm user';
-  el.textContent=text;
+function addUserMessage(text) {
+  const el = document.createElement('div');
+  el.className = 'dm user';
+  el.textContent = text;
   demoMessages.appendChild(el);
-  const body=document.getElementById('chat-modal-body');
-  body.scrollTop=body.scrollHeight;
+  const body = document.getElementById('chat-modal-body');
+  body.scrollTop = body.scrollHeight;
 }
 
-function showTyping(){demoTyping.classList.add('vis');}
-function hideTyping(){demoTyping.classList.remove('vis');}
+function showTyping() { demoTyping.classList.add('vis'); }
+function hideTyping() { demoTyping.classList.remove('vis'); }
 
-async function sendMessage(customText){
-  const text=(customText||demoInput.value).trim();
-  if(!text||isSending)return;
-  isSending=true;
-  demoSend.disabled=true;
-  if(!customText){demoInput.value='';demoInput.style.height='';}
-  demoHints.style.display='none';
+async function sendMessage(customText) {
+  const text = (customText || demoInput.value).trim();
+  if (!text || isSending) return;
+  isSending = true;
+  demoSend.disabled = true;
+  if (!customText) { demoInput.value = ''; demoInput.style.height = ''; }
+  demoHints.style.display = 'none';
   addUserMessage(text);
-  demoHistory.push({role:'user',content:text});
+  demoHistory.push({ role: 'user', content: text });
+  // FIX 9: trim history to last MAX_HISTORY entries
+  if (demoHistory.length > MAX_HISTORY) demoHistory = demoHistory.slice(-MAX_HISTORY);
   showTyping();
-  const body=document.getElementById('chat-modal-body');
-  body.scrollTop=body.scrollHeight;
-  try{
-    const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:SYSTEM_PROMPT,messages:demoHistory})});
-    const data=await res.json();
-    const reply=data.text||'Lo siento, no pude procesar eso. Intentá de nuevo.';
-    hideTyping();addBotMessage(reply);demoHistory.push({role:'assistant',content:reply});
-  }catch(err){hideTyping();addBotMessage('Hubo un error de conexión. Intentá de nuevo en un momento.');}
-  isSending=false;demoSend.disabled=false;
+  const body = document.getElementById('chat-modal-body');
+  body.scrollTop = body.scrollHeight;
+  try {
+    const res = await fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ system: SYSTEM_PROMPT, messages: demoHistory }) });
+    const data = await res.json();
+    const reply = data.text || 'Lo siento, no pude procesar eso. Intentá de nuevo.';
+    hideTyping(); addBotMessage(reply);
+    demoHistory.push({ role: 'assistant', content: reply });
+    if (demoHistory.length > MAX_HISTORY) demoHistory = demoHistory.slice(-MAX_HISTORY);
+  } catch (err) {
+    hideTyping(); addBotMessage('Hubo un error de conexión. Intentá de nuevo en un momento.');
+  }
+  isSending = false; demoSend.disabled = false;
 }
 
-function sendHint(btn){sendMessage(btn.textContent);}
+function sendHint(btn) { sendMessage(btn.textContent); }
 
-demoInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});
-demoInput.addEventListener('input',()=>{demoInput.style.height='auto';demoInput.style.height=Math.min(demoInput.scrollHeight,80)+'px';});
+demoInput.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
+demoInput.addEventListener('input', () => { demoInput.style.height = 'auto'; demoInput.style.height = Math.min(demoInput.scrollHeight, 80) + 'px'; });
 
 // ══════════════════════════════════════════════
 // MARKETING COPY GENERATOR
 // ══════════════════════════════════════════════
-async function generateCopy(){
-  const input=document.getElementById('mkt-input').value.trim();
-  if(!input)return;
-  const btn=document.getElementById('mkt-btn');
-  const spinner=document.getElementById('mkt-spinner');
-  const btnText=document.getElementById('mkt-btn-text');
-  const results=document.getElementById('mkt-results');
-
-  btn.disabled=true;
-  spinner.classList.add('vis');
-  btnText.textContent='Generando…';
-  results.innerHTML='';
-
-  const prompt=`Generá 3 variantes de copy para Meta Ads (Facebook/Instagram) para este negocio: "${input}".
+async function generateCopy() {
+  const input = document.getElementById('mkt-input').value.trim();
+  if (!input) return;
+  const btn = document.getElementById('mkt-btn');
+  const spinner = document.getElementById('mkt-spinner');
+  const btnText = document.getElementById('mkt-btn-text');
+  const results = document.getElementById('mkt-results');
+  btn.disabled = true; spinner.classList.add('vis'); btnText.textContent = 'Generando…'; results.innerHTML = '';
+  const prompt = `Generá 3 variantes de copy para Meta Ads (Facebook/Instagram) para este negocio: "${input}".
 
 Respondé ÚNICAMENTE con un JSON válido, sin markdown, sin comillas extra, exactamente así:
 {"llamativa":"...","emocional":"...","directa":"..."}
@@ -1013,61 +1130,51 @@ Reglas:
 - directa: oferta clara, beneficio concreto, llamada a la acción
 
 Respondé solo el JSON.`;
-
-  try{
-    const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:'Respondés siempre con JSON puro, sin markdown, sin explicaciones.',messages:[{role:'user',content:prompt}]})});
-    const data=await res.json();
-    let text=(data.text||'').trim().replace(/```json|```/g,'').trim();
-    const parsed=JSON.parse(text);
-    const variants=[
-      {key:'llamativa',label:'LLAMATIVA',cls:'mv-llamativa'},
-      {key:'emocional',label:'EMOCIONAL',cls:'mv-emocional'},
-      {key:'directa',label:'DIRECTA',cls:'mv-directa'},
+  try {
+    const res = await fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ system: 'Respondés siempre con JSON puro, sin markdown, sin explicaciones.', messages: [{ role: 'user', content: prompt }] }) });
+    const data = await res.json();
+    let text = (data.text || '').trim().replace(/```json|```/g, '').trim();
+    const parsed = JSON.parse(text);
+    const variants = [
+      { key: 'llamativa', label: 'LLAMATIVA', cls: 'mv-llamativa' },
+      { key: 'emocional', label: 'EMOCIONAL', cls: 'mv-emocional' },
+      { key: 'directa',   label: 'DIRECTA',   cls: 'mv-directa' },
     ];
-    variants.forEach(v=>{
-      if(!parsed[v.key])return;
-      const el=document.createElement('div');
-      el.className=`mkt-variant ${v.cls}`;
-      el.innerHTML=`<div class="mkt-variant-type">${v.label}</div><div class="mkt-variant-copy">${parsed[v.key]}</div>`;
+    variants.forEach(v => {
+      if (!parsed[v.key]) return;
+      const el = document.createElement('div');
+      el.className = `mkt-variant ${v.cls}`;
+      el.innerHTML = `<div class="mkt-variant-type">${v.label}</div><div class="mkt-variant-copy">${parsed[v.key]}</div>`;
       results.appendChild(el);
     });
-  }catch(e){
-    results.innerHTML='<p style="font-size:12px;color:rgba(255,255,255,.3);text-align:center;padding:1rem">Hubo un error. Intentá de nuevo.</p>';
+  } catch (e) {
+    results.innerHTML = '<p style="font-size:12px;color:rgba(255,255,255,.3);text-align:center;padding:1rem">Hubo un error. Intentá de nuevo.</p>';
   }
-
-  btn.disabled=false;
-  spinner.classList.remove('vis');
-  btnText.textContent='Generar 3 variantes de copy ✦';
+  btn.disabled = false; spinner.classList.remove('vis'); btnText.textContent = 'Generar 3 variantes de copy ✦';
 }
 
-document.getElementById('mkt-input').addEventListener('keydown',e=>{if(e.key==='Enter')generateCopy();});
+document.getElementById('mkt-input').addEventListener('keydown', e => { if (e.key === 'Enter') generateCopy(); });
 
 // ══════════════════════════════════════════════
 // IA TEXT ANALYZER
 // ══════════════════════════════════════════════
-const IA_EXAMPLES=[
+const IA_EXAMPLES = [
   'Che, necesito 3 docenas de medialunas para mañana a las 8am, es urgente porque las necesito para una reunión de empresa, confirmen por favor.',
   'Les escribo porque recibí el pedido y los productos llegaron rotos. Es la segunda vez que pasa y estoy muy enojado. Quiero una solución ya.',
   'Hola! ¿Cuánto sale el plan mensual? ¿Tienen descuento si pago un año adelantado?',
   'Buenos días, quisiera reservar turno para un corte y barba para el viernes 23 a la tarde si tienen lugar.'
 ];
+function setIaExample(i) { document.getElementById('ia-input').value = IA_EXAMPLES[i]; }
 
-function setIaExample(i){document.getElementById('ia-input').value=IA_EXAMPLES[i];}
-
-async function analyzeText(){
-  const input=document.getElementById('ia-input').value.trim();
-  if(!input)return;
-  const btn=document.getElementById('ia-btn');
-  const spinner=document.getElementById('ia-spinner');
-  const btnText=document.getElementById('ia-btn-text');
-  const container=document.getElementById('ia-result-container');
-
-  btn.disabled=true;
-  spinner.classList.add('vis');
-  btnText.textContent='Analizando…';
-  container.innerHTML='';
-
-  const prompt=`Analizá este mensaje de cliente y respondé SOLO con JSON puro (sin markdown):
+async function analyzeText() {
+  const input = document.getElementById('ia-input').value.trim();
+  if (!input) return;
+  const btn = document.getElementById('ia-btn');
+  const spinner = document.getElementById('ia-spinner');
+  const btnText = document.getElementById('ia-btn-text');
+  const container = document.getElementById('ia-result-container');
+  btn.disabled = true; spinner.classList.add('vis'); btnText.textContent = 'Analizando…'; container.innerHTML = '';
+  const prompt = `Analizá este mensaje de cliente y respondé SOLO con JSON puro (sin markdown):
 
 Mensaje: "${input}"
 
@@ -1080,19 +1187,16 @@ Formato exacto:
   "datos_clave": ["array","de","datos","importantes","del","mensaje"],
   "accion_sugerida": "Una acción concreta y específica que el equipo debería tomar, en español rioplatense."
 }`;
-
-  try{
-    const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:'Respondés siempre con JSON puro sin markdown.',messages:[{role:'user',content:prompt}]})});
-    const data=await res.json();
-    let text=(data.text||'').trim().replace(/```json|```/g,'').trim();
-    const p=JSON.parse(text);
-
-    const sentColor=p.sentimiento==='Positivo'?'#4ade80':p.sentimiento==='Negativo'?'#f87171':'#fbbf24';
-    const urgColor=p.urgencia==='Alta'?'#f87171':p.urgencia==='Media'?'#fbbf24':'#4ade80';
-
-    const el=document.createElement('div');
-    el.className='ia-result';
-    el.innerHTML=`
+  try {
+    const res = await fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ system: 'Respondés siempre con JSON puro sin markdown.', messages: [{ role: 'user', content: prompt }] }) });
+    const data = await res.json();
+    let text = (data.text || '').trim().replace(/```json|```/g, '').trim();
+    const p = JSON.parse(text);
+    const sentColor = p.sentimiento === 'Positivo' ? '#4ade80' : p.sentimiento === 'Negativo' ? '#f87171' : '#fbbf24';
+    const urgColor = p.urgencia === 'Alta' ? '#f87171' : p.urgencia === 'Media' ? '#fbbf24' : '#4ade80';
+    const el = document.createElement('div');
+    el.className = 'ia-result';
+    el.innerHTML = `
       <div class="ia-result-section">
         <div class="ia-rs-label">
           <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
@@ -1118,7 +1222,7 @@ Formato exacto:
           <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
           Datos clave extraídos
         </div>
-        <div class="ia-tags">${(p.datos_clave||[]).map(d=>`<span class="ia-tag key">${d}</span>`).join('')}</div>
+        <div class="ia-tags">${(p.datos_clave || []).map(d => `<span class="ia-tag key">${d}</span>`).join('')}</div>
       </div>
       <div class="ia-result-section">
         <div class="ia-rs-label">
@@ -1129,121 +1233,125 @@ Formato exacto:
       </div>
     `;
     container.appendChild(el);
-  }catch(e){
-    container.innerHTML='<p style="font-size:12px;color:rgba(255,255,255,.3);text-align:center;padding:1rem">Error al analizar. Intentá de nuevo.</p>';
+  } catch (e) {
+    container.innerHTML = '<p style="font-size:12px;color:rgba(255,255,255,.3);text-align:center;padding:1rem">Error al analizar. Intentá de nuevo.</p>';
   }
-
-  btn.disabled=false;
-  spinner.classList.remove('vis');
-  btnText.textContent='Analizar con IA ✦';
+  btn.disabled = false; spinner.classList.remove('vis'); btnText.textContent = 'Analizar con IA ✦';
 }
 
 // ══════════════════════════════════════════════
 // THREE.JS
 // ══════════════════════════════════════════════
-const canvas=document.getElementById('rc');
-const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:!isMob});
-renderer.setPixelRatio(Math.min(window.devicePixelRatio,isMob?1.5:2));
-renderer.setSize(window.innerWidth,window.innerHeight);
-renderer.outputEncoding=THREE.sRGBEncoding;
-renderer.toneMapping=THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure=1.3;
-const scene=new THREE.Scene();
-const camera=new THREE.PerspectiveCamera(35,window.innerWidth/window.innerHeight,.1,100);
-camera.position.z=5;
-const ambLight=new THREE.AmbientLight(0xffffff,1.5);scene.add(ambLight);
-const kl=new THREE.DirectionalLight(0xffffff,2.6);kl.position.set(2,4,3);scene.add(kl);
-const fl=new THREE.DirectionalLight(0xf5f0e8,1.0);fl.position.set(-3,1,2);scene.add(fl);
-const vl=new THREE.PointLight(0xa855f7,0,8);vl.position.set(0,1,3);scene.add(vl);
+const canvas = document.getElementById('rc');
+const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: !isMob() });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMob() ? 1.5 : 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.3;
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, .1, 100);
+camera.position.z = 5;
+const ambLight = new THREE.AmbientLight(0xffffff, 1.5); scene.add(ambLight);
+const kl = new THREE.DirectionalLight(0xffffff, 2.6); kl.position.set(2, 4, 3); scene.add(kl);
+const fl = new THREE.DirectionalLight(0xf5f0e8, 1.0); fl.position.set(-3, 1, 2); scene.add(fl);
+const vl = new THREE.PointLight(0xa855f7, 0, 8); vl.position.set(0, 1, 3); scene.add(vl);
 
-const S={x:0,y:0,sc:1,ry:0,rx:0,idle:0};
-let mesh=null,idleT=0;
-let _worldW=0,_worldH=0;
-function calcWorld(){_worldW=2*Math.tan(camera.fov*Math.PI/360)*camera.position.z*camera.aspect;_worldH=2*Math.tan(camera.fov*Math.PI/360)*camera.position.z;}
+const S = { x: 0, y: 0, sc: 1, ry: 0, rx: 0, idle: 0 };
+let mesh = null, idleT = 0;
+let _worldW = 0, _worldH = 0;
+function calcWorld() { _worldW = 2 * Math.tan(camera.fov * Math.PI / 360) * camera.position.z * camera.aspect; _worldH = 2 * Math.tan(camera.fov * Math.PI / 360) * camera.position.z; }
 calcWorld();
-function applyS(){
-  if(!mesh)return;
-  mesh.position.x=S.x*(_worldW/2);
-  mesh.position.y=S.y*(_worldH/2)+Math.sin(idleT*.65)*.04;
-  mesh.scale.setScalar(S.sc*(isMob?1.1:1.85));
-  mesh.rotation.y=S.ry+S.idle;
-  mesh.rotation.x=S.rx;
+function applyS() {
+  if (!mesh) return;
+  mesh.position.x = S.x * (_worldW / 2);
+  mesh.position.y = S.y * (_worldH / 2) + Math.sin(idleT * .65) * .04;
+  mesh.scale.setScalar(S.sc * (isMob() ? 1.1 : 1.85));
+  mesh.rotation.y = S.ry + S.idle;
+  mesh.rotation.x = S.rx;
 }
 
-const DS=[
-  {x:.30,y:.05,sc:1.15,ry:0,rx:0,dur:1.2},
-  {x:.28,y:.00,sc:1.45,ry:.12,rx:-.05,dur:1.3},
-  {x:-.30,y:-.10,sc:1.35,ry:.08,rx:0,dur:1.1},
-  {x:.28,y:.12,sc:.85,ry:-.10,rx:0,dur:1.2},
-  {x:-.28,y:-.08,sc:1.20,ry:.15,rx:-.06,dur:1.0},
-  {x:.32,y:.08,sc:.72,ry:-.10,rx:.04,dur:1.1},
-  {x:-.22,y:-.05,sc:1.20,ry:Math.PI*2,rx:-.05,dur:1.4},
-  {x:.05,y:-.28,sc:1.00,ry:0,rx:0,dur:1.0},
-  {x:.05,y:-.30,sc:1.10,ry:0,rx:0,dur:1.1},
+const DS = [
+  { x: .30,  y: .05,  sc: 1.15, ry: 0,          rx: 0,   dur: 1.2 },
+  { x: .28,  y: .00,  sc: 1.45, ry: .12,         rx: -.05, dur: 1.3 },
+  { x: -.30, y: -.10, sc: 1.35, ry: .08,         rx: 0,   dur: 1.1 },
+  { x: .28,  y: .12,  sc: .85,  ry: -.10,        rx: 0,   dur: 1.2 },
+  { x: -.28, y: -.08, sc: 1.20, ry: .15,         rx: -.06, dur: 1.0 },
+  { x: .32,  y: .08,  sc: .72,  ry: -.10,        rx: .04, dur: 1.1 },
+  { x: -.22, y: -.05, sc: 1.20, ry: Math.PI * 2, rx: -.05, dur: 1.4 },
+  { x: .05,  y: -.28, sc: 1.00, ry: 0,           rx: 0,   dur: 1.0 },
+  { x: .05,  y: -.30, sc: 1.10, ry: 0,           rx: 0,   dur: 1.1 },
 ];
-const MS=[
-  {x:0,y:.32,sc:1.00,ry:0,rx:0,dur:1.2},
-  {x:0,y:.28,sc:1.15,ry:.10,rx:-.04,dur:1.2},
-  {x:.22,y:-.36,sc:1.12,ry:.10,rx:0,dur:1.1},
-  {x:-.20,y:.30,sc:1.22,ry:-.10,rx:0,dur:1.2},
-  {x:.20,y:-.34,sc:.80,ry:.18,rx:-.06,dur:1.0},
-  {x:-.18,y:.28,sc:1.15,ry:-.08,rx:.04,dur:1.1},
-  {x:.16,y:-.30,sc:1.05,ry:Math.PI*2,rx:-.06,dur:1.4},
-  {x:0,y:.20,sc:.90,ry:0,rx:0,dur:1.0},
-  {x:0,y:-.36,sc:.92,ry:0,rx:0,dur:1.1},
+const MS = [
+  { x: 0,    y: .32,  sc: 1.00, ry: 0,           rx: 0,   dur: 1.2 },
+  { x: 0,    y: .28,  sc: 1.15, ry: .10,         rx: -.04, dur: 1.2 },
+  { x: .22,  y: -.36, sc: 1.12, ry: .10,         rx: 0,   dur: 1.1 },
+  { x: -.20, y: .30,  sc: 1.22, ry: -.10,        rx: 0,   dur: 1.2 },
+  { x: .20,  y: -.34, sc: .80,  ry: .18,         rx: -.06, dur: 1.0 },
+  { x: -.18, y: .28,  sc: 1.15, ry: -.08,        rx: .04, dur: 1.1 },
+  { x: .16,  y: -.30, sc: 1.05, ry: Math.PI * 2, rx: -.06, dur: 1.4 },
+  { x: 0,    y: .20,  sc: .90,  ry: 0,           rx: 0,   dur: 1.0 },
+  { x: 0,    y: -.36, sc: .92,  ry: 0,           rx: 0,   dur: 1.1 },
 ];
-const STATES=isMob?MS:DS;
-const SECS=['#s-hero','#s-night','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia','#s-proc','#s-cta'];
+const STATES = isMob() ? MS : DS;
+const SECS = ['#s-hero', '#s-night', '#s-auto', '#s-webs', '#s-chat', '#s-mkt', '#s-ia', '#s-proc', '#s-cta'];
 
-function enterNight(){gsap.to(ambLight,{intensity:.5,duration:1.1});gsap.to(kl,{intensity:.9,duration:1.1});gsap.to(vl,{intensity:4,duration:1.1});}
-function exitNight(){gsap.to(ambLight,{intensity:1.5,duration:1.0});gsap.to(kl,{intensity:2.6,duration:1.0});gsap.to(vl,{intensity:0,duration:1.0});}
-function goTo(st){gsap.to(S,{x:st.x,y:st.y,sc:st.sc,ry:st.ry,rx:st.rx,duration:st.dur,ease:'power3.out',overwrite:'auto',onUpdate:applyS});}
+function enterNight() { gsap.to(ambLight, { intensity: .5, duration: 1.1 }); gsap.to(kl, { intensity: .9, duration: 1.1 }); gsap.to(vl, { intensity: 4, duration: 1.1 }); }
+function exitNight() { gsap.to(ambLight, { intensity: 1.5, duration: 1.0 }); gsap.to(kl, { intensity: 2.6, duration: 1.0 }); gsap.to(vl, { intensity: 0, duration: 1.0 }); }
+function goTo(st) { gsap.to(S, { x: st.x, y: st.y, sc: st.sc, ry: st.ry, rx: st.rx, duration: st.dur, ease: 'power3.out', overwrite: 'auto', onUpdate: applyS }); }
 
-let rafId=null,isPageVisible=true;
-function startLoop(){
-  if(rafId)return;
-  function loop(){
-    if(!isPageVisible){rafId=null;return;}
-    rafId=requestAnimationFrame(loop);
-    idleT+=.012;S.idle+=.018;
-    if(mesh)applyS();
-    renderer.render(scene,camera);
+let rafId = null, isPageVisible = true;
+function startLoop() {
+  if (rafId) return;
+  function loop() {
+    if (!isPageVisible) { rafId = null; return; }
+    rafId = requestAnimationFrame(loop);
+    idleT += .012; S.idle += .018;
+    if (mesh) applyS();
+    renderer.render(scene, camera);
   }
-  rafId=requestAnimationFrame(loop);
+  rafId = requestAnimationFrame(loop);
 }
-document.addEventListener('visibilitychange',()=>{isPageVisible=!document.hidden;if(isPageVisible)startLoop();});
+document.addEventListener('visibilitychange', () => { isPageVisible = !document.hidden; if (isPageVisible) startLoop(); });
 
-const loader=new THREE.GLTFLoader();
+const loader = new THREE.GLTFLoader();
 loader.load(
   'https://concepto-robot.vercel.app/Prueba1.glb',
-  gltf=>{
-    mesh=gltf.scene;
-    const box=new THREE.Box3().setFromObject(mesh);
-    const c=box.getCenter(new THREE.Vector3());
-    const sz=box.getSize(new THREE.Vector3());
+  gltf => {
+    mesh = gltf.scene;
+    const box = new THREE.Box3().setFromObject(mesh);
+    const c = box.getCenter(new THREE.Vector3());
+    const sz = box.getSize(new THREE.Vector3());
     mesh.position.sub(c);
-    mesh.scale.setScalar(1/Math.max(sz.x,sz.y,sz.z));
+    mesh.scale.setScalar(1 / Math.max(sz.x, sz.y, sz.z));
     scene.add(mesh);
-    if(isMob){
-      // Mobile: IntersectionObserver only — ScrollTrigger conflicts with scroll-snap and causes auto-scroll bug
-      const mobObs=new IntersectionObserver(entries=>{
-        entries.forEach(e=>{
-          if(!e.isIntersecting)return;
-          const idx=SECS.indexOf('#'+e.target.id);
-          if(idx<0||!STATES[idx])return;
+
+    if (isMob()) {
+      /*
+        FIX 10: threshold reducido de 0.45 a 0.30 en mobile.
+        Antes: 0.45 era demasiado alto para secciones height:100svh con
+        contenido posicionado arriba/abajo — la sección podía estar
+        completamente visible pero no alcanzar el 45% de intersección
+        desde el punto de vista del root. 0.30 es más robusto.
+      */
+      const mobObs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          const idx = SECS.indexOf('#' + e.target.id);
+          if (idx < 0 || !STATES[idx]) return;
           goTo(STATES[idx]);
-          if(e.target.id==='s-night')enterNight();else exitNight();
+          if (e.target.id === 's-night') enterNight(); else exitNight();
         });
-      },{threshold:0.45});
-      SECS.forEach(sel=>{const el=document.querySelector(sel);if(el)mobObs.observe(el);});
+      }, { threshold: 0.30 });
+      SECS.forEach(sel => { const el = document.querySelector(sel); if (el) mobObs.observe(el); });
     } else {
-      SECS.forEach((sel,i)=>{
-        const el=document.querySelector(sel);
-        if(!el||!STATES[i])return;
+      SECS.forEach((sel, i) => {
+        const el = document.querySelector(sel);
+        if (!el || !STATES[i]) return;
         ScrollTrigger.create({
-          trigger:el,start:'top center',
-          onEnter:()=>{goTo(STATES[i]);if(sel==='#s-night')enterNight();else exitNight();},
-          onEnterBack:()=>{goTo(STATES[i]);if(sel==='#s-night')enterNight();else exitNight();}
+          trigger: el, start: 'top center',
+          onEnter: () => { goTo(STATES[i]); if (sel === '#s-night') enterNight(); else exitNight(); },
+          onEnterBack: () => { goTo(STATES[i]); if (sel === '#s-night') enterNight(); else exitNight(); }
         });
       });
       ScrollTrigger.refresh();
@@ -1252,22 +1360,22 @@ loader.load(
     document.getElementById('ldr').classList.add('out');
   },
   null,
-  ()=>document.getElementById('ldr').classList.add('out')
+  () => document.getElementById('ldr').classList.add('out')
 );
-setTimeout(()=>{const ldr=document.getElementById('ldr');if(!ldr.classList.contains('out'))ldr.classList.add('out');},4000);
+setTimeout(() => { const ldr = document.getElementById('ldr'); if (!ldr.classList.contains('out')) ldr.classList.add('out'); }, 4000);
 startLoop();
 
 // ── RESIZE ──
-let winWidth=window.innerWidth;
-window.addEventListener('resize',()=>{
-  if(isMob&&window.innerWidth===winWidth)return;
-  winWidth=window.innerWidth;
-  camera.aspect=window.innerWidth/window.innerHeight;
+let winWidth = window.innerWidth;
+window.addEventListener('resize', () => {
+  if (isMob() && window.innerWidth === winWidth) return;
+  winWidth = window.innerWidth;
+  camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth,window.innerHeight);
+  renderer.setSize(window.innerWidth, window.innerHeight);
   calcWorld();
-  ScrollTrigger.refresh();
-},{passive:true});
+  if (!isMob()) ScrollTrigger.refresh();
+}, { passive: true });
 </script>
 </body>
 </html>
