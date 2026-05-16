@@ -681,18 +681,14 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </div>
 
-<!-- Three.js y GSAP: defer para no bloquear el parser -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
 <script>
-// ─── Esperar a que todos los scripts deferred carguen ────
-window.addEventListener('load', function() {
-
-  gsap.registerPlugin(ScrollTrigger);
-  const isMob = window.innerWidth <= 680;
+gsap.registerPlugin(ScrollTrigger);
+const isMob = window.innerWidth <= 680;
 
   // ── CURSOR ────────────────────────────────────────────
   const cd = document.getElementById('cd');
@@ -815,13 +811,13 @@ window.addEventListener('load', function() {
   }
   calcWorld();
 
-  // FIX: applyS solo se llama desde el RAF loop — eliminado de GSAP onUpdate para evitar doble-update
+  // FIX: idle rotation acotada con módulo para no acumular infinito
   function applyS() {
     if (!mesh) return;
     mesh.position.x = S.x * (_worldW / 2);
     mesh.position.y = S.y * (_worldH / 2) + Math.sin(idleT * .65) * .04;
     mesh.scale.setScalar(S.sc * (isMob ? 1.1 : 1.85));
-    mesh.rotation.y = S.ry + (idleT * .018);
+    mesh.rotation.y = S.ry + (idleT % (Math.PI * 2)) * .018;
     mesh.rotation.x = S.rx;
   }
 
@@ -854,19 +850,17 @@ window.addEventListener('load', function() {
   function exitNight()  { gsap.to(ambLight, { intensity: 1.5, duration: 1.0 }); gsap.to(kl, { intensity: 2.6, duration: 1.0 }); gsap.to(vl, { intensity: 0, duration: 1.0 }); }
 
   function goTo(st) {
-    // FIX: solo animamos las propiedades de posición/escala/rotación-base, sin onUpdate
     gsap.to(S, { x: st.x, y: st.y, sc: st.sc, ry: st.ry, rx: st.rx, duration: st.dur, ease: 'power3.out', overwrite: 'auto' });
   }
 
-  // FIX: RAF pausado cuando la tab no está visible Y cuando el canvas no está en viewport
+  // RAF: pausa solo cuando la tab no está activa
   let rafId = null;
   let isPageVisible = true;
-  let isCanvasVisible = true;
 
   function startLoop() {
     if (rafId) return;
     function loop() {
-      if (!isPageVisible || !isCanvasVisible) { rafId = null; return; }
+      if (!isPageVisible) { rafId = null; return; }
       rafId = requestAnimationFrame(loop);
       idleT += .012;
       applyS();
@@ -875,18 +869,10 @@ window.addEventListener('load', function() {
     rafId = requestAnimationFrame(loop);
   }
 
-  // Pausa cuando la tab no está activa
   document.addEventListener('visibilitychange', () => {
     isPageVisible = !document.hidden;
     if (isPageVisible) startLoop();
   });
-
-  // FIX: pausa el render cuando el canvas está fuera del viewport
-  const canvasObs = new IntersectionObserver(entries => {
-    isCanvasVisible = entries[0].isIntersecting;
-    if (isCanvasVisible) startLoop();
-  }, { threshold: 0 });
-  canvasObs.observe(canvas);
 
   const loader = new THREE.GLTFLoader();
   loader.load(
@@ -939,7 +925,7 @@ window.addEventListener('load', function() {
       renderer.setSize(window.innerWidth, window.innerHeight);
       calcWorld();
       ScrollTrigger.refresh();
-    }, 150); // debounce
+    }, 50); // debounce — filtra teclado virtual en mobile
   }, { passive: true });
 
   // ══════════════════════════════════════════════════════
@@ -1280,7 +1266,6 @@ Dado un mensaje, respondé SOLO con JSON válido, sin markdown:
     } finally { btn.disabled = false; }
   }
 
-}); // end window.load
 </script>
 
 </body>
