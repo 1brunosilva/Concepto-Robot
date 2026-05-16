@@ -21,6 +21,11 @@ button{-webkit-appearance:none;appearance:none;background:none;border:none;-webk
   --vio-dk:#7c3aed;
 }
 html{overflow-x:hidden;}
+/* Hide scrollbar on mobile while keeping scroll functionality */
+@media(max-width:680px){
+  html{scrollbar-width:none;}
+  html::-webkit-scrollbar{display:none;}
+}
 body{
   background:var(--cream);color:var(--ink);
   font-family:'Inter',system-ui,-apple-system,sans-serif;
@@ -126,16 +131,17 @@ footer { scroll-snap-align: none; }
 .fade{color:var(–dim);}
 .sub{font-size:clamp(14px,1.1vw,16px);color:var(–mid);line-height:1.78;max-width:380px;margin-top:1.6rem;font-weight:300;}
 @media(max-width:680px){.sub{font-size:14px;max-width:100%;}.sub.mob-hide{display:none;}}
-.lnk{display:inline-flex;align-items:center;gap:.32rem;margin-top:1.4rem;font-size:13px;color:var(–ink) !important;text-decoration:none;font-weight:400;transition:gap .2s;}
+.lnk{display:inline-flex;align-items:center;gap:.32rem;margin-top:1.4rem;font-size:13px;color:#0d0d0d !important;text-decoration:none;font-weight:400;transition:gap .2s;direction:ltr !important;unicode-bidi:bidi-override;}
 .lnk:hover{gap:.65rem;}
-.lnk::after{content:‘→’;}
+.lnk::after{content:’\2192’;display:inline-block;direction:ltr !important;}
 
 /* BUTTONS */
 .brow{display:flex;gap:.6rem;margin-top:2rem;flex-wrap:wrap;}
-.btn{display:inline-flex;align-items:center;padding:.7rem 1.65rem;border-radius:100px;font-family:‘Inter’,sans-serif;font-size:14px;font-weight:400;text-decoration:none;transition:opacity .18s;letter-spacing:-.01em;cursor:pointer;border:none;-webkit-appearance:none;appearance:none;}
+.btn{display:inline-flex;align-items:center;padding:.7rem 1.65rem;border-radius:100px;font-family:‘Inter’,sans-serif;font-size:14px;font-weight:400;text-decoration:none;transition:opacity .18s;letter-spacing:-.01em;cursor:pointer;-webkit-appearance:none;appearance:none;}
 .btn:hover{opacity:.62;}
-.bd{background:var(–ink) !important;color:var(–cream) !important;}
-.bo{background:transparent !important;color:var(–ink) !important;border:1px solid rgba(13,13,13,.2) !important;}
+/* Use hardcoded hex to avoid CSS var inheritance issues on mobile Safari */
+.bd{background:#0d0d0d !important;color:#f5f4f0 !important;border:none !important;}
+.bo{background:transparent !important;color:#0d0d0d !important;border:1px solid rgba(13,13,13,.2) !important;}
 
 /* DEMO LINK — violeta */
 .lnk-demo{
