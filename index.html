@@ -10,9 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-/* iOS Safari: anula el azul -webkit-link en todos los <a> */
 a{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent;}
-/* iOS Safari: anula el estilo nativo de <button> */
 button{-webkit-appearance:none;appearance:none;background:none;border:none;-webkit-tap-highlight-color:transparent;}
 :root{
   --cream:#f5f4f0;
@@ -91,9 +89,11 @@ section { position:relative; min-height:100vh; min-height:100svh; display:flex; 
 footer { scroll-snap-align: none; }
 .srow{display:block;direction:ltr !important;}
 .rcol{display:none;}
-#s-hero{justify-content:flex-end;padding-bottom:12vh;padding-top:70px;}
+
+/* FIX 1: más padding-top para bajar el texto y evitar solapamiento con el robot */
+#s-hero{justify-content:flex-end;padding-bottom:12vh;padding-top:140px;}
+
 #s-hero .scol{align-items:center;text-align:center;margin-bottom:0;}
-/* Empuja el contenido de texto hacia abajo para separarlo del robot */
 #s-hero .tag{margin-top:8vh;}
 #s-hero .sub{max-width:100%;text-align:center;}
 #s-hero .brow{justify-content:center;}
@@ -135,7 +135,7 @@ footer { scroll-snap-align: none; }
 .bd{background:var(–ink) !important;color:var(–cream) !important;}
 .bo{background:transparent !important;color:var(–ink) !important;border:1px solid rgba(13,13,13,.2) !important;}
 
-/* ═══ DEMO LINK — tratamiento violeta ═══ */
+/* DEMO LINK — violeta */
 .lnk-demo{
 display:inline-flex;align-items:center;gap:.5rem;
 margin-top:1.6rem;
@@ -228,174 +228,212 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 .rv.in{opacity:1;transform:none;}
 .d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.32s;}
 
-/* ═══════════════════════════════════════════════════
-DEMO MODAL — arquitectura iOS-safe
-Clave: el modal ocupa 100dvh (dynamic viewport height),
-el input bar es sticky al bottom, y NO se usa flex-grow
-en el área de scroll para que el teclado iOS no rompa todo.
-════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════
+FIX 2: DEMO MODAL — popup flotante, NO pantalla completa
+Arquitectura: backdrop fijo + panel centrado con max-height
+El panel tiene scroll interno en el área de mensajes.
+El input queda DENTRO del panel (no sticky al viewport).
+Esto evita el problema del teclado iOS que achica el viewport.
+══════════════════════════════════════════════════════ */
+
+/* Backdrop */
 #demo-modal{
 position:fixed;
-top:0;left:0;right:0;
-/* dvh: se adapta al viewport real incluyendo la barra del navegador */
-height:100vh;height:100dvh;
+inset:0;
 z-index:5000;
-background:#06040f;
-display:flex;flex-direction:column;
-opacity:0;pointer-events:none;
+background:rgba(6,4,15,.82);
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+display:flex;
+align-items:center;
+justify-content:center;
+padding:clamp(16px,4vw,40px);
+opacity:0;
+pointer-events:none;
 transition:opacity .38s cubic-bezier(.16,1,.3,1);
-overflow:hidden;
-/* Previene el bounce scroll de iOS en el fondo */
+/* iOS: no bounce en el fondo */
 overscroll-behavior:none;
 }
-#demo-modal::before{
-content:’’;position:absolute;
-width:600px;height:600px;
-background:radial-gradient(circle,rgba(124,58,237,.15) 0%,transparent 70%);
-top:-150px;right:-100px;pointer-events:none;z-index:0;
+#demo-modal.open{
+opacity:1;
+pointer-events:all;
 }
-#demo-modal.open{opacity:1;pointer-events:all;}
 
-/* ── Header fijo arriba ── */
+/* Panel flotante — NO ocupa toda la pantalla */
+.dm-panel{
+position:relative;
+background:#0b0d1a;
+border:1px solid rgba(124,58,237,.2);
+border-radius:24px;
+width:100%;
+max-width:420px;
+/* Altura máxima: deja aire arriba y abajo */
+max-height:min(600px, 80vh);
+display:flex;
+flex-direction:column;
+overflow:hidden;
+box-shadow:0 32px 80px rgba(0,0,0,.7), 0 0 0 1px rgba(124,58,237,.1), 0 0 60px rgba(124,58,237,.08);
+transform:translateY(16px) scale(.97);
+transition:transform .38s cubic-bezier(.16,1,.3,1);
+}
+#demo-modal.open .dm-panel{
+transform:translateY(0) scale(1);
+}
+/* Glow decorativo en el panel */
+.dm-panel::before{
+content:’’;position:absolute;
+width:300px;height:300px;
+background:radial-gradient(circle,rgba(124,58,237,.12) 0%,transparent 70%);
+top:-80px;right:-60px;
+pointer-events:none;z-index:0;
+}
+
+/* Header del panel */
 .dm-header{
 position:relative;z-index:10;
 display:flex;justify-content:space-between;align-items:center;
-padding:.9rem 1.2rem;
+padding:.85rem 1.1rem;
 border-bottom:1px solid rgba(124,58,237,.1);
 flex-shrink:0;
-/* Safe area para el notch */
-padding-top:calc(.9rem + env(safe-area-inset-top));
+background:#0f1120;
 }
-.dm-brand{font-size:13px;font-weight:500;color:rgba(255,255,255,.45);letter-spacing:-.02em;}
-.dm-brand span{color:#a855f7;}
+.dm-brand-row{display:flex;align-items:center;gap:.65rem;}
+.dm-av{
+width:30px;height:30px;border-radius:50%;
+background:linear-gradient(135deg,#7c3aed,#a855f7);
+display:flex;align-items:center;justify-content:center;
+font-size:13px;flex-shrink:0;
+box-shadow:0 0 10px rgba(124,58,237,.4);
+}
+.dm-name{font-size:13px;font-weight:500;color:#fff;letter-spacing:-.01em;}
+.dm-online{font-size:10px;color:rgba(168,85,247,.7);display:flex;align-items:center;gap:3px;margin-top:1px;}
+.dm-dot-live{width:5px;height:5px;border-radius:50%;background:#a855f7;box-shadow:0 0 5px rgba(168,85,247,.8);display:inline-block;}
 .dm-close{
-width:32px;height:32px;border-radius:50%;
-background:rgba(255,255,255,.08);
+width:28px;height:28px;border-radius:50%;
+background:rgba(255,255,255,.07);
 border:none;
-color:rgba(255,255,255,.6);font-size:20px;line-height:1;
+color:rgba(255,255,255,.5);font-size:18px;line-height:1;
 display:flex;align-items:center;justify-content:center;
 cursor:pointer;transition:background .2s;
--webkit-appearance:none;appearance:none;
+flex-shrink:0;
 }
-.dm-close:active{background:rgba(255,255,255,.16);}
+.dm-close:hover{background:rgba(255,255,255,.13);}
 
-/* ── Área de mensajes — ocupa todo el espacio disponible, scroll interno ── */
-.dm-msgs-outer{
-flex:1;
-overflow:hidden;
-position:relative;z-index:5;
-display:flex;flex-direction:column;
-}
+/* Área de mensajes — scroll interno, crece hasta llenar el panel */
 .dm-msgs{
 flex:1;
 overflow-y:auto;
 -webkit-overflow-scrolling:touch;
-padding:.9rem 1rem 0;
+padding:.85rem 1rem;
 display:flex;flex-direction:column;gap:.5rem;
-/* Scroll suave nativo */
-scroll-behavior:smooth;
+position:relative;z-index:5;
+min-height:0; /* crítico para flex + overflow en Safari */
 }
-.dm-msgs::-webkit-scrollbar{display:none;}
+.dm-msgs::-webkit-scrollbar{width:3px;}
+.dm-msgs::-webkit-scrollbar-thumb{background:rgba(124,58,237,.3);border-radius:2px;}
 
-/* ── Quick replies (opciones de inicio) ── */
+/* Spacer al final */
+.dm-spacer{height:4px;flex-shrink:0;}
+
+/* Quick replies */
 .dm-quick{
-padding:.6rem 1rem .9rem;
-display:flex;flex-wrap:wrap;gap:.45rem;
+padding:.5rem 1rem .65rem;
+display:flex;flex-wrap:wrap;gap:.4rem;
 flex-shrink:0;
+border-top:1px solid rgba(124,58,237,.06);
+background:rgba(15,17,32,.8);
 }
 .dm-qbtn{
-padding:.42rem .9rem;
+padding:.38rem .85rem;
 border-radius:100px;
-background:rgba(124,58,237,.15);
-border:1px solid rgba(124,58,237,.3);
+background:rgba(124,58,237,.12);
+border:1px solid rgba(124,58,237,.28);
 color:rgba(168,85,247,.9) !important;
-font-size:12px;font-weight:400;
+font-size:11.5px;font-weight:400;
 font-family:‘Inter’,system-ui,sans-serif;
 cursor:pointer;
--webkit-appearance:none;appearance:none;
-transition:background .18s,border-color .18s;
--webkit-tap-highlight-color:transparent;
+transition:background .18s;
 white-space:nowrap;
 }
-.dm-qbtn:active{background:rgba(124,58,237,.3);}
+.dm-qbtn:hover,.dm-qbtn:active{background:rgba(124,58,237,.25);}
 .dm-quick.hidden{display:none;}
 
-/* ── Input bar — SIEMPRE pegado al bottom, nunca sube con el teclado ──
-position:sticky dentro del flex container hace que quede al final
-sin que el flex-grow del área de mensajes se achique mal en iOS ── */
+/* Input bar — DENTRO del panel, pegada abajo */
 .dm-input-bar{
 flex-shrink:0;
-position:relative;z-index:10;
-background:#06040f;
+background:#0f1120;
 border-top:1px solid rgba(124,58,237,.1);
-padding:.7rem .9rem;
-display:flex;gap:.55rem;align-items:center;
-/* Safe area para el home indicator de iPhone */
-padding-bottom:calc(.7rem + env(safe-area-inset-bottom));
+padding:.65rem .9rem;
+display:flex;gap:.5rem;align-items:center;
+position:relative;z-index:10;
 }
 .dm-input{
 flex:1;
 background:rgba(255,255,255,.05);
 border:1px solid rgba(124,58,237,.2);
-border-radius:22px;
-padding:.6rem 1rem;
+border-radius:20px;
+padding:.55rem .95rem;
 color:#fff !important;
-/* font-size 16px: evita el zoom automático de iOS al enfocar */
+/* 16px evita el zoom automático en iOS al hacer focus */
 font-size:16px;font-weight:300;
 font-family:‘Inter’,system-ui,sans-serif;
 outline:none;
 transition:border-color .2s;
-line-height:1.4;
-/* Input de una sola línea — más Apple, sin textarea */
-height:42px;
+height:40px;
 -webkit-appearance:none;appearance:none;
 }
-.dm-input::placeholder{color:rgba(255,255,255,.2);}
+.dm-input::placeholder{color:rgba(255,255,255,.22);}
 .dm-input:focus{border-color:rgba(168,85,247,.45);}
 .dm-send{
-width:38px;height:38px;border-radius:50%;flex-shrink:0;
+width:36px;height:36px;border-radius:50%;flex-shrink:0;
 background:linear-gradient(135deg,#7c3aed,#a855f7) !important;
 border:none;cursor:pointer;
 display:flex;align-items:center;justify-content:center;
 transition:opacity .18s,transform .18s;
 box-shadow:0 3px 12px rgba(124,58,237,.4);
--webkit-appearance:none;appearance:none;
 }
-.dm-send:active{transform:scale(.93);}
+.dm-send:active{transform:scale(.9);}
 .dm-send:disabled{opacity:.3;pointer-events:none;}
-.dm-send svg{width:15px;height:15px;fill:none;stroke:#fff !important;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+.dm-send svg{width:14px;height:14px;fill:none;stroke:#fff !important;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
 
-/* ── Mensajes ── */
-@keyframes msgIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+/* Mensajes */
+@keyframes msgIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:none;}}
 .dm-msg{
-max-width:80%;padding:.58rem .85rem;
-border-radius:16px;
-font-size:14px;line-height:1.55;
+max-width:82%;padding:.55rem .82rem;
+border-radius:15px;
+font-size:13.5px;line-height:1.55;
 font-weight:300;
-animation:msgIn .25s cubic-bezier(.16,1,.3,1);
+animation:msgIn .22s cubic-bezier(.16,1,.3,1);
 }
 .dm-msg.bot{
-background:#1c2035;color:rgba(255,255,255,.82);
-align-self:flex-start;border-bottom-left-radius:4px;
+background:#1a1d35;
+color:rgba(255,255,255,.82);
+align-self:flex-start;
+border-bottom-left-radius:4px;
+border:1px solid rgba(124,58,237,.1);
 }
 .dm-msg.user{
 background:linear-gradient(135deg,#5b21b6,#7c3aed);
 color:#fff !important;
-align-self:flex-end;border-bottom-right-radius:4px;
+align-self:flex-end;
+border-bottom-right-radius:4px;
 }
 .dm-msg.sys-msg{
 align-self:center;
-background:rgba(124,58,237,.12);
-color:rgba(168,85,247,.75) !important;
+background:rgba(124,58,237,.1);
+color:rgba(168,85,247,.7) !important;
 border-radius:100px;
-font-size:11px;padding:.28rem .8rem;max-width:100%;text-align:center;
+font-size:11px;padding:.26rem .75rem;
+max-width:100%;text-align:center;
 }
 .dm-typing-indicator{
 display:flex;align-items:center;gap:3px;
-padding:.5rem .75rem;
-background:#1c2035;border-radius:16px;border-bottom-left-radius:4px;
-align-self:flex-start;width:50px;
-animation:msgIn .25s cubic-bezier(.16,1,.3,1);
+padding:.48rem .72rem;
+background:#1a1d35;
+border-radius:15px;border-bottom-left-radius:4px;
+border:1px solid rgba(124,58,237,.1);
+align-self:flex-start;width:48px;
+animation:msgIn .22s cubic-bezier(.16,1,.3,1);
 }
 .dm-typing-dot{
 width:5px;height:5px;border-radius:50%;
@@ -404,9 +442,6 @@ animation:tb 1.1s infinite;
 }
 .dm-typing-dot:nth-child(2){animation-delay:.18s;}
 .dm-typing-dot:nth-child(3){animation-delay:.36s;}
-
-/* Spacer al final de los mensajes para que el último no quede pegado al borde */
-.dm-msgs-spacer{height:12px;flex-shrink:0;}
 </style>
 
 </head>
@@ -435,7 +470,6 @@ animation:tb 1.1s infinite;
     <div class="scol">
       <span class="tag rv">Concepto Development</span>
       <h1 class="h1 rv d1">Tu negocio,<br><span class="fade">nuevos límites.</span></h1>
-      <!-- COPY CHANGE 1 -->
       <p class="sub rv d2">Sistemas inteligentes que operan mientras vos dormís.</p>
       <div class="brow rv d3">
         <a href="https://wa.me/59897976574" class="btn bd" target="_blank">Empezar ahora</a>
@@ -476,7 +510,6 @@ animation:tb 1.1s infinite;
   <div class="srow flip">
     <div class="scol">
       <span class="tag rv">01 — Automatizaciones</span>
-      <!-- COPY CHANGE 2 -->
       <h2 class="h2 rv d1">Menos fricción.<br><span class="fade">Más escala.</span></h2>
       <p class="sub mob-hide rv d2">Tareas repetitivas convertidas en sistemas que corren solos.</p>
       <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Hablemos</a>
@@ -506,9 +539,7 @@ animation:tb 1.1s infinite;
     <div class="scol">
       <span class="tag rv">03 — Chatbots</span>
       <h2 class="h2 rv d1">Conversaciones que<br><span class="fade">convierten.</span></h2>
-      <!-- COPY CHANGE 3 -->
       <p class="sub mob-hide rv d2">Sistemas conversacionales con IA que califican y cierran prospectos en segundos, las 24 horas.</p>
-      <!-- DEMO BUTTON — tratamiento violeta -->
       <button class="lnk-demo rv d3" id="openDemo">Ver demo en vivo</button>
     </div>
     <div class="rcol"></div>
@@ -545,8 +576,6 @@ animation:tb 1.1s infinite;
 
 <!-- 8. PROCESO -->
 
-<!-- COPY CHANGES 4 -->
-
 <section id="s-proc">
   <span class="ptag rv">Cómo trabajamos</span>
   <div class="pg">
@@ -578,61 +607,64 @@ animation:tb 1.1s infinite;
   <span class="fc">© 2025 Montevideo</span>
 </footer>
 
-<!-- ═══════════════════════════════════════════════════
-     DEMO MODAL — iOS-safe
-════════════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════════
+     DEMO MODAL — popup flotante centrado
+     NO ocupa pantalla completa. El teclado iOS
+     empuja el viewport pero el panel ya tiene
+     su propio scroll interno, no se rompe.
+     ══════════════════════════════════════════════════ -->
 
 <div id="demo-modal" role="dialog" aria-modal="true" aria-label="Demo del chatbot">
+  <div class="dm-panel">
 
-  <!-- Header fijo -->
-
-  <div class="dm-header">
-    <div style="display:flex;align-items:center;gap:.65rem;">
-      <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#a855f7);display:flex;align-items:center;justify-content:center;font-size:13px;box-shadow:0 0 10px rgba(124,58,237,.4);">🤖</div>
-      <div>
-        <div style="font-size:13px;font-weight:500;color:#fff;letter-spacing:-.01em;">Asistente Concepto</div>
-        <div style="font-size:10px;color:rgba(168,85,247,.7);display:flex;align-items:center;gap:3px;">
-          <span style="width:5px;height:5px;border-radius:50%;background:#a855f7;box-shadow:0 0 5px rgba(168,85,247,.8);display:inline-block;"></span>
-          En línea
-        </div>
+```
+<!-- Header -->
+<div class="dm-header">
+  <div class="dm-brand-row">
+    <div class="dm-av">🤖</div>
+    <div>
+      <div class="dm-name">Asistente Concepto</div>
+      <div class="dm-online">
+        <span class="dm-dot-live"></span>
+        En línea
       </div>
     </div>
-    <button class="dm-close" id="closeDemo" aria-label="Cerrar">×</button>
   </div>
+  <button class="dm-close" id="closeDemo" aria-label="Cerrar">×</button>
+</div>
 
-  <!-- Área scrolleable de mensajes -->
+<!-- Mensajes -->
+<div class="dm-msgs" id="dmMsgs">
+  <div class="dm-spacer"></div>
+</div>
 
-  <div class="dm-msgs-outer">
-    <div class="dm-msgs" id="dmMsgs">
-      <div class="dm-msgs-spacer"></div>
-    </div>
-    <!-- Quick replies — desaparecen al primer mensaje del usuario -->
-    <div class="dm-quick" id="dmQuick">
-      <button class="dm-qbtn" data-q="¿Cuánto sale un chatbot?">💬 ¿Cuánto sale un chatbot?</button>
-      <button class="dm-qbtn" data-q="¿Qué automatizaciones hacen?">⚡ Automatizaciones</button>
-      <button class="dm-qbtn" data-q="¿Cuánto tarda en estar listo?">⏱ ¿Cuánto tarda?</button>
-      <button class="dm-qbtn" data-q="¿Funciona con WhatsApp e Instagram?">📱 WhatsApp e Instagram</button>
-    </div>
+<!-- Quick replies -->
+<div class="dm-quick" id="dmQuick">
+  <button class="dm-qbtn" data-q="¿Cuánto sale un chatbot?">💬 ¿Cuánto sale?</button>
+  <button class="dm-qbtn" data-q="¿Qué automatizaciones hacen?">⚡ Automatizaciones</button>
+  <button class="dm-qbtn" data-q="¿Cuánto tarda en estar listo?">⏱ ¿Cuánto tarda?</button>
+  <button class="dm-qbtn" data-q="¿Funciona con WhatsApp e Instagram?">📱 WhatsApp</button>
+</div>
+
+<!-- Input bar -->
+<div class="dm-input-bar">
+  <input
+    type="text"
+    class="dm-input"
+    id="dmInput"
+    placeholder="Escribí tu pregunta…"
+    autocomplete="off"
+    autocorrect="off"
+    spellcheck="false"
+    enterkeyhint="send"
+  />
+  <button class="dm-send" id="dmSend" aria-label="Enviar">
+    <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+  </button>
+</div>
+```
+
   </div>
-
-  <!-- Input bar — pegado al bottom, safe area aware -->
-
-  <div class="dm-input-bar">
-    <input
-      type="text"
-      class="dm-input"
-      id="dmInput"
-      placeholder="Escribí tu pregunta…"
-      autocomplete="off"
-      autocorrect="off"
-      spellcheck="false"
-      enterkeyhint="send"
-    />
-    <button class="dm-send" id="dmSend" aria-label="Enviar">
-      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-    </button>
-  </div>
-
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -675,7 +707,7 @@ document.querySelectorAll('.rv').forEach(el=>{
   obs.observe(el);
 });
 
-// ── CHAT ANIMATION (landing, loop) ──
+// ── CHAT DECORATIVO (sección night) ──
 const msgs=[
   {t:'in',  txt:'Hola! cuánto sale un chatbot?', d:0},
   {t:'typing', d:1100},
@@ -713,7 +745,7 @@ const chatObs=new IntersectionObserver(entries=>{
 },{threshold:.25});
 chatObs.observe(nightEl);
 
-// ── THREE.JS (idéntico al original) ──
+// ── THREE.JS ──
 const canvas=document.getElementById('rc');
 const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:!isMob});
 renderer.setPixelRatio(Math.min(window.devicePixelRatio,isMob?1.5:2));
@@ -802,21 +834,25 @@ window.addEventListener('resize',()=>{
 },{passive:true});
 
 // ══════════════════════════════════════════════════
-// DEMO MODAL — lógica completa
+// DEMO MODAL — popup flotante
+// FIX 2: Worker URL real (no placeholder)
 // ══════════════════════════════════════════════════
-const modal=document.getElementById('demo-modal');
-const openBtn=document.getElementById('openDemo');
-const closeBtn=document.getElementById('closeDemo');
-const dmMsgs=document.getElementById('dmMsgs');
-const dmInput=document.getElementById('dmInput');
-const dmSend=document.getElementById('dmSend');
+const modal    = document.getElementById('demo-modal');
+const openBtn  = document.getElementById('openDemo');
+const closeBtn = document.getElementById('closeDemo');
+const dmMsgs   = document.getElementById('dmMsgs');
+const dmInput  = document.getElementById('dmInput');
+const dmSend   = document.getElementById('dmSend');
+const dmQuick  = document.getElementById('dmQuick');
 
-// Historial de conversación para el contexto de Claude
-let conversationHistory=[];
-let isWaitingResponse=false;
+let conversationHistory = [];
+let isWaitingResponse   = false;
+let quickDismissed      = false;
 
-// System prompt — configurá esto con la voz y contexto de Concepto
-const SYSTEM_PROMPT=`Sos el asistente virtual de Concepto Development, una agencia digital de Montevideo, Uruguay especializada en chatbots con IA, automatizaciones, desarrollo web y marketing digital.
+// FIX: URL real del worker deployado en Cloudflare
+const WORKER_URL = 'https://conceptodemo.conceptodevelopment.workers.dev';
+
+const SYSTEM_PROMPT = `Sos el asistente virtual de Concepto Development, una agencia digital de Montevideo, Uruguay especializada en chatbots con IA, automatizaciones, desarrollo web y marketing digital.
 
 Tu rol: atender consultas de potenciales clientes, explicar los servicios, dar información de precios orientativos y guiar hacia una llamada o contacto por WhatsApp.
 
@@ -830,119 +866,131 @@ Tono: profesional pero cercano, en español rioplatense (vos, che). Conciso. Si 
 
 Máximo 3-4 oraciones por respuesta. Usá emojis con moderación.`;
 
-// Mensaje de bienvenida
-function initDemoChat(){
-  dmMsgs.innerHTML='';
-  conversationHistory=[];
-  appendBotMsg('¡Hola! Soy el asistente de Concepto Development 🤖 ¿En qué puedo ayudarte hoy?');
+function scrollMsgs(){
+  requestAnimationFrame(()=>{ dmMsgs.scrollTop = dmMsgs.scrollHeight; });
 }
 
 function appendBotMsg(text){
-  const el=document.createElement('div');
-  el.className='dm-msg bot';
-  el.textContent=text;
+  const spacer = dmMsgs.querySelector('.dm-spacer');
+  if(spacer) spacer.remove();
+  const el = document.createElement('div');
+  el.className = 'dm-msg bot';
+  el.textContent = text;
   dmMsgs.appendChild(el);
-  dmMsgs.scrollTop=dmMsgs.scrollHeight;
+  scrollMsgs();
 }
 
 function appendUserMsg(text){
-  const el=document.createElement('div');
-  el.className='dm-msg user';
-  el.textContent=text;
+  const el = document.createElement('div');
+  el.className = 'dm-msg user';
+  el.textContent = text;
   dmMsgs.appendChild(el);
-  dmMsgs.scrollTop=dmMsgs.scrollHeight;
+  scrollMsgs();
 }
 
 function showTyping(){
-  const el=document.createElement('div');
-  el.className='dm-typing-indicator';el.id='dmTyping';
-  el.innerHTML='<div class="dm-typing-dot"></div><div class="dm-typing-dot"></div><div class="dm-typing-dot"></div>';
-  dmMsgs.appendChild(el);dmMsgs.scrollTop=dmMsgs.scrollHeight;
+  const el = document.createElement('div');
+  el.className = 'dm-typing-indicator';
+  el.id = 'dmTyping';
+  el.innerHTML = '<div class="dm-typing-dot"></div><div class="dm-typing-dot"></div><div class="dm-typing-dot"></div>';
+  dmMsgs.appendChild(el);
+  scrollMsgs();
+}
+function removeTyping(){ const t = document.getElementById('dmTyping'); if(t) t.remove(); }
+
+function dismissQuick(){
+  if(quickDismissed) return;
+  quickDismissed = true;
+  dmQuick.classList.add('hidden');
 }
 
-function removeTyping(){
-  const t=document.getElementById('dmTyping');if(t)t.remove();
-}
+async function sendMessage(text){
+  text = (text || dmInput.value).trim();
+  if(!text || isWaitingResponse) return;
 
-async function sendMessage(){
-  const text=dmInput.value.trim();
-  if(!text||isWaitingResponse)return;
-
+  dmInput.value = '';
+  dismissQuick();
   appendUserMsg(text);
-  dmInput.value='';dmInput.style.height='auto';
-  conversationHistory.push({role:'user',content:text});
+  conversationHistory.push({role:'user', content:text});
 
-  isWaitingResponse=true;
-  dmSend.disabled=true;
+  isWaitingResponse = true;
+  dmSend.disabled   = true;
   showTyping();
 
   try{
-    // ──────────────────────────────────────────────────
-    // CONECTÁ TU CLOUDFLARE WORKER ACÁ.
-    // Reemplazá la URL con tu Worker de CF.
-    // El Worker debe recibir { messages, system } y
-    // devolver { content: [{type:'text', text:'...'}] }
-    // ──────────────────────────────────────────────────
-    const WORKER_URL='https://TU-WORKER.TU-SUBDOMINIO.workers.dev';
-
-    const response=await fetch(WORKER_URL,{
+    const response = await fetch(WORKER_URL, {
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        messages:conversationHistory,
-        system:SYSTEM_PROMPT
-      })
+      body: JSON.stringify({ messages: conversationHistory, system: SYSTEM_PROMPT })
     });
 
-    if(!response.ok)throw new Error('Worker error '+response.status);
-    const data=await response.json();
-
-    // El Worker devuelve el texto de Claude directamente
-    const replyText=data.reply||data.text||'Hubo un error, intentá de nuevo.';
+    if(!response.ok) throw new Error('Worker error ' + response.status);
+    const data = await response.json();
+    // El worker devuelve { text: "..." }
+    const replyText = data.text || data.reply || 'Hubo un error, intentá de nuevo.';
 
     removeTyping();
     appendBotMsg(replyText);
-    conversationHistory.push({role:'assistant',content:replyText});
+    conversationHistory.push({role:'assistant', content:replyText});
 
-  }catch(err){
+  } catch(err){
     removeTyping();
-    appendBotMsg('Hubo un error al conectar. Escribinos directo por WhatsApp al +598 97976574 🙌');
-    console.error('Demo chat error:',err);
-  }finally{
-    isWaitingResponse=false;
-    dmSend.disabled=false;
-    dmInput.focus();
+    appendBotMsg('Hubo un error al conectar. Escribinos por WhatsApp al +598 97976574 🙌');
+    console.error('Demo chat error:', err);
+  } finally{
+    isWaitingResponse = false;
+    dmSend.disabled   = false;
   }
 }
 
-// Open / close modal
+function initDemoChat(){
+  dmMsgs.innerHTML = '<div class="dm-spacer"></div>';
+  conversationHistory = [];
+  quickDismissed = false;
+  dmQuick.classList.remove('hidden');
+  setTimeout(()=>{
+    appendBotMsg('¡Hola! Soy el asistente de Concepto 🤖 Podés elegir una opción o escribirme directamente.');
+  }, 320);
+}
+
 function openModal(){
   modal.classList.add('open');
-  document.body.style.overflow='hidden';
+  // NO bloqueamos el body scroll — el panel tiene su propio scroll interno
+  // Esto evita el salto de posición en iOS
   initDemoChat();
-  setTimeout(()=>dmInput.focus(),400);
+  // Focus con delay para que la animación termine antes
+  setTimeout(()=>{ dmInput.focus(); }, 400);
 }
+
 function closeModal(){
   modal.classList.remove('open');
-  document.body.style.overflow='';
+  dmInput.blur();
 }
 
-openBtn.addEventListener('click',openModal);
-closeBtn.addEventListener('click',closeModal);
-modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open'))closeModal();});
+openBtn.addEventListener('click', openModal);
+closeBtn.addEventListener('click', closeModal);
 
-// Send on Enter (Shift+Enter = nueva línea)
-dmInput.addEventListener('keydown',e=>{
-  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}
+// Cerrar al hacer click en el backdrop (fuera del panel)
+modal.addEventListener('click', e => {
+  if(e.target === modal) closeModal();
 });
-dmSend.addEventListener('click',sendMessage);
 
-// Auto-resize textarea
-dmInput.addEventListener('input',function(){
-  this.style.height='auto';
-  this.style.height=Math.min(this.scrollHeight,100)+'px';
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape' && modal.classList.contains('open')) closeModal();
 });
+
+// Quick replies
+dmQuick.addEventListener('click', e => {
+  const btn = e.target.closest('.dm-qbtn');
+  if(!btn) return;
+  sendMessage(btn.dataset.q);
+});
+
+// Enter para enviar
+dmInput.addEventListener('keydown', e => {
+  if(e.key === 'Enter'){ e.preventDefault(); sendMessage(); }
+});
+dmSend.addEventListener('click', () => sendMessage());
 </script>
 
 </body>
