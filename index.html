@@ -83,8 +83,8 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
 
 /* ═══ MOBILE SECTIONS ═══ */
 @media(max-width:680px){
-  html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
-  section { position:relative; min-height:100vh; min-height:100svh; display:flex; flex-direction:column; padding:0 7vw; z-index:20; scroll-snap-align: start; scroll-snap-stop: always; }
+  html { scroll-snap-type: y proximity; }
+  section { position:relative; min-height:100vh; min-height:100svh; display:flex; flex-direction:column; padding:0 7vw; z-index:20; scroll-snap-align: start; }
   
   #s-proc { scroll-snap-align: none; }
   footer { scroll-snap-align: none; }
@@ -402,225 +402,6 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 #demo-send:disabled{opacity:.35;transform:none;cursor:not-allowed;}
 
 /* ══════════════════════════════════════════════
-   DEMO AUTOMATIZACIONES — flow nodes
-   ══════════════════════════════════════════════ */
-#auto-body{padding:1.25rem;display:flex;flex-direction:column;gap:1.25rem;}
-
-.auto-pick-label{font-size:11px;font-weight:500;letter-spacing:.12em;color:rgba(168,85,247,.6);text-transform:uppercase;margin-bottom:.65rem;}
-.auto-chips{display:flex;flex-wrap:wrap;gap:.5rem;}
-.auto-chip{
-  padding:.42rem 1rem;border-radius:100px;
-  background:rgba(124,58,237,.1);
-  border:1px solid rgba(124,58,237,.18);
-  color:rgba(255,255,255,.6);
-  font-size:12.5px;font-weight:400;cursor:pointer;
-  font-family:'Inter',sans-serif;
-  transition:all .2s;
-}
-.auto-chip:hover,.auto-chip.active{
-  background:rgba(124,58,237,.25);
-  border-color:rgba(168,85,247,.45);
-  color:#d8b4fe;
-}
-
-/* Flow canvas */
-.flow-canvas{
-  position:relative;
-  min-height:260px;
-  background:rgba(255,255,255,.015);
-  border:1px solid rgba(124,58,237,.1);
-  border-radius:16px;
-  overflow:hidden;
-  padding:1.25rem .75rem;
-}
-.flow-nodes{
-  display:flex;
-  flex-direction:column;
-  gap:0;
-  align-items:stretch;
-}
-.flow-step{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  opacity:0;
-  transform:translateY(10px);
-  transition:opacity .4s,transform .4s;
-}
-.flow-step.vis{opacity:1;transform:none;}
-
-.flow-node{
-  display:flex;align-items:center;gap:.7rem;
-  background:#161830;
-  border:1px solid rgba(124,58,237,.15);
-  border-radius:12px;
-  padding:.65rem 1rem;
-  width:100%;
-  position:relative;
-}
-.flow-node.active-node{
-  border-color:rgba(168,85,247,.5);
-  background:#1e1640;
-  box-shadow:0 0 18px rgba(124,58,237,.2);
-}
-.flow-node-icon{
-  width:32px;height:32px;border-radius:8px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:14px;flex-shrink:0;
-}
-.fn-trigger .flow-node-icon{background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.2);}
-.fn-condition .flow-node-icon{background:rgba(234,179,8,.15);border:1px solid rgba(234,179,8,.2);}
-.fn-action .flow-node-icon{background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.2);}
-.fn-notify .flow-node-icon{background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.2);}
-.flow-node-text{flex:1;}
-.flow-node-label{font-size:10px;font-weight:500;color:rgba(255,255,255,.3);letter-spacing:.1em;text-transform:uppercase;}
-.flow-node-val{font-size:13px;font-weight:400;color:rgba(255,255,255,.82);margin-top:1px;}
-.flow-node-badge{
-  font-size:10px;padding:.2rem .5rem;border-radius:100px;
-  font-weight:500;letter-spacing:.04em;
-}
-.fn-trigger .flow-node-badge{background:rgba(34,197,94,.15);color:#4ade80;}
-.fn-condition .flow-node-badge{background:rgba(234,179,8,.15);color:#fbbf24;}
-.fn-action .flow-node-badge{background:rgba(59,130,246,.15);color:#60a5fa;}
-.fn-notify .flow-node-badge{background:rgba(168,85,247,.15);color:#c084fc;}
-
-/* animated connector */
-.flow-connector{
-  display:flex;flex-direction:column;align-items:center;
-  height:32px;position:relative;overflow:hidden;
-}
-.flow-connector-line{
-  width:1px;flex:1;
-  background:linear-gradient(to bottom,rgba(124,58,237,.3),rgba(124,58,237,.6));
-  position:relative;overflow:hidden;
-}
-.flow-connector-pulse{
-  position:absolute;top:-100%;left:0;right:0;
-  height:100%;
-  background:linear-gradient(to bottom,transparent,rgba(168,85,247,.8),transparent);
-  animation:flow-pulse 1.8s ease-in-out infinite;
-}
-@keyframes flow-pulse{0%{top:-100%;}100%{top:200%;}}
-.flow-connector-dot{
-  width:6px;height:6px;border-radius:50%;
-  background:#a855f7;
-  box-shadow:0 0 8px rgba(168,85,247,.6);
-  flex-shrink:0;
-}
-
-.flow-result{
-  margin-top:.75rem;
-  padding:.65rem 1rem;
-  background:rgba(34,197,94,.07);
-  border:1px solid rgba(34,197,94,.15);
-  border-radius:10px;
-  font-size:12px;color:rgba(255,255,255,.55);
-  text-align:center;
-  opacity:0;transition:opacity .5s .1s;
-}
-.flow-result.vis{opacity:1;}
-.flow-result strong{color:#4ade80;}
-
-/* ══════════════════════════════════════════════
-   DEMO WEBS — wireframe builder
-   ══════════════════════════════════════════════ */
-#webs-body{padding:1.25rem;display:flex;flex-direction:column;gap:1rem;}
-
-.webs-label{font-size:11px;font-weight:500;letter-spacing:.12em;color:rgba(168,85,247,.6);text-transform:uppercase;margin-bottom:.65rem;}
-.webs-industry-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;}
-.webs-ind-btn{
-  padding:.55rem .5rem;border-radius:10px;
-  background:rgba(124,58,237,.08);
-  border:1px solid rgba(124,58,237,.15);
-  color:rgba(255,255,255,.5);
-  font-size:12px;font-weight:400;cursor:pointer;
-  font-family:'Inter',sans-serif;
-  text-align:center;
-  transition:all .2s;
-  display:flex;flex-direction:column;align-items:center;gap:.25rem;
-}
-.webs-ind-btn span:first-child{font-size:18px;}
-.webs-ind-btn:hover,.webs-ind-btn.active{
-  background:rgba(124,58,237,.22);
-  border-color:rgba(168,85,247,.4);
-  color:#d8b4fe;
-}
-
-/* Wireframe preview */
-.webs-preview{
-  background:#070918;
-  border:1px solid rgba(124,58,237,.12);
-  border-radius:14px;
-  overflow:hidden;
-  transition:opacity .3s;
-  min-height:260px;
-}
-.webs-preview.loading{opacity:.4;}
-
-/* Wireframe browser chrome */
-.wf-bar{
-  background:#0e1025;
-  border-bottom:1px solid rgba(255,255,255,.05);
-  padding:.4rem .65rem;
-  display:flex;align-items:center;gap:.4rem;
-}
-.wf-dot{width:6px;height:6px;border-radius:50%;}
-.wf-dot:nth-child(1){background:#ff5f57;}
-.wf-dot:nth-child(2){background:#febc2e;}
-.wf-dot:nth-child(3){background:#28c840;}
-.wf-url{
-  flex:1;margin-left:.4rem;
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.06);
-  border-radius:5px;
-  height:18px;
-  display:flex;align-items:center;padding:0 .45rem;
-}
-.wf-url-text{font-size:9px;color:rgba(255,255,255,.25);}
-
-/* Wireframe layout blocks */
-.wf-content{padding:.65rem;}
-.wf-hero-block{
-  border-radius:8px;
-  height:80px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:.35rem;
-  margin-bottom:.5rem;
-  position:relative;overflow:hidden;
-  transition:background .4s;
-}
-.wf-hero-overlay{position:absolute;inset:0;opacity:.18;}
-.wf-h-title{height:8px;border-radius:4px;background:rgba(255,255,255,.55);transition:width .4s;}
-.wf-h-sub{height:5px;border-radius:3px;background:rgba(255,255,255,.25);transition:width .4s;}
-.wf-h-btn{height:18px;border-radius:100px;background:rgba(255,255,255,.7);width:60px;transition:background .3s;}
-
-.wf-grid{display:grid;gap:.4rem;margin-bottom:.4rem;transition:grid-template-columns .4s;}
-.wf-card{border-radius:7px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);padding:.5rem;display:flex;flex-direction:column;gap:.3rem;transition:all .3s;}
-.wf-card-img{border-radius:5px;height:36px;transition:background .4s;}
-.wf-card-line{height:5px;border-radius:3px;background:rgba(255,255,255,.12);}
-.wf-card-line.short{width:60%;}
-.wf-card-tag{height:14px;border-radius:100px;width:45px;transition:background .4s;}
-
-.wf-badge{
-  position:absolute;top:.45rem;right:.45rem;
-  font-size:8.5px;font-weight:500;
-  padding:.18rem .45rem;
-  border-radius:100px;
-  transition:all .3s;
-}
-
-.wf-copy{
-  padding:.5rem;border-radius:8px;
-  background:rgba(255,255,255,.025);
-  border:1px solid rgba(255,255,255,.05);
-  font-size:10.5px;color:rgba(255,255,255,.5);
-  line-height:1.55;
-  transition:all .4s;
-  min-height:42px;
-}
-.wf-copy strong{color:rgba(255,255,255,.8);font-weight:500;}
-
-/* ══════════════════════════════════════════════
    DEMO MARKETING — copy generator
    ══════════════════════════════════════════════ */
 #mkt-body{padding:1.25rem;display:flex;flex-direction:column;gap:1rem;}
@@ -836,7 +617,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
       <span class="tag rv">01 — Automatizaciones</span>
       <h2 class="h2 rv d1">Menos fricción.<br><span class="fade">Más escala.</span></h2>
       <p class="sub mob-hide rv d2">Tareas repetitivas convertidas en sistemas que corren solos.</p>
-      <button class="btn-demo rv d3" onclick="openModal('auto')">Ver flujo en acción <span class="btn-demo-icon">→</span></button>
+      <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Hablemos</a>
     </div>
     <div class="rcol"></div>
   </div>
@@ -849,7 +630,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
       <span class="tag rv">02 — Webs</span>
       <h2 class="h2 rv d1">Tu primera impresión,<br><span class="fade">perfeccionada.</span></h2>
       <p class="sub mob-hide rv d2">Tu web, tu mejor vendedor.</p>
-      <button class="btn-demo rv d3" onclick="openModal('webs')">Crear tu web ahora <span class="btn-demo-icon">→</span></button>
+      <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Hablemos</a>
     </div>
     <div class="rcol"></div>
   </div>
@@ -924,74 +705,6 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
   <span class="fc">© 2025 Montevideo</span>
 </footer>
-
-<!-- ══════════════════════════════════════════════════
-     MODAL: AUTOMATIZACIONES
-     ══════════════════════════════════════════════════ -->
-<div class="modal-overlay" id="mo-auto">
-  <div class="modal-backdrop" onclick="closeModal('auto')"></div>
-  <div class="modal-panel">
-    <div class="modal-header">
-      <div class="mh-av">⚡</div>
-      <div class="mh-info">
-        <div class="mh-name">Simulador de Automatización</div>
-        <div class="mh-sub"><span class="mh-dot"></span> Flujo en tiempo real</div>
-      </div>
-      <button class="modal-close" onclick="closeModal('auto')">✕</button>
-    </div>
-    <div class="modal-body" id="auto-body">
-      <div>
-        <div class="auto-pick-label">Elegí una tarea a automatizar</div>
-        <div class="auto-chips">
-          <button class="auto-chip" onclick="runFlow(this,'leads')">📋 Seguimiento de leads</button>
-          <button class="auto-chip" onclick="runFlow(this,'pedidos')">📦 Notif. de pedidos</button>
-          <button class="auto-chip" onclick="runFlow(this,'reportes')">📊 Reportes automáticos</button>
-          <button class="auto-chip" onclick="runFlow(this,'agendas')">📅 Confirmación de turnos</button>
-        </div>
-      </div>
-      <div class="flow-canvas" id="flow-canvas">
-        <div style="display:flex;align-items:center;justify-content:center;height:220px;">
-          <p style="font-size:12px;color:rgba(255,255,255,.2);text-align:center;">Elegí una tarea para ver el flujo</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════
-     MODAL: WEBS
-     ══════════════════════════════════════════════════ -->
-<div class="modal-overlay" id="mo-webs">
-  <div class="modal-backdrop" onclick="closeModal('webs')"></div>
-  <div class="modal-panel">
-    <div class="modal-header">
-      <div class="mh-av">🌐</div>
-      <div class="mh-info">
-        <div class="mh-name">Constructor de Web</div>
-        <div class="mh-sub"><span class="mh-dot"></span> Preview instantáneo</div>
-      </div>
-      <button class="modal-close" onclick="closeModal('webs')">✕</button>
-    </div>
-    <div class="modal-body" id="webs-body">
-      <div>
-        <div class="webs-label">¿Para qué rubro es tu web?</div>
-        <div class="webs-industry-grid">
-          <button class="webs-ind-btn" onclick="previewWeb(this,'restaurante')"><span>🍽️</span>Restaurante</button>
-          <button class="webs-ind-btn" onclick="previewWeb(this,'peluqueria')"><span>✂️</span>Peluquería</button>
-          <button class="webs-ind-btn" onclick="previewWeb(this,'ecommerce')"><span>🛍️</span>Ecommerce</button>
-          <button class="webs-ind-btn" onclick="previewWeb(this,'gym')"><span>💪</span>Gym / Fitness</button>
-          <button class="webs-ind-btn" onclick="previewWeb(this,'consultora')"><span>📈</span>Consultora</button>
-          <button class="webs-ind-btn" onclick="previewWeb(this,'clinica')"><span>🏥</span>Clínica</button>
-        </div>
-      </div>
-      <div class="webs-preview" id="webs-preview">
-        <div style="display:flex;align-items:center;justify-content:center;min-height:260px;">
-          <p style="font-size:12px;color:rgba(255,255,255,.2);text-align:center;">Elegí tu rubro para ver el preview</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- ══════════════════════════════════════════════════
      MODAL: CHATBOT
@@ -1273,191 +986,6 @@ demoInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.prev
 demoInput.addEventListener('input',()=>{demoInput.style.height='auto';demoInput.style.height=Math.min(demoInput.scrollHeight,80)+'px';});
 
 // ══════════════════════════════════════════════
-// AUTOMATIZACIONES FLOW
-// ══════════════════════════════════════════════
-const FLOWS = {
-  leads:{
-    title:'Seguimiento de Leads',
-    steps:[
-      {type:'fn-trigger',icon:'📥',label:'Trigger',val:'Nuevo lead en formulario web',badge:'INICIO'},
-      {type:'fn-condition',icon:'🔍',label:'Condición',val:'¿El lead viene de campaña pagada?',badge:'FILTRO'},
-      {type:'fn-action',icon:'📨',label:'Acción',val:'Enviar email de bienvenida personalizado',badge:'EJECUTAR'},
-      {type:'fn-notify',icon:'🔔',label:'Notificación',val:'Alerta al equipo de ventas vía WhatsApp',badge:'AVISAR'},
-    ],
-    result:'✓ Lead calificado y asignado en <strong>3 segundos</strong>. Sin intervención humana.'
-  },
-  pedidos:{
-    title:'Notificaciones de Pedidos',
-    steps:[
-      {type:'fn-trigger',icon:'🛒',label:'Trigger',val:'Pedido confirmado en tienda',badge:'INICIO'},
-      {type:'fn-condition',icon:'📦',label:'Condición',val:'¿Tiene stock disponible?',badge:'FILTRO'},
-      {type:'fn-action',icon:'📱',label:'Acción',val:'SMS + email al cliente con tracking',badge:'EJECUTAR'},
-      {type:'fn-notify',icon:'🚚',label:'Notificación',val:'Orden enviada a logística automáticamente',badge:'AVISAR'},
-    ],
-    result:'✓ Cliente informado en <strong>8 segundos</strong>. Cero tickets de soporte innecesarios.'
-  },
-  reportes:{
-    title:'Reportes Automáticos',
-    steps:[
-      {type:'fn-trigger',icon:'⏰',label:'Trigger',val:'Todos los lunes a las 8:00 AM',badge:'INICIO'},
-      {type:'fn-condition',icon:'📊',label:'Condición',val:'Consolidar datos de la semana anterior',badge:'FILTRO'},
-      {type:'fn-action',icon:'📄',label:'Acción',val:'Generar PDF con métricas y gráficas',badge:'EJECUTAR'},
-      {type:'fn-notify',icon:'📬',label:'Notificación',val:'Reporte enviado a gerencia por email',badge:'AVISAR'},
-    ],
-    result:'✓ Reporte listo cada lunes a las <strong>8:02 AM</strong>. Vos tomás el café.'
-  },
-  agendas:{
-    title:'Confirmación de Turnos',
-    steps:[
-      {type:'fn-trigger',icon:'📅',label:'Trigger',val:'Turno reservado 24hs antes',badge:'INICIO'},
-      {type:'fn-condition',icon:'✅',label:'Condición',val:'¿El cliente confirmó por WhatsApp?',badge:'FILTRO'},
-      {type:'fn-action',icon:'💬',label:'Acción',val:'Recordatorio automático con detalles',badge:'EJECUTAR'},
-      {type:'fn-notify',icon:'📋',label:'Notificación',val:'Agenda del día enviada al profesional',badge:'AVISAR'},
-    ],
-    result:'✓ <strong>78% menos ausencias</strong> con recordatorios automáticos.'
-  }
-};
-
-let flowRunning = false;
-function runFlow(btn, key){
-  document.querySelectorAll('.auto-chip').forEach(c=>c.classList.remove('active'));
-  btn.classList.add('active');
-  if(flowRunning) return;
-  const f = FLOWS[key];
-  const canvas = document.getElementById('flow-canvas');
-  canvas.innerHTML='';
-
-  const nodesWrap = document.createElement('div');
-  nodesWrap.className='flow-nodes';
-
-  f.steps.forEach((step,i)=>{
-    const stepEl=document.createElement('div');
-    stepEl.className='flow-step';
-
-    const nodeEl=document.createElement('div');
-    nodeEl.className=`flow-node ${step.type}`;
-    nodeEl.innerHTML=`<div class="flow-node-icon">${step.icon}</div><div class="flow-node-text"><div class="flow-node-label">${step.label}</div><div class="flow-node-val">${step.val}</div></div><div class="flow-node-badge">${step.badge}</div>`;
-    stepEl.appendChild(nodeEl);
-
-    if(i < f.steps.length-1){
-      const conn=document.createElement('div');
-      conn.className='flow-connector';
-      conn.innerHTML='<div class="flow-connector-line"><div class="flow-connector-pulse"></div></div><div class="flow-connector-dot"></div>';
-      stepEl.appendChild(conn);
-    }
-
-    nodesWrap.appendChild(stepEl);
-
-    // animate with delay
-    setTimeout(()=>{
-      stepEl.classList.add('vis');
-      nodeEl.classList.add('active-node');
-      setTimeout(()=>nodeEl.classList.remove('active-node'),600);
-    }, i*280);
-  });
-
-  canvas.appendChild(nodesWrap);
-
-  // result
-  const resultEl=document.createElement('div');
-  resultEl.className='flow-result';
-  resultEl.innerHTML=f.result;
-  canvas.appendChild(resultEl);
-  setTimeout(()=>resultEl.classList.add('vis'), f.steps.length*280+400);
-}
-
-// ══════════════════════════════════════════════
-// WEBS PREVIEW
-// ══════════════════════════════════════════════
-const WEB_DATA = {
-  restaurante:{
-    domain:'labrasa.uy',
-    hero:{bg:'linear-gradient(135deg,#1a0a00,#3d1200)',accent:'#ff6b35',badge:'🍽️ Reservas Online',title:'width:72%',sub:'width:55%',btnColor:'#ff6b35'},
-    cols:3,
-    cardImg:'rgba(255,107,53,.15)',
-    cardTag:'rgba(255,107,53,.2)',
-    copy:'<strong>La Brasa</strong> — Cocina a leña en el corazón de Montevideo. Reservá tu mesa online en 30 segundos.'
-  },
-  peluqueria:{
-    domain:'cortesur.uy',
-    hero:{bg:'linear-gradient(135deg,#0a0a14,#1a1040)',accent:'#a855f7',badge:'✂️ Turnos 24/7',title:'width:65%',sub:'width:48%',btnColor:'#a855f7'},
-    cols:2,
-    cardImg:'rgba(168,85,247,.15)',
-    cardTag:'rgba(168,85,247,.2)',
-    copy:'<strong>CorteUr</strong> — Tu corte perfecto, sin esperas. Agendá tu turno ahora y recibí recordatorio automático.'
-  },
-  ecommerce:{
-    domain:'tiendaclaro.uy',
-    hero:{bg:'linear-gradient(135deg,#001a0d,#003d1a)',accent:'#22c55e',badge:'🛍️ Envío Gratis +$500',title:'width:78%',sub:'width:60%',btnColor:'#22c55e'},
-    cols:3,
-    cardImg:'rgba(34,197,94,.12)',
-    cardTag:'rgba(34,197,94,.2)',
-    copy:'<strong>Tienda Claro</strong> — Productos seleccionados. Pagá en cuotas, recibí en 48hs.'
-  },
-  gym:{
-    domain:'forzagym.uy',
-    hero:{bg:'linear-gradient(135deg,#0d0000,#2d0808)',accent:'#ef4444',badge:'💪 Clase Gratis',title:'width:60%',sub:'width:45%',btnColor:'#ef4444'},
-    cols:2,
-    cardImg:'rgba(239,68,68,.15)',
-    cardTag:'rgba(239,68,68,.2)',
-    copy:'<strong>Forza Gym</strong> — Entrenamiento de alto rendimiento. Tu primera clase es gratis.'
-  },
-  consultora:{
-    domain:'nexoconsult.uy',
-    hero:{bg:'linear-gradient(135deg,#000d1a,#001f3d)',accent:'#3b82f6',badge:'📈 +200 empresas',title:'width:70%',sub:'width:52%',btnColor:'#3b82f6'},
-    cols:2,
-    cardImg:'rgba(59,130,246,.12)',
-    cardTag:'rgba(59,130,246,.2)',
-    copy:'<strong>Nexo Consult</strong> — Estrategia financiera para empresas en crecimiento. Agendá una consulta gratis.'
-  },
-  clinica:{
-    domain:'saludplus.uy',
-    hero:{bg:'linear-gradient(135deg,#001a14,#003d2e)',accent:'#10b981',badge:'🏥 Turnos Online',title:'width:68%',sub:'width:50%',btnColor:'#10b981'},
-    cols:3,
-    cardImg:'rgba(16,185,129,.12)',
-    cardTag:'rgba(16,185,129,.2)',
-    copy:'<strong>Salud Plus</strong> — Atención médica especializada. Sacá tu turno online, sin esperas telefónicas.'
-  }
-};
-
-function previewWeb(btn, key){
-  document.querySelectorAll('.webs-ind-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  const d = WEB_DATA[key];
-  const preview = document.getElementById('webs-preview');
-  preview.classList.add('loading');
-  setTimeout(()=>{
-    preview.innerHTML=`
-      <div class="wf-bar">
-        <div class="wf-dot"></div><div class="wf-dot"></div><div class="wf-dot"></div>
-        <div class="wf-url"><span class="wf-url-text">https://${d.domain}</span></div>
-      </div>
-      <div class="wf-content">
-        <div class="wf-hero-block" style="background:${d.hero.bg}">
-          <div class="wf-hero-overlay" style="background:${d.hero.accent}"></div>
-          <div class="wf-badge" style="background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.75)">${d.hero.badge}</div>
-          <div class="wf-h-title" style="${d.hero.title}"></div>
-          <div class="wf-h-sub" style="${d.hero.sub}"></div>
-          <div class="wf-h-btn" style="background:${d.hero.accent};opacity:.9;"></div>
-        </div>
-        <div class="wf-grid" style="grid-template-columns:repeat(${d.cols},1fr)">
-          ${Array(d.cols).fill(0).map(()=>`
-            <div class="wf-card">
-              <div class="wf-card-img" style="background:${d.cardImg}"></div>
-              <div class="wf-card-tag" style="background:${d.cardTag};height:10px;width:40%;border-radius:3px;"></div>
-              <div class="wf-card-line"></div>
-              <div class="wf-card-line short"></div>
-            </div>
-          `).join('')}
-        </div>
-        <div class="wf-copy">${d.copy}</div>
-      </div>
-    `;
-    preview.classList.remove('loading');
-  },220);
-}
-
-// ══════════════════════════════════════════════
 // MARKETING COPY GENERATOR
 // ══════════════════════════════════════════════
 async function generateCopy(){
@@ -1696,17 +1224,31 @@ loader.load(
     mesh.position.sub(c);
     mesh.scale.setScalar(1/Math.max(sz.x,sz.y,sz.z));
     scene.add(mesh);
-    SECS.forEach((sel,i)=>{
-      const el=document.querySelector(sel);
-      if(!el||!STATES[i])return;
-      ScrollTrigger.create({
-        trigger:el,start:'top center',
-        onEnter:()=>{goTo(STATES[i]);if(sel==='#s-night')enterNight();else exitNight();},
-        onEnterBack:()=>{goTo(STATES[i]);if(sel==='#s-night')enterNight();else exitNight();}
+    if(isMob){
+      // Mobile: IntersectionObserver only — ScrollTrigger conflicts with scroll-snap and causes auto-scroll bug
+      const mobObs=new IntersectionObserver(entries=>{
+        entries.forEach(e=>{
+          if(!e.isIntersecting)return;
+          const idx=SECS.indexOf('#'+e.target.id);
+          if(idx<0||!STATES[idx])return;
+          goTo(STATES[idx]);
+          if(e.target.id==='s-night')enterNight();else exitNight();
+        });
+      },{threshold:0.45});
+      SECS.forEach(sel=>{const el=document.querySelector(sel);if(el)mobObs.observe(el);});
+    } else {
+      SECS.forEach((sel,i)=>{
+        const el=document.querySelector(sel);
+        if(!el||!STATES[i])return;
+        ScrollTrigger.create({
+          trigger:el,start:'top center',
+          onEnter:()=>{goTo(STATES[i]);if(sel==='#s-night')enterNight();else exitNight();},
+          onEnterBack:()=>{goTo(STATES[i]);if(sel==='#s-night')enterNight();else exitNight();}
+        });
       });
-    });
+      ScrollTrigger.refresh();
+    }
     goTo(STATES[0]);
-    ScrollTrigger.refresh();
     document.getElementById('ldr').classList.add('out');
   },
   null,
