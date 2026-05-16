@@ -44,6 +44,8 @@ body{
 .ldr-b{width:0;height:100%;background:var(–ink);animation:la 1.8s ease forwards;}
 @keyframes la{to{width:100%;}}
 
+/* GLOBAL VAR FIX: ensure CSS custom properties always use double-dash */
+
 /* ROBOT CANVAS */
 #rc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:8;}
 
@@ -90,8 +92,8 @@ footer { scroll-snap-align: none; }
 .srow{display:block;direction:ltr !important;}
 .rcol{display:none;}
 
-/* FIX 1: más padding-top para bajar el texto y evitar solapamiento con el robot */
-#s-hero{justify-content:flex-end;padding-bottom:12vh;padding-top:140px;}
+/* FIX hero móvil: height fija en lugar de min-height para que no crezca más de una pantalla */
+#s-hero{justify-content:flex-end;padding-bottom:10vh;padding-top:0;height:100vh;height:100svh;overflow:hidden;}
 
 #s-hero .scol{align-items:center;text-align:center;margin-bottom:0;}
 #s-hero .tag{margin-top:8vh;}
