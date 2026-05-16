@@ -28,8 +28,9 @@ button{font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparen
 
 /* ─── BASE ───────────────────────────────────────────── */
 html{
-overflow-x:hidden;
-scrollbar-width:none; /* Firefox */
+overflow:hidden; /* html no scrollea — body es el scroll container */
+height:100%;
+scrollbar-width:none;
 }
 html::-webkit-scrollbar{display:none;}
 
@@ -39,6 +40,8 @@ color:#0d0d0d;
 font-family:‘Inter’,system-ui,-apple-system,sans-serif;
 font-weight:300;
 overflow-x:hidden;
+overflow-y:auto;  /* body ES el scroll container real */
+height:100%;
 -webkit-font-smoothing:antialiased;
 -moz-osx-font-smoothing:grayscale;
 }
@@ -135,15 +138,13 @@ padding:0 clamp(28px,7vw,100px);z-index:20;
 
 /* ─── SECTIONS MOBILE ────────────────────────────────── */
 @media(max-width:680px){
-/* Apple-style smooth snap:
-- proximity (no mandatory): el snap “atrae” solo cerca del borde,
-respeta el gesto del usuario, no se pelea con el scroll natural.
-- scroll-behavior:smooth: easing nativo en navegaciones por hash.
-- scroll-padding-top:58px: compensa la nav fija al snap. */
-html{
+/* Snap en body (el scroll container real en iOS Safari).
+proximity: atrae suave cerca del borde, no fuerza como mandatory.
+scroll-padding-top en body compensa la nav fija. */
+body{
 scroll-snap-type:y proximity;
-scroll-behavior:smooth;
 scroll-padding-top:58px;
+/* Sin scroll-behavior:smooth — compite con la animación del snap */
 }
 section{
 position:relative;min-height:100vh;min-height:100svh;
