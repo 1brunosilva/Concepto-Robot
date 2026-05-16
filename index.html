@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -28,18 +27,18 @@ body{
 
 /* CURSOR */
 #cd,#cr{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:background .3s,border-color .3s;}
-#cd{width:5px;height:5px;background:var(–ink);}
+#cd{width:5px;height:5px;background:var(--ink);}
 #cr{width:28px;height:28px;border:1px solid rgba(13,13,13,.22);}
 #cd.vlt{background:#a855f7;}
 #cr.vlt{border-color:rgba(168,85,247,.6);}
 @media(hover:none){#cd,#cr{display:none;}}
 
 /* LOADER */
-#ldr{position:fixed;inset:0;background:var(–cream);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:8000;transition:opacity .6s;}
+#ldr{position:fixed;inset:0;background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:8000;transition:opacity .6s;}
 #ldr.out{opacity:0;pointer-events:none;}
 .ldr-logo{font-size:15px;font-weight:500;letter-spacing:-.02em;margin-bottom:1.8rem;}
 .ldr-t{width:80px;height:1px;background:rgba(13,13,13,.1);overflow:hidden;}
-.ldr-b{width:0;height:100%;background:var(–ink);animation:la 1.8s ease forwards;}
+.ldr-b{width:0;height:100%;background:var(--ink);animation:la 1.8s ease forwards;}
 @keyframes la{to{width:100%;}}
 
 /* ROBOT CANVAS */
@@ -53,106 +52,121 @@ nav.dk .nl{color:#fff;}
 nav.dk .nlink{color:rgba(255,255,255,.45);}
 nav.dk .nlink:hover{color:#fff;}
 nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
-.nl{font-size:15px;font-weight:500;letter-spacing:-.025em;color:var(–ink);text-decoration:none;transition:color .3s;}
+.nl{font-size:15px;font-weight:500;letter-spacing:-.025em;color:var(--ink);text-decoration:none;transition:color .3s;}
 .nlinks{display:flex;gap:2rem;align-items:center;}
-.nlink{font-size:13px;color:var(–mid);text-decoration:none;font-weight:400;transition:color .18s;}
-.nlink:hover{color:var(–ink);}
-.nbtn{padding:.48rem 1.2rem;border-radius:100px;background:var(–ink);color:var(–cream);font-size:13px;font-weight:400;text-decoration:none;transition:background .3s,color .3s;}
+.nlink{font-size:13px;color:var(--mid);text-decoration:none;font-weight:400;transition:color .18s;}
+.nlink:hover{color:var(--ink);}
+.nbtn{padding:.48rem 1.2rem;border-radius:100px;background:var(--ink);color:var(--cream);font-size:13px;font-weight:400;text-decoration:none;transition:background .3s,color .3s;}
 .nmb{display:none;}
 @media(max-width:680px){
-.nlinks{display:none;}
-.nmb{display:inline-flex;padding:.42rem 1rem;border-radius:100px;background:var(–ink);color:var(–cream);font-size:12px;font-weight:400;text-decoration:none;transition:background .3s,color .3s;}
+  .nlinks{display:none;}
+  .nmb{display:inline-flex;padding:.42rem 1rem;border-radius:100px;background:var(--ink);color:var(--cream);font-size:12px;font-weight:400;text-decoration:none;transition:background .3s,color .3s;}
 }
 
 /* ═══ DESKTOP SECTIONS ═══ */
 @media(min-width:681px){
-section{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:0 clamp(28px,7vw,100px);z-index:20;}
-.srow{display:grid;grid-template-columns:1fr 1fr;width:100%;align-items:center;gap:4vw;}
-.srow.flip{direction:rtl;}
-.srow.flip .scol{direction:ltr;}
-.scol{display:flex;flex-direction:column;}
-.rcol{height:70vh;}
-#s-proc{min-height:auto;padding:10vh clamp(28px,7vw,100px);display:block;}
-#s-night{min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:0 clamp(28px,7vw,100px);}
-#s-cta{flex-direction:column;align-items:center;text-align:center;min-height:100vh;min-height:100svh;padding-top:0;justify-content:center;}
-#s-cta .ctah{text-align:center;max-width:58vw;}
-#s-cta .brow{justify-content:center;}
+  section{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:0 clamp(28px,7vw,100px);z-index:20;}
+  .srow{display:grid;grid-template-columns:1fr 1fr;width:100%;align-items:center;gap:4vw;}
+  .srow.flip{direction:rtl;}
+  .srow.flip .scol{direction:ltr;}
+  .scol{display:flex;flex-direction:column;}
+  .rcol{height:70vh;}
+  #s-proc{min-height:auto;padding:10vh clamp(28px,7vw,100px);display:block;}
+  #s-night{min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:0 clamp(28px,7vw,100px);}
+  #s-cta{flex-direction:column;align-items:center;text-align:center;min-height:100vh;min-height:100svh;padding-top:0;justify-content:center;}
+  #s-cta .ctah{text-align:center;max-width:58vw;}
+  #s-cta .brow{justify-content:center;}
 }
 
 /* ═══ MOBILE SECTIONS ═══ */
 @media(max-width:680px){
-section{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;padding:0 7vw;z-index:20;}
-.srow{display:block;direction:ltr !important;}
-.rcol{display:none;}
-#s-hero{justify-content:flex-end;padding-bottom:14vh;padding-top:70px;}
-#s-hero .scol{align-items:center;text-align:center;}
-#s-hero .sub{max-width:100%;text-align:center;}
-#s-hero .brow{justify-content:center;}
-#s-night{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:80px 7vw;}
-#s-auto{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
-#s-auto .scol{align-items:flex-start;text-align:left;}
-#s-webs{justify-content:flex-end;padding-bottom:12vh;padding-top:70px;}
-#s-webs .scol{align-items:flex-end;text-align:right;}
-#s-webs .sub{text-align:right;max-width:100%;}
-#s-chat{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
-#s-chat .scol{align-items:flex-start;text-align:left;}
-#s-mkt{justify-content:flex-end;padding-bottom:12vh;padding-top:70px;}
-#s-mkt .scol{align-items:flex-start;text-align:left;}
-#s-ia{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
-#s-ia .scol{align-items:flex-end;text-align:right;}
-#s-ia .sub{text-align:right;max-width:100%;}
-#s-proc{min-height:auto;padding:64px 7vw;display:block;}
-#s-cta{min-height:100vh;min-height:100svh;justify-content:center;padding-top:0;padding-bottom:0;flex-direction:column;align-items:center;text-align:center;}
-#s-cta .ctah{text-align:center;max-width:100%;font-size:clamp(34px,11vw,52px);}
-#s-cta .ctap{max-width:100%;text-align:center;}
-#s-cta .brow{justify-content:center;}
+  html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+  section { position:relative; min-height:100vh; min-height:100svh; display:flex; flex-direction:column; padding:0 7vw; z-index:20; scroll-snap-align: start; scroll-snap-stop: always; }
+  
+  #s-proc { scroll-snap-align: none; }
+  footer { scroll-snap-align: none; }
+
+  .srow{display:block;direction:ltr !important;}
+  .rcol{display:none;}
+
+  #s-hero{justify-content:flex-end;padding-bottom:14vh;padding-top:70px;}
+  #s-hero .scol{align-items:center;text-align:center;}
+  #s-hero .sub{max-width:100%;text-align:center;}
+  #s-hero .brow{justify-content:center;}
+
+  #s-night{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:80px 7vw;}
+
+  #s-auto{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
+  #s-auto .scol{align-items:flex-start;text-align:left;}
+
+  #s-webs{justify-content:flex-end;padding-bottom:12vh;padding-top:70px;}
+  #s-webs .scol{align-items:flex-end;text-align:right;}
+  #s-webs .sub{text-align:right;max-width:100%;}
+
+  #s-chat{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
+  #s-chat .scol{align-items:flex-start;text-align:left;}
+
+  #s-mkt{justify-content:flex-end;padding-bottom:12vh;padding-top:70px;}
+  #s-mkt .scol{align-items:flex-start;text-align:left;}
+
+  #s-ia{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
+  #s-ia .scol{align-items:flex-end;text-align:right;}
+  #s-ia .sub{text-align:right;max-width:100%;}
+
+  #s-proc{min-height:auto;padding:64px 7vw;display:block;}
+  #s-cta{min-height:100vh;min-height:100svh;justify-content:center;padding-top:0;padding-bottom:0;flex-direction:column;align-items:center;text-align:center;}
+  #s-cta .ctah{text-align:center;max-width:100%;font-size:clamp(34px,11vw,52px);}
+  #s-cta .ctap{max-width:100%;text-align:center;}
+  #s-cta .brow{justify-content:center;}
 }
 
 /* ═══ TYPOGRAPHY ═══ */
-.tag{font-size:11px;font-weight:500;letter-spacing:.16em;color:var(–dim);text-transform:uppercase;margin-bottom:1.4rem;display:block;}
+.tag{font-size:11px;font-weight:500;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;margin-bottom:1.4rem;display:block;}
 .h1{font-size:clamp(40px,6.2vw,94px);font-weight:600;letter-spacing:-.04em;line-height:.93;}
 .h2{font-size:clamp(34px,5vw,76px);font-weight:600;letter-spacing:-.04em;line-height:.93;}
-.fade{color:var(–dim);}
-.sub{font-size:clamp(14px,1.1vw,16px);color:var(–mid);line-height:1.78;max-width:380px;margin-top:1.6rem;font-weight:300;}
+.fade{color:var(--dim);}
+.sub{font-size:clamp(14px,1.1vw,16px);color:var(--mid);line-height:1.78;max-width:380px;margin-top:1.6rem;font-weight:300;}
 @media(max-width:680px){.sub{font-size:14px;max-width:100%;}.sub.mob-hide{display:none;}}
-.lnk{display:inline-flex;align-items:center;gap:.32rem;margin-top:1.4rem;font-size:13px;color:var(–ink);text-decoration:none;font-weight:400;transition:gap .2s;}
+.lnk{display:inline-flex;align-items:center;gap:.32rem;margin-top:1.4rem;font-size:13px;color:var(--ink);text-decoration:none;font-weight:400;transition:gap .2s;}
 .lnk:hover{gap:.65rem;}
-.lnk::after{content:‘→’;}
+.lnk::after{content:'→';}
 
 /* BUTTONS */
 .brow{display:flex;gap:.6rem;margin-top:2rem;flex-wrap:wrap;}
-.btn{display:inline-flex;align-items:center;padding:.7rem 1.65rem;border-radius:100px;font-family:‘Inter’,sans-serif;font-size:14px;font-weight:400;text-decoration:none;transition:opacity .18s;letter-spacing:-.01em;cursor:pointer;border:none;}
+.btn{display:inline-flex;align-items:center;padding:.7rem 1.65rem;border-radius:100px;font-family:'Inter',sans-serif;font-size:14px;font-weight:400;text-decoration:none;transition:opacity .18s;letter-spacing:-.01em;}
 .btn:hover{opacity:.62;}
-.bd{background:var(–ink);color:var(–cream);}
-.bo{background:transparent;color:var(–ink);border:1px solid rgba(13,13,13,.2);}
+.bd{background:var(--ink);color:var(--cream);}
+.bo{background:transparent;color:var(--ink);border:1px solid rgba(13,13,13,.2);}
 
-/* DEMO BUTTON — Violeta, consistente con Night */
+/* DEMO BUTTON — violeta, igual que sección Night */
 .btn-demo{
-display:inline-flex;align-items:center;gap:.45rem;
-padding:.7rem 1.65rem;border-radius:100px;
-background:linear-gradient(135deg,var(–violet-dark),var(–violet));
-color:#fff;font-size:14px;font-weight:400;
-text-decoration:none;letter-spacing:-.01em;
-cursor:pointer;border:none;
-box-shadow:0 6px 24px rgba(124,58,237,.28);
-transition:opacity .18s,transform .18s,box-shadow .18s;
+  display:inline-flex;align-items:center;gap:.45rem;
+  margin-top:1.4rem;
+  padding:.7rem 1.65rem;border-radius:100px;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  color:#fff;font-size:14px;font-weight:400;
+  cursor:pointer;border:none;font-family:'Inter',sans-serif;
+  letter-spacing:-.01em;
+  box-shadow:0 6px 24px rgba(124,58,237,.28);
+  transition:opacity .18s,transform .18s,box-shadow .18s;
 }
-.btn-demo:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 10px 32px rgba(124,58,237,.38);}
-.btn-demo svg{width:14px;height:14px;opacity:.85;}
+.btn-demo:hover{opacity:.85;transform:translateY(-2px);box-shadow:0 10px 32px rgba(124,58,237,.42);}
+.btn-demo::after{content:'→';transition:transform .2s;}
+.btn-demo:hover::after{transform:translateX(3px);}
 
 /* PROCESS */
-.ptag{font-size:11px;font-weight:500;letter-spacing:.16em;color:var(–dim);text-transform:uppercase;margin-bottom:3rem;display:block;}
+.ptag{font-size:11px;font-weight:500;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;margin-bottom:3rem;display:block;}
 .pg{display:grid;grid-template-columns:repeat(4,1fr);gap:3rem;}
-.pn{font-size:11px;font-weight:500;color:var(–dim);letter-spacing:.1em;margin-bottom:.9rem;display:block;}
+.pn{font-size:11px;font-weight:500;color:var(--dim);letter-spacing:.1em;margin-bottom:.9rem;display:block;}
 .pt{font-size:clamp(15px,1.3vw,18px);font-weight:500;letter-spacing:-.02em;margin-bottom:.45rem;}
-.pp{font-size:13px;color:var(–mid);line-height:1.75;font-weight:300;}
+.pp{font-size:13px;color:var(--mid);line-height:1.75;font-weight:300;}
 @media(max-width:680px){.pg{grid-template-columns:1fr 1fr;gap:1.6rem;}}
 @media(max-width:400px){.pg{grid-template-columns:1fr;}}
 
 /* ═══ NIGHT SECTION ═══ */
 #s-night{background:#06040f;position:relative;overflow:hidden;}
-#s-night::before{content:’’;position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(124,58,237,.2) 0%,transparent 70%);top:-150px;right:-100px;pointer-events:none;z-index:0;}
-#s-night::after{content:’’;position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(168,85,247,.1) 0%,transparent 70%);bottom:0;left:0;pointer-events:none;z-index:0;}
+#s-night::before{content:'';position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(124,58,237,.2) 0%,transparent 70%);top:-150px;right:-100px;pointer-events:none;z-index:0;}
+#s-night::after{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(168,85,247,.1) 0%,transparent 70%);bottom:0;left:0;pointer-events:none;z-index:0;}
 .night-inner{position:relative;z-index:25;display:flex;align-items:center;gap:clamp(3rem,6vw,8rem);width:100%;}
 @media(max-width:680px){.night-inner{flex-direction:column;gap:2rem;}.night-chat-col{order:-1;width:100%;}}
 .night-text{flex:1;}
@@ -163,12 +177,12 @@ transition:opacity .18s,transform .18s,box-shadow .18s;
 .nh .na{color:#a855f7;}
 .nsub{font-size:clamp(14px,1.1vw,15px);color:rgba(255,255,255,.4);line-height:1.75;max-width:360px;margin-top:1.4rem;font-weight:300;}
 @media(max-width:680px){.nsub{display:none;}}
-.ncta{display:inline-flex;align-items:center;gap:.5rem;margin-top:2rem;padding:.72rem 1.75rem;border-radius:100px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;font-size:14px;font-weight:400;text-decoration:none;letter-spacing:-.01em;transition:opacity .2s,transform .2s;box-shadow:0 8px 32px rgba(124,58,237,.35);cursor:pointer;border:none;}
+.ncta{display:inline-flex;align-items:center;gap:.5rem;margin-top:2rem;padding:.72rem 1.75rem;border-radius:100px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;font-size:14px;font-weight:400;text-decoration:none;letter-spacing:-.01em;transition:opacity .2s,transform .2s;box-shadow:0 8px 32px rgba(124,58,237,.35);}
 .ncta:hover{opacity:.82;transform:translateY(-2px);}
 .nstamp{margin-top:1.2rem;font-size:11px;color:rgba(255,255,255,.2);font-weight:300;letter-spacing:.04em;}
 .nstamp strong{color:rgba(168,85,247,.55);font-weight:500;}
 
-/* CHAT WIDGET */
+/* CHAT WIDGET (decorativo sección Night) */
 .cw{background:#0f1120;border-radius:18px;overflow:hidden;box-shadow:0 0 0 1px rgba(124,58,237,.2),0 24px 60px rgba(0,0,0,.6),0 0 60px rgba(124,58,237,.08);}
 .cw-head{background:#161830;padding:.8rem 1rem;display:flex;align-items:center;gap:.65rem;border-bottom:1px solid rgba(124,58,237,.12);}
 .cw-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#a855f7);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;box-shadow:0 0 10px rgba(124,58,237,.35);}
@@ -193,15 +207,15 @@ transition:opacity .18s,transform .18s,box-shadow .18s;
 
 /* CTA */
 .ctah{font-size:clamp(38px,6vw,96px);font-weight:600;letter-spacing:-.04em;line-height:.93;}
-.ctap{font-size:clamp(14px,1.1vw,16px);color:var(–mid);max-width:320px;line-height:1.78;margin-top:1.4rem;font-weight:300;}
+.ctap{font-size:clamp(14px,1.1vw,16px);color:var(--mid);max-width:320px;line-height:1.78;margin-top:1.4rem;font-weight:300;}
 
 /* FOOTER */
-footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(13,13,13,.06);z-index:20;position:relative;background:var(–cream);}
+footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(13,13,13,.06);z-index:20;position:relative;background:var(--cream);}
 .fl{font-size:14px;font-weight:500;letter-spacing:-.02em;}
 .fls{display:flex;gap:1.4rem;}
-.fla{font-size:12px;color:var(–dim);text-decoration:none;transition:color .18s;}
-.fla:hover{color:var(–ink);}
-.fc{font-size:12px;color:var(–dim);}
+.fla{font-size:12px;color:var(--dim);text-decoration:none;transition:color .18s;}
+.fla:hover{color:var(--ink);}
+.fc{font-size:12px;color:var(--dim);}
 @media(max-width:680px){footer{flex-direction:column;gap:.9rem;text-align:center;padding:1.8rem 7vw;}.fls{justify-content:center;flex-wrap:wrap;}}
 
 /* REVEAL */
@@ -209,256 +223,180 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 .rv.in{opacity:1;transform:none;}
 .d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.32s;}
 
-/* ═══════════════════════════════
-DEMO OVERLAY
-═══════════════════════════════ */
+/* ════════════════════════════════════
+   DEMO OVERLAY — CHATBOT EN VIVO
+   ════════════════════════════════════ */
 #demo-overlay{
-position:fixed;inset:0;z-index:2000;
-display:flex;align-items:center;justify-content:center;
-opacity:0;pointer-events:none;
-transition:opacity .4s cubic-bezier(.16,1,.3,1);
+  position:fixed;inset:0;z-index:9000;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .45s cubic-bezier(.16,1,.3,1);
 }
 #demo-overlay.open{opacity:1;pointer-events:all;}
 
-/* Backdrop blur */
 #demo-backdrop{
-position:absolute;inset:0;
-background:rgba(6,4,15,.88);
-backdrop-filter:blur(24px);
--webkit-backdrop-filter:blur(24px);
+  position:absolute;inset:0;
+  background:rgba(6,4,15,.88);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  cursor:pointer;
 }
 
-/* Panel */
 #demo-panel{
-position:relative;z-index:1;
-width:min(480px,92vw);
-max-height:88vh;
-background:#0b0d1a;
-border-radius:24px;
-border:1px solid rgba(124,58,237,.18);
-box-shadow:0 0 0 1px rgba(124,58,237,.08),0 32px 80px rgba(0,0,0,.7),0 0 80px rgba(124,58,237,.08);
-display:flex;flex-direction:column;
-transform:translateY(20px) scale(.97);
-transition:transform .45s cubic-bezier(.16,1,.3,1);
-overflow:hidden;
+  position:relative;z-index:1;
+  width:clamp(300px,90vw,440px);
+  max-height:90vh;
+  background:#0b0d1a;
+  border:1px solid rgba(124,58,237,.18);
+  border-radius:24px;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  transform:translateY(20px) scale(.97);
+  transition:transform .45s cubic-bezier(.16,1,.3,1);
+  box-shadow:0 32px 80px rgba(0,0,0,.7),0 0 0 1px rgba(124,58,237,.1),0 0 80px rgba(124,58,237,.06);
 }
 #demo-overlay.open #demo-panel{transform:translateY(0) scale(1);}
 
 /* Panel header */
 #demo-header{
-padding:1rem 1.2rem;
-background:#10122a;
-border-bottom:1px solid rgba(124,58,237,.12);
-display:flex;align-items:center;gap:.75rem;
-flex-shrink:0;
+  display:flex;align-items:center;gap:.75rem;
+  padding:.9rem 1.1rem;
+  background:#0f1220;
+  border-bottom:1px solid rgba(124,58,237,.12);
+  flex-shrink:0;
 }
-.demo-av{
-width:36px;height:36px;border-radius:50%;
-background:linear-gradient(135deg,#7c3aed,#a855f7);
-display:flex;align-items:center;justify-content:center;
-font-size:15px;flex-shrink:0;
-box-shadow:0 0 14px rgba(124,58,237,.4);
+.dh-av{
+  width:36px;height:36px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;
+  box-shadow:0 0 14px rgba(124,58,237,.4);
 }
-.demo-name{font-size:13px;font-weight:500;color:#fff;letter-spacing:-.01em;}
-.demo-sub{font-size:11px;color:rgba(255,255,255,.3);margin-top:1px;}
+.dh-info{flex:1;}
+.dh-name{font-size:13px;font-weight:500;color:#fff;letter-spacing:-.01em;}
+.dh-sub{font-size:11px;color:rgba(168,85,247,.6);margin-top:1px;display:flex;align-items:center;gap:.3rem;}
+.dh-dot{width:5px;height:5px;border-radius:50%;background:#22c55e;display:inline-block;animation:pulse-dot 2s infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:.4;}}
 #demo-close{
-margin-left:auto;
-width:30px;height:30px;border-radius:50%;
-background:rgba(255,255,255,.05);
-border:none;cursor:pointer;
-display:flex;align-items:center;justify-content:center;
-color:rgba(255,255,255,.4);
-transition:background .2s,color .2s;
-font-size:16px;line-height:1;
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(255,255,255,.06);border:none;
+  color:rgba(255,255,255,.4);font-size:14px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background .18s,color .18s;
 }
-#demo-close:hover{background:rgba(255,255,255,.1);color:#fff;}
+#demo-close:hover{background:rgba(255,255,255,.12);color:#fff;}
 
 /* Messages area */
 #demo-messages{
-flex:1;overflow-y:auto;
-padding:1.1rem;
-display:flex;flex-direction:column;
-gap:.55rem;
-scroll-behavior:smooth;
+  flex:1;overflow-y:auto;
+  padding:1rem;
+  display:flex;flex-direction:column;gap:.5rem;
+  min-height:260px;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(124,58,237,.2) transparent;
 }
-#demo-messages::-webkit-scrollbar{width:3px;}
+#demo-messages::-webkit-scrollbar{width:4px;}
 #demo-messages::-webkit-scrollbar-track{background:transparent;}
-#demo-messages::-webkit-scrollbar-thumb{background:rgba(124,58,237,.3);border-radius:10px;}
+#demo-messages::-webkit-scrollbar-thumb{background:rgba(124,58,237,.25);border-radius:2px;}
 
-/* Message bubbles */
+/* Mensajes */
 .dm{
-max-width:82%;
-padding:.6rem .9rem;
-border-radius:14px;
-font-size:13px;line-height:1.58;
-font-weight:300;
-animation:dmIn .3s cubic-bezier(.16,1,.3,1) forwards;
+  max-width:82%;padding:.6rem .85rem;
+  border-radius:14px;font-size:13px;line-height:1.6;
+  font-weight:300;
+  opacity:0;transform:translateY(8px);
+  animation:dm-in .35s cubic-bezier(.16,1,.3,1) forwards;
 }
-@keyframes dmIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
-.dm.user{
-background:linear-gradient(135deg,#7c3aed,#9333ea);
-color:rgba(255,255,255,.92);
-align-self:flex-end;
-border-bottom-right-radius:3px;
-}
+@keyframes dm-in{to{opacity:1;transform:none;}}
 .dm.bot{
-background:#1a1d35;
-color:rgba(255,255,255,.78);
-align-self:flex-start;
-border-bottom-left-radius:3px;
-border:1px solid rgba(124,58,237,.1);
+  align-self:flex-start;
+  background:#1a1d35;
+  color:rgba(255,255,255,.82);
+  border-bottom-left-radius:3px;
+  border:1px solid rgba(124,58,237,.1);
 }
-.dm.system{
-align-self:center;
-background:rgba(124,58,237,.1);
-color:rgba(168,85,247,.7);
-border-radius:100px;
-font-size:10.5px;padding:.3rem .85rem;
-border:1px solid rgba(124,58,237,.15);
+.dm.user{
+  align-self:flex-end;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  color:#fff;
+  border-bottom-right-radius:3px;
+  box-shadow:0 4px 16px rgba(124,58,237,.3);
 }
 
 /* Typing indicator */
 #demo-typing{
-display:none;
-align-self:flex-start;
-background:#1a1d35;
-border:1px solid rgba(124,58,237,.1);
-border-radius:14px;border-bottom-left-radius:3px;
-padding:.6rem .9rem;gap:4px;
-align-items:center;
+  display:flex;align-items:center;gap:3px;
+  padding:.5rem .85rem;
+  background:#1a1d35;
+  border-radius:14px;border-bottom-left-radius:3px;
+  border:1px solid rgba(124,58,237,.1);
+  align-self:flex-start;
+  width:52px;
+  opacity:0;transition:opacity .25s;
 }
-#demo-typing.show{display:flex;}
+#demo-typing.vis{opacity:1;}
 .dt{width:5px;height:5px;border-radius:50%;background:rgba(168,85,247,.5);animation:tb 1.1s infinite;}
 .dt:nth-child(2){animation-delay:.18s;}
 .dt:nth-child(3){animation-delay:.36s;}
 
+/* Hints */
+#demo-hints{
+  display:flex;flex-wrap:wrap;gap:.45rem;
+  padding:.5rem 1rem .75rem;
+  flex-shrink:0;
+}
+.hint-chip{
+  padding:.38rem .85rem;border-radius:100px;
+  background:rgba(124,58,237,.12);
+  border:1px solid rgba(124,58,237,.2);
+  color:rgba(168,85,247,.85);
+  font-size:12px;font-weight:400;
+  cursor:pointer;
+  transition:background .18s,border-color .18s,color .18s;
+  font-family:'Inter',sans-serif;
+}
+.hint-chip:hover{background:rgba(124,58,237,.22);border-color:rgba(168,85,247,.4);color:#a855f7;}
+
 /* Input area */
 #demo-input-area{
-padding:.85rem 1rem;
-border-top:1px solid rgba(124,58,237,.1);
-display:flex;gap:.6rem;align-items:flex-end;
-flex-shrink:0;
-background:#0b0d1a;
+  display:flex;align-items:flex-end;gap:.6rem;
+  padding:.75rem 1rem;
+  border-top:1px solid rgba(124,58,237,.1);
+  background:#0f1220;
+  flex-shrink:0;
 }
 #demo-input{
-flex:1;
-background:#141628;
-border:1px solid rgba(124,58,237,.15);
-border-radius:12px;
-padding:.65rem .9rem;
-font-family:‘Inter’,sans-serif;
-font-size:13px;font-weight:300;
-color:rgba(255,255,255,.8);
-resize:none;outline:none;
-min-height:42px;max-height:100px;
-transition:border-color .2s;
-line-height:1.5;
+  flex:1;background:rgba(255,255,255,.05);
+  border:1px solid rgba(124,58,237,.15);
+  border-radius:12px;
+  padding:.6rem .85rem;
+  color:#fff;font-size:13px;font-family:'Inter',sans-serif;font-weight:300;
+  resize:none;max-height:100px;min-height:40px;
+  transition:border-color .18s;
+  outline:none;
+  line-height:1.5;
 }
 #demo-input::placeholder{color:rgba(255,255,255,.2);}
-#demo-input:focus{border-color:rgba(124,58,237,.4);}
+#demo-input:focus{border-color:rgba(168,85,247,.4);}
 #demo-send{
-width:38px;height:38px;border-radius:10px;
-background:linear-gradient(135deg,#7c3aed,#a855f7);
-border:none;cursor:pointer;
-display:flex;align-items:center;justify-content:center;
-flex-shrink:0;
-transition:opacity .18s,transform .18s;
-box-shadow:0 4px 14px rgba(124,58,237,.3);
+  width:38px;height:38px;flex-shrink:0;
+  border-radius:50%;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .18s,transform .18s;
+  box-shadow:0 4px 14px rgba(124,58,237,.35);
 }
-#demo-send:hover{opacity:.82;transform:scale(1.05);}
-#demo-send:disabled{opacity:.3;transform:none;cursor:default;}
-#demo-send svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-
-/* Hint chips */
-#demo-hints{
-padding:0 1rem .75rem;
-display:flex;gap:.4rem;flex-wrap:wrap;
-flex-shrink:0;
-}
-.dhint{
-font-size:11.5px;font-weight:400;
-padding:.32rem .8rem;border-radius:100px;
-background:rgba(124,58,237,.1);
-border:1px solid rgba(124,58,237,.18);
-color:rgba(168,85,247,.8);
-cursor:pointer;transition:background .18s,color .18s;
-font-family:‘Inter’,sans-serif;
-}
-.dhint:hover{background:rgba(124,58,237,.2);color:rgba(168,85,247,1);}
-
-/* ═══════════════════════════════
-SCROLL SNAP — Desktop & Mobile
-Técnica: scroll-snap en el
-contenedor, secciones con
-scroll-snap-align start.
-Sin JS, 60fps, Apple-feel.
-═══════════════════════════════ */
-
-/* Desktop: snap suave */
-@media(min-width:681px){
-html{
-scroll-snap-type: y proximity;
-scroll-behavior: smooth;
-}
-section{
-scroll-snap-align: start;
-scroll-snap-stop: normal;
-}
-#s-proc{ scroll-snap-align: none; }
-footer{ scroll-snap-align: none; }
-}
-
-/* Mobile: snap firme —
-overflow-x:hidden en html rompe scroll-snap en Safari.
-Solución: se lo aplicamos solo al eje Y via JS después de load */
-@media(max-width:680px){
-section{
-scroll-snap-align: start;
-scroll-snap-stop: always;
-}
-#s-proc{ scroll-snap-align: none; }
-footer{ scroll-snap-align: none; }
-}
+#demo-send:hover{opacity:.85;transform:scale(1.05);}
+#demo-send svg{width:15px;height:15px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+#demo-send:disabled{opacity:.35;transform:none;cursor:not-allowed;}
 </style>
-
 </head>
 <body>
 
 <div id="ldr"><span class="ldr-logo">Concepto</span><div class="ldr-t"><div class="ldr-b"></div></div></div>
 <div id="cd"></div><div id="cr"></div>
 <canvas id="rc"></canvas>
-
-<!-- ═══ DEMO OVERLAY ═══ -->
-
-<div id="demo-overlay">
-  <div id="demo-backdrop" onclick="closeDemo()"></div>
-  <div id="demo-panel">
-    <div id="demo-header">
-      <div class="demo-av">🤖</div>
-      <div>
-        <div class="demo-name">Asistente Concepto</div>
-        <div class="demo-sub">Respondiendo en segundos · IA</div>
-      </div>
-      <button id="demo-close" onclick="closeDemo()">✕</button>
-    </div>
-    <div id="demo-messages">
-      <div class="dm system">Demo en vivo · Concepto Development</div>
-      <div class="dm bot">Hola 👋 Soy el asistente de Concepto Development. ¿En qué puedo ayudarte?</div>
-    </div>
-    <div id="demo-typing"><div class="dt"></div><div class="dt"></div><div class="dt"></div></div>
-    <div id="demo-hints">
-      <button class="dhint" onclick="sendHint(this)">¿Qué servicios ofrecen?</button>
-      <button class="dhint" onclick="sendHint(this)">¿Cómo funciona el proceso?</button>
-      <button class="dhint" onclick="sendHint(this)">¿Qué es un chatbot con IA?</button>
-    </div>
-    <div id="demo-input-area">
-      <textarea id="demo-input" placeholder="Escribí tu pregunta..." rows="1"></textarea>
-      <button id="demo-send" onclick="sendDemoMessage()">
-        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-      </button>
-    </div>
-  </div>
-</div>
 
 <nav id="nav">
   <a href="#" class="nl">Concepto</a>
@@ -473,12 +411,12 @@ footer{ scroll-snap-align: none; }
 </nav>
 
 <!-- 1. HERO -->
-
 <section id="s-hero">
   <div class="srow">
     <div class="scol">
       <span class="tag rv">Concepto Development</span>
       <h1 class="h1 rv d1">Tu negocio,<br><span class="fade">nuevos límites.</span></h1>
+      <!-- CAMBIO 1: nuevo subtítulo hero -->
       <p class="sub rv d2">Sistemas inteligentes que operan mientras vos dormís.</p>
       <div class="brow rv d3">
         <a href="https://wa.me/59897976574" class="btn bd" target="_blank">Empezar ahora</a>
@@ -490,7 +428,6 @@ footer{ scroll-snap-align: none; }
 </section>
 
 <!-- 2. NIGHT -->
-
 <section id="s-night">
   <div class="night-inner">
     <div class="night-text">
@@ -514,11 +451,11 @@ footer{ scroll-snap-align: none; }
 </section>
 
 <!-- 3. AUTOMATIZACIONES -->
-
 <section class="svc-sec" id="s-auto">
   <div class="srow flip">
     <div class="scol">
       <span class="tag rv">01 — Automatizaciones</span>
+      <!-- CAMBIO 2: nuevo título automatizaciones -->
       <h2 class="h2 rv d1">Menos fricción.<br><span class="fade">Más escala.</span></h2>
       <p class="sub mob-hide rv d2">Tareas repetitivas convertidas en sistemas que corren solos.</p>
       <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Hablemos</a>
@@ -528,7 +465,6 @@ footer{ scroll-snap-align: none; }
 </section>
 
 <!-- 4. WEBS -->
-
 <section class="svc-sec" id="s-webs">
   <div class="srow">
     <div class="scol">
@@ -542,26 +478,21 @@ footer{ scroll-snap-align: none; }
 </section>
 
 <!-- 5. CHATBOTS -->
-
 <section class="svc-sec" id="s-chat">
   <div class="srow flip">
     <div class="scol">
       <span class="tag rv">03 — Chatbots</span>
       <h2 class="h2 rv d1">Conversaciones que<br><span class="fade">convierten.</span></h2>
+      <!-- CAMBIO 3: nuevo subtítulo chatbots -->
       <p class="sub mob-hide rv d2">Sistemas conversacionales con IA que califican y cierran prospectos en segundos, las 24 horas.</p>
-      <div class="brow rv d3">
-        <button class="btn-demo" onclick="openDemo()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          Probar demo en vivo
-        </button>
-      </div>
+      <!-- CAMBIO 3b: botón "Ver demo" reemplazado por botón violeta que abre el chatbot real -->
+      <button class="btn-demo rv d3" onclick="openDemo()">Probar demo en vivo</button>
     </div>
     <div class="rcol"></div>
   </div>
 </section>
 
 <!-- 6. MARKETING -->
-
 <section class="svc-sec" id="s-mkt">
   <div class="srow">
     <div class="scol">
@@ -575,7 +506,6 @@ footer{ scroll-snap-align: none; }
 </section>
 
 <!-- 7. IA -->
-
 <section class="svc-sec" id="s-ia">
   <div class="srow flip">
     <div class="scol">
@@ -589,10 +519,10 @@ footer{ scroll-snap-align: none; }
 </section>
 
 <!-- 8. PROCESO -->
-
 <section id="s-proc">
   <span class="ptag rv">Cómo trabajamos</span>
   <div class="pg">
+    <!-- CAMBIO 4: nuevo texto Diagnóstico y Ejecución -->
     <div class="rv"><span class="pn">01</span><h3 class="pt">Diagnóstico</h3><p class="pp">Analizamos tus flujos actuales para detectar dónde estás perdiendo tiempo y ventas.</p></div>
     <div class="rv d1"><span class="pn">02</span><h3 class="pt">Diseño</h3><p class="pp">Planificamos la solución exacta. Sin sobreingenierías.</p></div>
     <div class="rv d2"><span class="pn">03</span><h3 class="pt">Ejecución</h3><p class="pp">Desarrollamos e integramos tus sistemas listos para operar.</p></div>
@@ -601,7 +531,6 @@ footer{ scroll-snap-align: none; }
 </section>
 
 <!-- 9. CTA -->
-
 <section id="s-cta">
   <h2 class="ctah rv">Hablemos de<br><span class="fade">tu proyecto.</span></h2>
   <p class="ctap rv d1">30 minutos. Sin compromiso. Con un plan concreto al final.</p>
@@ -621,14 +550,51 @@ footer{ scroll-snap-align: none; }
   <span class="fc">© 2025 Montevideo</span>
 </footer>
 
+<!-- ═══════════════════════════════════════
+     DEMO OVERLAY — CHATBOT EN VIVO
+     ═══════════════════════════════════════ -->
+<div id="demo-overlay">
+  <div id="demo-backdrop" onclick="closeDemo()"></div>
+  <div id="demo-panel">
+    <!-- Header -->
+    <div id="demo-header">
+      <div class="dh-av">🤖</div>
+      <div class="dh-info">
+        <div class="dh-name">Asistente Concepto</div>
+        <div class="dh-sub"><span class="dh-dot"></span> En línea ahora</div>
+      </div>
+      <button id="demo-close" onclick="closeDemo()">✕</button>
+    </div>
+
+    <!-- Messages -->
+    <div id="demo-messages"></div>
+
+    <!-- Typing indicator (dentro del área de mensajes, pero fuera para control JS fácil) -->
+    <div id="demo-typing" style="margin:0 1rem .5rem;">
+      <div class="dt"></div><div class="dt"></div><div class="dt"></div>
+    </div>
+
+    <!-- Hint chips -->
+    <div id="demo-hints">
+      <button class="hint-chip" onclick="sendHint(this)">¿Qué servicios ofrecen?</button>
+      <button class="hint-chip" onclick="sendHint(this)">¿Cómo funciona el proceso?</button>
+      <button class="hint-chip" onclick="sendHint(this)">¿Qué es un chatbot con IA?</button>
+    </div>
+
+    <!-- Input -->
+    <div id="demo-input-area">
+      <textarea id="demo-input" placeholder="Escribí tu consulta..." rows="1"></textarea>
+      <button id="demo-send" onclick="sendMessage()">
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
 <script>
 gsap.registerPlugin(ScrollTrigger);
 const isMob = window.innerWidth <= 680;
@@ -662,7 +628,7 @@ document.querySelectorAll('.rv').forEach(el=>{
   obs.observe(el);
 });
 
-// ── CHAT ANIMATION (sección Night) ──
+// ── CHAT DECORATIVO (sección Night) ──
 const msgs=[
   {t:'in',  txt:'Hola! cuánto sale un chatbot?', d:0},
   {t:'typing', d:1100},
@@ -678,8 +644,7 @@ const cwBody=document.getElementById('cwBody');
 let chatTimeouts=[],chatRunning=false;
 function clearChatTimers(){chatTimeouts.forEach(id=>clearTimeout(id));chatTimeouts=[];chatRunning=false;}
 function runChat(){
-  if(chatRunning)return;
-  chatRunning=true;cwBody.innerHTML='';
+  if(chatRunning)return;chatRunning=true;cwBody.innerHTML='';
   msgs.forEach(m=>{
     const id=setTimeout(()=>{
       const prev=cwBody.querySelector('.cw-typing');
@@ -687,11 +652,13 @@ function runChat(){
       if(m.t==='typing'){
         const ti=document.createElement('div');ti.className='cw-typing';
         ti.innerHTML='<div class="td"></div><div class="td"></div><div class="td"></div>';
-        cwBody.appendChild(ti);setTimeout(()=>ti.classList.add('vis'),20);cwBody.scrollTop=cwBody.scrollHeight;return;
+        cwBody.appendChild(ti);setTimeout(()=>ti.classList.add('vis'),20);
+        cwBody.scrollTop=cwBody.scrollHeight;return;
       }
       const el=document.createElement('div');el.className=`cm ${m.t}`;
       el.innerHTML=m.t==='sys'?m.txt:m.txt+(m.t==='out'?`<div class="ct">3:14 AM <span class="ck">✓✓</span></div>`:`<div class="ct">3:14 AM</div>`);
-      cwBody.appendChild(el);setTimeout(()=>el.classList.add('vis'),20);cwBody.scrollTop=cwBody.scrollHeight;
+      cwBody.appendChild(el);setTimeout(()=>el.classList.add('vis'),20);
+      cwBody.scrollTop=cwBody.scrollHeight;
     },m.d);
     chatTimeouts.push(id);
   });
@@ -703,121 +670,11 @@ const chatObs=new IntersectionObserver(entries=>{
 },{threshold:.25});
 chatObs.observe(nightEl);
 
-// ── THREE.JS ──
-const canvas=document.getElementById('rc');
-const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:!isMob});
-renderer.setPixelRatio(Math.min(window.devicePixelRatio,isMob?1.5:2));
-renderer.setSize(window.innerWidth,window.innerHeight);
-renderer.outputEncoding=THREE.sRGBEncoding;
-renderer.toneMapping=THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure=1.3;
-const scene=new THREE.Scene();
-const camera=new THREE.PerspectiveCamera(35,window.innerWidth/window.innerHeight,.1,100);
-camera.position.z=5;
-const ambLight=new THREE.AmbientLight(0xffffff,1.5);scene.add(ambLight);
-const kl=new THREE.DirectionalLight(0xffffff,2.6);kl.position.set(2,4,3);scene.add(kl);
-const fl=new THREE.DirectionalLight(0xf5f0e8,1.0);fl.position.set(-3,1,2);scene.add(fl);
-const vl=new THREE.PointLight(0xa855f7,0,8);vl.position.set(0,1,3);scene.add(vl);
-const S={x:0,y:0,sc:1,ry:0,rx:0,idle:0};
-let mesh=null,idleT=0;
-let _worldW=0,_worldH=0;
-function calcWorld(){_worldW=2*Math.tan(camera.fov*Math.PI/360)*camera.position.z*camera.aspect;_worldH=2*Math.tan(camera.fov*Math.PI/360)*camera.position.z;}
-calcWorld();
-function applyS(){if(!mesh)return;mesh.position.x=S.x*(_worldW/2);mesh.position.y=S.y*(_worldH/2)+Math.sin(idleT*.65)*.04;mesh.scale.setScalar(S.sc*(isMob?1.1:1.85));mesh.rotation.y=S.ry+S.idle;mesh.rotation.x=S.rx;}
-const DS=[{x:.30,y:.05,sc:1.15,ry:0,rx:0,dur:1.2},{x:.28,y:.00,sc:1.45,ry:.12,rx:-.05,dur:1.3},{x:-.30,y:-.10,sc:1.35,ry:.08,rx:0,dur:1.1},{x:.28,y:.12,sc:.85,ry:-.10,rx:0,dur:1.2},{x:-.28,y:-.08,sc:1.20,ry:.15,rx:-.06,dur:1.0},{x:.32,y:.08,sc:.72,ry:-.10,rx:.04,dur:1.1},{x:-.22,y:-.05,sc:1.20,ry:Math.PI*2,rx:-.05,dur:1.4},{x:.05,y:-.28,sc:1.00,ry:0,rx:0,dur:1.0},{x:.05,y:-.30,sc:1.10,ry:0,rx:0,dur:1.1}];
-const MS=[{x:0,y:.32,sc:1.00,ry:0,rx:0,dur:1.2},{x:0,y:.28,sc:1.15,ry:.10,rx:-.04,dur:1.2},{x:.22,y:-.36,sc:1.12,ry:.10,rx:0,dur:1.1},{x:-.20,y:.30,sc:1.22,ry:-.10,rx:0,dur:1.2},{x:.20,y:-.34,sc:.80,ry:.18,rx:-.06,dur:1.0},{x:-.18,y:.28,sc:1.15,ry:-.08,rx:.04,dur:1.1},{x:.16,y:-.30,sc:1.05,ry:Math.PI*2,rx:-.06,dur:1.4},{x:0,y:.20,sc:.90,ry:0,rx:0,dur:1.0},{x:0,y:-.36,sc:.92,ry:0,rx:0,dur:1.1}];
-const STATES=isMob?MS:DS;
-const SECS=['#s-hero','#s-night','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia','#s-proc','#s-cta'];
-function enterNight(){gsap.to(ambLight,{intensity:.5,duration:1.1});gsap.to(kl,{intensity:.9,duration:1.1});gsap.to(vl,{intensity:4,duration:1.1});}
-function exitNight(){gsap.to(ambLight,{intensity:1.5,duration:1.0});gsap.to(kl,{intensity:2.6,duration:1.0});gsap.to(vl,{intensity:0,duration:1.0});}
-function goTo(st){gsap.to(S,{x:st.x,y:st.y,sc:st.sc,ry:st.ry,rx:st.rx,duration:st.dur,ease:'power3.out',overwrite:'auto',onUpdate:applyS});}
-let rafId=null,isPageVisible=true;
-function startLoop(){
-  if(rafId)return;
-  function loop(){if(!isPageVisible){rafId=null;return;}rafId=requestAnimationFrame(loop);idleT+=.012;S.idle+=.018;if(mesh)applyS();renderer.render(scene,camera);}
-  rafId=requestAnimationFrame(loop);
-}
-document.addEventListener('visibilitychange',()=>{isPageVisible=!document.hidden;if(isPageVisible)startLoop();});
-const loader=new THREE.GLTFLoader();
-loader.load('https://concepto-robot.vercel.app/Prueba1.glb',gltf=>{
-  mesh=gltf.scene;
-  const box=new THREE.Box3().setFromObject(mesh);
-  const c=box.getCenter(new THREE.Vector3());
-  const sz=box.getSize(new THREE.Vector3());
-  mesh.position.sub(c);mesh.scale.setScalar(1/Math.max(sz.x,sz.y,sz.z));
-  scene.add(mesh);
-  SECS.forEach((sel,i)=>{
-    const el=document.querySelector(sel);
-    if(!el||!STATES[i])return;
-    ScrollTrigger.create({trigger:el,start:'top center',
-      onEnter:()=>{goTo(STATES[i]);if(sel==='#s-night')enterNight();else exitNight();},
-      onEnterBack:()=>{goTo(STATES[i]);if(sel==='#s-night')enterNight();else exitNight();}
-    });
-  });
-  goTo(STATES[0]);ScrollTrigger.refresh();
-  document.getElementById('ldr').classList.add('out');
-},null,()=>document.getElementById('ldr').classList.add('out'));
-setTimeout(()=>{const ldr=document.getElementById('ldr');if(!ldr.classList.contains('out'))ldr.classList.add('out');},4000);
-startLoop();
-
-// ── SCROLL SNAP MOBILE (Safari fix) ──
-// overflow-x:hidden en html rompe scroll-snap en Safari iOS.
-// Solución: aplicar scroll-snap-type en un wrapper div,
-// no en html/body, usando JS después del load.
-if(isMob){
-  // Esperamos que todo esté renderizado
-  window.addEventListener('load', () => {
-    // Crear wrapper scroll container
-    const wrapper = document.createElement('div');
-    wrapper.id = 'snap-root';
-    wrapper.style.cssText = [
-      'position:fixed',
-      'inset:0',
-      'overflow-y:scroll',
-      'overflow-x:hidden',
-      'scroll-snap-type:y mandatory',
-      'scroll-behavior:smooth',
-      '-webkit-overflow-scrolling:touch',
-      'z-index:1'
-    ].join(';');
-
-    // Mover todo el contenido al wrapper
-    while(document.body.firstChild){
-      wrapper.appendChild(document.body.firstChild);
-    }
-    document.body.appendChild(wrapper);
-    document.body.style.overflow = 'hidden';
-
-    // Re-apuntar ScrollTrigger al wrapper
-    ScrollTrigger.scrollerProxy(wrapper, {
-      scrollTop(value){
-        if(arguments.length) wrapper.scrollTop = value;
-        return wrapper.scrollTop;
-      },
-      getBoundingClientRect(){
-        return {top:0, left:0, width:window.innerWidth, height:window.innerHeight};
-      }
-    });
-    ScrollTrigger.defaults({scroller: wrapper});
-    ScrollTrigger.refresh();
-
-    // Re-apuntar nav listener
-    wrapper.addEventListener('scroll', updateNav, {passive:true});
-  });
-}
-
-let winWidth=window.innerWidth;
-window.addEventListener('resize',()=>{
-  if(isMob&&window.innerWidth===winWidth)return;
-  winWidth=window.innerWidth;
-  camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth,window.innerHeight);calcWorld();ScrollTrigger.refresh();
-},{passive:true});
-
-// ══════════════════════════════════════
-// DEMO CHATBOT
-// ══════════════════════════════════════
-const SYSTEM_PROMPT = `Sos el asistente virtual de Concepto Development, una agencia digital de Montevideo, Uruguay.
+// ══════════════════════════════════════════════
+// CHATBOT DEMO EN VIVO
+// ══════════════════════════════════════════════
+const WORKER_URL='https://conceptodemo.conceptodevelopment.workers.dev';
+const SYSTEM_PROMPT=`Sos el asistente virtual de Concepto Development, una agencia digital de Montevideo, Uruguay.
 
 Concepto Development se especializa en:
 - Automatizaciones: sistemas que corren solos y eliminan trabajo manual repetitivo
@@ -834,109 +691,232 @@ Si alguien pregunta por precios, decí que depende del proyecto y los invitás a
 Máximo 3 oraciones por respuesta. Directo al punto.
 El WhatsApp de contacto es: https://wa.me/59897976574`;
 
-const demoOverlay = document.getElementById('demo-overlay');
-const demoMessages = document.getElementById('demo-messages');
-const demoInput = document.getElementById('demo-input');
-const demoSend = document.getElementById('demo-send');
-const demoTyping = document.getElementById('demo-typing');
-const demoHints = document.getElementById('demo-hints');
+let demoHistory=[];
+let demoOpen=false;
+let isSending=false;
 
-let demoHistory = [];
-let demoOpen = false;
+const demoOverlay=document.getElementById('demo-overlay');
+const demoMessages=document.getElementById('demo-messages');
+const demoTyping=document.getElementById('demo-typing');
+const demoHints=document.getElementById('demo-hints');
+const demoInput=document.getElementById('demo-input');
+const demoSend=document.getElementById('demo-send');
 
-function openDemo() {
+function openDemo(){
+  if(demoOpen)return;
+  demoOpen=true;
   demoOverlay.classList.add('open');
-  demoOpen = true;
-  document.body.style.overflow = 'hidden';
-  setTimeout(() => demoInput.focus(), 400);
+  document.body.style.overflow='hidden';
+  // Si es la primera vez, agregar mensaje de bienvenida
+  if(demoMessages.children.length===0){
+    setTimeout(()=>{addBotMessage('¡Hola! Soy el asistente de Concepto Development. ¿En qué puedo ayudarte hoy?');},300);
+  }
+  setTimeout(()=>demoInput.focus(),450);
 }
 
-function closeDemo() {
+function closeDemo(){
+  if(!demoOpen)return;
+  demoOpen=false;
   demoOverlay.classList.remove('open');
-  demoOpen = false;
-  document.body.style.overflow = '';
+  document.body.style.overflow='';
 }
 
 // Cerrar con Escape
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && demoOpen) closeDemo();
-});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&demoOpen)closeDemo();});
 
-function addMessage(text, role) {
-  const div = document.createElement('div');
-  div.className = `dm ${role}`;
-  div.textContent = text;
-  demoMessages.appendChild(div);
-  demoMessages.scrollTop = demoMessages.scrollHeight;
+function addBotMessage(text){
+  const el=document.createElement('div');
+  el.className='dm bot';
+  el.textContent=text;
+  demoMessages.appendChild(el);
+  demoMessages.scrollTop=demoMessages.scrollHeight;
 }
 
-function showTyping(show) {
-  demoTyping.classList.toggle('show', show);
-  if (show) demoMessages.scrollTop = demoMessages.scrollHeight;
+function addUserMessage(text){
+  const el=document.createElement('div');
+  el.className='dm user';
+  el.textContent=text;
+  demoMessages.appendChild(el);
+  demoMessages.scrollTop=demoMessages.scrollHeight;
 }
 
-function hideHints() {
-  if (demoHints) demoHints.style.display = 'none';
-}
+function showTyping(){demoTyping.classList.add('vis');}
+function hideTyping(){demoTyping.classList.remove('vis');}
 
-async function sendMessage(userText) {
-  if (!userText.trim()) return;
-  hideHints();
-  addMessage(userText, 'user');
-  demoHistory.push({ role: 'user', content: userText });
-  demoInput.value = '';
-  demoInput.style.height = 'auto';
-  demoSend.disabled = true;
-  showTyping(true);
+async function sendMessage(customText){
+  const text=(customText||demoInput.value).trim();
+  if(!text||isSending)return;
+  isSending=true;
+  demoSend.disabled=true;
 
-  try {
-    const response = await fetch('https://conceptodemo.conceptodevelopment.workers.dev', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system: SYSTEM_PROMPT,
-        messages: demoHistory
-      })
+  // Limpiar input
+  if(!customText){demoInput.value='';demoInput.style.height='';}
+
+  // Ocultar hints después del primer mensaje
+  demoHints.style.display='none';
+
+  // Mostrar mensaje del usuario
+  addUserMessage(text);
+
+  // Agregar al historial
+  demoHistory.push({role:'user',content:text});
+
+  // Mostrar typing
+  showTyping();
+  demoMessages.scrollTop=demoMessages.scrollHeight;
+
+  try{
+    const res=await fetch(WORKER_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({system:SYSTEM_PROMPT,messages:demoHistory}),
     });
-
-    const data = await response.json();
-    const botText = data.text || 'No pude procesar eso. Intentá de nuevo.';
-
-    showTyping(false);
-    addMessage(botText, 'bot');
-    demoHistory.push({ role: 'assistant', content: botText });
-
-  } catch (err) {
-    showTyping(false);
-    addMessage('Hubo un error de conexión. Intentá de nuevo.', 'bot');
+    const data=await res.json();
+    const reply=data.text||'Lo siento, no pude procesar eso. Intentá de nuevo.';
+    hideTyping();
+    addBotMessage(reply);
+    demoHistory.push({role:'assistant',content:reply});
+  }catch(err){
+    hideTyping();
+    addBotMessage('Hubo un error de conexión. Intentá de nuevo en un momento.');
   }
 
-  demoSend.disabled = false;
+  isSending=false;
+  demoSend.disabled=false;
   demoInput.focus();
 }
 
-function sendDemoMessage() {
-  sendMessage(demoInput.value);
-}
-
-function sendHint(btn) {
-  sendMessage(btn.textContent);
+function sendHint(btn){
+  const text=btn.textContent;
+  demoHints.style.display='none';
+  sendMessage(text);
 }
 
 // Enter para enviar (Shift+Enter = nueva línea)
-demoInput.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendDemoMessage();
-  }
+demoInput.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}
 });
 
 // Auto-resize textarea
-demoInput.addEventListener('input', () => {
-  demoInput.style.height = 'auto';
-  demoInput.style.height = Math.min(demoInput.scrollHeight, 100) + 'px';
+demoInput.addEventListener('input',()=>{
+  demoInput.style.height='auto';
+  demoInput.style.height=Math.min(demoInput.scrollHeight,100)+'px';
 });
-</script>
 
+// ── THREE.JS ──
+const canvas=document.getElementById('rc');
+const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:!isMob});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,isMob?1.5:2));
+renderer.setSize(window.innerWidth,window.innerHeight);
+renderer.outputEncoding=THREE.sRGBEncoding;
+renderer.toneMapping=THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure=1.3;
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(35,window.innerWidth/window.innerHeight,.1,100);
+camera.position.z=5;
+const ambLight=new THREE.AmbientLight(0xffffff,1.5);scene.add(ambLight);
+const kl=new THREE.DirectionalLight(0xffffff,2.6);kl.position.set(2,4,3);scene.add(kl);
+const fl=new THREE.DirectionalLight(0xf5f0e8,1.0);fl.position.set(-3,1,2);scene.add(fl);
+const vl=new THREE.PointLight(0xa855f7,0,8);vl.position.set(0,1,3);scene.add(vl);
+
+const S={x:0,y:0,sc:1,ry:0,rx:0,idle:0};
+let mesh=null,idleT=0;
+let _worldW=0,_worldH=0;
+function calcWorld(){_worldW=2*Math.tan(camera.fov*Math.PI/360)*camera.position.z*camera.aspect;_worldH=2*Math.tan(camera.fov*Math.PI/360)*camera.position.z;}
+calcWorld();
+function applyS(){
+  if(!mesh)return;
+  mesh.position.x=S.x*(_worldW/2);
+  mesh.position.y=S.y*(_worldH/2)+Math.sin(idleT*.65)*.04;
+  mesh.scale.setScalar(S.sc*(isMob?1.1:1.85));
+  mesh.rotation.y=S.ry+S.idle;
+  mesh.rotation.x=S.rx;
+}
+
+const DS=[
+  {x:.30,y:.05,sc:1.15,ry:0,rx:0,dur:1.2},
+  {x:.28,y:.00,sc:1.45,ry:.12,rx:-.05,dur:1.3},
+  {x:-.30,y:-.10,sc:1.35,ry:.08,rx:0,dur:1.1},
+  {x:.28,y:.12,sc:.85,ry:-.10,rx:0,dur:1.2},
+  {x:-.28,y:-.08,sc:1.20,ry:.15,rx:-.06,dur:1.0},
+  {x:.32,y:.08,sc:.72,ry:-.10,rx:.04,dur:1.1},
+  {x:-.22,y:-.05,sc:1.20,ry:Math.PI*2,rx:-.05,dur:1.4},
+  {x:.05,y:-.28,sc:1.00,ry:0,rx:0,dur:1.0},
+  {x:.05,y:-.30,sc:1.10,ry:0,rx:0,dur:1.1},
+];
+const MS=[
+  {x:0,y:.32,sc:1.00,ry:0,rx:0,dur:1.2},
+  {x:0,y:.28,sc:1.15,ry:.10,rx:-.04,dur:1.2},
+  {x:.22,y:-.36,sc:1.12,ry:.10,rx:0,dur:1.1},
+  {x:-.20,y:.30,sc:1.22,ry:-.10,rx:0,dur:1.2},
+  {x:.20,y:-.34,sc:.80,ry:.18,rx:-.06,dur:1.0},
+  {x:-.18,y:.28,sc:1.15,ry:-.08,rx:.04,dur:1.1},
+  {x:.16,y:-.30,sc:1.05,ry:Math.PI*2,rx:-.06,dur:1.4},
+  {x:0,y:.20,sc:.90,ry:0,rx:0,dur:1.0},
+  {x:0,y:-.36,sc:.92,ry:0,rx:0,dur:1.1},
+];
+const STATES=isMob?MS:DS;
+const SECS=['#s-hero','#s-night','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia','#s-proc','#s-cta'];
+
+function enterNight(){gsap.to(ambLight,{intensity:.5,duration:1.1});gsap.to(kl,{intensity:.9,duration:1.1});gsap.to(vl,{intensity:4,duration:1.1});}
+function exitNight(){gsap.to(ambLight,{intensity:1.5,duration:1.0});gsap.to(kl,{intensity:2.6,duration:1.0});gsap.to(vl,{intensity:0,duration:1.0});}
+function goTo(st){gsap.to(S,{x:st.x,y:st.y,sc:st.sc,ry:st.ry,rx:st.rx,duration:st.dur,ease:'power3.out',overwrite:'auto',onUpdate:applyS});}
+
+let rafId=null,isPageVisible=true;
+function startLoop(){
+  if(rafId)return;
+  function loop(){
+    if(!isPageVisible){rafId=null;return;}
+    rafId=requestAnimationFrame(loop);
+    idleT+=.012;S.idle+=.018;
+    if(mesh)applyS();
+    renderer.render(scene,camera);
+  }
+  rafId=requestAnimationFrame(loop);
+}
+document.addEventListener('visibilitychange',()=>{isPageVisible=!document.hidden;if(isPageVisible)startLoop();});
+
+const loader=new THREE.GLTFLoader();
+loader.load(
+  'https://concepto-robot.vercel.app/Prueba1.glb',
+  gltf=>{
+    mesh=gltf.scene;
+    const box=new THREE.Box3().setFromObject(mesh);
+    const c=box.getCenter(new THREE.Vector3());
+    const sz=box.getSize(new THREE.Vector3());
+    mesh.position.sub(c);
+    mesh.scale.setScalar(1/Math.max(sz.x,sz.y,sz.z));
+    scene.add(mesh);
+    SECS.forEach((sel,i)=>{
+      const el=document.querySelector(sel);
+      if(!el||!STATES[i])return;
+      ScrollTrigger.create({
+        trigger:el,start:'top center',
+        onEnter:()=>{goTo(STATES[i]);if(sel==='#s-night')enterNight();else exitNight();},
+        onEnterBack:()=>{goTo(STATES[i]);if(sel==='#s-night')enterNight();else exitNight();}
+      });
+    });
+    goTo(STATES[0]);
+    ScrollTrigger.refresh();
+    document.getElementById('ldr').classList.add('out');
+  },
+  null,
+  ()=>document.getElementById('ldr').classList.add('out')
+);
+setTimeout(()=>{const ldr=document.getElementById('ldr');if(!ldr.classList.contains('out'))ldr.classList.add('out');},4000);
+startLoop();
+
+// ── RESIZE ──
+let winWidth=window.innerWidth;
+window.addEventListener('resize',()=>{
+  if(isMob&&window.innerWidth===winWidth)return;
+  winWidth=window.innerWidth;
+  camera.aspect=window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  calcWorld();
+  ScrollTrigger.refresh();
+},{passive:true});
+</script>
 </body>
 </html>
