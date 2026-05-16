@@ -2,24 +2,20 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Concepto Development</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-/* iOS Safari: anula el azul -webkit-link en todos los <a> */
-a{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent;}
-/* iOS Safari: anula el estilo nativo de <button> */
-button{-webkit-appearance:none;appearance:none;background:none;border:none;-webkit-tap-highlight-color:transparent;}
 :root{
   --cream:#f5f4f0;
   --ink:#0d0d0d;
   --mid:#585858;
   --dim:#a0a0a0;
-  --vio:#a855f7;
-  --vio-dk:#7c3aed;
+  --vlt:#7c3aed;
+  --vlt-l:#a855f7;
 }
 html{overflow-x:hidden;}
 body{
@@ -52,19 +48,19 @@ body{
 nav{position:fixed;top:0;left:0;right:0;z-index:400;display:flex;justify-content:space-between;align-items:center;padding:0 clamp(24px,6vw,80px);height:58px;transition:background .4s;}
 nav.bg{background:rgba(245,244,240,.9);backdrop-filter:blur(20px);}
 nav.dk{background:rgba(6,4,15,.85);backdrop-filter:blur(20px);}
-nav.dk .nl{color:#fff !important;}
-nav.dk .nlink{color:rgba(255,255,255,.45) !important;}
-nav.dk .nlink:hover{color:#fff !important;}
-nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff !important;}
-.nl{font-size:15px;font-weight:500;letter-spacing:-.025em;color:var(--ink) !important;text-decoration:none;transition:color .3s;}
+nav.dk .nl{color:#fff;}
+nav.dk .nlink{color:rgba(255,255,255,.45);}
+nav.dk .nlink:hover{color:#fff;}
+nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
+.nl{font-size:15px;font-weight:500;letter-spacing:-.025em;color:var(--ink);text-decoration:none;transition:color .3s;}
 .nlinks{display:flex;gap:2rem;align-items:center;}
-.nlink{font-size:13px;color:var(--mid) !important;text-decoration:none;font-weight:400;transition:color .18s;}
-.nlink:hover{color:var(--ink) !important;}
-.nbtn{padding:.48rem 1.2rem;border-radius:100px;background:var(--ink);color:var(--cream) !important;font-size:13px;font-weight:400;text-decoration:none;transition:background .3s,color .3s;}
+.nlink{font-size:13px;color:var(--mid);text-decoration:none;font-weight:400;transition:color .18s;}
+.nlink:hover{color:var(--ink);}
+.nbtn{padding:.48rem 1.2rem;border-radius:100px;background:var(--ink);color:var(--cream);font-size:13px;font-weight:400;text-decoration:none;transition:background .3s,color .3s;}
 .nmb{display:none;}
 @media(max-width:680px){
   .nlinks{display:none;}
-  .nmb{display:inline-flex;padding:.42rem 1rem;border-radius:100px;background:var(--ink);color:var(--cream) !important;font-size:12px;font-weight:400;text-decoration:none;transition:background .3s,color .3s;}
+  .nmb{display:inline-flex;padding:.42rem 1rem;border-radius:100px;background:var(--ink);color:var(--cream);font-size:12px;font-weight:400;text-decoration:none;transition:background .3s,color .3s;}
 }
 
 /* ═══ DESKTOP SECTIONS ═══ */
@@ -80,35 +76,46 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff !important;}
   #s-cta{flex-direction:column;align-items:center;text-align:center;min-height:100vh;min-height:100svh;padding-top:0;justify-content:center;}
   #s-cta .ctah{text-align:center;max-width:58vw;}
   #s-cta .brow{justify-content:center;}
+
+  /* HERO: push text down to give robot space */
+  #s-hero{align-items:flex-end;padding-bottom:14vh;}
 }
 
 /* ═══ MOBILE SECTIONS ═══ */
 @media(max-width:680px){
   html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
   section { position:relative; min-height:100vh; min-height:100svh; display:flex; flex-direction:column; padding:0 7vw; z-index:20; scroll-snap-align: start; scroll-snap-stop: always; }
+  
   #s-proc { scroll-snap-align: none; }
   footer { scroll-snap-align: none; }
+
   .srow{display:block;direction:ltr !important;}
   .rcol{display:none;}
-  #s-hero{justify-content:flex-end;padding-bottom:12vh;padding-top:70px;}
-  #s-hero .scol{align-items:center;text-align:center;margin-bottom:0;}
-  /* Empuja el contenido de texto hacia abajo para separarlo del robot */
-  #s-hero .tag{margin-top:8vh;}
+
+  #s-hero{justify-content:flex-end;padding-bottom:10vh;padding-top:70px;}
+  #s-hero .scol{align-items:center;text-align:center;}
   #s-hero .sub{max-width:100%;text-align:center;}
   #s-hero .brow{justify-content:center;}
+
   #s-night{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:80px 7vw;}
+
   #s-auto{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
   #s-auto .scol{align-items:flex-start;text-align:left;}
+
   #s-webs{justify-content:flex-end;padding-bottom:12vh;padding-top:70px;}
   #s-webs .scol{align-items:flex-end;text-align:right;}
   #s-webs .sub{text-align:right;max-width:100%;}
+
   #s-chat{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
   #s-chat .scol{align-items:flex-start;text-align:left;}
+
   #s-mkt{justify-content:flex-end;padding-bottom:12vh;padding-top:70px;}
   #s-mkt .scol{align-items:flex-start;text-align:left;}
+
   #s-ia{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
   #s-ia .scol{align-items:flex-end;text-align:right;}
   #s-ia .sub{text-align:right;max-width:100%;}
+
   #s-proc{min-height:auto;padding:64px 7vw;display:block;}
   #s-cta{min-height:100vh;min-height:100svh;justify-content:center;padding-top:0;padding-bottom:0;flex-direction:column;align-items:center;text-align:center;}
   #s-cta .ctah{text-align:center;max-width:100%;font-size:clamp(34px,11vw,52px);}
@@ -123,40 +130,34 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff !important;}
 .fade{color:var(--dim);}
 .sub{font-size:clamp(14px,1.1vw,16px);color:var(--mid);line-height:1.78;max-width:380px;margin-top:1.6rem;font-weight:300;}
 @media(max-width:680px){.sub{font-size:14px;max-width:100%;}.sub.mob-hide{display:none;}}
-.lnk{display:inline-flex;align-items:center;gap:.32rem;margin-top:1.4rem;font-size:13px;color:var(--ink) !important;text-decoration:none;font-weight:400;transition:gap .2s;}
+a{color:inherit;text-decoration:none;}
+.lnk{display:inline-flex;align-items:center;gap:.32rem;margin-top:1.4rem;font-size:13px;color:#0d0d0d;text-decoration:none;font-weight:400;transition:gap .2s;}
 .lnk:hover{gap:.65rem;}
 .lnk::after{content:'→';}
 
 /* BUTTONS */
 .brow{display:flex;gap:.6rem;margin-top:2rem;flex-wrap:wrap;}
-.btn{display:inline-flex;align-items:center;padding:.7rem 1.65rem;border-radius:100px;font-family:'Inter',sans-serif;font-size:14px;font-weight:400;text-decoration:none;transition:opacity .18s;letter-spacing:-.01em;cursor:pointer;border:none;-webkit-appearance:none;appearance:none;}
+.btn{display:inline-flex;align-items:center;padding:.7rem 1.65rem;border-radius:100px;font-family:'Inter',sans-serif;font-size:14px;font-weight:400;text-decoration:none !important;transition:opacity .18s;letter-spacing:-.01em;}
 .btn:hover{opacity:.62;}
-.bd{background:var(--ink) !important;color:var(--cream) !important;}
-.bo{background:transparent !important;color:var(--ink) !important;border:1px solid rgba(13,13,13,.2) !important;}
+.bd{background:#0d0d0d;color:#f5f4f0 !important;}
+.bo{background:transparent;color:#0d0d0d !important;border:1px solid rgba(13,13,13,.2);}
 
-/* ═══ DEMO LINK — tratamiento violeta ═══ */
-.lnk-demo{
-  display:inline-flex;align-items:center;gap:.5rem;
-  margin-top:1.6rem;
-  padding:.65rem 1.5rem;
-  border-radius:100px;
-  background:#7c3aed !important;
+/* CTA DEMO BUTTON */
+.btn-demo{
+  display:inline-flex;align-items:center;gap:.45rem;
+  margin-top:1.4rem;
+  padding:.7rem 1.65rem;border-radius:100px;
   background:linear-gradient(135deg,#7c3aed,#a855f7) !important;
-  color:#fff !important;
-  font-size:13px;font-weight:400;
-  text-decoration:none;
+  color:#ffffff !important;font-size:14px;font-weight:400;
+  cursor:pointer;border:none;font-family:'Inter',sans-serif;
   letter-spacing:-.01em;
-  cursor:pointer;
-  border:none;
+  box-shadow:0 6px 24px rgba(124,58,237,.28);
+  transition:opacity .18s,transform .18s,box-shadow .18s;
   -webkit-appearance:none;appearance:none;
-  box-shadow:0 6px 24px rgba(124,58,237,.35);
-  transition:opacity .2s,transform .2s,box-shadow .2s;
-  width:fit-content;
-  font-family:'Inter',system-ui,-apple-system,sans-serif;
 }
-.lnk-demo:hover{opacity:.85;transform:translateY(-2px);box-shadow:0 10px 32px rgba(124,58,237,.45);}
-.lnk-demo::after{content:'→';transition:margin-left .2s;}
-.lnk-demo:hover::after{margin-left:.25rem;}
+.btn-demo:hover{opacity:.85;transform:translateY(-2px);box-shadow:0 10px 32px rgba(124,58,237,.42);}
+.btn-demo-icon{transition:transform .2s;}
+.btn-demo:hover .btn-demo-icon{transform:translateX(3px);}
 
 /* PROCESS */
 .ptag{font-size:11px;font-weight:500;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;margin-bottom:3rem;display:block;}
@@ -181,12 +182,12 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff !important;}
 .nh .na{color:#a855f7;}
 .nsub{font-size:clamp(14px,1.1vw,15px);color:rgba(255,255,255,.4);line-height:1.75;max-width:360px;margin-top:1.4rem;font-weight:300;}
 @media(max-width:680px){.nsub{display:none;}}
-.ncta{display:inline-flex;align-items:center;gap:.5rem;margin-top:2rem;padding:.72rem 1.75rem;border-radius:100px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff !important;font-size:14px;font-weight:400;text-decoration:none;letter-spacing:-.01em;transition:opacity .2s,transform .2s;box-shadow:0 8px 32px rgba(124,58,237,.35);}
+.ncta{display:inline-flex;align-items:center;gap:.5rem;margin-top:2rem;padding:.72rem 1.75rem;border-radius:100px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;font-size:14px;font-weight:400;text-decoration:none;letter-spacing:-.01em;transition:opacity .2s,transform .2s;box-shadow:0 8px 32px rgba(124,58,237,.35);}
 .ncta:hover{opacity:.82;transform:translateY(-2px);}
 .nstamp{margin-top:1.2rem;font-size:11px;color:rgba(255,255,255,.2);font-weight:300;letter-spacing:.04em;}
 .nstamp strong{color:rgba(168,85,247,.55);font-weight:500;}
 
-/* CHAT WIDGET */
+/* CHAT WIDGET decorativo */
 .cw{background:#0f1120;border-radius:18px;overflow:hidden;box-shadow:0 0 0 1px rgba(124,58,237,.2),0 24px 60px rgba(0,0,0,.6),0 0 60px rgba(124,58,237,.08);}
 .cw-head{background:#161830;padding:.8rem 1rem;display:flex;align-items:center;gap:.65rem;border-bottom:1px solid rgba(124,58,237,.12);}
 .cw-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#a855f7);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;box-shadow:0 0 10px rgba(124,58,237,.35);}
@@ -217,8 +218,8 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff !important;}
 footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(13,13,13,.06);z-index:20;position:relative;background:var(--cream);}
 .fl{font-size:14px;font-weight:500;letter-spacing:-.02em;}
 .fls{display:flex;gap:1.4rem;}
-.fla{font-size:12px;color:var(--dim) !important;text-decoration:none;transition:color .18s;}
-.fla:hover{color:var(--ink) !important;}
+.fla{font-size:12px;color:var(--dim);text-decoration:none;transition:color .18s;}
+.fla:hover{color:var(--ink);}
 .fc{font-size:12px;color:var(--dim);}
 @media(max-width:680px){footer{flex-direction:column;gap:.9rem;text-align:center;padding:1.8rem 7vw;}.fls{justify-content:center;flex-wrap:wrap;}}
 
@@ -227,185 +228,548 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 .rv.in{opacity:1;transform:none;}
 .d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.32s;}
 
-/* ═══════════════════════════════════════════════════
-   DEMO MODAL — arquitectura iOS-safe
-   Clave: el modal ocupa 100dvh (dynamic viewport height),
-   el input bar es sticky al bottom, y NO se usa flex-grow
-   en el área de scroll para que el teclado iOS no rompa todo.
-════════════════════════════════════════════════════ */
-#demo-modal{
-  position:fixed;
-  top:0;left:0;right:0;
-  /* dvh: se adapta al viewport real incluyendo la barra del navegador */
-  height:100vh;height:100dvh;
-  z-index:5000;
-  background:#06040f;
-  display:flex;flex-direction:column;
-  opacity:0;pointer-events:none;
-  transition:opacity .38s cubic-bezier(.16,1,.3,1);
-  overflow:hidden;
-  /* Previene el bounce scroll de iOS en el fondo */
-  overscroll-behavior:none;
-}
-#demo-modal::before{
-  content:'';position:absolute;
-  width:600px;height:600px;
-  background:radial-gradient(circle,rgba(124,58,237,.15) 0%,transparent 70%);
-  top:-150px;right:-100px;pointer-events:none;z-index:0;
-}
-#demo-modal.open{opacity:1;pointer-events:all;}
-
-/* ── Header fijo arriba ── */
-.dm-header{
-  position:relative;z-index:10;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:.9rem 1.2rem;
-  border-bottom:1px solid rgba(124,58,237,.1);
-  flex-shrink:0;
-  /* Safe area para el notch */
-  padding-top:calc(.9rem + env(safe-area-inset-top));
-}
-.dm-brand{font-size:13px;font-weight:500;color:rgba(255,255,255,.45);letter-spacing:-.02em;}
-.dm-brand span{color:#a855f7;}
-.dm-close{
-  width:32px;height:32px;border-radius:50%;
-  background:rgba(255,255,255,.08);
-  border:none;
-  color:rgba(255,255,255,.6);font-size:20px;line-height:1;
+/* ══════════════════════════════════════════════
+   MODAL BASE — shared by all demo overlays
+   ══════════════════════════════════════════════ */
+.modal-overlay{
+  position:fixed;inset:0;z-index:9000;
   display:flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:background .2s;
-  -webkit-appearance:none;appearance:none;
+  opacity:0;pointer-events:none;
+  transition:opacity .45s cubic-bezier(.16,1,.3,1);
 }
-.dm-close:active{background:rgba(255,255,255,.16);}
+.modal-overlay.open{opacity:1;pointer-events:all;}
 
-/* ── Área de mensajes — ocupa todo el espacio disponible, scroll interno ── */
-.dm-msgs-outer{
-  flex:1;
-  overflow:hidden;
-  position:relative;z-index:5;
-  display:flex;flex-direction:column;
-}
-.dm-msgs{
-  flex:1;
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-  padding:.9rem 1rem 0;
-  display:flex;flex-direction:column;gap:.5rem;
-  /* Scroll suave nativo */
-  scroll-behavior:smooth;
-}
-.dm-msgs::-webkit-scrollbar{display:none;}
-
-/* ── Quick replies (opciones de inicio) ── */
-.dm-quick{
-  padding:.6rem 1rem .9rem;
-  display:flex;flex-wrap:wrap;gap:.45rem;
-  flex-shrink:0;
-}
-.dm-qbtn{
-  padding:.42rem .9rem;
-  border-radius:100px;
-  background:rgba(124,58,237,.15);
-  border:1px solid rgba(124,58,237,.3);
-  color:rgba(168,85,247,.9) !important;
-  font-size:12px;font-weight:400;
-  font-family:'Inter',system-ui,sans-serif;
+.modal-backdrop{
+  position:absolute;inset:0;
+  background:rgba(6,4,15,.88);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
   cursor:pointer;
-  -webkit-appearance:none;appearance:none;
-  transition:background .18s,border-color .18s;
-  -webkit-tap-highlight-color:transparent;
-  white-space:nowrap;
 }
-.dm-qbtn:active{background:rgba(124,58,237,.3);}
-.dm-quick.hidden{display:none;}
 
-/* ── Input bar — SIEMPRE pegado al bottom, nunca sube con el teclado ──
-   position:sticky dentro del flex container hace que quede al final
-   sin que el flex-grow del área de mensajes se achique mal en iOS ── */
-.dm-input-bar{
+.modal-panel{
+  position:relative;z-index:1;
+  width:clamp(300px,90vw,500px);
+  max-height:92svh;
+  background:#0b0d1a;
+  border:1px solid rgba(124,58,237,.18);
+  border-radius:24px;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  transform:translateY(20px) scale(.97);
+  transition:transform .45s cubic-bezier(.16,1,.3,1);
+  box-shadow:0 32px 80px rgba(0,0,0,.7),0 0 0 1px rgba(124,58,237,.1),0 0 80px rgba(124,58,237,.06);
+}
+.modal-overlay.open .modal-panel{transform:translateY(0) scale(1);}
+
+.modal-header{
+  display:flex;align-items:center;gap:.75rem;
+  padding:.9rem 1.1rem;
+  background:#0f1220;
+  border-bottom:1px solid rgba(124,58,237,.12);
   flex-shrink:0;
-  position:relative;z-index:10;
-  background:#06040f;
-  border-top:1px solid rgba(124,58,237,.1);
-  padding:.7rem .9rem;
-  display:flex;gap:.55rem;align-items:center;
-  /* Safe area para el home indicator de iPhone */
-  padding-bottom:calc(.7rem + env(safe-area-inset-bottom));
 }
-.dm-input{
-  flex:1;
-  background:rgba(255,255,255,.05);
+.mh-av{
+  width:36px;height:36px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;
+  box-shadow:0 0 14px rgba(124,58,237,.4);
+}
+.mh-info{flex:1;}
+.mh-name{font-size:13px;font-weight:500;color:#fff;letter-spacing:-.01em;}
+.mh-sub{font-size:11px;color:rgba(168,85,247,.6);margin-top:1px;display:flex;align-items:center;gap:.3rem;}
+.mh-dot{width:5px;height:5px;border-radius:50%;background:#22c55e;display:inline-block;animation:pulse-dot 2s infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:.4;}}
+.modal-close{
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(255,255,255,.06);border:none;
+  color:rgba(255,255,255,.4);font-size:14px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background .18s,color .18s;flex-shrink:0;
+}
+.modal-close:hover{background:rgba(255,255,255,.12);color:#fff;}
+
+.modal-body{
+  flex:1;overflow-y:auto;
+  padding:1rem;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(124,58,237,.2) transparent;
+}
+.modal-body::-webkit-scrollbar{width:4px;}
+.modal-body::-webkit-scrollbar-track{background:transparent;}
+.modal-body::-webkit-scrollbar-thumb{background:rgba(124,58,237,.25);border-radius:2px;}
+
+/* ══════════════════════════════════════════════
+   DEMO CHATBOT
+   ══════════════════════════════════════════════ */
+#demo-messages{
+  display:flex;flex-direction:column;gap:.5rem;
+  min-height:220px;
+}
+
+.dm{
+  max-width:82%;padding:.6rem .85rem;
+  border-radius:14px;font-size:13px;line-height:1.6;
+  font-weight:300;
+  opacity:0;transform:translateY(8px);
+  animation:dm-in .35s cubic-bezier(.16,1,.3,1) forwards;
+}
+@keyframes dm-in{to{opacity:1;transform:none;}}
+.dm.bot{
+  align-self:flex-start;
+  background:#1a1d35;
+  color:rgba(255,255,255,.82);
+  border-bottom-left-radius:3px;
+  border:1px solid rgba(124,58,237,.1);
+}
+.dm.user{
+  align-self:flex-end;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  color:#fff;
+  border-bottom-right-radius:3px;
+  box-shadow:0 4px 16px rgba(124,58,237,.3);
+}
+
+#demo-typing{
+  display:flex;align-items:center;gap:3px;
+  padding:.5rem .85rem;
+  background:#1a1d35;
+  border-radius:14px;border-bottom-left-radius:3px;
+  border:1px solid rgba(124,58,237,.1);
+  align-self:flex-start;
+  width:52px;
+  opacity:0;transition:opacity .25s;
+  margin-top:.5rem;
+}
+#demo-typing.vis{opacity:1;}
+.dt{width:5px;height:5px;border-radius:50%;background:rgba(168,85,247,.5);animation:tb 1.1s infinite;}
+.dt:nth-child(2){animation-delay:.18s;}
+.dt:nth-child(3){animation-delay:.36s;}
+
+#demo-hints{
+  display:flex;flex-wrap:wrap;gap:.45rem;
+  padding:.75rem 1rem .5rem;
+  flex-shrink:0;
+  border-top:1px solid rgba(124,58,237,.07);
+}
+.hint-chip{
+  padding:.38rem .85rem;border-radius:100px;
+  background:rgba(124,58,237,.12);
   border:1px solid rgba(124,58,237,.2);
-  border-radius:22px;
-  padding:.6rem 1rem;
-  color:#fff !important;
-  /* font-size 16px: evita el zoom automático de iOS al enfocar */
-  font-size:16px;font-weight:300;
-  font-family:'Inter',system-ui,sans-serif;
-  outline:none;
-  transition:border-color .2s;
-  line-height:1.4;
-  /* Input de una sola línea — más Apple, sin textarea */
-  height:42px;
-  -webkit-appearance:none;appearance:none;
+  color:rgba(168,85,247,.85);
+  font-size:12px;font-weight:400;
+  cursor:pointer;
+  transition:background .18s,border-color .18s,color .18s;
+  font-family:'Inter',sans-serif;
 }
-.dm-input::placeholder{color:rgba(255,255,255,.2);}
-.dm-input:focus{border-color:rgba(168,85,247,.45);}
-.dm-send{
-  width:38px;height:38px;border-radius:50%;flex-shrink:0;
-  background:linear-gradient(135deg,#7c3aed,#a855f7) !important;
+.hint-chip:hover{background:rgba(124,58,237,.22);border-color:rgba(168,85,247,.4);color:#a855f7;}
+
+/* iOS keyboard fix: input area stays fixed at bottom of modal */
+#demo-input-area{
+  display:flex;align-items:flex-end;gap:.6rem;
+  padding:.75rem 1rem;
+  border-top:1px solid rgba(124,58,237,.1);
+  background:#0f1220;
+  flex-shrink:0;
+}
+#demo-input{
+  flex:1;background:rgba(255,255,255,.05);
+  border:1px solid rgba(124,58,237,.15);
+  border-radius:12px;
+  padding:.6rem .85rem;
+  color:#fff;font-size:16px;/* 16px prevents iOS zoom */
+  font-family:'Inter',sans-serif;font-weight:300;
+  resize:none;max-height:80px;min-height:40px;
+  transition:border-color .18s;
+  outline:none;
+  line-height:1.5;
+  -webkit-text-size-adjust:100%;
+}
+#demo-input::placeholder{color:rgba(255,255,255,.2);}
+#demo-input:focus{border-color:rgba(168,85,247,.4);}
+#demo-send{
+  width:38px;height:38px;flex-shrink:0;
+  border-radius:50%;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
   border:none;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
   transition:opacity .18s,transform .18s;
-  box-shadow:0 3px 12px rgba(124,58,237,.4);
-  -webkit-appearance:none;appearance:none;
+  box-shadow:0 4px 14px rgba(124,58,237,.35);
 }
-.dm-send:active{transform:scale(.93);}
-.dm-send:disabled{opacity:.3;pointer-events:none;}
-.dm-send svg{width:15px;height:15px;fill:none;stroke:#fff !important;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+#demo-send:hover{opacity:.85;transform:scale(1.05);}
+#demo-send svg{width:15px;height:15px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+#demo-send:disabled{opacity:.35;transform:none;cursor:not-allowed;}
 
-/* ── Mensajes ── */
-@keyframes msgIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
-.dm-msg{
-  max-width:80%;padding:.58rem .85rem;
+/* ══════════════════════════════════════════════
+   DEMO AUTOMATIZACIONES — flow nodes
+   ══════════════════════════════════════════════ */
+#auto-body{padding:1.25rem;display:flex;flex-direction:column;gap:1.25rem;}
+
+.auto-pick-label{font-size:11px;font-weight:500;letter-spacing:.12em;color:rgba(168,85,247,.6);text-transform:uppercase;margin-bottom:.65rem;}
+.auto-chips{display:flex;flex-wrap:wrap;gap:.5rem;}
+.auto-chip{
+  padding:.42rem 1rem;border-radius:100px;
+  background:rgba(124,58,237,.1);
+  border:1px solid rgba(124,58,237,.18);
+  color:rgba(255,255,255,.6);
+  font-size:12.5px;font-weight:400;cursor:pointer;
+  font-family:'Inter',sans-serif;
+  transition:all .2s;
+}
+.auto-chip:hover,.auto-chip.active{
+  background:rgba(124,58,237,.25);
+  border-color:rgba(168,85,247,.45);
+  color:#d8b4fe;
+}
+
+/* Flow canvas */
+.flow-canvas{
+  position:relative;
+  min-height:260px;
+  background:rgba(255,255,255,.015);
+  border:1px solid rgba(124,58,237,.1);
   border-radius:16px;
-  font-size:14px;line-height:1.55;
-  font-weight:300;
-  animation:msgIn .25s cubic-bezier(.16,1,.3,1);
+  overflow:hidden;
+  padding:1.25rem .75rem;
 }
-.dm-msg.bot{
-  background:#1c2035;color:rgba(255,255,255,.82);
-  align-self:flex-start;border-bottom-left-radius:4px;
+.flow-nodes{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  align-items:stretch;
 }
-.dm-msg.user{
-  background:linear-gradient(135deg,#5b21b6,#7c3aed);
-  color:#fff !important;
-  align-self:flex-end;border-bottom-right-radius:4px;
+.flow-step{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  opacity:0;
+  transform:translateY(10px);
+  transition:opacity .4s,transform .4s;
 }
-.dm-msg.sys-msg{
-  align-self:center;
-  background:rgba(124,58,237,.12);
-  color:rgba(168,85,247,.75) !important;
-  border-radius:100px;
-  font-size:11px;padding:.28rem .8rem;max-width:100%;text-align:center;
-}
-.dm-typing-indicator{
-  display:flex;align-items:center;gap:3px;
-  padding:.5rem .75rem;
-  background:#1c2035;border-radius:16px;border-bottom-left-radius:4px;
-  align-self:flex-start;width:50px;
-  animation:msgIn .25s cubic-bezier(.16,1,.3,1);
-}
-.dm-typing-dot{
-  width:5px;height:5px;border-radius:50%;
-  background:rgba(168,85,247,.5);
-  animation:tb 1.1s infinite;
-}
-.dm-typing-dot:nth-child(2){animation-delay:.18s;}
-.dm-typing-dot:nth-child(3){animation-delay:.36s;}
+.flow-step.vis{opacity:1;transform:none;}
 
-/* Spacer al final de los mensajes para que el último no quede pegado al borde */
-.dm-msgs-spacer{height:12px;flex-shrink:0;}
+.flow-node{
+  display:flex;align-items:center;gap:.7rem;
+  background:#161830;
+  border:1px solid rgba(124,58,237,.15);
+  border-radius:12px;
+  padding:.65rem 1rem;
+  width:100%;
+  position:relative;
+}
+.flow-node.active-node{
+  border-color:rgba(168,85,247,.5);
+  background:#1e1640;
+  box-shadow:0 0 18px rgba(124,58,237,.2);
+}
+.flow-node-icon{
+  width:32px;height:32px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;flex-shrink:0;
+}
+.fn-trigger .flow-node-icon{background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.2);}
+.fn-condition .flow-node-icon{background:rgba(234,179,8,.15);border:1px solid rgba(234,179,8,.2);}
+.fn-action .flow-node-icon{background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.2);}
+.fn-notify .flow-node-icon{background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.2);}
+.flow-node-text{flex:1;}
+.flow-node-label{font-size:10px;font-weight:500;color:rgba(255,255,255,.3);letter-spacing:.1em;text-transform:uppercase;}
+.flow-node-val{font-size:13px;font-weight:400;color:rgba(255,255,255,.82);margin-top:1px;}
+.flow-node-badge{
+  font-size:10px;padding:.2rem .5rem;border-radius:100px;
+  font-weight:500;letter-spacing:.04em;
+}
+.fn-trigger .flow-node-badge{background:rgba(34,197,94,.15);color:#4ade80;}
+.fn-condition .flow-node-badge{background:rgba(234,179,8,.15);color:#fbbf24;}
+.fn-action .flow-node-badge{background:rgba(59,130,246,.15);color:#60a5fa;}
+.fn-notify .flow-node-badge{background:rgba(168,85,247,.15);color:#c084fc;}
+
+/* animated connector */
+.flow-connector{
+  display:flex;flex-direction:column;align-items:center;
+  height:32px;position:relative;overflow:hidden;
+}
+.flow-connector-line{
+  width:1px;flex:1;
+  background:linear-gradient(to bottom,rgba(124,58,237,.3),rgba(124,58,237,.6));
+  position:relative;overflow:hidden;
+}
+.flow-connector-pulse{
+  position:absolute;top:-100%;left:0;right:0;
+  height:100%;
+  background:linear-gradient(to bottom,transparent,rgba(168,85,247,.8),transparent);
+  animation:flow-pulse 1.8s ease-in-out infinite;
+}
+@keyframes flow-pulse{0%{top:-100%;}100%{top:200%;}}
+.flow-connector-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:#a855f7;
+  box-shadow:0 0 8px rgba(168,85,247,.6);
+  flex-shrink:0;
+}
+
+.flow-result{
+  margin-top:.75rem;
+  padding:.65rem 1rem;
+  background:rgba(34,197,94,.07);
+  border:1px solid rgba(34,197,94,.15);
+  border-radius:10px;
+  font-size:12px;color:rgba(255,255,255,.55);
+  text-align:center;
+  opacity:0;transition:opacity .5s .1s;
+}
+.flow-result.vis{opacity:1;}
+.flow-result strong{color:#4ade80;}
+
+/* ══════════════════════════════════════════════
+   DEMO WEBS — wireframe builder
+   ══════════════════════════════════════════════ */
+#webs-body{padding:1.25rem;display:flex;flex-direction:column;gap:1rem;}
+
+.webs-label{font-size:11px;font-weight:500;letter-spacing:.12em;color:rgba(168,85,247,.6);text-transform:uppercase;margin-bottom:.65rem;}
+.webs-industry-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;}
+.webs-ind-btn{
+  padding:.55rem .5rem;border-radius:10px;
+  background:rgba(124,58,237,.08);
+  border:1px solid rgba(124,58,237,.15);
+  color:rgba(255,255,255,.5);
+  font-size:12px;font-weight:400;cursor:pointer;
+  font-family:'Inter',sans-serif;
+  text-align:center;
+  transition:all .2s;
+  display:flex;flex-direction:column;align-items:center;gap:.25rem;
+}
+.webs-ind-btn span:first-child{font-size:18px;}
+.webs-ind-btn:hover,.webs-ind-btn.active{
+  background:rgba(124,58,237,.22);
+  border-color:rgba(168,85,247,.4);
+  color:#d8b4fe;
+}
+
+/* Wireframe preview */
+.webs-preview{
+  background:#070918;
+  border:1px solid rgba(124,58,237,.12);
+  border-radius:14px;
+  overflow:hidden;
+  transition:opacity .3s;
+  min-height:260px;
+}
+.webs-preview.loading{opacity:.4;}
+
+/* Wireframe browser chrome */
+.wf-bar{
+  background:#0e1025;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  padding:.4rem .65rem;
+  display:flex;align-items:center;gap:.4rem;
+}
+.wf-dot{width:6px;height:6px;border-radius:50%;}
+.wf-dot:nth-child(1){background:#ff5f57;}
+.wf-dot:nth-child(2){background:#febc2e;}
+.wf-dot:nth-child(3){background:#28c840;}
+.wf-url{
+  flex:1;margin-left:.4rem;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:5px;
+  height:18px;
+  display:flex;align-items:center;padding:0 .45rem;
+}
+.wf-url-text{font-size:9px;color:rgba(255,255,255,.25);}
+
+/* Wireframe layout blocks */
+.wf-content{padding:.65rem;}
+.wf-hero-block{
+  border-radius:8px;
+  height:80px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.35rem;
+  margin-bottom:.5rem;
+  position:relative;overflow:hidden;
+  transition:background .4s;
+}
+.wf-hero-overlay{position:absolute;inset:0;opacity:.18;}
+.wf-h-title{height:8px;border-radius:4px;background:rgba(255,255,255,.55);transition:width .4s;}
+.wf-h-sub{height:5px;border-radius:3px;background:rgba(255,255,255,.25);transition:width .4s;}
+.wf-h-btn{height:18px;border-radius:100px;background:rgba(255,255,255,.7);width:60px;transition:background .3s;}
+
+.wf-grid{display:grid;gap:.4rem;margin-bottom:.4rem;transition:grid-template-columns .4s;}
+.wf-card{border-radius:7px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);padding:.5rem;display:flex;flex-direction:column;gap:.3rem;transition:all .3s;}
+.wf-card-img{border-radius:5px;height:36px;transition:background .4s;}
+.wf-card-line{height:5px;border-radius:3px;background:rgba(255,255,255,.12);}
+.wf-card-line.short{width:60%;}
+.wf-card-tag{height:14px;border-radius:100px;width:45px;transition:background .4s;}
+
+.wf-badge{
+  position:absolute;top:.45rem;right:.45rem;
+  font-size:8.5px;font-weight:500;
+  padding:.18rem .45rem;
+  border-radius:100px;
+  transition:all .3s;
+}
+
+.wf-copy{
+  padding:.5rem;border-radius:8px;
+  background:rgba(255,255,255,.025);
+  border:1px solid rgba(255,255,255,.05);
+  font-size:10.5px;color:rgba(255,255,255,.5);
+  line-height:1.55;
+  transition:all .4s;
+  min-height:42px;
+}
+.wf-copy strong{color:rgba(255,255,255,.8);font-weight:500;}
+
+/* ══════════════════════════════════════════════
+   DEMO MARKETING — copy generator
+   ══════════════════════════════════════════════ */
+#mkt-body{padding:1.25rem;display:flex;flex-direction:column;gap:1rem;}
+
+.mkt-label{font-size:11px;font-weight:500;letter-spacing:.12em;color:rgba(168,85,247,.6);text-transform:uppercase;margin-bottom:.5rem;}
+.mkt-input-wrap{position:relative;}
+.mkt-input{
+  width:100%;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(124,58,237,.2);
+  border-radius:12px;
+  padding:.75rem 1rem;
+  color:#fff;
+  font-size:14px; /* 14px is fine here as it's the main content area, not a textarea for iOS */
+  font-family:'Inter',sans-serif;font-weight:300;
+  outline:none;
+  transition:border-color .18s;
+}
+.mkt-input::placeholder{color:rgba(255,255,255,.25);}
+.mkt-input:focus{border-color:rgba(168,85,247,.4);}
+
+.mkt-generate-btn{
+  width:100%;padding:.72rem 1rem;
+  border-radius:12px;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  border:none;cursor:pointer;
+  color:#fff;font-size:14px;font-weight:400;
+  font-family:'Inter',sans-serif;
+  transition:opacity .18s,transform .18s;
+  box-shadow:0 6px 20px rgba(124,58,237,.3);
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+}
+.mkt-generate-btn:hover:not(:disabled){opacity:.85;transform:translateY(-1px);}
+.mkt-generate-btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+
+.mkt-results{display:flex;flex-direction:column;gap:.65rem;}
+.mkt-variant{
+  border-radius:12px;
+  background:#131630;
+  border:1px solid rgba(124,58,237,.12);
+  padding:.85rem 1rem;
+  opacity:0;transform:translateY(10px);
+  animation:dm-in .4s cubic-bezier(.16,1,.3,1) forwards;
+}
+.mkt-variant:nth-child(2){animation-delay:.1s;}
+.mkt-variant:nth-child(3){animation-delay:.2s;}
+.mkt-variant-type{
+  font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:.45rem;display:flex;align-items:center;gap:.4rem;
+}
+.mkt-variant-type::before{content:'';width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.mv-llamativa .mkt-variant-type{color:#f59e0b;}
+.mv-llamativa .mkt-variant-type::before{background:#f59e0b;}
+.mv-emocional .mkt-variant-type{color:#ec4899;}
+.mv-emocional .mkt-variant-type::before{background:#ec4899;}
+.mv-directa .mkt-variant-type{color:#60a5fa;}
+.mv-directa .mkt-variant-type::before{background:#60a5fa;}
+.mkt-variant-copy{font-size:13px;color:rgba(255,255,255,.75);line-height:1.6;font-weight:300;}
+
+.mkt-spinner{
+  display:none;width:18px;height:18px;
+  border:2px solid rgba(255,255,255,.2);
+  border-top-color:#fff;
+  border-radius:50%;
+  animation:spin .7s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.mkt-spinner.vis{display:block;}
+
+/* ══════════════════════════════════════════════
+   DEMO IA — text analyzer
+   ══════════════════════════════════════════════ */
+#ia-body{padding:1.25rem;display:flex;flex-direction:column;gap:1rem;}
+
+.ia-label{font-size:11px;font-weight:500;letter-spacing:.12em;color:rgba(168,85,247,.6);text-transform:uppercase;margin-bottom:.5rem;}
+.ia-examples{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.6rem;}
+.ia-ex-btn{
+  padding:.3rem .7rem;border-radius:100px;
+  background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.18);
+  color:rgba(255,255,255,.5);font-size:11px;cursor:pointer;
+  font-family:'Inter',sans-serif;
+  transition:all .18s;
+}
+.ia-ex-btn:hover{background:rgba(124,58,237,.22);color:#d8b4fe;}
+
+.ia-textarea{
+  width:100%;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(124,58,237,.2);
+  border-radius:12px;
+  padding:.75rem 1rem;
+  color:#fff;font-size:13px;
+  font-family:'Inter',sans-serif;font-weight:300;
+  outline:none;resize:none;height:90px;
+  transition:border-color .18s;
+  line-height:1.55;
+}
+.ia-textarea::placeholder{color:rgba(255,255,255,.25);}
+.ia-textarea:focus{border-color:rgba(168,85,247,.4);}
+
+.ia-analyze-btn{
+  width:100%;padding:.72rem 1rem;
+  border-radius:12px;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  border:none;cursor:pointer;
+  color:#fff;font-size:14px;font-weight:400;
+  font-family:'Inter',sans-serif;
+  transition:opacity .18s,transform .18s;
+  box-shadow:0 6px 20px rgba(124,58,237,.3);
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+}
+.ia-analyze-btn:hover:not(:disabled){opacity:.85;transform:translateY(-1px);}
+.ia-analyze-btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+
+.ia-result{
+  background:#131630;
+  border:1px solid rgba(124,58,237,.15);
+  border-radius:14px;
+  overflow:hidden;
+  opacity:0;transform:translateY(10px);
+  animation:dm-in .4s cubic-bezier(.16,1,.3,1) forwards;
+}
+.ia-result-section{padding:.75rem 1rem;border-bottom:1px solid rgba(255,255,255,.04);}
+.ia-result-section:last-child{border-bottom:none;}
+.ia-rs-label{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(168,85,247,.6);margin-bottom:.4rem;display:flex;align-items:center;gap:.35rem;}
+.ia-rs-label svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.ia-rs-value{font-size:13px;color:rgba(255,255,255,.8);font-weight:300;line-height:1.55;}
+.ia-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.3rem;}
+.ia-tag{
+  padding:.22rem .6rem;border-radius:100px;
+  font-size:11px;font-weight:400;
+}
+.ia-tag.cat{background:rgba(59,130,246,.15);color:#93c5fd;border:1px solid rgba(59,130,246,.2);}
+.ia-tag.key{background:rgba(168,85,247,.12);color:#c084fc;border:1px solid rgba(168,85,247,.2);}
+.ia-action-box{
+  background:rgba(34,197,94,.06);
+  border:1px solid rgba(34,197,94,.14);
+  border-radius:10px;
+  padding:.55rem .8rem;
+  font-size:12.5px;color:rgba(255,255,255,.75);
+  line-height:1.5;
+}
+.ia-action-box strong{color:#4ade80;font-weight:500;}
+
+/* Sentiment indicator */
+.ia-sentiment{display:flex;align-items:center;gap:.55rem;}
+.ia-sent-bar{flex:1;height:5px;border-radius:3px;background:rgba(255,255,255,.06);overflow:hidden;}
+.ia-sent-fill{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.16,1,.3,1);}
+.ia-sent-label{font-size:11px;font-weight:500;min-width:60px;text-align:right;}
 </style>
 </head>
 <body>
@@ -432,7 +796,6 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
     <div class="scol">
       <span class="tag rv">Concepto Development</span>
       <h1 class="h1 rv d1">Tu negocio,<br><span class="fade">nuevos límites.</span></h1>
-      <!-- COPY CHANGE 1 -->
       <p class="sub rv d2">Sistemas inteligentes que operan mientras vos dormís.</p>
       <div class="brow rv d3">
         <a href="https://wa.me/59897976574" class="btn bd" target="_blank">Empezar ahora</a>
@@ -471,10 +834,9 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   <div class="srow flip">
     <div class="scol">
       <span class="tag rv">01 — Automatizaciones</span>
-      <!-- COPY CHANGE 2 -->
       <h2 class="h2 rv d1">Menos fricción.<br><span class="fade">Más escala.</span></h2>
       <p class="sub mob-hide rv d2">Tareas repetitivas convertidas en sistemas que corren solos.</p>
-      <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Hablemos</a>
+      <button class="btn-demo rv d3" onclick="openModal('auto')">Ver flujo en acción <span class="btn-demo-icon">→</span></button>
     </div>
     <div class="rcol"></div>
   </div>
@@ -487,7 +849,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
       <span class="tag rv">02 — Webs</span>
       <h2 class="h2 rv d1">Tu primera impresión,<br><span class="fade">perfeccionada.</span></h2>
       <p class="sub mob-hide rv d2">Tu web, tu mejor vendedor.</p>
-      <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Ver proyectos</a>
+      <button class="btn-demo rv d3" onclick="openModal('webs')">Crear tu web ahora <span class="btn-demo-icon">→</span></button>
     </div>
     <div class="rcol"></div>
   </div>
@@ -499,10 +861,8 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
     <div class="scol">
       <span class="tag rv">03 — Chatbots</span>
       <h2 class="h2 rv d1">Conversaciones que<br><span class="fade">convierten.</span></h2>
-      <!-- COPY CHANGE 3 -->
       <p class="sub mob-hide rv d2">Sistemas conversacionales con IA que califican y cierran prospectos en segundos, las 24 horas.</p>
-      <!-- DEMO BUTTON — tratamiento violeta -->
-      <button class="lnk-demo rv d3" id="openDemo">Ver demo en vivo</button>
+      <button class="btn-demo rv d3" onclick="openModal('chat')">Probar demo en vivo <span class="btn-demo-icon">→</span></button>
     </div>
     <div class="rcol"></div>
   </div>
@@ -515,7 +875,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
       <span class="tag rv">04 — Marketing</span>
       <h2 class="h2 rv d1">Tu marca,<br><span class="fade">en todos lados.</span></h2>
       <p class="sub mob-hide rv d2">El marketing que tu negocio necesitaba.</p>
-      <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Ver marketing</a>
+      <button class="btn-demo rv d3" onclick="openModal('mkt')">Generar copy gratis <span class="btn-demo-icon">→</span></button>
     </div>
     <div class="rcol"></div>
   </div>
@@ -528,14 +888,13 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
       <span class="tag rv">05 — Desarrollo con IA</span>
       <h2 class="h2 rv d1">Automatizá decisiones.<br><span class="fade">Potenciá resultados.</span></h2>
       <p class="sub mob-hide rv d2">El futuro de tu negocio, hoy.</p>
-      <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Ver desarrollo</a>
+      <button class="btn-demo rv d3" onclick="openModal('ia')">Analizar texto con IA <span class="btn-demo-icon">→</span></button>
     </div>
     <div class="rcol"></div>
   </div>
 </section>
 
 <!-- 8. PROCESO -->
-<!-- COPY CHANGES 4 -->
 <section id="s-proc">
   <span class="ptag rv">Cómo trabajamos</span>
   <div class="pg">
@@ -566,57 +925,166 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   <span class="fc">© 2025 Montevideo</span>
 </footer>
 
-<!-- ═══════════════════════════════════════════════════
-     DEMO MODAL — iOS-safe
-════════════════════════════════════════════════════ -->
-<div id="demo-modal" role="dialog" aria-modal="true" aria-label="Demo del chatbot">
-
-  <!-- Header fijo -->
-  <div class="dm-header">
-    <div style="display:flex;align-items:center;gap:.65rem;">
-      <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#a855f7);display:flex;align-items:center;justify-content:center;font-size:13px;box-shadow:0 0 10px rgba(124,58,237,.4);">🤖</div>
+<!-- ══════════════════════════════════════════════════
+     MODAL: AUTOMATIZACIONES
+     ══════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="mo-auto">
+  <div class="modal-backdrop" onclick="closeModal('auto')"></div>
+  <div class="modal-panel">
+    <div class="modal-header">
+      <div class="mh-av">⚡</div>
+      <div class="mh-info">
+        <div class="mh-name">Simulador de Automatización</div>
+        <div class="mh-sub"><span class="mh-dot"></span> Flujo en tiempo real</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('auto')">✕</button>
+    </div>
+    <div class="modal-body" id="auto-body">
       <div>
-        <div style="font-size:13px;font-weight:500;color:#fff;letter-spacing:-.01em;">Asistente Concepto</div>
-        <div style="font-size:10px;color:rgba(168,85,247,.7);display:flex;align-items:center;gap:3px;">
-          <span style="width:5px;height:5px;border-radius:50%;background:#a855f7;box-shadow:0 0 5px rgba(168,85,247,.8);display:inline-block;"></span>
-          En línea
+        <div class="auto-pick-label">Elegí una tarea a automatizar</div>
+        <div class="auto-chips">
+          <button class="auto-chip" onclick="runFlow(this,'leads')">📋 Seguimiento de leads</button>
+          <button class="auto-chip" onclick="runFlow(this,'pedidos')">📦 Notif. de pedidos</button>
+          <button class="auto-chip" onclick="runFlow(this,'reportes')">📊 Reportes automáticos</button>
+          <button class="auto-chip" onclick="runFlow(this,'agendas')">📅 Confirmación de turnos</button>
+        </div>
+      </div>
+      <div class="flow-canvas" id="flow-canvas">
+        <div style="display:flex;align-items:center;justify-content:center;height:220px;">
+          <p style="font-size:12px;color:rgba(255,255,255,.2);text-align:center;">Elegí una tarea para ver el flujo</p>
         </div>
       </div>
     </div>
-    <button class="dm-close" id="closeDemo" aria-label="Cerrar">×</button>
   </div>
+</div>
 
-  <!-- Área scrolleable de mensajes -->
-  <div class="dm-msgs-outer">
-    <div class="dm-msgs" id="dmMsgs">
-      <div class="dm-msgs-spacer"></div>
+<!-- ══════════════════════════════════════════════════
+     MODAL: WEBS
+     ══════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="mo-webs">
+  <div class="modal-backdrop" onclick="closeModal('webs')"></div>
+  <div class="modal-panel">
+    <div class="modal-header">
+      <div class="mh-av">🌐</div>
+      <div class="mh-info">
+        <div class="mh-name">Constructor de Web</div>
+        <div class="mh-sub"><span class="mh-dot"></span> Preview instantáneo</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('webs')">✕</button>
     </div>
-    <!-- Quick replies — desaparecen al primer mensaje del usuario -->
-    <div class="dm-quick" id="dmQuick">
-      <button class="dm-qbtn" data-q="¿Cuánto sale un chatbot?">💬 ¿Cuánto sale un chatbot?</button>
-      <button class="dm-qbtn" data-q="¿Qué automatizaciones hacen?">⚡ Automatizaciones</button>
-      <button class="dm-qbtn" data-q="¿Cuánto tarda en estar listo?">⏱ ¿Cuánto tarda?</button>
-      <button class="dm-qbtn" data-q="¿Funciona con WhatsApp e Instagram?">📱 WhatsApp e Instagram</button>
+    <div class="modal-body" id="webs-body">
+      <div>
+        <div class="webs-label">¿Para qué rubro es tu web?</div>
+        <div class="webs-industry-grid">
+          <button class="webs-ind-btn" onclick="previewWeb(this,'restaurante')"><span>🍽️</span>Restaurante</button>
+          <button class="webs-ind-btn" onclick="previewWeb(this,'peluqueria')"><span>✂️</span>Peluquería</button>
+          <button class="webs-ind-btn" onclick="previewWeb(this,'ecommerce')"><span>🛍️</span>Ecommerce</button>
+          <button class="webs-ind-btn" onclick="previewWeb(this,'gym')"><span>💪</span>Gym / Fitness</button>
+          <button class="webs-ind-btn" onclick="previewWeb(this,'consultora')"><span>📈</span>Consultora</button>
+          <button class="webs-ind-btn" onclick="previewWeb(this,'clinica')"><span>🏥</span>Clínica</button>
+        </div>
+      </div>
+      <div class="webs-preview" id="webs-preview">
+        <div style="display:flex;align-items:center;justify-content:center;min-height:260px;">
+          <p style="font-size:12px;color:rgba(255,255,255,.2);text-align:center;">Elegí tu rubro para ver el preview</p>
+        </div>
+      </div>
     </div>
   </div>
+</div>
 
-  <!-- Input bar — pegado al bottom, safe area aware -->
-  <div class="dm-input-bar">
-    <input
-      type="text"
-      class="dm-input"
-      id="dmInput"
-      placeholder="Escribí tu pregunta…"
-      autocomplete="off"
-      autocorrect="off"
-      spellcheck="false"
-      enterkeyhint="send"
-    />
-    <button class="dm-send" id="dmSend" aria-label="Enviar">
-      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-    </button>
+<!-- ══════════════════════════════════════════════════
+     MODAL: CHATBOT
+     ══════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="mo-chat">
+  <div class="modal-backdrop" onclick="closeModal('chat')"></div>
+  <div class="modal-panel">
+    <div class="modal-header">
+      <div class="mh-av">🤖</div>
+      <div class="mh-info">
+        <div class="mh-name">Asistente Concepto</div>
+        <div class="mh-sub"><span class="mh-dot"></span> En línea ahora</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('chat')">✕</button>
+    </div>
+    <div class="modal-body" id="chat-modal-body">
+      <div id="demo-messages"></div>
+      <div id="demo-typing"><div class="dt"></div><div class="dt"></div><div class="dt"></div></div>
+    </div>
+    <div id="demo-hints">
+      <button class="hint-chip" onclick="sendHint(this)">¿Qué servicios ofrecen?</button>
+      <button class="hint-chip" onclick="sendHint(this)">¿Cómo funciona el proceso?</button>
+      <button class="hint-chip" onclick="sendHint(this)">¿Qué es un chatbot con IA?</button>
+    </div>
+    <div id="demo-input-area">
+      <textarea id="demo-input" placeholder="Escribí tu consulta..." rows="1"></textarea>
+      <button id="demo-send" onclick="sendMessage()">
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
   </div>
+</div>
 
+<!-- ══════════════════════════════════════════════════
+     MODAL: MARKETING
+     ══════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="mo-mkt">
+  <div class="modal-backdrop" onclick="closeModal('mkt')"></div>
+  <div class="modal-panel">
+    <div class="modal-header">
+      <div class="mh-av">📣</div>
+      <div class="mh-info">
+        <div class="mh-name">Generador de Copy para Ads</div>
+        <div class="mh-sub"><span class="mh-dot"></span> IA en tiempo real</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('mkt')">✕</button>
+    </div>
+    <div class="modal-body" id="mkt-body">
+      <div>
+        <div class="mkt-label">¿Qué vendés o qué hacés?</div>
+        <input class="mkt-input" id="mkt-input" type="text" placeholder="Ej: clases de yoga online, peluquería canina, asesoría contable…">
+      </div>
+      <button class="mkt-generate-btn" id="mkt-btn" onclick="generateCopy()">
+        <div class="mkt-spinner" id="mkt-spinner"></div>
+        <span id="mkt-btn-text">Generar 3 variantes de copy ✦</span>
+      </button>
+      <div id="mkt-results"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     MODAL: IA ANALYZER
+     ══════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="mo-ia">
+  <div class="modal-backdrop" onclick="closeModal('ia')"></div>
+  <div class="modal-panel">
+    <div class="modal-header">
+      <div class="mh-av">🧠</div>
+      <div class="mh-info">
+        <div class="mh-name">Analizador de Texto con IA</div>
+        <div class="mh-sub"><span class="mh-dot"></span> Clasificación instantánea</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('ia')">✕</button>
+    </div>
+    <div class="modal-body" id="ia-body">
+      <div>
+        <div class="ia-label">Pegá cualquier mensaje de cliente</div>
+        <div class="ia-examples">
+          <button class="ia-ex-btn" onclick="setIaExample(0)">Pedido urgente</button>
+          <button class="ia-ex-btn" onclick="setIaExample(1)">Queja de cliente</button>
+          <button class="ia-ex-btn" onclick="setIaExample(2)">Consulta de precio</button>
+          <button class="ia-ex-btn" onclick="setIaExample(3)">Solicitud de turno</button>
+        </div>
+        <textarea class="ia-textarea" id="ia-input" placeholder="Pegá aquí un mensaje, pedido, queja o consulta de cliente…"></textarea>
+      </div>
+      <button class="ia-analyze-btn" id="ia-btn" onclick="analyzeText()">
+        <div class="mkt-spinner" id="ia-spinner"></div>
+        <span id="ia-btn-text">Analizar con IA ✦</span>
+      </button>
+      <div id="ia-result-container"></div>
+    </div>
+  </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -643,7 +1111,8 @@ function updateNav(){
   const inNight=r.top<58&&r.bottom>0;
   navEl.classList.toggle('dk',inNight);
   navEl.classList.toggle('bg',!inNight&&window.scrollY>30);
-  if(cd){cd.classList.toggle('vlt',inNight);cr.classList.toggle('vlt',inNight);}
+  cd.classList.toggle('vlt',inNight);
+  cr.classList.toggle('vlt',inNight);
 }
 window.addEventListener('scroll',updateNav,{passive:true});
 
@@ -655,7 +1124,7 @@ document.querySelectorAll('.rv').forEach(el=>{
   obs.observe(el);
 });
 
-// ── CHAT ANIMATION (landing, loop) ──
+// ── CHAT DECORATIVO ──
 const msgs=[
   {t:'in',  txt:'Hola! cuánto sale un chatbot?', d:0},
   {t:'typing', d:1100},
@@ -679,21 +1148,471 @@ function runChat(){
       if(m.t==='typing'){
         const ti=document.createElement('div');ti.className='cw-typing';
         ti.innerHTML='<div class="td"></div><div class="td"></div><div class="td"></div>';
-        cwBody.appendChild(ti);setTimeout(()=>ti.classList.add('vis'),20);cwBody.scrollTop=cwBody.scrollHeight;return;
+        cwBody.appendChild(ti);setTimeout(()=>ti.classList.add('vis'),20);
+        cwBody.scrollTop=cwBody.scrollHeight;return;
       }
       const el=document.createElement('div');el.className=`cm ${m.t}`;
       el.innerHTML=m.t==='sys'?m.txt:m.txt+(m.t==='out'?`<div class="ct">3:14 AM <span class="ck">✓✓</span></div>`:`<div class="ct">3:14 AM</div>`);
-      cwBody.appendChild(el);setTimeout(()=>el.classList.add('vis'),20);cwBody.scrollTop=cwBody.scrollHeight;
-    },m.d);chatTimeouts.push(id);
+      cwBody.appendChild(el);setTimeout(()=>el.classList.add('vis'),20);
+      cwBody.scrollTop=cwBody.scrollHeight;
+    },m.d);
+    chatTimeouts.push(id);
   });
-  const loopId=setTimeout(()=>{chatRunning=false;runChat();},CHAT_TOTAL);chatTimeouts.push(loopId);
+  const loopId=setTimeout(()=>{chatRunning=false;runChat();},CHAT_TOTAL);
+  chatTimeouts.push(loopId);
 }
 const chatObs=new IntersectionObserver(entries=>{
   if(entries[0].isIntersecting)runChat();else clearChatTimers();
 },{threshold:.25});
 chatObs.observe(nightEl);
 
-// ── THREE.JS (idéntico al original) ──
+// ══════════════════════════════════════════════
+// MODAL SYSTEM
+// ══════════════════════════════════════════════
+const MODAL_MAP = {auto:'mo-auto',webs:'mo-webs',chat:'mo-chat',mkt:'mo-mkt',ia:'mo-ia'};
+let openModalKey = null;
+
+function openModal(key){
+  if(openModalKey) closeModal(openModalKey);
+  const el = document.getElementById(MODAL_MAP[key]);
+  if(!el) return;
+  openModalKey = key;
+  el.classList.add('open');
+  document.documentElement.style.overflow='hidden';
+  if(key==='chat' && document.getElementById('demo-messages').children.length===0){
+    setTimeout(()=>addBotMessage('¡Hola! Soy el asistente de Concepto Development. ¿En qué puedo ayudarte hoy?'),300);
+  }
+  if(key==='chat') setTimeout(()=>document.getElementById('demo-input').focus(),500);
+}
+
+function closeModal(key){
+  const el = document.getElementById(MODAL_MAP[key]);
+  if(!el) return;
+  el.classList.remove('open');
+  document.documentElement.style.overflow='';
+  openModalKey = null;
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&openModalKey)closeModal(openModalKey);});
+
+// ══════════════════════════════════════════════
+// CHATBOT DEMO
+// ══════════════════════════════════════════════
+const WORKER_URL='https://conceptodemo.conceptodevelopment.workers.dev';
+const SYSTEM_PROMPT=`Sos el asistente virtual de Concepto Development, una agencia digital de Montevideo, Uruguay.
+
+Concepto Development se especializa en:
+- Automatizaciones: sistemas que corren solos y eliminan trabajo manual repetitivo
+- Desarrollo web: sitios y landing pages de alto impacto visual
+- Chatbots con IA: sistemas conversacionales que atienden, califican y cierran prospectos 24/7
+- Marketing digital: presencia de marca en todos los canales
+- Desarrollo con IA: integración de inteligencia artificial en los procesos del negocio
+
+El proceso de trabajo es: Diagnóstico → Diseño → Ejecución → Escala.
+
+Respondés en español rioplatense (vos, querés, podés), de forma concisa y profesional pero cercana.
+Nunca hables de precios ni de herramientas técnicas específicas.
+Si alguien pregunta por precios, decí que depende del proyecto y los invitás a agendar una llamada gratuita.
+Máximo 3 oraciones por respuesta. Directo al punto.
+El WhatsApp de contacto es: https://wa.me/59897976574`;
+
+let demoHistory=[];
+let isSending=false;
+
+const demoMessages=document.getElementById('demo-messages');
+const demoTyping=document.getElementById('demo-typing');
+const demoHints=document.getElementById('demo-hints');
+const demoInput=document.getElementById('demo-input');
+const demoSend=document.getElementById('demo-send');
+
+function addBotMessage(text){
+  const el=document.createElement('div');
+  el.className='dm bot';
+  el.textContent=text;
+  demoMessages.appendChild(el);
+  const body=document.getElementById('chat-modal-body');
+  body.scrollTop=body.scrollHeight;
+}
+
+function addUserMessage(text){
+  const el=document.createElement('div');
+  el.className='dm user';
+  el.textContent=text;
+  demoMessages.appendChild(el);
+  const body=document.getElementById('chat-modal-body');
+  body.scrollTop=body.scrollHeight;
+}
+
+function showTyping(){demoTyping.classList.add('vis');}
+function hideTyping(){demoTyping.classList.remove('vis');}
+
+async function sendMessage(customText){
+  const text=(customText||demoInput.value).trim();
+  if(!text||isSending)return;
+  isSending=true;
+  demoSend.disabled=true;
+  if(!customText){demoInput.value='';demoInput.style.height='';}
+  demoHints.style.display='none';
+  addUserMessage(text);
+  demoHistory.push({role:'user',content:text});
+  showTyping();
+  const body=document.getElementById('chat-modal-body');
+  body.scrollTop=body.scrollHeight;
+  try{
+    const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:SYSTEM_PROMPT,messages:demoHistory})});
+    const data=await res.json();
+    const reply=data.text||'Lo siento, no pude procesar eso. Intentá de nuevo.';
+    hideTyping();addBotMessage(reply);demoHistory.push({role:'assistant',content:reply});
+  }catch(err){hideTyping();addBotMessage('Hubo un error de conexión. Intentá de nuevo en un momento.');}
+  isSending=false;demoSend.disabled=false;
+}
+
+function sendHint(btn){sendMessage(btn.textContent);}
+
+demoInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});
+demoInput.addEventListener('input',()=>{demoInput.style.height='auto';demoInput.style.height=Math.min(demoInput.scrollHeight,80)+'px';});
+
+// ══════════════════════════════════════════════
+// AUTOMATIZACIONES FLOW
+// ══════════════════════════════════════════════
+const FLOWS = {
+  leads:{
+    title:'Seguimiento de Leads',
+    steps:[
+      {type:'fn-trigger',icon:'📥',label:'Trigger',val:'Nuevo lead en formulario web',badge:'INICIO'},
+      {type:'fn-condition',icon:'🔍',label:'Condición',val:'¿El lead viene de campaña pagada?',badge:'FILTRO'},
+      {type:'fn-action',icon:'📨',label:'Acción',val:'Enviar email de bienvenida personalizado',badge:'EJECUTAR'},
+      {type:'fn-notify',icon:'🔔',label:'Notificación',val:'Alerta al equipo de ventas vía WhatsApp',badge:'AVISAR'},
+    ],
+    result:'✓ Lead calificado y asignado en <strong>3 segundos</strong>. Sin intervención humana.'
+  },
+  pedidos:{
+    title:'Notificaciones de Pedidos',
+    steps:[
+      {type:'fn-trigger',icon:'🛒',label:'Trigger',val:'Pedido confirmado en tienda',badge:'INICIO'},
+      {type:'fn-condition',icon:'📦',label:'Condición',val:'¿Tiene stock disponible?',badge:'FILTRO'},
+      {type:'fn-action',icon:'📱',label:'Acción',val:'SMS + email al cliente con tracking',badge:'EJECUTAR'},
+      {type:'fn-notify',icon:'🚚',label:'Notificación',val:'Orden enviada a logística automáticamente',badge:'AVISAR'},
+    ],
+    result:'✓ Cliente informado en <strong>8 segundos</strong>. Cero tickets de soporte innecesarios.'
+  },
+  reportes:{
+    title:'Reportes Automáticos',
+    steps:[
+      {type:'fn-trigger',icon:'⏰',label:'Trigger',val:'Todos los lunes a las 8:00 AM',badge:'INICIO'},
+      {type:'fn-condition',icon:'📊',label:'Condición',val:'Consolidar datos de la semana anterior',badge:'FILTRO'},
+      {type:'fn-action',icon:'📄',label:'Acción',val:'Generar PDF con métricas y gráficas',badge:'EJECUTAR'},
+      {type:'fn-notify',icon:'📬',label:'Notificación',val:'Reporte enviado a gerencia por email',badge:'AVISAR'},
+    ],
+    result:'✓ Reporte listo cada lunes a las <strong>8:02 AM</strong>. Vos tomás el café.'
+  },
+  agendas:{
+    title:'Confirmación de Turnos',
+    steps:[
+      {type:'fn-trigger',icon:'📅',label:'Trigger',val:'Turno reservado 24hs antes',badge:'INICIO'},
+      {type:'fn-condition',icon:'✅',label:'Condición',val:'¿El cliente confirmó por WhatsApp?',badge:'FILTRO'},
+      {type:'fn-action',icon:'💬',label:'Acción',val:'Recordatorio automático con detalles',badge:'EJECUTAR'},
+      {type:'fn-notify',icon:'📋',label:'Notificación',val:'Agenda del día enviada al profesional',badge:'AVISAR'},
+    ],
+    result:'✓ <strong>78% menos ausencias</strong> con recordatorios automáticos.'
+  }
+};
+
+let flowRunning = false;
+function runFlow(btn, key){
+  document.querySelectorAll('.auto-chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  if(flowRunning) return;
+  const f = FLOWS[key];
+  const canvas = document.getElementById('flow-canvas');
+  canvas.innerHTML='';
+
+  const nodesWrap = document.createElement('div');
+  nodesWrap.className='flow-nodes';
+
+  f.steps.forEach((step,i)=>{
+    const stepEl=document.createElement('div');
+    stepEl.className='flow-step';
+
+    const nodeEl=document.createElement('div');
+    nodeEl.className=`flow-node ${step.type}`;
+    nodeEl.innerHTML=`<div class="flow-node-icon">${step.icon}</div><div class="flow-node-text"><div class="flow-node-label">${step.label}</div><div class="flow-node-val">${step.val}</div></div><div class="flow-node-badge">${step.badge}</div>`;
+    stepEl.appendChild(nodeEl);
+
+    if(i < f.steps.length-1){
+      const conn=document.createElement('div');
+      conn.className='flow-connector';
+      conn.innerHTML='<div class="flow-connector-line"><div class="flow-connector-pulse"></div></div><div class="flow-connector-dot"></div>';
+      stepEl.appendChild(conn);
+    }
+
+    nodesWrap.appendChild(stepEl);
+
+    // animate with delay
+    setTimeout(()=>{
+      stepEl.classList.add('vis');
+      nodeEl.classList.add('active-node');
+      setTimeout(()=>nodeEl.classList.remove('active-node'),600);
+    }, i*280);
+  });
+
+  canvas.appendChild(nodesWrap);
+
+  // result
+  const resultEl=document.createElement('div');
+  resultEl.className='flow-result';
+  resultEl.innerHTML=f.result;
+  canvas.appendChild(resultEl);
+  setTimeout(()=>resultEl.classList.add('vis'), f.steps.length*280+400);
+}
+
+// ══════════════════════════════════════════════
+// WEBS PREVIEW
+// ══════════════════════════════════════════════
+const WEB_DATA = {
+  restaurante:{
+    domain:'labrasa.uy',
+    hero:{bg:'linear-gradient(135deg,#1a0a00,#3d1200)',accent:'#ff6b35',badge:'🍽️ Reservas Online',title:'width:72%',sub:'width:55%',btnColor:'#ff6b35'},
+    cols:3,
+    cardImg:'rgba(255,107,53,.15)',
+    cardTag:'rgba(255,107,53,.2)',
+    copy:'<strong>La Brasa</strong> — Cocina a leña en el corazón de Montevideo. Reservá tu mesa online en 30 segundos.'
+  },
+  peluqueria:{
+    domain:'cortesur.uy',
+    hero:{bg:'linear-gradient(135deg,#0a0a14,#1a1040)',accent:'#a855f7',badge:'✂️ Turnos 24/7',title:'width:65%',sub:'width:48%',btnColor:'#a855f7'},
+    cols:2,
+    cardImg:'rgba(168,85,247,.15)',
+    cardTag:'rgba(168,85,247,.2)',
+    copy:'<strong>CorteUr</strong> — Tu corte perfecto, sin esperas. Agendá tu turno ahora y recibí recordatorio automático.'
+  },
+  ecommerce:{
+    domain:'tiendaclaro.uy',
+    hero:{bg:'linear-gradient(135deg,#001a0d,#003d1a)',accent:'#22c55e',badge:'🛍️ Envío Gratis +$500',title:'width:78%',sub:'width:60%',btnColor:'#22c55e'},
+    cols:3,
+    cardImg:'rgba(34,197,94,.12)',
+    cardTag:'rgba(34,197,94,.2)',
+    copy:'<strong>Tienda Claro</strong> — Productos seleccionados. Pagá en cuotas, recibí en 48hs.'
+  },
+  gym:{
+    domain:'forzagym.uy',
+    hero:{bg:'linear-gradient(135deg,#0d0000,#2d0808)',accent:'#ef4444',badge:'💪 Clase Gratis',title:'width:60%',sub:'width:45%',btnColor:'#ef4444'},
+    cols:2,
+    cardImg:'rgba(239,68,68,.15)',
+    cardTag:'rgba(239,68,68,.2)',
+    copy:'<strong>Forza Gym</strong> — Entrenamiento de alto rendimiento. Tu primera clase es gratis.'
+  },
+  consultora:{
+    domain:'nexoconsult.uy',
+    hero:{bg:'linear-gradient(135deg,#000d1a,#001f3d)',accent:'#3b82f6',badge:'📈 +200 empresas',title:'width:70%',sub:'width:52%',btnColor:'#3b82f6'},
+    cols:2,
+    cardImg:'rgba(59,130,246,.12)',
+    cardTag:'rgba(59,130,246,.2)',
+    copy:'<strong>Nexo Consult</strong> — Estrategia financiera para empresas en crecimiento. Agendá una consulta gratis.'
+  },
+  clinica:{
+    domain:'saludplus.uy',
+    hero:{bg:'linear-gradient(135deg,#001a14,#003d2e)',accent:'#10b981',badge:'🏥 Turnos Online',title:'width:68%',sub:'width:50%',btnColor:'#10b981'},
+    cols:3,
+    cardImg:'rgba(16,185,129,.12)',
+    cardTag:'rgba(16,185,129,.2)',
+    copy:'<strong>Salud Plus</strong> — Atención médica especializada. Sacá tu turno online, sin esperas telefónicas.'
+  }
+};
+
+function previewWeb(btn, key){
+  document.querySelectorAll('.webs-ind-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const d = WEB_DATA[key];
+  const preview = document.getElementById('webs-preview');
+  preview.classList.add('loading');
+  setTimeout(()=>{
+    preview.innerHTML=`
+      <div class="wf-bar">
+        <div class="wf-dot"></div><div class="wf-dot"></div><div class="wf-dot"></div>
+        <div class="wf-url"><span class="wf-url-text">https://${d.domain}</span></div>
+      </div>
+      <div class="wf-content">
+        <div class="wf-hero-block" style="background:${d.hero.bg}">
+          <div class="wf-hero-overlay" style="background:${d.hero.accent}"></div>
+          <div class="wf-badge" style="background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.75)">${d.hero.badge}</div>
+          <div class="wf-h-title" style="${d.hero.title}"></div>
+          <div class="wf-h-sub" style="${d.hero.sub}"></div>
+          <div class="wf-h-btn" style="background:${d.hero.accent};opacity:.9;"></div>
+        </div>
+        <div class="wf-grid" style="grid-template-columns:repeat(${d.cols},1fr)">
+          ${Array(d.cols).fill(0).map(()=>`
+            <div class="wf-card">
+              <div class="wf-card-img" style="background:${d.cardImg}"></div>
+              <div class="wf-card-tag" style="background:${d.cardTag};height:10px;width:40%;border-radius:3px;"></div>
+              <div class="wf-card-line"></div>
+              <div class="wf-card-line short"></div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="wf-copy">${d.copy}</div>
+      </div>
+    `;
+    preview.classList.remove('loading');
+  },220);
+}
+
+// ══════════════════════════════════════════════
+// MARKETING COPY GENERATOR
+// ══════════════════════════════════════════════
+async function generateCopy(){
+  const input=document.getElementById('mkt-input').value.trim();
+  if(!input)return;
+  const btn=document.getElementById('mkt-btn');
+  const spinner=document.getElementById('mkt-spinner');
+  const btnText=document.getElementById('mkt-btn-text');
+  const results=document.getElementById('mkt-results');
+
+  btn.disabled=true;
+  spinner.classList.add('vis');
+  btnText.textContent='Generando…';
+  results.innerHTML='';
+
+  const prompt=`Generá 3 variantes de copy para Meta Ads (Facebook/Instagram) para este negocio: "${input}".
+
+Respondé ÚNICAMENTE con un JSON válido, sin markdown, sin comillas extra, exactamente así:
+{"llamativa":"...","emocional":"...","directa":"..."}
+
+Reglas:
+- Cada variante: máximo 2 oraciones, español rioplatense (vos, querés)
+- llamativa: hook impactante, sorpresivo, llama la atención
+- emocional: conecta con el problema o deseo del cliente  
+- directa: oferta clara, beneficio concreto, llamada a la acción
+
+Respondé solo el JSON.`;
+
+  try{
+    const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:'Respondés siempre con JSON puro, sin markdown, sin explicaciones.',messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();
+    let text=(data.text||'').trim().replace(/```json|```/g,'').trim();
+    const parsed=JSON.parse(text);
+    const variants=[
+      {key:'llamativa',label:'LLAMATIVA',cls:'mv-llamativa'},
+      {key:'emocional',label:'EMOCIONAL',cls:'mv-emocional'},
+      {key:'directa',label:'DIRECTA',cls:'mv-directa'},
+    ];
+    variants.forEach(v=>{
+      if(!parsed[v.key])return;
+      const el=document.createElement('div');
+      el.className=`mkt-variant ${v.cls}`;
+      el.innerHTML=`<div class="mkt-variant-type">${v.label}</div><div class="mkt-variant-copy">${parsed[v.key]}</div>`;
+      results.appendChild(el);
+    });
+  }catch(e){
+    results.innerHTML='<p style="font-size:12px;color:rgba(255,255,255,.3);text-align:center;padding:1rem">Hubo un error. Intentá de nuevo.</p>';
+  }
+
+  btn.disabled=false;
+  spinner.classList.remove('vis');
+  btnText.textContent='Generar 3 variantes de copy ✦';
+}
+
+document.getElementById('mkt-input').addEventListener('keydown',e=>{if(e.key==='Enter')generateCopy();});
+
+// ══════════════════════════════════════════════
+// IA TEXT ANALYZER
+// ══════════════════════════════════════════════
+const IA_EXAMPLES=[
+  'Che, necesito 3 docenas de medialunas para mañana a las 8am, es urgente porque las necesito para una reunión de empresa, confirmen por favor.',
+  'Les escribo porque recibí el pedido y los productos llegaron rotos. Es la segunda vez que pasa y estoy muy enojado. Quiero una solución ya.',
+  'Hola! ¿Cuánto sale el plan mensual? ¿Tienen descuento si pago un año adelantado?',
+  'Buenos días, quisiera reservar turno para un corte y barba para el viernes 23 a la tarde si tienen lugar.'
+];
+
+function setIaExample(i){document.getElementById('ia-input').value=IA_EXAMPLES[i];}
+
+async function analyzeText(){
+  const input=document.getElementById('ia-input').value.trim();
+  if(!input)return;
+  const btn=document.getElementById('ia-btn');
+  const spinner=document.getElementById('ia-spinner');
+  const btnText=document.getElementById('ia-btn-text');
+  const container=document.getElementById('ia-result-container');
+
+  btn.disabled=true;
+  spinner.classList.add('vis');
+  btnText.textContent='Analizando…';
+  container.innerHTML='';
+
+  const prompt=`Analizá este mensaje de cliente y respondé SOLO con JSON puro (sin markdown):
+
+Mensaje: "${input}"
+
+Formato exacto:
+{
+  "categoria": "una sola categoría: Pedido | Queja | Consulta | Reserva | Otro",
+  "urgencia": "Alta | Media | Baja",
+  "sentimiento": "Positivo | Neutro | Negativo",
+  "sentimiento_score": número entre 0 y 100 (0=muy negativo, 50=neutro, 100=muy positivo),
+  "datos_clave": ["array","de","datos","importantes","del","mensaje"],
+  "accion_sugerida": "Una acción concreta y específica que el equipo debería tomar, en español rioplatense."
+}`;
+
+  try{
+    const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:'Respondés siempre con JSON puro sin markdown.',messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();
+    let text=(data.text||'').trim().replace(/```json|```/g,'').trim();
+    const p=JSON.parse(text);
+
+    const sentColor=p.sentimiento==='Positivo'?'#4ade80':p.sentimiento==='Negativo'?'#f87171':'#fbbf24';
+    const urgColor=p.urgencia==='Alta'?'#f87171':p.urgencia==='Media'?'#fbbf24':'#4ade80';
+
+    const el=document.createElement('div');
+    el.className='ia-result';
+    el.innerHTML=`
+      <div class="ia-result-section">
+        <div class="ia-rs-label">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Clasificación
+        </div>
+        <div class="ia-tags">
+          <span class="ia-tag cat">${p.categoria}</span>
+          <span class="ia-tag" style="background:${urgColor}22;color:${urgColor};border:1px solid ${urgColor}44">⚡ Urgencia ${p.urgencia}</span>
+        </div>
+      </div>
+      <div class="ia-result-section">
+        <div class="ia-rs-label">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+          Sentimiento
+        </div>
+        <div class="ia-sentiment">
+          <div class="ia-sent-bar"><div class="ia-sent-fill" style="width:${p.sentimiento_score}%;background:${sentColor}"></div></div>
+          <span class="ia-sent-label" style="color:${sentColor}">${p.sentimiento}</span>
+        </div>
+      </div>
+      <div class="ia-result-section">
+        <div class="ia-rs-label">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Datos clave extraídos
+        </div>
+        <div class="ia-tags">${(p.datos_clave||[]).map(d=>`<span class="ia-tag key">${d}</span>`).join('')}</div>
+      </div>
+      <div class="ia-result-section">
+        <div class="ia-rs-label">
+          <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Acción sugerida
+        </div>
+        <div class="ia-action-box"><strong>→</strong> ${p.accion_sugerida}</div>
+      </div>
+    `;
+    container.appendChild(el);
+  }catch(e){
+    container.innerHTML='<p style="font-size:12px;color:rgba(255,255,255,.3);text-align:center;padding:1rem">Error al analizar. Intentá de nuevo.</p>';
+  }
+
+  btn.disabled=false;
+  spinner.classList.remove('vis');
+  btnText.textContent='Analizar con IA ✦';
+}
+
+// ══════════════════════════════════════════════
+// THREE.JS
+// ══════════════════════════════════════════════
 const canvas=document.getElementById('rc');
 const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:!isMob});
 renderer.setPixelRatio(Math.min(window.devicePixelRatio,isMob?1.5:2));
@@ -708,12 +1627,21 @@ const ambLight=new THREE.AmbientLight(0xffffff,1.5);scene.add(ambLight);
 const kl=new THREE.DirectionalLight(0xffffff,2.6);kl.position.set(2,4,3);scene.add(kl);
 const fl=new THREE.DirectionalLight(0xf5f0e8,1.0);fl.position.set(-3,1,2);scene.add(fl);
 const vl=new THREE.PointLight(0xa855f7,0,8);vl.position.set(0,1,3);scene.add(vl);
+
 const S={x:0,y:0,sc:1,ry:0,rx:0,idle:0};
 let mesh=null,idleT=0;
 let _worldW=0,_worldH=0;
 function calcWorld(){_worldW=2*Math.tan(camera.fov*Math.PI/360)*camera.position.z*camera.aspect;_worldH=2*Math.tan(camera.fov*Math.PI/360)*camera.position.z;}
 calcWorld();
-function applyS(){if(!mesh)return;mesh.position.x=S.x*(_worldW/2);mesh.position.y=S.y*(_worldH/2)+Math.sin(idleT*.65)*.04;mesh.scale.setScalar(S.sc*(isMob?1.1:1.85));mesh.rotation.y=S.ry+S.idle;mesh.rotation.x=S.rx;}
+function applyS(){
+  if(!mesh)return;
+  mesh.position.x=S.x*(_worldW/2);
+  mesh.position.y=S.y*(_worldH/2)+Math.sin(idleT*.65)*.04;
+  mesh.scale.setScalar(S.sc*(isMob?1.1:1.85));
+  mesh.rotation.y=S.ry+S.idle;
+  mesh.rotation.x=S.rx;
+}
+
 const DS=[
   {x:.30,y:.05,sc:1.15,ry:0,rx:0,dur:1.2},
   {x:.28,y:.00,sc:1.45,ry:.12,rx:-.05,dur:1.3},
@@ -738,16 +1666,25 @@ const MS=[
 ];
 const STATES=isMob?MS:DS;
 const SECS=['#s-hero','#s-night','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia','#s-proc','#s-cta'];
+
 function enterNight(){gsap.to(ambLight,{intensity:.5,duration:1.1});gsap.to(kl,{intensity:.9,duration:1.1});gsap.to(vl,{intensity:4,duration:1.1});}
 function exitNight(){gsap.to(ambLight,{intensity:1.5,duration:1.0});gsap.to(kl,{intensity:2.6,duration:1.0});gsap.to(vl,{intensity:0,duration:1.0});}
 function goTo(st){gsap.to(S,{x:st.x,y:st.y,sc:st.sc,ry:st.ry,rx:st.rx,duration:st.dur,ease:'power3.out',overwrite:'auto',onUpdate:applyS});}
+
 let rafId=null,isPageVisible=true;
 function startLoop(){
   if(rafId)return;
-  function loop(){if(!isPageVisible){rafId=null;return;}rafId=requestAnimationFrame(loop);idleT+=.012;S.idle+=.018;if(mesh)applyS();renderer.render(scene,camera);}
+  function loop(){
+    if(!isPageVisible){rafId=null;return;}
+    rafId=requestAnimationFrame(loop);
+    idleT+=.012;S.idle+=.018;
+    if(mesh)applyS();
+    renderer.render(scene,camera);
+  }
   rafId=requestAnimationFrame(loop);
 }
 document.addEventListener('visibilitychange',()=>{isPageVisible=!document.hidden;if(isPageVisible)startLoop();});
+
 const loader=new THREE.GLTFLoader();
 loader.load(
   'https://concepto-robot.vercel.app/Prueba1.glb',
@@ -756,16 +1693,20 @@ loader.load(
     const box=new THREE.Box3().setFromObject(mesh);
     const c=box.getCenter(new THREE.Vector3());
     const sz=box.getSize(new THREE.Vector3());
-    mesh.position.sub(c);mesh.scale.setScalar(1/Math.max(sz.x,sz.y,sz.z));scene.add(mesh);
+    mesh.position.sub(c);
+    mesh.scale.setScalar(1/Math.max(sz.x,sz.y,sz.z));
+    scene.add(mesh);
     SECS.forEach((sel,i)=>{
       const el=document.querySelector(sel);
       if(!el||!STATES[i])return;
-      ScrollTrigger.create({trigger:el,start:'top center',
+      ScrollTrigger.create({
+        trigger:el,start:'top center',
         onEnter:()=>{goTo(STATES[i]);if(sel==='#s-night')enterNight();else exitNight();},
         onEnterBack:()=>{goTo(STATES[i]);if(sel==='#s-night')enterNight();else exitNight();}
       });
     });
-    goTo(STATES[0]);ScrollTrigger.refresh();
+    goTo(STATES[0]);
+    ScrollTrigger.refresh();
     document.getElementById('ldr').classList.add('out');
   },
   null,
@@ -773,162 +1714,18 @@ loader.load(
 );
 setTimeout(()=>{const ldr=document.getElementById('ldr');if(!ldr.classList.contains('out'))ldr.classList.add('out');},4000);
 startLoop();
+
+// ── RESIZE ──
 let winWidth=window.innerWidth;
 window.addEventListener('resize',()=>{
   if(isMob&&window.innerWidth===winWidth)return;
-  winWidth=window.innerWidth;camera.aspect=window.innerWidth/window.innerHeight;
-  camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);
-  calcWorld();ScrollTrigger.refresh();
+  winWidth=window.innerWidth;
+  camera.aspect=window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  calcWorld();
+  ScrollTrigger.refresh();
 },{passive:true});
-
-// ══════════════════════════════════════════════════
-// DEMO MODAL — iOS-safe
-// ══════════════════════════════════════════════════
-const modal=document.getElementById('demo-modal');
-const openBtn=document.getElementById('openDemo');
-const closeBtn=document.getElementById('closeDemo');
-const dmMsgs=document.getElementById('dmMsgs');
-const dmInput=document.getElementById('dmInput');
-const dmSend=document.getElementById('dmSend');
-const dmQuick=document.getElementById('dmQuick');
-
-let conversationHistory=[];
-let isWaitingResponse=false;
-let quickDismissed=false;
-
-const SYSTEM_PROMPT=`Sos el asistente virtual de Concepto Development, una agencia digital de Montevideo, Uruguay especializada en chatbots con IA, automatizaciones, desarrollo web y marketing digital.
-
-Tu rol: atender consultas de potenciales clientes, explicar los servicios, dar información de precios orientativos y guiar hacia una llamada o contacto por WhatsApp.
-
-Servicios y precios orientativos:
-- Chatbots con IA (WhatsApp, Instagram, web): desde USD 400 de setup + mantenimiento mensual
-- Automatizaciones (n8n, Make): desde USD 300 según complejidad
-- Desarrollo web (WordPress/Elementor, landing pages): desde USD 500
-- Marketing digital: presupuesto personalizado
-
-Tono: profesional pero cercano, en español rioplatense (vos, che). Conciso. Si te preguntan algo que no sabés con certeza, decí que pueden coordinarlo en una llamada. Siempre terminá las respuestas largas invitando a agendar una llamada gratuita por WhatsApp al +598 97976574.
-
-Máximo 3-4 oraciones por respuesta. Usá emojis con moderación.`;
-
-function scrollMsgs(){
-  // requestAnimationFrame para que iOS tenga el layout listo antes de scrollear
-  requestAnimationFrame(()=>{ dmMsgs.scrollTop=dmMsgs.scrollHeight; });
-}
-
-function appendBotMsg(text){
-  // Elimina spacer si existe (solo en el primer mensaje)
-  const spacer=dmMsgs.querySelector('.dm-msgs-spacer');
-  if(spacer)spacer.remove();
-  const el=document.createElement('div');
-  el.className='dm-msg bot';
-  el.textContent=text;
-  dmMsgs.appendChild(el);
-  scrollMsgs();
-}
-
-function appendUserMsg(text){
-  const el=document.createElement('div');
-  el.className='dm-msg user';
-  el.textContent=text;
-  dmMsgs.appendChild(el);
-  scrollMsgs();
-}
-
-function showTyping(){
-  const el=document.createElement('div');
-  el.className='dm-typing-indicator';el.id='dmTyping';
-  el.innerHTML='<div class="dm-typing-dot"></div><div class="dm-typing-dot"></div><div class="dm-typing-dot"></div>';
-  dmMsgs.appendChild(el);scrollMsgs();
-}
-function removeTyping(){const t=document.getElementById('dmTyping');if(t)t.remove();}
-
-function dismissQuick(){
-  if(quickDismissed)return;
-  quickDismissed=true;
-  dmQuick.classList.add('hidden');
-}
-
-async function sendMessage(text){
-  text=(text||dmInput.value).trim();
-  if(!text||isWaitingResponse)return;
-
-  dmInput.value='';
-  dismissQuick();
-  appendUserMsg(text);
-  conversationHistory.push({role:'user',content:text});
-
-  isWaitingResponse=true;
-  dmSend.disabled=true;
-  showTyping();
-
-  try{
-    const WORKER_URL='https://TU-WORKER.TU-SUBDOMINIO.workers.dev';
-
-    const response=await fetch(WORKER_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({messages:conversationHistory,system:SYSTEM_PROMPT})
-    });
-
-    if(!response.ok)throw new Error('Worker error '+response.status);
-    const data=await response.json();
-    const replyText=data.reply||data.text||'Hubo un error, intentá de nuevo.';
-
-    removeTyping();
-    appendBotMsg(replyText);
-    conversationHistory.push({role:'assistant',content:replyText});
-
-  }catch(err){
-    removeTyping();
-    appendBotMsg('Hubo un error al conectar. Escribinos por WhatsApp al +598 97976574 🙌');
-    console.error('Demo chat error:',err);
-  }finally{
-    isWaitingResponse=false;
-    dmSend.disabled=false;
-  }
-}
-
-function initDemoChat(){
-  dmMsgs.innerHTML='<div class="dm-msgs-spacer"></div>';
-  conversationHistory=[];
-  quickDismissed=false;
-  dmQuick.classList.remove('hidden');
-  // Mensaje de bienvenida con pequeño delay para que la animación de entrada del modal termine
-  setTimeout(()=>{
-    appendBotMsg('¡Hola! Soy el asistente de Concepto 🤖 Podés elegir una opción o escribirme directamente.');
-  },350);
-}
-
-function openModal(){
-  modal.classList.add('open');
-  // En iOS, bloquear scroll del body con esta técnica evita el bounce
-  document.body.style.position='fixed';
-  document.body.style.width='100%';
-  initDemoChat();
-}
-function closeModal(){
-  modal.classList.remove('open');
-  document.body.style.position='';
-  document.body.style.width='';
-  dmInput.blur();
-}
-
-openBtn.addEventListener('click',openModal);
-closeBtn.addEventListener('click',closeModal);
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open'))closeModal();});
-
-// Quick replies
-dmQuick.addEventListener('click',e=>{
-  const btn=e.target.closest('.dm-qbtn');
-  if(!btn)return;
-  sendMessage(btn.dataset.q);
-});
-
-// Send en input — 'input' de tipo text, Enter nativo
-dmInput.addEventListener('keydown',e=>{
-  if(e.key==='Enter'){e.preventDefault();sendMessage();}
-});
-dmSend.addEventListener('click',()=>sendMessage());
 </script>
 </body>
 </html>
