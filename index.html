@@ -888,14 +888,14 @@ document.querySelectorAll('.rv').forEach(el => revealObs.observe(el));
 
 // ── CHAT DECORATIVO ──
 const msgs = [
-  { t: 'in',     txt: 'Hola! cuánto sale un chatbot?', d: 0 },
-  { t: 'typing', d: 1100 },
-  { t: 'out',    txt: 'Hola! Armamos bots para WhatsApp e Instagram. Arrancamos desde $400. ¿Para qué negocio?', d: 2200 },
-  { t: 'in',     txt: 'Peluquería, quiero que tome turnos solo', d: 3600 },
-  { t: 'typing', d: 4700 },
-  { t: 'out',    txt: 'Perfecto, es exactamente para eso 🤖 El bot confirma, manda recordatorios y responde 24hs. ¿Querés una demo?', d: 5600 },
-  { t: 'in',     txt: 'Sí! cuándo empezamos?', d: 7000 },
-  { t: 'sys',    txt: '✓ Venta cerrada · 3:14 AM', d: 8200 },
+  { t: "in",     txt: "Hola! cuánto sale un chatbot?", d: 700 },
+  { t: "typing", d: 1800 },
+  { t: 'out',    txt: 'Hola! Armamos bots para WhatsApp e Instagram. Arrancamos desde $400. ¿Para qué negocio?', d: 2900 },
+  { t: 'in',     txt: 'Peluquería, quiero que tome turnos solo', d: 4300 },
+  { t: 'typing', d: 5400 },
+  { t: 'out',    txt: 'Perfecto, es exactamente para eso 🤖 El bot confirma, manda recordatorios y responde 24hs. ¿Querés una demo?', d: 6300 },
+  { t: 'in',     txt: 'Sí! cuándo empezamos?', d: 7700 },
+  { t: 'sys',    txt: '✓ Venta cerrada · 3:14 AM', d: 8900 },
 ];
 const CHAT_TOTAL = msgs[msgs.length - 1].d + 4500;
 const cwBody = document.getElementById('cwBody');
