@@ -156,7 +156,7 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
   #s-night{height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding:80px 7vw 40px;}
   #s-auto{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
   #s-auto .scol{align-items:flex-start;text-align:left;}
-  #s-webs{justify-content:flex-end;padding-bottom:14vh;padding-top:70px;}
+  #s-webs{justify-content:flex-end;padding-bottom:20vh;padding-top:70px;}
   #s-webs .scol{align-items:flex-end;text-align:right;}
   #s-webs .sub{text-align:right;max-width:100%;}
   #s-chat{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
@@ -1080,14 +1080,14 @@ const DS = [
   { x: .05,  y: -.30, sc: 1.10, ry: 0,           rx: 0,    dur: 1.1 },
 ];
 const MS = [
-  // hero — robot upper-right, text bottom-center — no overlap
-  { x: .30,  y: .42,  sc: 0.78, ry: 0,           rx: 0,    dur: 1.2 },
+  // hero — robot centered upper, text bottom-center — no overlap
+  { x: 0,    y: .42,  sc: 0.78, ry: 0,           rx: 0,    dur: 1.2 },
   // night — right side
   { x: .18,  y: .10,  sc: 1.00, ry: .10,         rx: -.04, dur: 1.2 },
   // auto — text top-left: robot bottom-right
   { x: .28,  y: -.38, sc: 0.80, ry: .10,         rx: 0,    dur: 1.1 },
-  // webs — text bottom-right: robot upper-left, smaller
-  { x: -.22, y: .44,  sc: 0.72, ry: -.10,        rx: 0,    dur: 1.2 },
+  // webs — text bottom-right: robot upper-left, centered
+  { x: -.10, y: .28,  sc: 0.78, ry: -.10,        rx: 0,    dur: 1.2 },
   // chat — text top-left: robot bottom-right
   { x: .28,  y: -.38, sc: 0.80, ry: .18,         rx: -.06, dur: 1.0 },
   // mkt — text bottom-left: robot center-right
