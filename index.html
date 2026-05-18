@@ -47,7 +47,7 @@ body{
 @keyframes la{to{width:100%;}}
 
 /* ROBOT CANVAS */
-#rc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:8;}
+#rc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:8;opacity:0;transition:opacity .6s ease;}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:400;display:flex;justify-content:space-between;align-items:center;padding:0 clamp(24px,6vw,80px);height:58px;transition:background .4s;}
@@ -1310,12 +1310,13 @@ loader.load(
       ScrollTrigger.refresh();
     }
     goTo(STATES[0]);
+    requestAnimationFrame(() => { canvas.style.opacity = "1"; });
     document.getElementById('ldr').classList.add('out');
   },
   null,
   () => document.getElementById('ldr').classList.add('out')
 );
-setTimeout(() => { const ldr = document.getElementById('ldr'); if (!ldr.classList.contains('out')) ldr.classList.add('out'); }, 4000);
+setTimeout(() => { const ldr = document.getElementById('ldr'); if (!ldr.classList.contains('out')) ldr.classList.add('out'); canvas.style.opacity = '1'; }, 4000);
 startLoop();
 
 // ── RESIZE ──
