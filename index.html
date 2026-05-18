@@ -1115,29 +1115,27 @@ function goTo(st) {
   });
 }
 
-let rafId = null, isPageVisible = true;
+let loopRunning = false, isPageVisible = true;
 function startLoop() {
-  if (rafId) return;
+  if (loopRunning) return;
+  loopRunning = true;
+  lastTime = performance.now();
   function loop(timestamp) {
-    if (!isPageVisible) { rafId = null; return; }
-    rafId = requestAnimationFrame(loop);
-    // Delta-time normalizado a 60fps, capped a 3 para no saltar tras tab-switch
-    const dt = Math.min((timestamp - (lastTime || timestamp)) / 16.667, 3);
+    if (!isPageVisible) { loopRunning = false; return; }
+    requestAnimationFrame(loop);
+    const dt = Math.min((timestamp - lastTime) / 16.667, 3);
     lastTime = timestamp;
-    // Idle orgánico con delta-time — mismo ritmo en 60 y 120hz
     idleT += 0.012 * dt;
     IDLE.y = Math.sin(idleT * 0.65) * 0.04;
-    // Balanceo lateral muy lento — lerp adicional para suavidad máxima
     IDLE.ry += (Math.sin(idleT * 0.28) * 0.08 - IDLE.ry) * 0.04 * dt;
     if (mesh) applyS();
     renderer.render(scene, camera);
   }
-  lastTime = performance.now();
-  rafId = requestAnimationFrame(loop);
+  requestAnimationFrame(loop);
 }
 document.addEventListener('visibilitychange', () => {
   isPageVisible = !document.hidden;
-  if (isPageVisible) { lastTime = performance.now(); startLoop(); }
+  if (isPageVisible) { loopRunning = false; lastTime = performance.now(); startLoop(); }
 });
 
 const loader = new THREE.GLTFLoader();
