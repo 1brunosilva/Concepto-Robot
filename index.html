@@ -81,13 +81,14 @@ body{
 .sb-text strong { color: #fff; font-weight: 600; }
 .sb-text .sb-highlight { color: #a855f7; font-weight: 600; }
 #scarcity-bar.urgent .sb-text .sb-highlight { color: #fde68a; }
-.sb-sep { color: rgba(255,255,255,.2); font-size: 10px; margin: 0 .2rem; }
+.sb-sep { color: rgba(255,255,255,.2); font-size: 10px; margin: 0 .6rem; }
 /* Empujar nav cuando barra está visible */
 body.has-scarcity nav  { top: 34px; }
 body.has-scarcity #ldr { padding-top: 34px; }
 @media(max-width:500px){
-  .sb-sep, .sb-extra { display: none; }
-  .sb-text { font-size: 11px; }
+  .sb-extra { display: none; }
+  .sb-text { font-size: 10.5px; letter-spacing: 0; }
+  #scarcity-bar { height: 36px; }
 }
 
 /* URGENCIA CTA — #12 */
