@@ -1309,8 +1309,13 @@ loader.load(
       });
       ScrollTrigger.refresh();
     }
-    goTo(STATES[0]);
-    requestAnimationFrame(() => { canvas.style.opacity = "1"; });
+    // Snapear S directamente a STATES[0] — sin tween —
+    // para que el primer frame ya muestre el robot en posición correcta.
+    // goTo() después anima suavemente solo si el usuario ya scrolleó.
+    const st0 = STATES[0];
+    S.x = st0.x; S.y = st0.y; S.sc = st0.sc; S.ry = st0.ry; S.rx = st0.rx;
+    applyS();
+    canvas.style.opacity = '1';
     document.getElementById('ldr').classList.add('out');
   },
   null,
