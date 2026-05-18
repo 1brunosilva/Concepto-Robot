@@ -129,7 +129,7 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
   .srow.flip .scol{direction:ltr;}
   .scol{display:flex;flex-direction:column;}
   .rcol{height:70vh;}
-  #s-proc{min-height:auto;padding:10vh clamp(28px,7vw,100px);display:block;}
+
   #s-night{min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:0 clamp(28px,7vw,100px);}
   #s-cta{flex-direction:column;align-items:center;text-align:center;min-height:100vh;min-height:100svh;padding-top:0;justify-content:center;}
   #s-cta .ctah{text-align:center;max-width:58vw;}
@@ -166,7 +166,7 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
   #s-ia{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
   #s-ia .scol{align-items:flex-end;text-align:right;}
   #s-ia .sub{text-align:right;max-width:100%;}
-  #s-proc{height:auto;padding:64px 7vw;display:block;overflow:visible;}
+
   #s-cta{height:100svh;overflow:hidden;justify-content:center;padding-top:0;padding-bottom:0;flex-direction:column;align-items:center;text-align:center;}
   #s-cta .ctah{text-align:center;max-width:100%;font-size:clamp(34px,11vw,52px);}
   #s-cta .ctap{max-width:100%;text-align:center;}
@@ -596,16 +596,7 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
   </div>
 </section>
 
-<!-- 8. PROCESO -->
-<section id="s-proc">
-  <span class="ptag rv">Cómo trabajamos</span>
-  <div class="pg">
-    <div class="rv"><span class="pn">01</span><h3 class="pt">Diagnóstico</h3><p class="pp">Analizamos tus flujos actuales para detectar dónde estás perdiendo tiempo y ventas.</p></div>
-    <div class="rv d1"><span class="pn">02</span><h3 class="pt">Diseño</h3><p class="pp">Planificamos la solución exacta. Sin sobreingenierías.</p></div>
-    <div class="rv d2"><span class="pn">03</span><h3 class="pt">Ejecución</h3><p class="pp">Desarrollamos e integramos tus sistemas listos para operar.</p></div>
-    <div class="rv d3"><span class="pn">04</span><h3 class="pt">Escala</h3><p class="pp">Soporte y mejoras a medida que crecés.</p></div>
-  </div>
-</section>
+
 
 <!-- 9. CTA -->
 <section id="s-cta">
@@ -1086,7 +1077,6 @@ const DS = [
   { x: -.28, y: -.08, sc: 1.20, ry: .15,         rx: -.06, dur: 1.0 },
   { x: .32,  y: .08,  sc: .72,  ry: -.10,        rx: .04,  dur: 1.1 },
   { x: -.22, y: -.05, sc: 1.20, ry: Math.PI * 2, rx: -.05, dur: 1.4 },
-  { x: .05,  y: -.28, sc: 1.00, ry: 0,           rx: 0,    dur: 1.0 },
   { x: .05,  y: -.30, sc: 1.10, ry: 0,           rx: 0,    dur: 1.1 },
 ];
 const MS = [
@@ -1094,23 +1084,21 @@ const MS = [
   { x: 0,    y: .30,  sc: 0.90, ry: 0,           rx: 0,    dur: 1.2 },
   // night — right side, slightly up
   { x: .18,  y: .10,  sc: 1.00, ry: .10,         rx: -.04, dur: 1.2 },
-  // auto — text is top-left: robot goes bottom-right
+  // auto — text top-left: robot bottom-right
   { x: .28,  y: -.38, sc: 0.80, ry: .10,         rx: 0,    dur: 1.1 },
-  // webs — text is bottom-right: robot goes top-left
+  // webs — text bottom-right: robot top-left
   { x: -.28, y: .38,  sc: 0.80, ry: -.10,        rx: 0,    dur: 1.2 },
   // chat — text top-left: robot bottom-right
   { x: .28,  y: -.38, sc: 0.80, ry: .18,         rx: -.06, dur: 1.0 },
-  // mkt — text bottom-left: robot top-right
-  { x: .28,  y: .38,  sc: 0.80, ry: -.08,        rx: .04,  dur: 1.1 },
+  // mkt — text bottom-left: robot center-right, not too high
+  { x: .22,  y: .05,  sc: 0.88, ry: -.08,        rx: .04,  dur: 1.1 },
   // ia — text top-right: robot bottom-left
   { x: -.28, y: -.38, sc: 0.80, ry: Math.PI * 2, rx: -.06, dur: 1.4 },
-  // proc — off to side, small
-  { x: .32,  y: .10,  sc: 0.70, ry: 0,           rx: 0,    dur: 1.0 },
-  // cta — pushed far down, small, center — below all text
+  // cta — below all text, centered, small
   { x: 0,    y: -.52, sc: 0.70, ry: 0,           rx: 0,    dur: 1.1 },
 ];
 const STATES = isMob() ? MS : DS;
-const SECS = ['#s-hero','#s-night','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia','#s-proc','#s-cta'];
+const SECS = ['#s-hero','#s-night','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia','#s-cta'];
 
 function enterNight() { gsap.to(ambLight,{intensity:.5,duration:1.1}); gsap.to(kl,{intensity:.9,duration:1.1}); gsap.to(vl,{intensity:4,duration:1.1}); }
 function exitNight()  { gsap.to(ambLight,{intensity:1.5,duration:1.0}); gsap.to(kl,{intensity:2.6,duration:1.0}); gsap.to(vl,{intensity:0,duration:1.0}); }
