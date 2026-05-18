@@ -149,14 +149,14 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
   }
   .srow{display:block;direction:ltr !important;}
   .rcol{display:none;}
-  #s-hero{justify-content:flex-end;padding-bottom:10vh;padding-top:70px;}
+  #s-hero{justify-content:flex-end;padding-bottom:8vh;padding-top:70px;}
   #s-hero .scol{align-items:center;text-align:center;}
   #s-hero .sub{max-width:100%;text-align:center;}
   #s-hero .brow{justify-content:center;}
   #s-night{height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding:80px 7vw 40px;}
   #s-auto{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
   #s-auto .scol{align-items:flex-start;text-align:left;}
-  #s-webs{justify-content:flex-end;padding-bottom:12vh;padding-top:70px;}
+  #s-webs{justify-content:flex-end;padding-bottom:14vh;padding-top:70px;}
   #s-webs .scol{align-items:flex-end;text-align:right;}
   #s-webs .sub{text-align:right;max-width:100%;}
   #s-chat{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
@@ -167,7 +167,7 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
   #s-ia .scol{align-items:flex-end;text-align:right;}
   #s-ia .sub{text-align:right;max-width:100%;}
 
-  #s-cta{height:100svh;overflow:hidden;justify-content:center;padding-top:0;padding-bottom:0;flex-direction:column;align-items:center;text-align:center;}
+  #s-cta{height:100svh;overflow:hidden;justify-content:flex-start;padding-top:18vh;padding-bottom:0;flex-direction:column;align-items:center;text-align:center;}
   #s-cta .ctah{text-align:center;max-width:100%;font-size:clamp(34px,11vw,52px);}
   #s-cta .ctap{max-width:100%;text-align:center;}
   #s-cta .brow{justify-content:center;}
@@ -1080,22 +1080,22 @@ const DS = [
   { x: .05,  y: -.30, sc: 1.10, ry: 0,           rx: 0,    dur: 1.1 },
 ];
 const MS = [
-  // hero — center, upper half, text bottom-center
-  { x: 0,    y: .30,  sc: 0.90, ry: 0,           rx: 0,    dur: 1.2 },
-  // night — right side, slightly up
+  // hero — robot upper-right, text bottom-center — no overlap
+  { x: .30,  y: .42,  sc: 0.78, ry: 0,           rx: 0,    dur: 1.2 },
+  // night — right side
   { x: .18,  y: .10,  sc: 1.00, ry: .10,         rx: -.04, dur: 1.2 },
   // auto — text top-left: robot bottom-right
   { x: .28,  y: -.38, sc: 0.80, ry: .10,         rx: 0,    dur: 1.1 },
-  // webs — text bottom-right: robot top-left
-  { x: -.28, y: .38,  sc: 0.80, ry: -.10,        rx: 0,    dur: 1.2 },
+  // webs — text bottom-right: robot upper-left, smaller
+  { x: -.22, y: .44,  sc: 0.72, ry: -.10,        rx: 0,    dur: 1.2 },
   // chat — text top-left: robot bottom-right
   { x: .28,  y: -.38, sc: 0.80, ry: .18,         rx: -.06, dur: 1.0 },
-  // mkt — text bottom-left: robot center-right, not too high
+  // mkt — text bottom-left: robot center-right
   { x: .22,  y: .05,  sc: 0.88, ry: -.08,        rx: .04,  dur: 1.1 },
   // ia — text top-right: robot bottom-left
   { x: -.28, y: -.38, sc: 0.80, ry: Math.PI * 2, rx: -.06, dur: 1.4 },
-  // cta — below all text, centered, small
-  { x: 0,    y: -.52, sc: 0.70, ry: 0,           rx: 0,    dur: 1.1 },
+  // cta — robot well below all text, centered, small
+  { x: 0,    y: -.62, sc: 0.60, ry: 0,           rx: 0,    dur: 1.1 },
 ];
 const STATES = isMob() ? MS : DS;
 const SECS = ['#s-hero','#s-night','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia','#s-cta'];
