@@ -18,13 +18,6 @@
   --vlt-l:#a855f7;
 }
 
-/*
-  FIX 1: overflow-x:hidden removido de html.
-  Antes: html{overflow-x:hidden} → Safari iOS lo usaba como señal
-  para transferir el scroll container de html al viewport interno,
-  dejando el scroll-snap-type huérfano.
-  Solución: html queda limpio. body absorbe el overflow.
-*/
 html{
   /* Sin overflow aquí — crítico para que Safari iOS reconozca
      a html como el scroll container en mobile. */
@@ -33,7 +26,7 @@ body{
   background:var(--cream);color:var(--ink);
   font-family:'Inter',system-ui,-apple-system,sans-serif;
   font-weight:300;
-  overflow-x:hidden; /* ← movido de html a body */
+  overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
 }
 
@@ -91,24 +84,9 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
   #s-hero{align-items:flex-end;padding-bottom:14vh;}
 }
 
-/* ═══ MOBILE SECTIONS ═══
-   FIX 2: El bloque completo reescrito.
-
-   Antes los problemas eran:
-   a) html{overflow-x:hidden} (global) + scroll-snap-type en html → snap huérfano en Safari.
-   b) min-height:100svh → secciones podían ser más altas que el viewport,
-      el snap ancla al top pero el contenido visual queda desalineado.
-   c) Sin scroll-padding-top → contenido tapado por la nav fija de 58px.
-   d) Sin overscroll-behavior → el bounce elástico de iOS interfería con el snap.
-   e) Sin scroll-snap-stop:always → un flick fuerte saltaba 2-3 secciones.
-═══════════════════════════════════════════════════════════════════ */
+/* ═══ MOBILE SECTIONS ═══ */
 @media(max-width:680px){
 
-  /* FIX 2a: html como scroll container explícito.
-     overflow-y:scroll fuerza a Safari a reconocer html como el
-     contenedor del scroll, no el viewport interno.
-     scroll-padding-top compensa la nav fija de 58px.
-     overscroll-behavior-y:none elimina el bounce de iOS al inicio/final. */
   html{
     overflow-y:scroll;
     scroll-snap-type:y proximity;
@@ -116,25 +94,18 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
     overscroll-behavior-y:none;
   }
 
-  /* FIX 2b: height exacto en lugar de min-height.
-     Los snap points necesitan secciones matemáticamente exactas.
-     Antes: min-height:100svh → sección podía ser 120svh → snap correcto
-     pero visualmente desalineado.
-     scroll-snap-stop:always → Apple style: no saltás más de una sección
-     por flick, cada sección se confirma. */
   section{
     position:relative;
-    height:100svh;            /* exacto, no min */
-    overflow:hidden;          /* clips content that doesn't fit */
+    height:100svh;
+    overflow:hidden;
     display:flex;
     flex-direction:column;
     padding:0 7vw;
     z-index:20;
     scroll-snap-align:start;
-    scroll-snap-stop:always;  /* FIX 2c: Apple-style — 1 sección por flick */
+    scroll-snap-stop:always;
   }
 
-  /* #s-proc y footer fuera del flujo snap — scroll libre al final */
   #s-proc{scroll-snap-align:none;scroll-snap-stop:normal;}
   footer{scroll-snap-align:none;scroll-snap-stop:normal;}
 
@@ -146,8 +117,6 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
   #s-hero .sub{max-width:100%;text-align:center;}
   #s-hero .brow{justify-content:center;}
 
-  /* #s-night: contenido más denso (chat widget), necesita min-height como fallback.
-     overflow:hidden evita que el chat widget agrande la sección. */
   #s-night{
     height:100svh;
     overflow:hidden;
@@ -248,7 +217,6 @@ a{color:inherit;text-decoration:none;}
 .nstamp{margin-top:1.2rem;font-size:11px;color:rgba(255,255,255,.2);font-weight:300;letter-spacing:.04em;}
 .nstamp strong{color:rgba(168,85,247,.55);font-weight:500;}
 
-/* Mobile night: ocultar elementos que no entran en 100svh */
 @media(max-width:680px){
   .ncta{margin-top:1rem;padding:.58rem 1.3rem;font-size:13px;}
   .nstamp{display:none;}
@@ -292,18 +260,11 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 .fc{font-size:12px;color:var(--dim);}
 @media(max-width:680px){footer{flex-direction:column;gap:.9rem;text-align:center;padding:1.8rem 7vw;}.fls{justify-content:center;flex-wrap:wrap;}}
 
-/* REVEAL
-   FIX 3: will-change removido de aquí.
-   Antes: will-change en todos los .rv al mismo tiempo → decenas de
-   capas GPU en mobile antes de que el usuario scrollee nada.
-   Ahora: will-change se agrega justo antes de la transición y
-   se elimina después (manejado en JS con onComplete callback).
-*/
+/* REVEAL */
 .rv{opacity:0;transform:translateY(26px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
 .rv.in{opacity:1;transform:none;}
 .d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.32s;}
 
-/* FIX 4: prefers-reduced-motion — accesibilidad */
 @media(prefers-reduced-motion:reduce){
   .rv{transition:opacity .3s ease;transform:none;}
   .rv.in{transform:none;}
@@ -314,7 +275,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 }
 
 /* ══════════════════════════════════════════════
-   MODAL BASE — shared by all demo overlays
+   MODAL BASE
    ══════════════════════════════════════════════ */
 .modal-overlay{
   position:fixed;inset:0;z-index:9000;
@@ -344,7 +305,6 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   transform:translateY(20px) scale(.97);
   transition:transform .45s cubic-bezier(.16,1,.3,1);
   box-shadow:0 32px 80px rgba(0,0,0,.7),0 0 0 1px rgba(124,58,237,.1),0 0 80px rgba(124,58,237,.06);
-  /* FIX 5: overscroll en modales — el scroll interno no propaga al document */
   overscroll-behavior:contain;
 }
 .modal-overlay.open .modal-panel{transform:translateY(0) scale(1);}
@@ -382,7 +342,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   padding:1rem;
   scrollbar-width:thin;
   scrollbar-color:rgba(124,58,237,.2) transparent;
-  overscroll-behavior:contain; /* FIX 5: evita que scroll del modal mueva la página */
+  overscroll-behavior:contain;
 }
 .modal-body::-webkit-scrollbar{width:4px;}
 .modal-body::-webkit-scrollbar-track{background:transparent;}
@@ -466,7 +426,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   border-radius:12px;
   padding:.6rem .85rem;
   color:#fff;
-  font-size:16px; /* 16px: previene zoom en iOS */
+  font-size:16px;
   font-family:'Inter',sans-serif;font-weight:300;
   resize:none;max-height:80px;min-height:40px;
   transition:border-color .18s;
@@ -503,7 +463,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   border-radius:12px;
   padding:.75rem 1rem;
   color:#fff;
-  font-size:16px; /* 16px: previene zoom en iOS */
+  font-size:16px;
   font-family:'Inter',sans-serif;font-weight:300;
   outline:none;
   transition:border-color .18s;
@@ -582,11 +542,6 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   border-radius:12px;
   padding:.75rem 1rem;
   color:#fff;
-  /*
-    FIX 6: font-size era 13px → causaba zoom automático en iOS al enfocar.
-    iOS hace zoom cuando font-size < 16px en inputs/textareas.
-    Cambiado a 16px.
-  */
   font-size:16px;
   font-family:'Inter',sans-serif;font-weight:300;
   outline:none;resize:none;height:90px;
@@ -667,7 +622,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   <div class="srow">
     <div class="scol">
       <span class="tag rv">Concepto Development</span>
-      <h1 class="h1 rv d1">Tu negocio,<br><span class="fade">nuevos límites.</span></h1>
+      <h1 class="h1 rv d1">Tu negocio,<br><span class="fade">nuevos horizontes.</span></h1>
       <p class="sub rv d2">Sistemas inteligentes que operan mientras vos dormís.</p>
       <div class="brow rv d3">
         <a href="https://wa.me/59897976574" class="btn bd" target="_blank">Empezar ahora</a>
@@ -766,7 +721,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   </div>
 </section>
 
-<!-- 8. PROCESO — fuera del flujo snap, scroll libre -->
+<!-- 8. PROCESO -->
 <section id="s-proc">
   <span class="ptag rv">Cómo trabajamos</span>
   <div class="pg">
@@ -892,12 +847,6 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 <script>
 gsap.registerPlugin(ScrollTrigger);
 
-/*
-  FIX 7: isMob evaluado en función, no como constante.
-  Antes: const isMob = window.innerWidth <= 680 (evaluado una vez al cargar).
-  Si el usuario rotaba el dispositivo o redimensionaba, isMob quedaba desactualizado.
-  Ahora: función que se re-evalúa en cada uso.
-*/
 const isMob = () => window.innerWidth <= 680;
 
 // ── CURSOR ──
@@ -921,22 +870,13 @@ function updateNav() {
 }
 window.addEventListener('scroll', updateNav, { passive: true });
 
-/*
-  FIX 8: Un solo IntersectionObserver compartido para todos los .rv.
-  Antes: se creaba un observer individual por cada elemento .rv.
-  Con ~20 elementos .rv en la página, eso son 20 observers corriendo
-  en paralelo — carga innecesaria en el main thread, especialmente en mobile.
-  Ahora: un único observer, con will-change activado justo antes de
-  la transición y desactivado en onComplete para liberar la capa GPU.
-*/
+// ── REVEAL ──
 const revealObs = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (!e.isIntersecting) return;
     const el = e.target;
-    // Activar will-change justo antes — crea la capa GPU solo cuando se necesita
     el.style.willChange = 'opacity, transform';
     el.classList.add('in');
-    // Liberar la capa GPU al terminar la transición
     el.addEventListener('transitionend', () => {
       el.style.willChange = 'auto';
     }, { once: true });
@@ -960,9 +900,17 @@ const msgs = [
 const CHAT_TOTAL = msgs[msgs.length - 1].d + 4500;
 const cwBody = document.getElementById('cwBody');
 let chatTimeouts = [], chatRunning = false;
-function clearChatTimers() { chatTimeouts.forEach(id => clearTimeout(id)); chatTimeouts = []; chatRunning = false; }
+
+function clearChatTimers() {
+  chatTimeouts.forEach(id => clearTimeout(id));
+  chatTimeouts = [];
+  chatRunning = false;
+}
+
 function runChat() {
-  if (chatRunning) return; chatRunning = true; cwBody.innerHTML = '';
+  if (chatRunning) return;
+  chatRunning = true;
+  cwBody.innerHTML = '';
   msgs.forEach(m => {
     const id = setTimeout(() => {
       const prev = cwBody.querySelector('.cw-typing');
@@ -983,9 +931,28 @@ function runChat() {
   const loopId = setTimeout(() => { chatRunning = false; runChat(); }, CHAT_TOTAL);
   chatTimeouts.push(loopId);
 }
+
+/*
+  CAMBIO 2: threshold subido de 0.25 → 0.55
+  ─────────────────────────────────────────────
+  Con 0.25 el chat arrancaba cuando apenas el 25% de #s-night
+  era visible — en desktop y especialmente en mobile con scroll
+  snap, el usuario veía el widget ya animado al llegar a la sección.
+
+  Con 0.55 el observer se activa cuando más de la mitad de la
+  sección está en el viewport, garantizando que el usuario
+  "aterrizó" de verdad en ella antes de que aparezca el primer
+  mensaje. Al salir (isIntersecting = false) se limpia todo y
+  la próxima vez que vuelva el ciclo arranca de cero.
+*/
 const chatObs = new IntersectionObserver(entries => {
-  if (entries[0].isIntersecting) runChat(); else clearChatTimers();
-}, { threshold: .25 });
+  if (entries[0].isIntersecting) {
+    runChat();
+  } else {
+    clearChatTimers();
+    cwBody.innerHTML = ''; // reset visual para próxima entrada
+  }
+}, { threshold: 0.55 });
 chatObs.observe(nightEl);
 
 // ══════════════════════════════════════════════
@@ -1038,12 +1005,6 @@ Si alguien pregunta por precios, decí que depende del proyecto y los invitás a
 Máximo 3 oraciones por respuesta. Directo al punto.
 El WhatsApp de contacto es: https://wa.me/59897976574`;
 
-/*
-  FIX 9: historial del chatbot limitado a las últimas 10 interacciones.
-  Antes: el array crecía sin límite → cada request enviaba más tokens
-  → latencia creciente y costos de API sin control.
-  10 mensajes = ~5 pares user/assistant, suficiente contexto conversacional.
-*/
 const MAX_HISTORY = 10;
 let demoHistory = [];
 let isSending = false;
@@ -1084,7 +1045,6 @@ async function sendMessage(customText) {
   demoHints.style.display = 'none';
   addUserMessage(text);
   demoHistory.push({ role: 'user', content: text });
-  // FIX 9: trim history to last MAX_HISTORY entries
   if (demoHistory.length > MAX_HISTORY) demoHistory = demoHistory.slice(-MAX_HISTORY);
   showTyping();
   const body = document.getElementById('chat-modal-body');
@@ -1327,13 +1287,6 @@ loader.load(
     scene.add(mesh);
 
     if (isMob()) {
-      /*
-        FIX 10: threshold reducido de 0.45 a 0.30 en mobile.
-        Antes: 0.45 era demasiado alto para secciones height:100svh con
-        contenido posicionado arriba/abajo — la sección podía estar
-        completamente visible pero no alcanzar el 45% de intersección
-        desde el punto de vista del root. 0.30 es más robusto.
-      */
       const mobObs = new IntersectionObserver(entries => {
         entries.forEach(e => {
           if (!e.isIntersecting) return;
