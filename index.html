@@ -141,17 +141,12 @@ nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
 @media(max-width:680px){
   html{
     overflow-y:scroll;
-    scroll-snap-type:y proximity;
-    scroll-padding-top:58px;
     overscroll-behavior-y:none;
   }
   section{
     position:relative;height:100svh;overflow:hidden;
     display:flex;flex-direction:column;padding:0 7vw;z-index:20;
-    scroll-snap-align:start;scroll-snap-stop:always;
   }
-  #s-proc{scroll-snap-align:none;scroll-snap-stop:normal;}
-  footer{scroll-snap-align:none;scroll-snap-stop:normal;}
   .srow{display:block;direction:ltr !important;}
   .rcol{display:none;}
   #s-hero{justify-content:flex-end;padding-bottom:10vh;padding-top:70px;}
@@ -1202,17 +1197,16 @@ window.addEventListener('resize', () => {
                       'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   const mesActual = monthNames[now.getMonth()];
 
+  const mob = window.innerWidth <= 500;
   if (available === 1) {
     bar.classList.add('urgent');
-    textEl.innerHTML = `Solo tomamos <strong>${TOTAL_SLOTS} proyectos por mes</strong>`
-      + `<span class="sb-sep">·</span>`
-      + `<span class="sb-highlight">Queda 1 lugar en ${mesActual}</span>`
-      + `<span class="sb-sep sb-extra">·</span>`
-      + `<span class="sb-extra" style="color:rgba(255,255,255,.45)">¿Es el tuyo?</span>`;
+    textEl.innerHTML = mob
+      ? `<strong>${TOTAL_SLOTS} proyectos/mes</strong><span class="sb-sep">·</span><span class="sb-highlight">1 lugar — ${mesActual}</span>`
+      : `Solo tomamos <strong>${TOTAL_SLOTS} proyectos por mes</strong><span class="sb-sep">·</span><span class="sb-highlight">Queda 1 lugar en ${mesActual}</span><span class="sb-sep sb-extra">·</span><span class="sb-extra" style="color:rgba(255,255,255,.45)">¿Es el tuyo?</span>`;
   } else {
-    textEl.innerHTML = `Solo tomamos <strong>${TOTAL_SLOTS} proyectos por mes</strong>`
-      + `<span class="sb-sep">·</span>`
-      + `<span class="sb-highlight">${available} lugares disponibles en ${mesActual}</span>`;
+    textEl.innerHTML = mob
+      ? `<strong>${TOTAL_SLOTS} proyectos/mes</strong><span class="sb-sep">·</span><span class="sb-highlight">${available} lugares — ${mesActual}</span>`
+      : `Solo tomamos <strong>${TOTAL_SLOTS} proyectos por mes</strong><span class="sb-sep">·</span><span class="sb-highlight">${available} lugares disponibles en ${mesActual}</span>`;
   }
 
   // Aparece después del loader con slide-down
@@ -1236,6 +1230,106 @@ window.addEventListener('resize', () => {
   if (el) {
     el.innerHTML = `Cada semana sin automatizar = <strong>${HRS_POR_SEMANA} horas perdidas.</strong>`
       + ` Este año ya van <strong>${hrsTotal.toLocaleString('es-UY')} hs.</strong>`;
+  }
+})();
+
+// ══════════════════════════════════════════════
+// MOBILE SNAP NUDGE — Apple-style
+// Scroll is completely free while finger is down.
+// On release, we detect the most visible snap section
+// and nudge to it with a smooth scrollTo.
+// #s-proc and footer are free-scroll zones.
+// ══════════════════════════════════════════════
+(function initMobileSnap() {
+  if (window.innerWidth > 680) return;
+
+  // Sections that participate in snapping (excludes #s-proc, footer)
+  const SNAP_IDS = ['s-hero','s-night','s-auto','s-webs','s-chat','s-mkt','s-ia','s-cta'];
+  const NAV_H = () => document.body.classList.contains('has-scarcity') ? 92 : 58; // bar(34) + nav(58)
+
+  function getSnapSections() {
+    return SNAP_IDS.map(id => document.getElementById(id)).filter(Boolean);
+  }
+
+  // Returns the section whose center is closest to viewport center
+  function getBestSection() {
+    const sections = getSnapSections();
+    const vpH = window.innerHeight;
+    const vpMid = window.scrollY + vpH / 2;
+    let best = null, bestDist = Infinity;
+    sections.forEach(sec => {
+      const mid = sec.offsetTop + sec.offsetHeight / 2;
+      const dist = Math.abs(mid - vpMid);
+      if (dist < bestDist) { bestDist = dist; best = sec; }
+    });
+    return best;
+  }
+
+  // Smooth scroll to a section, accounting for scarcity bar + nav height
+  function nudgeTo(sec) {
+    const offset = NAV_H();
+    const target = sec.offsetTop - offset;
+    window.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
+  }
+
+  // We wait for scroll to settle, then nudge.
+  // Uses 'scrollend' if available (Chrome 114+, Firefox 109+),
+  // falls back to a debounced scroll listener for Safari.
+  let nudgeTimer = null;
+  let isTouching = false;
+  let lastScrollY = window.scrollY;
+  let scrolling = false;
+
+  function onScrollSettle() {
+    // Don't nudge if user is inside a free-scroll zone
+    const scrollY = window.scrollY;
+    const proc = document.getElementById('s-proc');
+    const footer = document.querySelector('footer');
+    if (proc) {
+      const top = proc.offsetTop - NAV_H();
+      const bot = top + proc.offsetHeight;
+      if (scrollY >= top - 20 && scrollY <= bot) return;
+    }
+    // Don't nudge if a modal/overlay is open
+    if (document.documentElement.style.overflow === 'hidden') return;
+
+    const best = getBestSection();
+    if (!best) return;
+
+    // Only nudge if we're not already snapped there (within 4px tolerance)
+    const targetY = Math.max(0, best.offsetTop - NAV_H());
+    if (Math.abs(window.scrollY - targetY) > 4) {
+      nudgeTo(best);
+    }
+  }
+
+  // touchstart — mark finger down
+  document.addEventListener('touchstart', () => {
+    isTouching = true;
+    clearTimeout(nudgeTimer);
+  }, { passive: true });
+
+  // touchend — finger lifted, start settle timer
+  document.addEventListener('touchend', () => {
+    isTouching = false;
+    // Give momentum scroll time to decelerate (~350ms feels natural on iOS)
+    nudgeTimer = setTimeout(onScrollSettle, 350);
+  }, { passive: true });
+
+  // scrollend — fires when scroll animation fully stops (modern browsers)
+  if ('onscrollend' in window) {
+    window.addEventListener('scrollend', () => {
+      if (isTouching) return;
+      clearTimeout(nudgeTimer);
+      onScrollSettle();
+    }, { passive: true });
+  } else {
+    // Fallback debounce for Safari < 17
+    window.addEventListener('scroll', () => {
+      clearTimeout(nudgeTimer);
+      if (isTouching) return;
+      nudgeTimer = setTimeout(onScrollSettle, 180);
+    }, { passive: true });
   }
 })();
 </script>
