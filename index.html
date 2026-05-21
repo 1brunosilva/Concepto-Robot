@@ -1167,6 +1167,12 @@ function closeFaqOverlay(){
 //       En desktop se cargan con un pequeño delay para no
 //       competir con el render inicial (LCP).
 // ─────────────────────────────────────────────
+// MOBILE: el loader se cierra apenas termina la animación de la barra
+// (Three.js no carga en mobile, así que nadie más lo cierra)
+if(isMob()){
+  setTimeout(()=>document.getElementById('ldr').classList.add('out'), 1900);
+}
+
 if(!isMob()){
   // PERF: diferimos la carga de Three.js al siguiente idle frame
   // así el navegador pinta el hero antes de parsear 600kB de JS
