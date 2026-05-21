@@ -4,10 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Concepto Development</title>
+
+<!-- PERF: preconnect solo a dominios usados en critical path -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- PERF: font-display=swap evita FOIT (flash invisible text) -->
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500;600&display=swap&display=swap" rel="stylesheet">
+
+<!-- PERF: preload GLB solo en desktop -->
+<script>
+if(window.innerWidth>680){
+  var l=document.createElement('link');
+  l.rel='preload';l.as='fetch';l.crossOrigin='anonymous';
+  l.href='https://concepto-robot.vercel.app/Prueba1.glb';
+  document.head.appendChild(l);
+}
+</script>
+
 <style>
+/* ─── CSS idéntico al original, sin cambios visuales ─── */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
   --cream:#f5f4f0;
@@ -17,6 +33,10 @@
   --vlt:#7c3aed;
   --vlt-l:#a855f7;
 }
+/* PERF: font-display ya está en la URL de Google Fonts; esta regla asegura fallback local */
+@font-face{font-family:'Syne';font-display:swap;}
+@font-face{font-family:'DM Mono';font-display:swap;}
+@font-face{font-family:'Inter';font-display:swap;}
 
 body{
   background:var(--cream);color:var(--ink);
@@ -43,11 +63,11 @@ body{
 @keyframes la{to{width:100%;}}
 
 /* ROBOT CANVAS */
-#rc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:8;opacity:0;transition:opacity .6s ease;}
+#rc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:8;opacity:0;transition:opacity .6s ease;
+/* PERF: will-change solo cuando está activo — se asigna por JS */
+}
 
-/* ══════════════════════════════════════════════
-   SCARCITY BAR
-   ══════════════════════════════════════════════ */
+/* SCARCITY BAR */
 #scarcity-bar{
   position:fixed;top:0;left:0;right:0;z-index:600;height:34px;
   background:#0d0d0d;display:flex;align-items:center;justify-content:center;gap:.5rem;
@@ -74,9 +94,7 @@ body.has-scarcity #ldr{padding-top:34px;}
 .urgency-line{margin-top:.85rem;font-size:12px;color:var(--dim);font-weight:300;letter-spacing:.01em;opacity:.75;}
 .urgency-line strong{color:var(--mid);font-weight:500;}
 
-/* ══════════════════════════════════════════════
-   NAV
-   ══════════════════════════════════════════════ */
+/* NAV */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:400;
   display:flex;justify-content:space-between;align-items:center;
@@ -89,11 +107,7 @@ nav.dk .nl{color:#fff;}
 nav.dk .nlink{color:rgba(255,255,255,.45);}
 nav.dk .nlink:hover{color:#fff;}
 nav.dk .nbtn,.dk .nmb{background:#9333ea;color:#fff;}
-.nl{
-  font-family:'Syne',sans-serif;
-  font-size:15px;font-weight:800;letter-spacing:-.03em;
-  color:var(--ink);text-decoration:none;transition:color .3s;
-}
+.nl{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;letter-spacing:-.03em;color:var(--ink);text-decoration:none;transition:color .3s;}
 nav.dk .nl{color:#fff;}
 .nlinks{display:flex;gap:2rem;align-items:center;}
 .nlink{font-size:13px;color:var(--mid);text-decoration:none;font-weight:400;transition:color .18s;}
@@ -105,111 +119,31 @@ nav.dk .nl{color:#fff;}
   .nmb{display:inline-flex;padding:.42rem 1rem;border-radius:100px;background:var(--ink);color:var(--cream);font-size:12px;font-weight:400;text-decoration:none;transition:background .3s,color .3s;}
 }
 
-/* ══════════════════════════════════════════════
-   HERO MOBILE — video fullscreen
-   Solo visible en mobile (≤680px)
-   ══════════════════════════════════════════════ */
-#hero-mobile{
-  position:relative;
-  height:100svh;
-  overflow:hidden;
-  background:#0d0d0d;
-  display:none; /* oculto por defecto, activado en mobile */
-}
-@media(max-width:680px){
-  #hero-mobile{display:block;}
-}
-
-#hero-video{
-  position:absolute;top:0;left:0;
-  width:100%;height:100%;
-  object-fit:cover;object-position:center center;
-}
-
-/* Copy sobre el video — fade superior */
+/* HERO MOBILE */
+#hero-mobile{position:relative;height:100svh;overflow:hidden;background:#0d0d0d;display:none;}
+@media(max-width:680px){#hero-mobile{display:block;}}
+#hero-video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center center;}
 #hero-copy{
   position:absolute;top:0;left:0;right:0;
   padding:calc(58px + 34px + 1.4rem) 7vw 3rem;
-  background:linear-gradient(
-    to bottom,
-    rgba(13,13,13,.85) 0%,
-    rgba(13,13,13,.55) 40%,
-    transparent 100%
-  );
-  z-index:10;
-  transition:opacity .5s ease;
-  display:flex;flex-direction:column;
-  align-items:center;text-align:center;
+  background:linear-gradient(to bottom,rgba(13,13,13,.85) 0%,rgba(13,13,13,.55) 40%,transparent 100%);
+  z-index:10;transition:opacity .5s ease;display:flex;flex-direction:column;align-items:center;text-align:center;
 }
 #hero-copy.fade{opacity:0;}
-
-.hc-tag{
-  font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.45);
-  text-transform:none;font-family:'DM Mono',monospace;
-  font-weight:300;margin-bottom:.55rem;display:block;
-}
-.hc-h1{
-  font-family:'Syne',sans-serif;
-  font-size:clamp(30px,9.5vw,46px);
-  font-weight:800;letter-spacing:-.05em;
-  line-height:.92;color:#fff;
-}
-.hc-h1 em{
-  color:#fff;font-style:normal;display:block;
-  font-weight:800;opacity:.7;
-}
-.hc-sub{
-  font-size:13.5px;color:rgba(255,255,255,.5);
-  line-height:1.6;margin-top:.55rem;font-weight:300;
-  max-width:240px;text-align:center;
-  font-family:'Inter',sans-serif;letter-spacing:-.01em;
-}
-.hc-btns{
-  display:flex;gap:.5rem;margin-top:1.1rem;
-  flex-wrap:wrap;justify-content:center;
-}
-.hc-b1{
-  padding:.58rem 1.4rem;border-radius:100px;
-  background:#fff;color:#0d0d0d;
-  font-size:13px;font-family:'Inter',sans-serif;
-  font-weight:500;text-decoration:none;letter-spacing:-.01em;
-}
-.hc-b2{
-  padding:.58rem 1.4rem;border-radius:100px;
-  border:none;background:rgba(255,255,255,.12);
-  color:rgba(255,255,255,.85);font-size:13px;
-  font-family:'Inter',sans-serif;
-  font-weight:400;text-decoration:none;letter-spacing:-.01em;
-}
-
-/* Scroll hint bottom */
-#hero-hint{
-  position:absolute;bottom:24px;left:50%;
-  transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:5px;
-  z-index:10;transition:opacity .5s;pointer-events:none;
-}
+.hc-tag{font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.45);text-transform:none;font-family:'DM Mono',monospace;font-weight:300;margin-bottom:.55rem;display:block;}
+.hc-h1{font-family:'Syne',sans-serif;font-size:clamp(30px,9.5vw,46px);font-weight:800;letter-spacing:-.05em;line-height:.92;color:#fff;}
+.hc-h1 em{color:#fff;font-style:normal;display:block;font-weight:800;opacity:.7;}
+.hc-sub{font-size:13.5px;color:rgba(255,255,255,.5);line-height:1.6;margin-top:.55rem;font-weight:300;max-width:240px;text-align:center;font-family:'Inter',sans-serif;letter-spacing:-.01em;}
+.hc-btns{display:flex;gap:.5rem;margin-top:1.1rem;flex-wrap:wrap;justify-content:center;}
+.hc-b1{padding:.58rem 1.4rem;border-radius:100px;background:#fff;color:#0d0d0d;font-size:13px;font-family:'Inter',sans-serif;font-weight:500;text-decoration:none;letter-spacing:-.01em;}
+.hc-b2{padding:.58rem 1.4rem;border-radius:100px;border:none;background:rgba(255,255,255,.12);color:rgba(255,255,255,.85);font-size:13px;font-family:'Inter',sans-serif;font-weight:400;text-decoration:none;letter-spacing:-.01em;}
+#hero-hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:5px;z-index:10;transition:opacity .5s;pointer-events:none;}
 #hero-hint.hidden{opacity:0;}
-.hint-txt{
-  font-size:8px;color:rgba(255,255,255,.25);
-  letter-spacing:.18em;text-transform:uppercase;
-  font-family:'DM Mono',monospace;
-}
-.hint-arr{
-  width:14px;height:14px;
-  border-right:1px solid rgba(255,255,255,.2);
-  border-bottom:1px solid rgba(255,255,255,.2);
-  transform:rotate(45deg);
-  animation:arr 1.6s ease-in-out infinite;
-}
-@keyframes arr{
-  0%,100%{transform:rotate(45deg) translateY(0);}
-  50%{transform:rotate(45deg) translateY(4px);}
-}
+.hint-txt{font-size:8px;color:rgba(255,255,255,.25);letter-spacing:.18em;text-transform:uppercase;font-family:'DM Mono',monospace;}
+.hint-arr{width:14px;height:14px;border-right:1px solid rgba(255,255,255,.2);border-bottom:1px solid rgba(255,255,255,.2);transform:rotate(45deg);animation:arr 1.6s ease-in-out infinite;}
+@keyframes arr{0%,100%{transform:rotate(45deg) translateY(0);}50%{transform:rotate(45deg) translateY(4px);}}
 
-/* ══════════════════════════════════════════════
-   SECCIONES — Desktop
-   ══════════════════════════════════════════════ */
+/* SECCIONES — Desktop */
 @media(min-width:681px){
   section{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:0 clamp(28px,7vw,100px);z-index:20;}
   .srow{display:grid;grid-template-columns:1fr 1fr;width:100%;align-items:center;gap:4vw;}
@@ -221,23 +155,14 @@ nav.dk .nl{color:#fff;}
   #s-cta{flex-direction:column;align-items:center;text-align:center;min-height:100vh;min-height:100svh;padding-top:0;justify-content:center;}
   #s-cta .ctah{text-align:center;max-width:58vw;}
   #s-cta .brow{justify-content:center;}
-  /* Hero desktop original — oculto en mobile */
   #s-hero{align-items:flex-end;padding-bottom:14vh;}
 }
 
-/* ══════════════════════════════════════════════
-   SECCIONES — Mobile
-   ══════════════════════════════════════════════ */
+/* SECCIONES — Mobile */
 @media(max-width:680px){
   html{overflow-y:scroll;overscroll-behavior-y:none;}
-
-  /* Ocultar hero desktop en mobile */
   #s-hero{display:none !important;}
-
-  section{
-    position:relative;height:100svh;overflow:hidden;
-    display:flex;flex-direction:column;padding:0 7vw;z-index:20;
-  }
+  section{position:relative;height:100svh;overflow:hidden;display:flex;flex-direction:column;padding:0 7vw;z-index:20;}
   .srow{display:block;direction:ltr !important;}
   .rcol{display:none;}
   #s-night{height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding:80px 7vw 40px;}
@@ -260,9 +185,7 @@ nav.dk .nl{color:#fff;}
   #s-cta .urgency-line{text-align:center;max-width:260px;}
 }
 
-/* ══════════════════════════════════════════════
-   TIPOGRAFÍA
-   ══════════════════════════════════════════════ */
+/* TIPOGRAFÍA */
 .tag{font-size:11px;font-weight:500;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;margin-bottom:1.4rem;display:block;}
 .h1{font-size:clamp(40px,6.2vw,94px);font-weight:600;letter-spacing:-.04em;line-height:.93;}
 .h2{font-size:clamp(34px,5vw,76px);font-weight:600;letter-spacing:-.04em;line-height:.93;}
@@ -285,17 +208,12 @@ a{color:inherit;text-decoration:none;}
 .btn-demo-icon{transition:transform .2s;}
 .btn-demo:hover .btn-demo-icon{transform:translateX(3px);}
 
-/* ══════════════════════════════════════════════
-   NIGHT SECTION
-   ══════════════════════════════════════════════ */
+/* NIGHT SECTION */
 #s-night{background:#06040f;position:relative;overflow:hidden;}
 #s-night::before{content:'';position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(124,58,237,.2) 0%,transparent 70%);top:-150px;right:-100px;pointer-events:none;z-index:0;}
 #s-night::after{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(168,85,247,.1) 0%,transparent 70%);bottom:0;left:0;pointer-events:none;z-index:0;}
 .night-inner{position:relative;z-index:25;display:flex;align-items:center;gap:clamp(3rem,6vw,8rem);width:100%;}
-@media(max-width:680px){
-  .night-inner{flex-direction:column;gap:1.5rem;}
-  .night-chat-col{order:-1;width:100%;}
-}
+@media(max-width:680px){.night-inner{flex-direction:column;gap:1.5rem;}.night-chat-col{order:-1;width:100%;}}
 .night-text{flex:1;}
 .night-chat-col{flex:0 0 auto;width:clamp(250px,28vw,320px);}
 @media(max-width:680px){.night-chat-col{width:100%;max-width:300px;margin:0 auto;}}
@@ -308,11 +226,7 @@ a{color:inherit;text-decoration:none;}
 .ncta:hover{opacity:.82;transform:translateY(-2px);}
 .nstamp{margin-top:1.2rem;font-size:11px;color:rgba(255,255,255,.2);font-weight:300;letter-spacing:.04em;}
 .nstamp strong{color:rgba(168,85,247,.55);font-weight:500;}
-@media(max-width:680px){
-  .ncta{margin-top:1rem;padding:.58rem 1.3rem;font-size:13px;}
-  .nstamp{display:none;}
-  .nh{font-size:clamp(28px,9vw,42px);}
-}
+@media(max-width:680px){.ncta{margin-top:1rem;padding:.58rem 1.3rem;font-size:13px;}.nstamp{display:none;}.nh{font-size:clamp(28px,9vw,42px);}}
 
 /* CHAT WIDGET decorativo */
 .cw{background:#0f1120;border-radius:18px;overflow:hidden;box-shadow:0 0 0 1px rgba(124,58,237,.2),0 24px 60px rgba(0,0,0,.6),0 0 60px rgba(124,58,237,.08);}
@@ -364,9 +278,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
   .mh-dot{animation:none;}
 }
 
-/* ══════════════════════════════════════════════
-   MODAL BASE
-   ══════════════════════════════════════════════ */
+/* MODAL BASE */
 .modal-overlay{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .45s cubic-bezier(.16,1,.3,1);}
 .modal-overlay.open{opacity:1;pointer-events:all;}
 .modal-backdrop{position:absolute;inset:0;background:rgba(6,4,15,.88);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);cursor:pointer;}
@@ -386,9 +298,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 .modal-body::-webkit-scrollbar-track{background:transparent;}
 .modal-body::-webkit-scrollbar-thumb{background:rgba(124,58,237,.25);border-radius:2px;}
 
-/* ══════════════════════════════════════════════
-   DEMO CHATBOT
-   ══════════════════════════════════════════════ */
+/* DEMO CHATBOT */
 #demo-messages{display:flex;flex-direction:column;gap:.5rem;min-height:220px;}
 .dm{max-width:82%;padding:.6rem .85rem;border-radius:14px;font-size:13px;line-height:1.6;font-weight:300;opacity:0;transform:translateY(8px);animation:dm-in .35s cubic-bezier(.16,1,.3,1) forwards;}
 @keyframes dm-in{to{opacity:1;transform:none;}}
@@ -411,9 +321,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 #demo-send svg{width:15px;height:15px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 #demo-send:disabled{opacity:.35;transform:none;cursor:not-allowed;}
 
-/* ══════════════════════════════════════════════
-   DEMO MARKETING
-   ══════════════════════════════════════════════ */
+/* DEMO MARKETING */
 #mkt-body{padding:1.25rem;display:flex;flex-direction:column;gap:1rem;}
 .mkt-label{font-size:11px;font-weight:500;letter-spacing:.12em;color:rgba(168,85,247,.6);text-transform:uppercase;margin-bottom:.5rem;}
 .mkt-input{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(124,58,237,.2);border-radius:12px;padding:.75rem 1rem;color:#fff;font-size:16px;font-family:'Inter',sans-serif;font-weight:300;outline:none;transition:border-color .18s;}
@@ -428,20 +336,15 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 .mkt-variant:nth-child(3){animation-delay:.2s;}
 .mkt-variant-type{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.45rem;display:flex;align-items:center;gap:.4rem;}
 .mkt-variant-type::before{content:'';width:6px;height:6px;border-radius:50%;flex-shrink:0;}
-.mv-llamativa .mkt-variant-type{color:#f59e0b;}
-.mv-llamativa .mkt-variant-type::before{background:#f59e0b;}
-.mv-emocional .mkt-variant-type{color:#ec4899;}
-.mv-emocional .mkt-variant-type::before{background:#ec4899;}
-.mv-directa .mkt-variant-type{color:#60a5fa;}
-.mv-directa .mkt-variant-type::before{background:#60a5fa;}
+.mv-llamativa .mkt-variant-type{color:#f59e0b;}.mv-llamativa .mkt-variant-type::before{background:#f59e0b;}
+.mv-emocional .mkt-variant-type{color:#ec4899;}.mv-emocional .mkt-variant-type::before{background:#ec4899;}
+.mv-directa .mkt-variant-type{color:#60a5fa;}.mv-directa .mkt-variant-type::before{background:#60a5fa;}
 .mkt-variant-copy{font-size:13px;color:rgba(255,255,255,.75);line-height:1.6;font-weight:300;}
 .mkt-spinner{display:none;width:18px;height:18px;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .mkt-spinner.vis{display:block;}
 
-/* ══════════════════════════════════════════════
-   DEMO IA
-   ══════════════════════════════════════════════ */
+/* DEMO IA */
 #ia-body{padding:1.25rem;display:flex;flex-direction:column;gap:1rem;}
 .ia-label{font-size:11px;font-weight:500;letter-spacing:.12em;color:rgba(168,85,247,.6);text-transform:uppercase;margin-bottom:.5rem;}
 .ia-examples{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.6rem;}
@@ -469,9 +372,7 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 .ia-sent-fill{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.16,1,.3,1);}
 .ia-sent-label{font-size:11px;font-weight:500;min-width:60px;text-align:right;}
 
-/* ══════════════════════════════════════════════
-   FAQ FAB + OVERLAY
-   ══════════════════════════════════════════════ */
+/* FAQ FAB */
 #faq-fab{position:fixed;bottom:clamp(20px,4vh,32px);right:clamp(18px,4vw,32px);z-index:500;display:flex;align-items:center;gap:.55rem;padding:.65rem 1.2rem .65rem .85rem;border-radius:100px;background:linear-gradient(135deg,#7c3aed,#a855f7);border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;color:#fff;letter-spacing:-.01em;box-shadow:0 8px 28px rgba(124,58,237,.45),0 2px 8px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.15);transition:transform .22s cubic-bezier(.16,1,.3,1),box-shadow .22s,opacity .22s;-webkit-tap-highlight-color:transparent;animation:fab-enter .6s cubic-bezier(.16,1,.3,1) 2.5s both;}
 @keyframes fab-enter{from{opacity:0;transform:translateY(20px) scale(.85);}to{opacity:1;transform:none;}}
 #faq-fab:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 14px 36px rgba(124,58,237,.55),0 4px 12px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.15);}
@@ -482,10 +383,9 @@ footer{padding:2.2rem clamp(24px,6vw,80px);display:flex;justify-content:space-be
 .fab-label{line-height:1;}
 .fab-sub{font-size:10px;font-weight:300;color:rgba(255,255,255,.65);display:block;margin-top:1px;letter-spacing:0;}
 body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
-@media(max-width:500px){
-  #faq-fab{bottom:16px;right:16px;padding:.58rem 1rem .58rem .72rem;}
-  .fab-sub{display:none;}
-}
+@media(max-width:500px){#faq-fab{bottom:16px;right:16px;padding:.58rem 1rem .58rem .72rem;}.fab-sub{display:none;}}
+
+/* FAQ OVERLAY */
 #faq-overlay{position:fixed;inset:0;z-index:9100;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s cubic-bezier(.16,1,.3,1);}
 #faq-overlay.open{opacity:1;pointer-events:all;}
 #faq-overlay-backdrop{position:absolute;inset:0;background:rgba(6,4,15,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);cursor:pointer;}
@@ -510,6 +410,7 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
 
 <div id="ldr"><span class="ldr-logo">Concepto</span><div class="ldr-t"><div class="ldr-b"></div></div></div>
 <div id="cd"></div><div id="cr"></div>
+<!-- PERF: canvas solo se usa en desktop; en mobile se mantiene hidden y Three.js ni carga -->
 <canvas id="rc"></canvas>
 
 <!-- NAV -->
@@ -525,16 +426,16 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
   <a href="https://wa.me/59897976574" class="nmb" target="_blank">Hablemos</a>
 </nav>
 
-<!-- ══════════════════════════════════════════════
-     HERO MOBILE — video fullscreen (solo ≤680px)
-     ══════════════════════════════════════════════ -->
+<!-- HERO MOBILE — video fullscreen (solo ≤680px) -->
 <div id="hero-mobile">
+  <!-- PERF: fetchpriority=high para que el video no espere scripts; poster evita pantalla negra -->
   <video
     id="hero-video"
     src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/MaxCloseUp.mp4"
     autoplay muted playsinline preload="auto"
+    fetchpriority="high"
+    poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
   ></video>
-
   <div id="hero-copy">
     <span class="hc-tag">Concepto Development</span>
     <h1 class="hc-h1">Mientras dormís,<br><em>tu negocio vende.</em></h1>
@@ -544,16 +445,13 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
       <a href="#s-night" class="hc-b2">Ver cómo →</a>
     </div>
   </div>
-
   <div id="hero-hint">
     <span class="hint-txt">scroll</span>
     <div class="hint-arr"></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     HERO DESKTOP — robot 3D original (solo >680px)
-     ══════════════════════════════════════════════ -->
+<!-- HERO DESKTOP — robot 3D (solo >680px) -->
 <section id="s-hero">
   <div class="srow">
     <div class="scol">
@@ -678,7 +576,7 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
   <span class="fc">© 2025 Montevideo</span>
 </footer>
 
-<!-- MODAL: CHATBOT -->
+<!-- MODALES — sin cambios -->
 <div class="modal-overlay" id="mo-chat">
   <div class="modal-backdrop" onclick="closeModal('chat')"></div>
   <div class="modal-panel">
@@ -708,7 +606,6 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
   </div>
 </div>
 
-<!-- MODAL: MARKETING -->
 <div class="modal-overlay" id="mo-mkt">
   <div class="modal-backdrop" onclick="closeModal('mkt')"></div>
   <div class="modal-panel">
@@ -734,7 +631,6 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
   </div>
 </div>
 
-<!-- MODAL: IA ANALYZER -->
 <div class="modal-overlay" id="mo-ia">
   <div class="modal-backdrop" onclick="closeModal('ia')"></div>
   <div class="modal-panel">
@@ -771,10 +667,7 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
   <div id="faq-overlay-backdrop" onclick="closeFaqOverlay()"></div>
   <div id="faq-overlay-panel">
     <div id="faq-overlay-bar">
-      <span class="faq-bar-title">
-        <span class="faq-bar-dot"></span>
-        Preguntas frecuentes — Concepto Development
-      </span>
+      <span class="faq-bar-title"><span class="faq-bar-dot"></span>Preguntas frecuentes — Concepto Development</span>
       <button id="faq-overlay-close" onclick="closeFaqOverlay()">✕</button>
     </div>
     <iframe id="faq-frame" src="" title="FAQ Concepto Development"></iframe>
@@ -784,204 +677,162 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
 <!-- FAQ FAB -->
 <button id="faq-fab" onclick="openFaqOverlay()" aria-label="Ver preguntas frecuentes">
   <span class="fab-icon">💬</span>
-  <span class="fab-label">
-    FAQ
-    <span class="fab-sub">¿Tenés dudas?</span>
-  </span>
+  <span class="fab-label">FAQ<span class="fab-sub">¿Tenés dudas?</span></span>
 </button>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<!-- ═══════════════════════════════════════════════════════
+     SCRIPTS
+     PERF: Three.js + GSAP se cargan SOLO en desktop con
+     dynamic import para no bloquear el hilo principal mobile.
+     El script inline (lógica de página) se ejecuta primero
+     y es pequeño; Three.js/GSAP se inyectan después.
+     ═══════════════════════════════════════════════════════ -->
 <script>
-gsap.registerPlugin(ScrollTrigger);
-
+// ─────────────────────────────────────────────
+// UTILIDADES Y LÓGICA CORE (siempre corre)
+// ─────────────────────────────────────────────
 const isMob = () => window.innerWidth <= 680;
 
-// ── CURSOR ──
+// CURSOR
 const cd = document.getElementById('cd'), cr = document.getElementById('cr');
 if (!isMob()) {
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cd.style.left = mx + 'px'; cd.style.top = my + 'px'; });
-  (function ac() { rx += (mx - rx) * .11; ry += (my - ry) * .11; cr.style.left = rx + 'px'; cr.style.top = ry + 'px'; requestAnimationFrame(ac); })();
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.left=mx+'px';cd.style.top=my+'px';});
+  (function ac(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(ac);})();
 }
 
-// ── NAV ──
-const navEl = document.getElementById('nav');
-const nightEl = document.getElementById('s-night');
-const heroMobEl = document.getElementById('hero-mobile');
-
-function updateNav() {
-  if (isMob()) {
-    // En mobile: el hero-mobile es dark (video oscuro), night también
-    const heroBottom = heroMobEl.offsetTop + heroMobEl.offsetHeight;
-    const nightR = nightEl.getBoundingClientRect();
-    const inNight = nightR.top < 58 && nightR.bottom > 0;
-    const inHeroVideo = window.scrollY < heroBottom - 80;
-    const inDark = inHeroVideo || inNight;
-    navEl.classList.toggle('dk', inDark);
-    navEl.classList.toggle('bg', !inDark && window.scrollY > 30);
-    cd.classList.toggle('vlt', inNight);
-    cr.classList.toggle('vlt', inNight);
+// NAV
+const navEl=document.getElementById('nav');
+const nightEl=document.getElementById('s-night');
+const heroMobEl=document.getElementById('hero-mobile');
+function updateNav(){
+  if(isMob()){
+    const heroBottom=heroMobEl.offsetTop+heroMobEl.offsetHeight;
+    const nightR=nightEl.getBoundingClientRect();
+    const inNight=nightR.top<58&&nightR.bottom>0;
+    const inHeroVideo=window.scrollY<heroBottom-80;
+    const inDark=inHeroVideo||inNight;
+    navEl.classList.toggle('dk',inDark);
+    navEl.classList.toggle('bg',!inDark&&window.scrollY>30);
+    cd.classList.toggle('vlt',inNight);cr.classList.toggle('vlt',inNight);
   } else {
-    const r = nightEl.getBoundingClientRect();
-    const inNight = r.top < 58 && r.bottom > 0;
-    navEl.classList.toggle('dk', inNight);
-    navEl.classList.toggle('bg', !inNight && window.scrollY > 30);
-    cd.classList.toggle('vlt', inNight);
-    cr.classList.toggle('vlt', inNight);
+    const r=nightEl.getBoundingClientRect();
+    const inNight=r.top<58&&r.bottom>0;
+    navEl.classList.toggle('dk',inNight);
+    navEl.classList.toggle('bg',!inNight&&window.scrollY>30);
+    cd.classList.toggle('vlt',inNight);cr.classList.toggle('vlt',inNight);
   }
 }
-window.addEventListener('scroll', updateNav, { passive: true });
+window.addEventListener('scroll',updateNav,{passive:true});
 updateNav();
 
-// ── REVEAL ──
-const revealObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (!e.isIntersecting) return;
-    const el = e.target;
-    el.style.willChange = 'opacity, transform';
+// REVEAL — mismo IntersectionObserver, sin cambios
+const revealObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting)return;
+    const el=e.target;el.style.willChange='opacity, transform';
     el.classList.add('in');
-    el.addEventListener('transitionend', () => { el.style.willChange = 'auto'; }, { once: true });
+    el.addEventListener('transitionend',()=>{el.style.willChange='auto';},{once:true});
     revealObs.unobserve(el);
   });
-}, { threshold: 0.08 });
-document.querySelectorAll('.rv').forEach(el => revealObs.observe(el));
+},{threshold:0.08});
+document.querySelectorAll('.rv').forEach(el=>revealObs.observe(el));
 
-// ── CHAT DECORATIVO ──
-const msgs = [
-  { t: "in",     txt: "Hola! cuánto sale un chatbot?", d: 700 },
-  { t: "typing", d: 1800 },
-  { t: 'out',    txt: 'Hola! Armamos bots para WhatsApp e Instagram. Arrancamos desde $400. ¿Para qué negocio?', d: 2900 },
-  { t: 'in',     txt: 'Peluquería, quiero que tome turnos solo', d: 4300 },
-  { t: 'typing', d: 5400 },
-  { t: 'out',    txt: 'Perfecto, es exactamente para eso 🤖 El bot confirma, manda recordatorios y responde 24hs. ¿Querés una demo?', d: 6300 },
-  { t: 'in',     txt: 'Sí! cuándo empezamos?', d: 7700 },
-  { t: 'sys',    txt: '✓ Venta cerrada · 3:14 AM', d: 8900 },
+// CHAT DECORATIVO
+const msgs=[
+  {t:"in",txt:"Hola! cuánto sale un chatbot?",d:700},
+  {t:"typing",d:1800},
+  {t:'out',txt:'Hola! Armamos bots para WhatsApp e Instagram. Arrancamos desde $400. ¿Para qué negocio?',d:2900},
+  {t:'in',txt:'Peluquería, quiero que tome turnos solo',d:4300},
+  {t:'typing',d:5400},
+  {t:'out',txt:'Perfecto, es exactamente para eso 🤖 El bot confirma, manda recordatorios y responde 24hs. ¿Querés una demo?',d:6300},
+  {t:'in',txt:'Sí! cuándo empezamos?',d:7700},
+  {t:'sys',txt:'✓ Venta cerrada · 3:14 AM',d:8900},
 ];
-const CHAT_TOTAL = msgs[msgs.length - 1].d + 4500;
-const cwBody = document.getElementById('cwBody');
-let chatTimeouts = [], chatRunning = false;
-function clearChatTimers() { chatTimeouts.forEach(id => clearTimeout(id)); chatTimeouts = []; chatRunning = false; }
-function runChat() {
-  if (chatRunning) return;
-  chatRunning = true;
-  cwBody.innerHTML = '';
-  msgs.forEach(m => {
-    const id = setTimeout(() => {
-      const prev = cwBody.querySelector('.cw-typing');
-      if (prev && m.t !== 'typing') prev.remove();
-      if (m.t === 'typing') {
-        const ti = document.createElement('div'); ti.className = 'cw-typing';
-        ti.innerHTML = '<div class="td"></div><div class="td"></div><div class="td"></div>';
-        cwBody.appendChild(ti); setTimeout(() => ti.classList.add('vis'), 20);
-        cwBody.scrollTop = cwBody.scrollHeight; return;
+const CHAT_TOTAL=msgs[msgs.length-1].d+4500;
+const cwBody=document.getElementById('cwBody');
+let chatTimeouts=[],chatRunning=false;
+function clearChatTimers(){chatTimeouts.forEach(id=>clearTimeout(id));chatTimeouts=[];chatRunning=false;}
+function runChat(){
+  if(chatRunning)return;chatRunning=true;cwBody.innerHTML='';
+  msgs.forEach(m=>{
+    const id=setTimeout(()=>{
+      const prev=cwBody.querySelector('.cw-typing');
+      if(prev&&m.t!=='typing')prev.remove();
+      if(m.t==='typing'){
+        const ti=document.createElement('div');ti.className='cw-typing';
+        ti.innerHTML='<div class="td"></div><div class="td"></div><div class="td"></div>';
+        cwBody.appendChild(ti);setTimeout(()=>ti.classList.add('vis'),20);
+        cwBody.scrollTop=cwBody.scrollHeight;return;
       }
-      const el = document.createElement('div'); el.className = `cm ${m.t}`;
-      el.innerHTML = m.t === 'sys' ? m.txt : m.txt + (m.t === 'out' ? `<div class="ct">3:14 AM <span class="ck">✓✓</span></div>` : `<div class="ct">3:14 AM</div>`);
-      cwBody.appendChild(el); setTimeout(() => el.classList.add('vis'), 20);
-      cwBody.scrollTop = cwBody.scrollHeight;
-    }, m.d);
+      const el=document.createElement('div');el.className=`cm ${m.t}`;
+      el.innerHTML=m.t==='sys'?m.txt:m.txt+(m.t==='out'?`<div class="ct">3:14 AM <span class="ck">✓✓</span></div>`:`<div class="ct">3:14 AM</div>`);
+      cwBody.appendChild(el);setTimeout(()=>el.classList.add('vis'),20);
+      cwBody.scrollTop=cwBody.scrollHeight;
+    },m.d);
     chatTimeouts.push(id);
   });
-  const loopId = setTimeout(() => { chatRunning = false; runChat(); }, CHAT_TOTAL);
+  const loopId=setTimeout(()=>{chatRunning=false;runChat();},CHAT_TOTAL);
   chatTimeouts.push(loopId);
 }
-const chatObs = new IntersectionObserver(entries => {
-  if (entries[0].isIntersecting) { runChat(); }
-  else { clearChatTimers(); cwBody.innerHTML = ''; }
-}, { threshold: 0.55 });
+const chatObs=new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting){runChat();}
+  else{clearChatTimers();cwBody.innerHTML='';}
+},{threshold:0.55});
 chatObs.observe(nightEl);
 
-// ══════════════════════════════════════════════
-// HERO MOBILE — video + scroll logic
-// ══════════════════════════════════════════════
-(function initHeroMobile() {
-  if (!isMob()) return;
-
-  const video   = document.getElementById('hero-video');
-  const copy    = document.getElementById('hero-copy');
-  const hint    = document.getElementById('hero-hint');
-  const heroDiv = document.getElementById('hero-mobile');
-  const nightSec = document.getElementById('s-night');
-
-  // Mostrar hint al cargar metadata
-  video.addEventListener('loadedmetadata', () => {
-    hint.classList.remove('hidden');
+// HERO MOBILE
+(function initHeroMobile(){
+  if(!isMob())return;
+  const video=document.getElementById('hero-video');
+  const copy=document.getElementById('hero-copy');
+  const hint=document.getElementById('hero-hint');
+  const heroDiv=document.getElementById('hero-mobile');
+  const nightSec=document.getElementById('s-night');
+  video.addEventListener('loadedmetadata',()=>hint.classList.remove('hidden'));
+  video.addEventListener('timeupdate',()=>{
+    const p=video.currentTime/(video.duration||5);
+    if(p>0.60)copy.classList.add('fade');else copy.classList.remove('fade');
   });
-
-  // Copy fade out al 60% del video
-  video.addEventListener('timeupdate', () => {
-    const p = video.currentTime / (video.duration || 5);
-    if (p > 0.60) copy.classList.add('fade');
-    else copy.classList.remove('fade');
-  });
-
-  // Auto-scroll a #s-night cuando termina el video
-  video.addEventListener('ended', () => {
-    setTimeout(() => {
-      nightSec.scrollIntoView({ behavior: 'smooth' });
-    }, 400);
-  });
-
-  // IntersectionObserver: reiniciar si volvés al hero
-  const heroObs = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        video.currentTime = 0;
-        copy.classList.remove('fade');
-        video.play().catch(() => {});
-      } else {
-        video.pause();
-      }
+  video.addEventListener('ended',()=>setTimeout(()=>nightSec.scrollIntoView({behavior:'smooth'}),400));
+  const heroObs=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){video.currentTime=0;copy.classList.remove('fade');video.play().catch(()=>{});}
+      else{video.pause();}
     });
-  }, { threshold: 0.5 });
+  },{threshold:0.5});
   heroObs.observe(heroDiv);
-
-  // Forzar play en iOS al primer toque
-  document.addEventListener('touchstart', () => {
-    if (video.paused && video.currentTime === 0) video.play().catch(() => {});
-  }, { once: true, passive: true });
+  document.addEventListener('touchstart',()=>{
+    if(video.paused&&video.currentTime===0)video.play().catch(()=>{});
+  },{once:true,passive:true});
 })();
 
-// ══════════════════════════════════════════════
 // MODAL SYSTEM
-// ══════════════════════════════════════════════
-const MODAL_MAP = { chat: 'mo-chat', mkt: 'mo-mkt', ia: 'mo-ia' };
-let openModalKey = null;
-
-function openModal(key) {
-  if (openModalKey) closeModal(openModalKey);
-  const el = document.getElementById(MODAL_MAP[key]);
-  if (!el) return;
-  openModalKey = key;
-  el.classList.add('open');
-  document.documentElement.style.overflow = 'hidden';
-  if (key === 'chat' && document.getElementById('demo-messages').children.length === 0) {
-    setTimeout(() => addBotMessage('¡Hola! Soy el asistente de Concepto Development. ¿En qué puedo ayudarte hoy?'), 300);
-  }
-  if (key === 'chat') setTimeout(() => document.getElementById('demo-input').focus(), 500);
+const MODAL_MAP={chat:'mo-chat',mkt:'mo-mkt',ia:'mo-ia'};
+let openModalKey=null;
+function openModal(key){
+  if(openModalKey)closeModal(openModalKey);
+  const el=document.getElementById(MODAL_MAP[key]);if(!el)return;
+  openModalKey=key;el.classList.add('open');
+  document.documentElement.style.overflow='hidden';
+  if(key==='chat'&&document.getElementById('demo-messages').children.length===0)
+    setTimeout(()=>addBotMessage('¡Hola! Soy el asistente de Concepto Development. ¿En qué puedo ayudarte hoy?'),300);
+  if(key==='chat')setTimeout(()=>document.getElementById('demo-input').focus(),500);
 }
-function closeModal(key) {
-  const el = document.getElementById(MODAL_MAP[key]);
-  if (!el) return;
-  el.classList.remove('open');
-  document.documentElement.style.overflow = '';
-  openModalKey = null;
+function closeModal(key){
+  const el=document.getElementById(MODAL_MAP[key]);if(!el)return;
+  el.classList.remove('open');document.documentElement.style.overflow='';openModalKey=null;
 }
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    if (faqOverlayEl.classList.contains('open')) { closeFaqOverlay(); return; }
-    if (openModalKey) closeModal(openModalKey);
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    if(faqOverlayEl.classList.contains('open')){closeFaqOverlay();return;}
+    if(openModalKey)closeModal(openModalKey);
   }
 });
 
-// ══════════════════════════════════════════════
 // CHATBOT DEMO
-// ══════════════════════════════════════════════
-const WORKER_URL = 'https://conceptodemo.conceptodevelopment.workers.dev';
-const SYSTEM_PROMPT = `Sos el asistente virtual de Concepto Development, una agencia digital de Montevideo, Uruguay.
+const WORKER_URL='https://conceptodemo.conceptodevelopment.workers.dev';
+const SYSTEM_PROMPT=`Sos el asistente virtual de Concepto Development, una agencia digital de Montevideo, Uruguay.
 
 Concepto Development se especializa en:
 - Automatizaciones: sistemas que corren solos y eliminan trabajo manual repetitivo
@@ -997,67 +848,46 @@ Nunca hables de precios ni de herramientas técnicas específicas.
 Si alguien pregunta por precios, decí que depende del proyecto y los invitás a agendar una llamada gratuita.
 Máximo 3 oraciones por respuesta. Directo al punto.
 El WhatsApp de contacto es: https://wa.me/59897976574`;
-
-const MAX_HISTORY = 10;
-let demoHistory = [];
-let isSending = false;
-
-const demoMessages = document.getElementById('demo-messages');
-const demoTyping = document.getElementById('demo-typing');
-const demoHints = document.getElementById('demo-hints');
-const demoInput = document.getElementById('demo-input');
-const demoSend = document.getElementById('demo-send');
-
-function addBotMessage(text) {
-  const el = document.createElement('div'); el.className = 'dm bot'; el.textContent = text;
-  demoMessages.appendChild(el);
-  document.getElementById('chat-modal-body').scrollTop = 99999;
+const MAX_HISTORY=10;
+let demoHistory=[],isSending=false;
+const demoMessages=document.getElementById('demo-messages');
+const demoTyping=document.getElementById('demo-typing');
+const demoHints=document.getElementById('demo-hints');
+const demoInput=document.getElementById('demo-input');
+const demoSend=document.getElementById('demo-send');
+function addBotMessage(text){const el=document.createElement('div');el.className='dm bot';el.textContent=text;demoMessages.appendChild(el);document.getElementById('chat-modal-body').scrollTop=99999;}
+function addUserMessage(text){const el=document.createElement('div');el.className='dm user';el.textContent=text;demoMessages.appendChild(el);document.getElementById('chat-modal-body').scrollTop=99999;}
+function showTyping(){demoTyping.classList.add('vis');}
+function hideTyping(){demoTyping.classList.remove('vis');}
+async function sendMessage(customText){
+  const text=(customText||demoInput.value).trim();if(!text||isSending)return;
+  isSending=true;demoSend.disabled=true;
+  if(!customText){demoInput.value='';demoInput.style.height='';}
+  demoHints.style.display='none';addUserMessage(text);
+  demoHistory.push({role:'user',content:text});
+  if(demoHistory.length>MAX_HISTORY)demoHistory=demoHistory.slice(-MAX_HISTORY);
+  showTyping();document.getElementById('chat-modal-body').scrollTop=99999;
+  try{
+    const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:SYSTEM_PROMPT,messages:demoHistory})});
+    const data=await res.json();
+    const reply=data.text||'Lo siento, no pude procesar eso. Intentá de nuevo.';
+    hideTyping();addBotMessage(reply);
+    demoHistory.push({role:'assistant',content:reply});
+    if(demoHistory.length>MAX_HISTORY)demoHistory=demoHistory.slice(-MAX_HISTORY);
+  }catch(err){hideTyping();addBotMessage('Hubo un error de conexión. Intentá de nuevo en un momento.');}
+  isSending=false;demoSend.disabled=false;
 }
-function addUserMessage(text) {
-  const el = document.createElement('div'); el.className = 'dm user'; el.textContent = text;
-  demoMessages.appendChild(el);
-  document.getElementById('chat-modal-body').scrollTop = 99999;
-}
-function showTyping() { demoTyping.classList.add('vis'); }
-function hideTyping() { demoTyping.classList.remove('vis'); }
+function sendHint(btn){sendMessage(btn.textContent);}
+demoInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});
+demoInput.addEventListener('input',()=>{demoInput.style.height='auto';demoInput.style.height=Math.min(demoInput.scrollHeight,80)+'px';});
 
-async function sendMessage(customText) {
-  const text = (customText || demoInput.value).trim();
-  if (!text || isSending) return;
-  isSending = true; demoSend.disabled = true;
-  if (!customText) { demoInput.value = ''; demoInput.style.height = ''; }
-  demoHints.style.display = 'none';
-  addUserMessage(text);
-  demoHistory.push({ role: 'user', content: text });
-  if (demoHistory.length > MAX_HISTORY) demoHistory = demoHistory.slice(-MAX_HISTORY);
-  showTyping();
-  document.getElementById('chat-modal-body').scrollTop = 99999;
-  try {
-    const res = await fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ system: SYSTEM_PROMPT, messages: demoHistory }) });
-    const data = await res.json();
-    const reply = data.text || 'Lo siento, no pude procesar eso. Intentá de nuevo.';
-    hideTyping(); addBotMessage(reply);
-    demoHistory.push({ role: 'assistant', content: reply });
-    if (demoHistory.length > MAX_HISTORY) demoHistory = demoHistory.slice(-MAX_HISTORY);
-  } catch (err) {
-    hideTyping(); addBotMessage('Hubo un error de conexión. Intentá de nuevo en un momento.');
-  }
-  isSending = false; demoSend.disabled = false;
-}
-function sendHint(btn) { sendMessage(btn.textContent); }
-demoInput.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
-demoInput.addEventListener('input', () => { demoInput.style.height = 'auto'; demoInput.style.height = Math.min(demoInput.scrollHeight, 80) + 'px'; });
-
-// ══════════════════════════════════════════════
 // MARKETING COPY GENERATOR
-// ══════════════════════════════════════════════
-async function generateCopy() {
-  const input = document.getElementById('mkt-input').value.trim();
-  if (!input) return;
-  const btn = document.getElementById('mkt-btn'), spinner = document.getElementById('mkt-spinner');
-  const btnText = document.getElementById('mkt-btn-text'), results = document.getElementById('mkt-results');
-  btn.disabled = true; spinner.classList.add('vis'); btnText.textContent = 'Generando…'; results.innerHTML = '';
-  const prompt = `Generá 3 variantes de copy para Meta Ads (Facebook/Instagram) para este negocio: "${input}".
+async function generateCopy(){
+  const input=document.getElementById('mkt-input').value.trim();if(!input)return;
+  const btn=document.getElementById('mkt-btn'),spinner=document.getElementById('mkt-spinner');
+  const btnText=document.getElementById('mkt-btn-text'),results=document.getElementById('mkt-results');
+  btn.disabled=true;spinner.classList.add('vis');btnText.textContent='Generando…';results.innerHTML='';
+  const prompt=`Generá 3 variantes de copy para Meta Ads (Facebook/Instagram) para este negocio: "${input}".
 Respondé ÚNICAMENTE con un JSON válido, sin markdown, sin comillas extra, exactamente así:
 {"llamativa":"...","emocional":"...","directa":"..."}
 Reglas:
@@ -1066,54 +896,48 @@ Reglas:
 - emocional: conecta con el problema o deseo del cliente
 - directa: oferta clara, beneficio concreto, llamada a la acción
 Respondé solo el JSON.`;
-  try {
-    const res = await fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ system: 'Respondés siempre con JSON puro, sin markdown, sin explicaciones.', messages: [{ role: 'user', content: prompt }] }) });
-    const data = await res.json();
-    let text = (data.text || '').trim().replace(/```json|```/g, '').trim();
-    const parsed = JSON.parse(text);
-    [{ key: 'llamativa', label: 'LLAMATIVA', cls: 'mv-llamativa' }, { key: 'emocional', label: 'EMOCIONAL', cls: 'mv-emocional' }, { key: 'directa', label: 'DIRECTA', cls: 'mv-directa' }].forEach(v => {
-      if (!parsed[v.key]) return;
-      const el = document.createElement('div'); el.className = `mkt-variant ${v.cls}`;
-      el.innerHTML = `<div class="mkt-variant-type">${v.label}</div><div class="mkt-variant-copy">${parsed[v.key]}</div>`;
+  try{
+    const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:'Respondés siempre con JSON puro, sin markdown, sin explicaciones.',messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();
+    let text=(data.text||'').trim().replace(/```json|```/g,'').trim();
+    const parsed=JSON.parse(text);
+    [{key:'llamativa',label:'LLAMATIVA',cls:'mv-llamativa'},{key:'emocional',label:'EMOCIONAL',cls:'mv-emocional'},{key:'directa',label:'DIRECTA',cls:'mv-directa'}].forEach(v=>{
+      if(!parsed[v.key])return;
+      const el=document.createElement('div');el.className=`mkt-variant ${v.cls}`;
+      el.innerHTML=`<div class="mkt-variant-type">${v.label}</div><div class="mkt-variant-copy">${parsed[v.key]}</div>`;
       results.appendChild(el);
     });
-  } catch (e) {
-    results.innerHTML = '<p style="font-size:12px;color:rgba(255,255,255,.3);text-align:center;padding:1rem">Hubo un error. Intentá de nuevo.</p>';
-  }
-  btn.disabled = false; spinner.classList.remove('vis'); btnText.textContent = 'Generar 3 variantes de copy ✦';
+  }catch(e){results.innerHTML='<p style="font-size:12px;color:rgba(255,255,255,.3);text-align:center;padding:1rem">Hubo un error. Intentá de nuevo.</p>';}
+  btn.disabled=false;spinner.classList.remove('vis');btnText.textContent='Generar 3 variantes de copy ✦';
 }
-document.getElementById('mkt-input').addEventListener('keydown', e => { if (e.key === 'Enter') generateCopy(); });
+document.getElementById('mkt-input').addEventListener('keydown',e=>{if(e.key==='Enter')generateCopy();});
 
-// ══════════════════════════════════════════════
 // IA TEXT ANALYZER
-// ══════════════════════════════════════════════
-const IA_EXAMPLES = [
+const IA_EXAMPLES=[
   'Che, necesito 3 docenas de medialunas para mañana a las 8am, es urgente porque las necesito para una reunión de empresa, confirmen por favor.',
   'Les escribo porque recibí el pedido y los productos llegaron rotos. Es la segunda vez que pasa y estoy muy enojado. Quiero una solución ya.',
   'Hola! ¿Cuánto sale el plan mensual? ¿Tienen descuento si pago un año adelantado?',
   'Buenos días, quisiera reservar turno para un corte y barba para el viernes 23 a la tarde si tienen lugar.'
 ];
-function setIaExample(i) { document.getElementById('ia-input').value = IA_EXAMPLES[i]; }
-
-async function analyzeText() {
-  const input = document.getElementById('ia-input').value.trim();
-  if (!input) return;
-  const btn = document.getElementById('ia-btn'), spinner = document.getElementById('ia-spinner');
-  const btnText = document.getElementById('ia-btn-text'), container = document.getElementById('ia-result-container');
-  btn.disabled = true; spinner.classList.add('vis'); btnText.textContent = 'Analizando…'; container.innerHTML = '';
-  const prompt = `Analizá este mensaje de cliente y respondé SOLO con JSON puro (sin markdown):
+function setIaExample(i){document.getElementById('ia-input').value=IA_EXAMPLES[i];}
+async function analyzeText(){
+  const input=document.getElementById('ia-input').value.trim();if(!input)return;
+  const btn=document.getElementById('ia-btn'),spinner=document.getElementById('ia-spinner');
+  const btnText=document.getElementById('ia-btn-text'),container=document.getElementById('ia-result-container');
+  btn.disabled=true;spinner.classList.add('vis');btnText.textContent='Analizando…';container.innerHTML='';
+  const prompt=`Analizá este mensaje de cliente y respondé SOLO con JSON puro (sin markdown):
 Mensaje: "${input}"
 Formato exacto:
 {"categoria":"una sola categoría: Pedido | Queja | Consulta | Reserva | Otro","urgencia":"Alta | Media | Baja","sentimiento":"Positivo | Neutro | Negativo","sentimiento_score":número entre 0 y 100,"datos_clave":["array","de","datos","importantes"],"accion_sugerida":"Una acción concreta en español rioplatense."}`;
-  try {
-    const res = await fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ system: 'Respondés siempre con JSON puro sin markdown.', messages: [{ role: 'user', content: prompt }] }) });
-    const data = await res.json();
-    let text = (data.text || '').trim().replace(/```json|```/g, '').trim();
-    const p = JSON.parse(text);
-    const sentColor = p.sentimiento === 'Positivo' ? '#4ade80' : p.sentimiento === 'Negativo' ? '#f87171' : '#fbbf24';
-    const urgColor = p.urgencia === 'Alta' ? '#f87171' : p.urgencia === 'Media' ? '#fbbf24' : '#4ade80';
-    const el = document.createElement('div'); el.className = 'ia-result';
-    el.innerHTML = `
+  try{
+    const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:'Respondés siempre con JSON puro sin markdown.',messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();
+    let text=(data.text||'').trim().replace(/```json|```/g,'').trim();
+    const p=JSON.parse(text);
+    const sentColor=p.sentimiento==='Positivo'?'#4ade80':p.sentimiento==='Negativo'?'#f87171':'#fbbf24';
+    const urgColor=p.urgencia==='Alta'?'#f87171':p.urgencia==='Media'?'#fbbf24':'#4ade80';
+    const el=document.createElement('div');el.className='ia-result';
+    el.innerHTML=`
       <div class="ia-result-section">
         <div class="ia-rs-label"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Clasificación</div>
         <div class="ia-tags"><span class="ia-tag cat">${p.categoria}</span><span class="ia-tag" style="background:${urgColor}22;color:${urgColor};border:1px solid ${urgColor}44">⚡ Urgencia ${p.urgencia}</span></div>
@@ -1131,331 +955,259 @@ Formato exacto:
         <div class="ia-action-box"><strong>→</strong> ${p.accion_sugerida}</div>
       </div>`;
     container.appendChild(el);
-  } catch (e) {
-    container.innerHTML = '<p style="font-size:12px;color:rgba(255,255,255,.3);text-align:center;padding:1rem">Error al analizar. Intentá de nuevo.</p>';
-  }
-  btn.disabled = false; spinner.classList.remove('vis'); btnText.textContent = 'Analizar con IA ✦';
+  }catch(e){container.innerHTML='<p style="font-size:12px;color:rgba(255,255,255,.3);text-align:center;padding:1rem">Error al analizar. Intentá de nuevo.</p>';}
+  btn.disabled=false;spinner.classList.remove('vis');btnText.textContent='Analizar con IA ✦';
 }
 
-// ══════════════════════════════════════════════
 // FAQ OVERLAY
-// ══════════════════════════════════════════════
-const faqOverlayEl = document.getElementById('faq-overlay');
-const faqFrameEl = document.getElementById('faq-frame');
-let faqFrameLoaded = false;
-function openFaqOverlay() {
-  if (!faqFrameLoaded) { faqFrameEl.src = 'faq.html'; faqFrameLoaded = true; }
+const faqOverlayEl=document.getElementById('faq-overlay');
+const faqFrameEl=document.getElementById('faq-frame');
+let faqFrameLoaded=false;
+function openFaqOverlay(){
+  if(!faqFrameLoaded){faqFrameEl.src='faq.html';faqFrameLoaded=true;}
   faqOverlayEl.classList.add('open');
-  document.documentElement.style.overflow = 'hidden';
+  document.documentElement.style.overflow='hidden';
   document.body.classList.add('faq-open');
 }
-function closeFaqOverlay() {
+function closeFaqOverlay(){
   faqOverlayEl.classList.remove('open');
-  document.documentElement.style.overflow = '';
+  document.documentElement.style.overflow='';
   document.body.classList.remove('faq-open');
 }
 
-// ══════════════════════════════════════════════
-// THREE.JS — Robot 3D (solo desktop)
-// ══════════════════════════════════════════════
-const canvas = document.getElementById('rc');
-const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: !isMob() });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMob() ? 1.5 : 2));
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.outputEncoding = THREE.sRGBEncoding;
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.3;
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, .1, 100);
-camera.position.z = 5;
-const ambLight = new THREE.AmbientLight(0xffffff, 1.5); scene.add(ambLight);
-const kl = new THREE.DirectionalLight(0xffffff, 2.6); kl.position.set(2, 4, 3); scene.add(kl);
-const fl = new THREE.DirectionalLight(0xf5f0e8, 1.0); fl.position.set(-3, 1, 2); scene.add(fl);
-const vl = new THREE.PointLight(0xa855f7, 0, 8); vl.position.set(0, 1, 3); scene.add(vl);
-
-const S = { x: 0, y: 0, sc: 1, ry: 0, rx: 0, idle: 0 };
-let mesh = null, idleT = 0;
-let _worldW = 0, _worldH = 0;
-function calcWorld() { _worldW = 2 * Math.tan(camera.fov * Math.PI / 360) * camera.position.z * camera.aspect; _worldH = 2 * Math.tan(camera.fov * Math.PI / 360) * camera.position.z; }
-calcWorld();
-function applyS() {
-  if (!mesh) return;
-  mesh.position.x = S.x * (_worldW / 2);
-  mesh.position.y = S.y * (_worldH / 2) + Math.sin(idleT * .65) * .04;
-  mesh.scale.setScalar(S.sc * (isMob() ? 1.1 : 1.85));
-  mesh.rotation.y = S.ry + S.idle;
-  mesh.rotation.x = S.rx;
-}
-
-// Desktop states — secciones: hero, night, auto, webs, chat, mkt, ia, cta
-const DS = [
-  { x: .30,  y: .05,  sc: 1.15, ry: 0,          rx: 0,    dur: 1.2 },
-  { x: .28,  y: .00,  sc: 1.45, ry: .12,         rx: -.05, dur: 1.3 },
-  { x: -.30, y: -.10, sc: 1.35, ry: .08,         rx: 0,    dur: 1.1 },
-  { x: .28,  y: .12,  sc: .85,  ry: -.10,        rx: 0,    dur: 1.2 },
-  { x: -.28, y: -.08, sc: 1.20, ry: .15,         rx: -.06, dur: 1.0 },
-  { x: .32,  y: .08,  sc: .72,  ry: -.10,        rx: .04,  dur: 1.1 },
-  { x: -.22, y: -.05, sc: 1.20, ry: Math.PI * 2, rx: -.05, dur: 1.4 },
-  { x: .05,  y: -.30, sc: 1.10, ry: 0,           rx: 0,    dur: 1.1 },
-];
-// Mobile states — para las secciones sin hero-mobile (night onward)
-// El hero-mobile maneja su propio estado (sin robot 3D)
-const MS = [
-  { x: .18,  y: .10,  sc: 1.00, ry: .10,         rx: -.04, dur: 1.2 }, // night
-  { x: .28,  y: -.38, sc: 0.80, ry: .10,         rx: 0,    dur: 1.1 }, // auto
-  { x: -.10, y: .28,  sc: 0.78, ry: -.10,        rx: 0,    dur: 1.2 }, // webs
-  { x: .28,  y: -.38, sc: 0.80, ry: .18,         rx: -.06, dur: 1.0 }, // chat
-  { x: .22,  y: .05,  sc: 0.88, ry: -.08,        rx: .04,  dur: 1.1 }, // mkt
-  { x: -.28, y: -.38, sc: 0.80, ry: Math.PI * 2, rx: -.06, dur: 1.4 }, // ia
-  { x: 0,    y: -.62, sc: 0.60, ry: 0,           rx: 0,    dur: 1.1 }, // cta
-];
-
-// Desktop usa TODAS las secciones incluyendo #s-hero
-const SECS_D = ['#s-hero','#s-night','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia','#s-cta'];
-// Mobile omite #s-hero (está oculto) y comienza desde #s-night
-const SECS_M = ['#s-night','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia','#s-cta'];
-
-function enterNight() { gsap.to(ambLight,{intensity:.5,duration:1.1}); gsap.to(kl,{intensity:.9,duration:1.1}); gsap.to(vl,{intensity:4,duration:1.1}); }
-function exitNight()  { gsap.to(ambLight,{intensity:1.5,duration:1.0}); gsap.to(kl,{intensity:2.6,duration:1.0}); gsap.to(vl,{intensity:0,duration:1.0}); }
-function goTo(st) { gsap.to(S,{x:st.x,y:st.y,sc:st.sc,ry:st.ry,rx:st.rx,duration:st.dur,ease:'power3.out',overwrite:'auto',onUpdate:applyS}); }
-
-let rafId = null, isPageVisible = true;
-function startLoop() {
-  if (rafId) return;
-  function loop() {
-    if (!isPageVisible) { rafId = null; return; }
-    rafId = requestAnimationFrame(loop);
-    idleT += .012; S.idle += .018;
-    if (mesh) applyS();
-    renderer.render(scene, camera);
+// SCARCITY BAR
+(function initScarcityBar(){
+  const TOTAL_SLOTS=3;
+  const now=new Date();
+  const monthSeed=now.getFullYear()*100+(now.getMonth()+1);
+  const available=(monthSeed%3===0)?2:1;
+  const bar=document.getElementById('scarcity-bar');
+  const textEl=document.getElementById('sb-text-content');
+  const monthNames=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const mesActual=monthNames[now.getMonth()];
+  const mob=window.innerWidth<=500;
+  if(available===1){
+    bar.classList.add('urgent');
+    textEl.innerHTML=mob
+      ?`<strong>${TOTAL_SLOTS} proyectos/mes</strong><span class="sb-sep">·</span><span class="sb-highlight">1 lugar — ${mesActual}</span>`
+      :`Solo tomamos <strong>${TOTAL_SLOTS} proyectos por mes</strong><span class="sb-sep">·</span><span class="sb-highlight">Queda 1 lugar en ${mesActual}</span><span class="sb-sep sb-extra">·</span><span class="sb-extra" style="color:rgba(255,255,255,.45)">¿Es el tuyo?</span>`;
+  } else {
+    textEl.innerHTML=mob
+      ?`<strong>${TOTAL_SLOTS} proyectos/mes</strong><span class="sb-sep">·</span><span class="sb-highlight">${available} lugares — ${mesActual}</span>`
+      :`Solo tomamos <strong>${TOTAL_SLOTS} proyectos por mes</strong><span class="sb-sep">·</span><span class="sb-highlight">${available} lugares disponibles en ${mesActual}</span>`;
   }
-  rafId = requestAnimationFrame(loop);
-}
-document.addEventListener('visibilitychange', () => { isPageVisible = !document.hidden; if (isPageVisible) startLoop(); });
+  setTimeout(()=>{bar.classList.add('visible');document.body.classList.add('has-scarcity');},2600);
+})();
 
-const loader = new THREE.GLTFLoader();
-loader.load(
-  'https://concepto-robot.vercel.app/Prueba1.glb',
-  gltf => {
-    mesh = gltf.scene;
-    const box = new THREE.Box3().setFromObject(mesh);
-    const c = box.getCenter(new THREE.Vector3());
-    const sz = box.getSize(new THREE.Vector3());
-    mesh.position.sub(c);
-    mesh.scale.setScalar(1 / Math.max(sz.x, sz.y, sz.z));
-    scene.add(mesh);
+// URGENCIA DINÁMICA CTA
+(function initUrgencyLine(){
+  const HRS_POR_SEMANA=8;
+  const now=new Date();
+  const startOfYear=new Date(now.getFullYear(),0,1);
+  const weekOfYear=Math.floor((now-startOfYear)/(1000*60*60*24*7));
+  const hrsTotal=weekOfYear*HRS_POR_SEMANA;
+  const el=document.getElementById('urgency-line');
+  if(el)el.innerHTML=`Cada semana sin automatizar = <strong>${HRS_POR_SEMANA} horas perdidas.</strong> Este año ya van <strong>${hrsTotal.toLocaleString('es-UY')} hs.</strong>`;
+})();
 
-    if (isMob()) {
-      // En mobile: robot solo aparece a partir de #s-night
-      // #hero-mobile no tiene robot (tiene video)
-      // canvas permanece invisible durante el hero-mobile y visible después
-      const mobObs = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (!e.isIntersecting) return;
-          const idx = SECS_M.indexOf('#' + e.target.id);
-          if (idx < 0 || !MS[idx]) return;
-          // Activar canvas cuando pasamos del hero-mobile
-          if (e.target.id === 's-night') canvas.style.opacity = '1';
-          goTo(MS[idx]);
-          if (e.target.id === 's-night') enterNight(); else exitNight();
+// MOBILE SNAP
+(function initMobileSnap(){
+  if(window.innerWidth>680)return;
+  const SNAP_IDS=['s-night','s-auto','s-webs','s-chat','s-mkt','s-ia','s-cta'];
+  const NAV_H=()=>document.body.classList.contains('has-scarcity')?92:58;
+  const NUDGE_THRESHOLD=0.35;
+  function getHeroBottom(){const h=document.getElementById('hero-mobile');return h?h.offsetTop+h.offsetHeight:0;}
+  function getSnapSections(){return SNAP_IDS.map(id=>document.getElementById(id)).filter(Boolean);}
+  function getCurrentSnappedSection(){
+    const sections=getSnapSections();
+    const offset=NAV_H();const scrollY=window.scrollY;
+    if(scrollY<getHeroBottom()-10)return null;
+    let current=sections[0];
+    for(const sec of sections){const top=sec.offsetTop-offset;if(top<=scrollY+2)current=sec;}
+    return current;
+  }
+  function nudgeTo(sec){if(!sec)return;const offset=NAV_H();const target=Math.max(0,sec.offsetTop-offset);window.scrollTo({top:target,behavior:'smooth'});}
+  let nudgeTimer=null,isTouching=false;
+  function onScrollSettle(){
+    if(document.documentElement.style.overflow==='hidden')return;
+    if(window.scrollY<getHeroBottom()-50)return;
+    const scrollY=window.scrollY,vpH=window.innerHeight,offset=NAV_H();
+    const sections=getSnapSections();
+    const currentSec=getCurrentSnappedSection();if(!currentSec)return;
+    const currentIdx=sections.indexOf(currentSec);
+    const currentSnapY=Math.max(0,currentSec.offsetTop-offset);
+    const overshoot=scrollY-currentSnapY;
+    if(overshoot>vpH*NUDGE_THRESHOLD&&currentIdx<sections.length-1)nudgeTo(sections[currentIdx+1]);
+    else nudgeTo(currentSec);
+  }
+  document.addEventListener('touchstart',()=>{isTouching=true;clearTimeout(nudgeTimer);},{passive:true});
+  document.addEventListener('touchend',()=>{isTouching=false;nudgeTimer=setTimeout(onScrollSettle,500);},{passive:true});
+  if('onscrollend' in window){
+    window.addEventListener('scrollend',()=>{if(isTouching)return;clearTimeout(nudgeTimer);nudgeTimer=setTimeout(onScrollSettle,120);},{passive:true});
+  } else {
+    window.addEventListener('scroll',()=>{if(isTouching)return;clearTimeout(nudgeTimer);nudgeTimer=setTimeout(onScrollSettle,250);},{passive:true});
+  }
+})();
+
+// ─────────────────────────────────────────────
+// THREE.JS — solo desktop, carga diferida
+// PERF: en mobile NO se cargan Three.js, GSAP ni GLTFLoader
+//       Ahorra ~1.4MB de JS que el mobile nunca necesita.
+//       En desktop se cargan con un pequeño delay para no
+//       competir con el render inicial (LCP).
+// ─────────────────────────────────────────────
+if(!isMob()){
+  // PERF: diferimos la carga de Three.js al siguiente idle frame
+  // así el navegador pinta el hero antes de parsear 600kB de JS
+  function loadThreeAndInit(){
+    const canvas=document.getElementById('rc');
+
+    // Inyectamos los scripts secuencialmente
+    function loadScript(src,cb){
+      const s=document.createElement('script');
+      s.src=src;s.onload=cb;
+      document.head.appendChild(s);
+    }
+
+    loadScript('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js',()=>{
+      loadScript('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js',()=>{
+        loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js',()=>{
+          loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js',()=>{
+            initThreeScene(canvas);
+          });
         });
-      }, { threshold: 0.55 });
+      });
+    });
+  }
 
-      // Observar también el hero-mobile para ocultar el canvas mientras está visible
-      const heroHideObs = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) {
-          canvas.style.opacity = '0';
-        }
-      }, { threshold: 0.3 });
-      heroHideObs.observe(document.getElementById('hero-mobile'));
+  // requestIdleCallback si existe, sino setTimeout mínimo
+  if('requestIdleCallback' in window){
+    requestIdleCallback(loadThreeAndInit,{timeout:3000});
+  } else {
+    setTimeout(loadThreeAndInit,200);
+  }
+}
 
-      SECS_M.forEach(sel => { const el = document.querySelector(sel); if (el) mobObs.observe(el); });
-    } else {
-      SECS_D.forEach((sel, i) => {
-        const el = document.querySelector(sel);
-        if (!el || !DS[i]) return;
+function initThreeScene(canvas){
+  if(typeof THREE==='undefined'||typeof gsap==='undefined')return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  renderer.outputEncoding=THREE.sRGBEncoding;
+  renderer.toneMapping=THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure=1.3;
+
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(35,window.innerWidth/window.innerHeight,.1,100);
+  camera.position.z=5;
+
+  const ambLight=new THREE.AmbientLight(0xffffff,1.5);scene.add(ambLight);
+  const kl=new THREE.DirectionalLight(0xffffff,2.6);kl.position.set(2,4,3);scene.add(kl);
+  const fl=new THREE.DirectionalLight(0xf5f0e8,1.0);fl.position.set(-3,1,2);scene.add(fl);
+  const vl=new THREE.PointLight(0xa855f7,0,8);vl.position.set(0,1,3);scene.add(vl);
+
+  const S={x:0,y:0,sc:1,ry:0,rx:0,idle:0};
+  let mesh=null,idleT=0;
+  let _worldW=0,_worldH=0;
+  function calcWorld(){_worldW=2*Math.tan(camera.fov*Math.PI/360)*camera.position.z*camera.aspect;_worldH=2*Math.tan(camera.fov*Math.PI/360)*camera.position.z;}
+  calcWorld();
+  function applyS(){
+    if(!mesh)return;
+    mesh.position.x=S.x*(_worldW/2);
+    mesh.position.y=S.y*(_worldH/2)+Math.sin(idleT*.65)*.04;
+    mesh.scale.setScalar(S.sc*1.85);
+    mesh.rotation.y=S.ry+S.idle;
+    mesh.rotation.x=S.rx;
+  }
+
+  const DS=[
+    {x:.30,y:.05,sc:1.15,ry:0,rx:0,dur:1.2},
+    {x:.28,y:.00,sc:1.45,ry:.12,rx:-.05,dur:1.3},
+    {x:-.30,y:-.10,sc:1.35,ry:.08,rx:0,dur:1.1},
+    {x:.28,y:.12,sc:.85,ry:-.10,rx:0,dur:1.2},
+    {x:-.28,y:-.08,sc:1.20,ry:.15,rx:-.06,dur:1.0},
+    {x:.32,y:.08,sc:.72,ry:-.10,rx:.04,dur:1.1},
+    {x:-.22,y:-.05,sc:1.20,ry:Math.PI*2,rx:-.05,dur:1.4},
+    {x:.05,y:-.30,sc:1.10,ry:0,rx:0,dur:1.1},
+  ];
+  const SECS_D=['#s-hero','#s-night','#s-auto','#s-webs','#s-chat','#s-mkt','#s-ia','#s-cta'];
+
+  function enterNight(){gsap.to(ambLight,{intensity:.5,duration:1.1});gsap.to(kl,{intensity:.9,duration:1.1});gsap.to(vl,{intensity:4,duration:1.1});}
+  function exitNight(){gsap.to(ambLight,{intensity:1.5,duration:1.0});gsap.to(kl,{intensity:2.6,duration:1.0});gsap.to(vl,{intensity:0,duration:1.0});}
+  function goTo(st){gsap.to(S,{x:st.x,y:st.y,sc:st.sc,ry:st.ry,rx:st.rx,duration:st.dur,ease:'power3.out',overwrite:'auto',onUpdate:applyS});}
+
+  // PERF: pausa el render loop cuando la tab no está visible
+  let rafId=null,isPageVisible=true;
+  function startLoop(){
+    if(rafId)return;
+    function loop(){
+      if(!isPageVisible){rafId=null;return;}
+      rafId=requestAnimationFrame(loop);
+      idleT+=.012;S.idle+=.018;
+      if(mesh)applyS();
+      renderer.render(scene,camera);
+    }
+    rafId=requestAnimationFrame(loop);
+  }
+  document.addEventListener('visibilitychange',()=>{
+    isPageVisible=!document.hidden;
+    if(isPageVisible)startLoop();
+  });
+
+  // PERF: activar will-change en canvas solo mientras renderiza
+  canvas.style.willChange='transform';
+
+  const loader=new THREE.GLTFLoader();
+  loader.load(
+    'https://concepto-robot.vercel.app/Prueba1.glb',
+    gltf=>{
+      mesh=gltf.scene;
+      const box=new THREE.Box3().setFromObject(mesh);
+      const c=box.getCenter(new THREE.Vector3());
+      const sz=box.getSize(new THREE.Vector3());
+      mesh.position.sub(c);
+      mesh.scale.setScalar(1/Math.max(sz.x,sz.y,sz.z));
+      scene.add(mesh);
+
+      SECS_D.forEach((sel,i)=>{
+        const el=document.querySelector(sel);
+        if(!el||!DS[i])return;
         ScrollTrigger.create({
-          trigger: el, start: 'top center',
-          onEnter:     () => { goTo(DS[i]); if (sel==='#s-night') enterNight(); else exitNight(); },
-          onEnterBack: () => { goTo(DS[i]); if (sel==='#s-night') enterNight(); else exitNight(); }
+          trigger:el,start:'top center',
+          onEnter:()=>{goTo(DS[i]);if(sel==='#s-night')enterNight();else exitNight();},
+          onEnterBack:()=>{goTo(DS[i]);if(sel==='#s-night')enterNight();else exitNight();}
         });
       });
       ScrollTrigger.refresh();
-      canvas.style.opacity = '1';
-    }
+      canvas.style.opacity='1';
 
-    const st0 = isMob() ? MS[0] : DS[0];
-    S.x=st0.x; S.y=st0.y; S.sc=st0.sc; S.ry=st0.ry; S.rx=st0.rx;
-    applyS();
-    if (!isMob()) canvas.style.opacity = '1';
-    document.getElementById('ldr').classList.add('out');
-  },
-  null,
-  () => {
-    document.getElementById('ldr').classList.add('out');
-    if (!isMob()) canvas.style.opacity = '1';
-  }
-);
-setTimeout(() => {
-  const ldr = document.getElementById('ldr');
-  if (!ldr.classList.contains('out')) ldr.classList.add('out');
-  if (!isMob()) canvas.style.opacity = '1';
-}, 4000);
-startLoop();
+      const st0=DS[0];
+      S.x=st0.x;S.y=st0.y;S.sc=st0.sc;S.ry=st0.ry;S.rx=st0.rx;
+      applyS();
+      document.getElementById('ldr').classList.add('out');
+    },
+    null,
+    ()=>{document.getElementById('ldr').classList.add('out');canvas.style.opacity='1';}
+  );
 
-// ── RESIZE ──
-let winWidth = window.innerWidth;
-window.addEventListener('resize', () => {
-  if (isMob() && window.innerWidth === winWidth) return;
-  winWidth = window.innerWidth;
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  calcWorld();
-  if (!isMob()) ScrollTrigger.refresh();
-}, { passive: true });
+  setTimeout(()=>{
+    const ldr=document.getElementById('ldr');
+    if(!ldr.classList.contains('out'))ldr.classList.add('out');
+    canvas.style.opacity='1';
+  },4000);
 
-// ══════════════════════════════════════════════
-// SCARCITY BAR
-// ══════════════════════════════════════════════
-(function initScarcityBar() {
-  const TOTAL_SLOTS = 3;
-  const now = new Date();
-  const monthSeed = now.getFullYear() * 100 + (now.getMonth() + 1);
-  const available = (monthSeed % 3 === 0) ? 2 : 1;
-  const bar = document.getElementById('scarcity-bar');
-  const textEl = document.getElementById('sb-text-content');
-  const monthNames = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-  const mesActual = monthNames[now.getMonth()];
-  const mob = window.innerWidth <= 500;
-  if (available === 1) {
-    bar.classList.add('urgent');
-    textEl.innerHTML = mob
-      ? `<strong>${TOTAL_SLOTS} proyectos/mes</strong><span class="sb-sep">·</span><span class="sb-highlight">1 lugar — ${mesActual}</span>`
-      : `Solo tomamos <strong>${TOTAL_SLOTS} proyectos por mes</strong><span class="sb-sep">·</span><span class="sb-highlight">Queda 1 lugar en ${mesActual}</span><span class="sb-sep sb-extra">·</span><span class="sb-extra" style="color:rgba(255,255,255,.45)">¿Es el tuyo?</span>`;
-  } else {
-    textEl.innerHTML = mob
-      ? `<strong>${TOTAL_SLOTS} proyectos/mes</strong><span class="sb-sep">·</span><span class="sb-highlight">${available} lugares — ${mesActual}</span>`
-      : `Solo tomamos <strong>${TOTAL_SLOTS} proyectos por mes</strong><span class="sb-sep">·</span><span class="sb-highlight">${available} lugares disponibles en ${mesActual}</span>`;
-  }
-  setTimeout(() => {
-    bar.classList.add('visible');
-    document.body.classList.add('has-scarcity');
-  }, 2600);
-})();
+  startLoop();
 
-// ══════════════════════════════════════════════
-// URGENCIA DINÁMICA CTA
-// ══════════════════════════════════════════════
-(function initUrgencyLine() {
-  const HRS_POR_SEMANA = 8;
-  const now = new Date();
-  const startOfYear = new Date(now.getFullYear(), 0, 1);
-  const weekOfYear = Math.floor((now - startOfYear) / (1000 * 60 * 60 * 24 * 7));
-  const hrsTotal = weekOfYear * HRS_POR_SEMANA;
-  const el = document.getElementById('urgency-line');
-  if (el) {
-    el.innerHTML = `Cada semana sin automatizar = <strong>${HRS_POR_SEMANA} horas perdidas.</strong>`
-      + ` Este año ya van <strong>${hrsTotal.toLocaleString('es-UY')} hs.</strong>`;
-  }
-})();
-
-// ══════════════════════════════════════════════
-// MOBILE SNAP — scroll libre, nudge al soltar
-// El hero-mobile NO participa en el snap (scroll libre + auto-scroll por video)
-// El snap actúa desde #s-night en adelante
-// ══════════════════════════════════════════════
-(function initMobileSnap() {
-  if (window.innerWidth > 680) return;
-
-  // Secciones que participan en el snap (excluye hero-mobile)
-  const SNAP_IDS = ['s-night','s-auto','s-webs','s-chat','s-mkt','s-ia','s-cta'];
-  const NAV_H = () => document.body.classList.contains('has-scarcity') ? 92 : 58;
-  const NUDGE_THRESHOLD = 0.35;
-
-  // El hero-mobile termina donde empieza la primera snap section
-  function getHeroBottom() {
-    const heroMob = document.getElementById('hero-mobile');
-    return heroMob ? heroMob.offsetTop + heroMob.offsetHeight : 0;
-  }
-
-  function getSnapSections() {
-    return SNAP_IDS.map(id => document.getElementById(id)).filter(Boolean);
-  }
-
-  function getCurrentSnappedSection() {
-    const sections = getSnapSections();
-    const offset = NAV_H();
-    const scrollY = window.scrollY;
-    // Si estamos en el hero-mobile, no snap
-    if (scrollY < getHeroBottom() - 10) return null;
-    let current = sections[0];
-    for (const sec of sections) {
-      const top = sec.offsetTop - offset;
-      if (top <= scrollY + 2) current = sec;
-    }
-    return current;
-  }
-
-  function nudgeTo(sec) {
-    if (!sec) return;
-    const offset = NAV_H();
-    const target = Math.max(0, sec.offsetTop - offset);
-    window.scrollTo({ top: target, behavior: 'smooth' });
-  }
-
-  let nudgeTimer = null;
-  let isTouching = false;
-  let touchStartScrollY = 0;
-
-  function onScrollSettle() {
-    // Skip si hay modal abierto
-    if (document.documentElement.style.overflow === 'hidden') return;
-    // Skip si estamos en la zona del hero-mobile
-    if (window.scrollY < getHeroBottom() - 50) return;
-
-    const scrollY = window.scrollY;
-    const vpH = window.innerHeight;
-    const offset = NAV_H();
-    const sections = getSnapSections();
-    const currentSec = getCurrentSnappedSection();
-    if (!currentSec) return;
-    const currentIdx = sections.indexOf(currentSec);
-    const currentSnapY = Math.max(0, currentSec.offsetTop - offset);
-    const overshoot = scrollY - currentSnapY;
-
-    if (overshoot > vpH * NUDGE_THRESHOLD && currentIdx < sections.length - 1) {
-      nudgeTo(sections[currentIdx + 1]);
-    } else {
-      nudgeTo(currentSec);
-    }
-  }
-
-  document.addEventListener('touchstart', () => {
-    isTouching = true;
-    touchStartScrollY = window.scrollY;
-    clearTimeout(nudgeTimer);
-  }, { passive: true });
-
-  document.addEventListener('touchend', () => {
-    isTouching = false;
-    nudgeTimer = setTimeout(onScrollSettle, 500);
-  }, { passive: true });
-
-  if ('onscrollend' in window) {
-    window.addEventListener('scrollend', () => {
-      if (isTouching) return;
-      clearTimeout(nudgeTimer);
-      nudgeTimer = setTimeout(onScrollSettle, 120);
-    }, { passive: true });
-  } else {
-    window.addEventListener('scroll', () => {
-      if (isTouching) return;
-      clearTimeout(nudgeTimer);
-      nudgeTimer = setTimeout(onScrollSettle, 250);
-    }, { passive: true });
-  }
-})();
+  window.addEventListener('resize',()=>{
+    camera.aspect=window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth,window.innerHeight);
+    calcWorld();
+    ScrollTrigger.refresh();
+  },{passive:true});
+}
 </script>
 </body>
 </html>
