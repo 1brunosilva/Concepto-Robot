@@ -7,15 +7,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:auto;}
-body{
+html,body{
   background:#f0ede8;
   font-family:'Inter',sans-serif;
   -webkit-font-smoothing:antialiased;
   overscroll-behavior:none;
 }
 
-/* ── NAV ── */
+/* NAV */
 #nav{
   position:fixed;top:0;left:0;right:0;
   height:54px;z-index:500;
@@ -24,8 +23,16 @@ body{
   padding:0 6vw;
   transition:background .4s;
 }
-#nav.light{background:rgba(240,237,232,.9);backdrop-filter:blur(16px);}
-#nav.dark{background:rgba(6,4,15,.85);backdrop-filter:blur(16px);}
+#nav.light{
+  background:rgba(240,237,232,.92);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+#nav.dark{
+  background:rgba(6,4,15,.88);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
 .nav-logo{
   font-family:'Syne',sans-serif;
   font-size:15px;font-weight:800;
@@ -34,25 +41,27 @@ body{
 }
 #nav.dark .nav-logo{color:#fff;}
 .nav-cta{
-  padding:.4rem 1.1rem;border-radius:100px;
+  padding:.42rem 1.1rem;border-radius:100px;
   background:#0d0d0d;color:#f0ede8;
   font-size:12px;font-family:'Syne',sans-serif;
   font-weight:700;text-decoration:none;
-  transition:background .3s;
+  transition:background .3s,color .3s;
 }
-#nav.dark .nav-cta{background:#7c3aed;}
+#nav.dark .nav-cta{
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  color:#fff;
+}
 
-/* ══════════════════════════════════════════
-   HERO SCROLL CONTAINER
-   200vh = el "scroll space" que anima el video
-   ══════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   HERO SCROLL SPACE — 300vh
+   100vh visible + 200vh de scroll
+   para 76 frames a velocidad cómoda
+   ═══════════════════════════════════════ */
 #hero-scroll{
-  height:200vh;
+  height:300vh;
   position:relative;
 }
 
-/* El sticky wrapper se queda fijo mientras
-   scrolleamos dentro de #hero-scroll */
 #hero-sticky{
   position:sticky;
   top:0;
@@ -70,81 +79,88 @@ body{
   display:block;
 }
 
-/* Copy overlay — bottom de la pantalla */
+/* ═══════════════════════════════════════
+   COPY — top de la pantalla
+   ═══════════════════════════════════════ */
 #hero-copy{
   position:absolute;
-  bottom:0;left:0;right:0;
-  padding:4rem 7vw 2.5rem;
+  top:0;left:0;right:0;
+  padding:calc(54px + 1.8rem) 7vw 3rem;
   background:linear-gradient(
-    to top,
-    rgba(240,237,232,.96) 0%,
-    rgba(240,237,232,.75) 50%,
+    to bottom,
+    rgba(240,237,232,.97) 0%,
+    rgba(240,237,232,.82) 55%,
     transparent 100%
   );
   display:flex;flex-direction:column;
-  align-items:center;text-align:center;
-  transition:opacity .25s ease;
+  align-items:flex-start;
+  text-align:left;
+  transition:opacity .3s ease;
   pointer-events:none;
+  z-index:10;
 }
 #hero-copy.gone{opacity:0;}
-#hero-copy a,#hero-copy button{pointer-events:auto;}
+#hero-copy a{pointer-events:auto;}
 
 .hc-tag{
   font-size:9px;letter-spacing:.2em;
   color:#a0a0a0;text-transform:uppercase;
   font-family:'DM Mono',monospace;
-  margin-bottom:.75rem;
+  margin-bottom:.75rem;display:block;
 }
 .hc-h1{
   font-family:'Syne',sans-serif;
-  font-size:clamp(28px,9vw,42px);
+  font-size:clamp(30px,9.5vw,46px);
   font-weight:800;letter-spacing:-.04em;
   line-height:.88;color:#0d0d0d;
 }
-.hc-h1 em{color:#b0b0b0;font-style:normal;}
+.hc-h1 em{color:#b8b5b0;font-style:normal;}
 .hc-sub{
   font-size:12.5px;color:#707070;
-  line-height:1.7;margin-top:.7rem;
-  font-weight:300;
+  line-height:1.72;margin-top:.75rem;
+  font-weight:300;max-width:280px;
 }
 .hc-btns{
   display:flex;gap:.4rem;
   margin-top:1.1rem;
-  flex-wrap:wrap;justify-content:center;
+  flex-wrap:wrap;
 }
 .hc-b1{
   padding:.52rem 1.3rem;border-radius:100px;
   background:#0d0d0d;color:#f0ede8;
   font-size:12px;font-family:'Syne',sans-serif;
   font-weight:700;text-decoration:none;
+  pointer-events:auto;
 }
 .hc-b2{
   padding:.52rem 1.3rem;border-radius:100px;
-  border:1px solid rgba(13,13,13,.2);
+  border:1px solid rgba(13,13,13,.18);
   color:#0d0d0d;font-size:12px;
-  font-family:'Syne',sans-serif;text-decoration:none;
+  font-family:'Syne',sans-serif;
+  text-decoration:none;pointer-events:auto;
 }
 
-/* Scroll hint */
+/* Scroll hint — bottom */
 #hero-hint{
   position:absolute;
-  bottom:14px;left:50%;
+  bottom:20px;left:50%;
   transform:translateX(-50%);
   display:flex;flex-direction:column;
   align-items:center;gap:5px;
   transition:opacity .3s;
   pointer-events:none;
+  z-index:10;
 }
 #hero-hint.gone{opacity:0;}
 .hint-txt{
-  font-size:8.5px;color:rgba(13,13,13,.3);
+  font-size:8.5px;color:rgba(13,13,13,.28);
   letter-spacing:.15em;text-transform:uppercase;
   font-family:'DM Mono',monospace;
 }
 .hint-arr{
   width:16px;height:16px;
-  border-right:1.5px solid rgba(13,13,13,.25);
-  border-bottom:1.5px solid rgba(13,13,13,.25);
+  border-right:1.5px solid rgba(13,13,13,.2);
+  border-bottom:1.5px solid rgba(13,13,13,.2);
   transform:rotate(45deg);
   animation:arr 1.5s ease-in-out infinite;
 }
@@ -157,11 +173,14 @@ body{
 #hero-loader{
   position:absolute;inset:0;
   background:#f0ede8;z-index:50;
-  display:flex;align-items:center;justify-content:center;
+  display:flex;align-items:center;
+  justify-content:center;
   flex-direction:column;gap:1.4rem;
-  transition:opacity .5s;
+  transition:opacity .6s;
 }
-#hero-loader.gone{opacity:0;pointer-events:none;}
+#hero-loader.gone{
+  opacity:0;pointer-events:none;
+}
 .ld-logo{
   font-family:'Syne',sans-serif;
   font-size:16px;font-weight:800;
@@ -173,20 +192,12 @@ body{
 }
 .ld-prog{
   height:100%;background:#0d0d0d;
-  width:0%;transition:width .15s linear;
+  width:0%;transition:width .08s linear;
 }
 
-/* Videos — ocultos, solo para scrubbing */
-video{
-  position:absolute;
-  width:1px;height:1px;
-  opacity:0;pointer-events:none;
-  top:-9999px;left:-9999px;
-}
-
-/* ══════════════════════════════════════
-   NIGHT SECTION (la que ya tenés)
-   ══════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   NIGHT SECTION
+   ═══════════════════════════════════════ */
 #s-night{
   background:#06040f;
   min-height:100svh;
@@ -198,7 +209,7 @@ video{
 #s-night::before{
   content:'';position:absolute;
   width:500px;height:500px;
-  background:radial-gradient(circle,rgba(124,58,237,.2),transparent 70%);
+  background:radial-gradient(circle,rgba(124,58,237,.22),transparent 70%);
   top:-150px;right:-100px;pointer-events:none;
 }
 .nt-tag{
@@ -208,24 +219,41 @@ video{
 }
 .nt-h{
   font-family:'Syne',sans-serif;
-  font-size:clamp(34px,10vw,52px);
+  font-size:clamp(34px,10vw,54px);
   font-weight:800;letter-spacing:-.04em;
-  line-height:.9;color:#fff;
+  line-height:.88;color:#fff;
 }
 .nt-h span{color:#a855f7;}
 .nt-sub{
   font-size:13.5px;color:rgba(255,255,255,.38);
   line-height:1.75;margin-top:1rem;font-weight:300;
+  max-width:300px;
 }
 .nt-cta{
   display:inline-flex;align-items:center;gap:.4rem;
-  margin-top:1.6rem;padding:.68rem 1.6rem;
+  margin-top:1.6rem;padding:.7rem 1.6rem;
   border-radius:100px;
   background:linear-gradient(135deg,#7c3aed,#a855f7);
   color:#fff;font-size:13.5px;
   font-family:'Syne',sans-serif;font-weight:700;
   text-decoration:none;width:fit-content;
   box-shadow:0 8px 28px rgba(124,58,237,.35);
+}
+.nt-stamp{
+  margin-top:.9rem;
+  font-size:10.5px;color:rgba(255,255,255,.18);
+  font-family:'DM Mono',monospace;
+}
+.nt-stamp strong{color:rgba(168,85,247,.5);}
+
+/* Desktop: ocultar hero frames, mostrar Three.js */
+@media(min-width:681px){
+  #hero-scroll{display:none;}
+  /* El #s-hero original con Three.js toma el control */
+}
+/* Mobile: ocultar #s-hero original */
+@media(max-width:680px){
+  #s-hero{display:none !important;}
 }
 </style>
 </head>
@@ -237,17 +265,10 @@ video{
   <a href="https://wa.me/59897976574" class="nav-cta" target="_blank">Hablemos</a>
 </nav>
 
-<!-- VIDEOS (hidden) -->
-<video id="v1" playsinline muted preload="auto">
-  <source src="https://raw.githubusercontent.com/1brunosilva/Concepto-Robot/main/MaxCloseUp.mp4" type="video/mp4">
-</video>
-<video id="v2" playsinline muted preload="auto">
-  <source src="https://raw.githubusercontent.com/1brunosilva/Concepto-Robot/main/MaxSection2.mp4" type="video/mp4">
-</video>
-
-<!-- HERO SCROLL SPACE -->
+<!-- HERO FRAMES (mobile only) -->
 <div id="hero-scroll">
   <div id="hero-sticky">
+
     <canvas id="hero-canvas"></canvas>
 
     <!-- Loader -->
@@ -256,11 +277,11 @@ video{
       <div class="ld-bar"><div class="ld-prog" id="ld-prog"></div></div>
     </div>
 
-    <!-- Copy -->
+    <!-- Copy — TOP -->
     <div id="hero-copy">
       <span class="hc-tag">Concepto Development</span>
       <h1 class="hc-h1">Mientras dormís,<br><em>tu negocio vende.</em></h1>
-      <p class="hc-sub">Automatizaciones, webs y chatbots con IA.</p>
+      <p class="hc-sub">Automatizaciones, webs y chatbots con IA para negocios que quieren escalar.</p>
       <div class="hc-btns">
         <a href="https://wa.me/59897976574" class="hc-b1" target="_blank">Empezar ahora</a>
         <a href="#s-night" class="hc-b2">Ver cómo →</a>
@@ -272,6 +293,7 @@ video{
       <span class="hint-txt">scroll</span>
       <div class="hint-arr"></div>
     </div>
+
   </div>
 </div>
 
@@ -279,138 +301,149 @@ video{
 <section id="s-night">
   <span class="nt-tag">Chatbots con IA</span>
   <h2 class="nt-h">Tu negocio cerró<br>ventas a las<br><span>3:14 AM.</span></h2>
-  <p class="nt-sub">Vos dormías. Tu chatbot atendió, respondió y confirmó la venta.</p>
+  <p class="nt-sub">Vos dormías. Tu chatbot atendió, respondió y confirmó la venta. Sin intervención humana.</p>
   <a href="https://wa.me/59897976574" class="nt-cta" target="_blank">Quiero un chatbot así →</a>
+  <p class="nt-stamp">Última actividad: <strong>3:14 AM</strong> · Venta confirmada ✓</p>
 </section>
 
 <script>
 (function(){
-  const v1       = document.getElementById('v1');
-  const v2       = document.getElementById('v2');
-  const canvas   = document.getElementById('hero-canvas');
-  const ctx      = canvas.getContext('2d');
-  const scroll   = document.getElementById('hero-scroll');
-  const copy     = document.getElementById('hero-copy');
-  const hint     = document.getElementById('hero-hint');
-  const loader   = document.getElementById('hero-loader');
-  const ldProg   = document.getElementById('ld-prog');
-  const nav      = document.getElementById('nav');
+  // Solo mobile
+  if(window.innerWidth > 680) return;
 
-  // ── CANVAS SIZE ──
+  const TOTAL_FRAMES = 76;
+  const BASE_URL = 'https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/';
+
+  const canvas  = document.getElementById('hero-canvas');
+  const ctx     = canvas.getContext('2d');
+  const scroll  = document.getElementById('hero-scroll');
+  const copy    = document.getElementById('hero-copy');
+  const hint    = document.getElementById('hero-hint');
+  const loader  = document.getElementById('hero-loader');
+  const ldProg  = document.getElementById('ld-prog');
+  const nav     = document.getElementById('nav');
+
+  // Resize canvas
   function resize(){
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
+    if(currentImg) drawImg(currentImg);
   }
   resize();
   window.addEventListener('resize', resize, {passive:true});
 
-  // ── DRAW ──
-  function draw(vid){
-    if(!vid || !vid.videoWidth) return;
-    const vw = vid.videoWidth, vh = vid.videoHeight;
-    const cw = canvas.width,   ch = canvas.height;
-    const scale = Math.max(cw/vw, ch/vh);
-    const dw = vw*scale, dh = vh*scale;
-    const dx = (cw-dw)/2, dy = (ch-dh)/2;
-    ctx.clearRect(0,0,cw,ch);
-    ctx.drawImage(vid, dx, dy, dw, dh);
-  }
+  // Preload frames
+  const frames = new Array(TOTAL_FRAMES).fill(null);
+  let loadedCount = 0;
+  let currentImg = null;
+  let currentFrame = 0;
+  let ready = false;
 
-  // ── LOAD ──
-  let r1=false, r2=false, loaded=0;
+  function pad(n){ return String(n).padStart(4,'0'); }
 
-  function videoReady(n){
-    loaded++;
-    ldProg.style.width = (loaded*50)+'%';
-    if(n===1) r1=true;
-    if(n===2) r2=true;
-    if(r1&&r2){
-      setTimeout(()=>{
-        loader.classList.add('gone');
-        // Dibujá primer frame
-        v1.currentTime=0;
-      },400);
+  function preloadAll(){
+    // Cargamos primero el frame 1 para mostrar algo rápido
+    // Luego el resto en paralelo
+    const priorities = [1,2,3,4,5];
+    
+    function loadFrame(i){
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        frames[i-1] = img;
+        loadedCount++;
+        const pct = Math.round((loadedCount/TOTAL_FRAMES)*100);
+        ldProg.style.width = pct+'%';
+        
+        // Mostrar primer frame apenas carga
+        if(i===1 && !currentImg){
+          currentImg = img;
+          drawImg(img);
+        }
+        
+        // Ready cuando cargaron suficientes para empezar
+        if(loadedCount >= 10 && !ready){
+          ready = true;
+          setTimeout(()=>{
+            loader.classList.add('gone');
+          }, 300);
+        }
+      };
+      img.onerror = () => {
+        loadedCount++;
+        // si falla, marcamos como null y seguimos
+      };
+      img.src = BASE_URL + 'f' + pad(i) + '.jpg';
+    }
+
+    // Carga prioritaria primero
+    priorities.forEach(i => loadFrame(i));
+    
+    // Resto en orden
+    for(let i=1;i<=TOTAL_FRAMES;i++){
+      if(!priorities.includes(i)) loadFrame(i);
     }
   }
 
-  function loadVid(vid, n){
-    vid.load();
-    const onMeta = ()=>{
-      vid.removeEventListener('loadedmetadata',onMeta);
-      vid.currentTime=0;
-      const onS=()=>{ vid.removeEventListener('seeked',onS); videoReady(n); };
-      vid.addEventListener('seeked',onS,{once:true});
-    };
-    vid.addEventListener('loadedmetadata',onMeta);
-    // Fallback 5s
-    setTimeout(()=>{ if(!r1||!r2) videoReady(n); },5000);
+  // Draw con cover
+  function drawImg(img){
+    if(!img) return;
+    const iw = img.naturalWidth  || img.width;
+    const ih = img.naturalHeight || img.height;
+    const cw = canvas.width;
+    const ch = canvas.height;
+    if(!iw||!ih) return;
+    const scale = Math.max(cw/iw, ch/ih);
+    const dw = iw*scale, dh = ih*scale;
+    const dx = (cw-dw)/2, dy = (ch-dh)/2;
+    ctx.clearRect(0,0,cw,ch);
+    ctx.drawImage(img, dx, dy, dw, dh);
   }
 
-  loadVid(v1,1);
-  loadVid(v2,2);
-
-  // Redibujar cuando el seek termina
-  v1.addEventListener('seeked',()=>draw(v1));
-  v2.addEventListener('seeked',()=>draw(v2));
-
-  // ── SCROLL ──
-  let raf=null;
-
-  window.addEventListener('scroll',()=>{
-    cancelAnimationFrame(raf);
-    raf=requestAnimationFrame(onScroll);
-  },{passive:true});
-
+  // Scroll handler
   function onScroll(){
-    if(!r1&&!r2) return;
+    if(!ready) return;
 
-    const top       = scroll.offsetTop;
-    const scrollH   = scroll.offsetHeight - window.innerHeight; // 100vh scrollable
-    const sy        = window.scrollY - top;
-    const p         = Math.max(0, Math.min(1, sy/scrollH)); // 0→1
+    const heroTop  = scroll.offsetTop;
+    const scrollH  = scroll.offsetHeight - window.innerHeight;
+    const sy       = window.scrollY - heroTop;
+    const p        = Math.max(0, Math.min(1, sy/scrollH));
 
-    // Copy: fade out 0→18%
-    const cOpacity = 1 - Math.min(1, p/0.18);
-    copy.style.opacity = cOpacity;
-    if(cOpacity<0.02) copy.classList.add('gone');
-    else copy.classList.remove('gone');
+    // Frame index (0-based)
+    const frameIdx = Math.min(
+      TOTAL_FRAMES - 1,
+      Math.floor(p * TOTAL_FRAMES)
+    );
 
-    // Hint: hide after 4%
-    if(p>0.04) hint.classList.add('gone');
+    if(frameIdx !== currentFrame){
+      currentFrame = frameIdx;
+      const img = frames[frameIdx];
+      if(img){
+        currentImg = img;
+        drawImg(img);
+      }
+    }
+
+    // Copy — fade out 0→20%
+    const cOp = 1 - Math.min(1, p/0.20);
+    copy.style.opacity = cOp;
+
+    // Hint
+    if(p > 0.05) hint.classList.add('gone');
     else hint.classList.remove('gone');
 
     // Nav
-    if(p>0.80){
-      nav.className='dark';
-    } else if(p>0.02){
-      nav.className='light';
-    } else {
-      nav.className='';
-    }
-
-    // Video scrubbing
-    // 0→0.5  → v1 (5s)
-    // 0.5→1  → v2 (5s)
-    if(p<=0.5){
-      const t = (p/0.5)*(v1.duration||5);
-      const tClamped = Math.max(0,Math.min(v1.duration||5,t));
-      if(Math.abs(v1.currentTime-tClamped)>0.033){
-        v1.currentTime=tClamped;
-      } else {
-        draw(v1);
-      }
-    } else {
-      const t = ((p-0.5)/0.5)*(v2.duration||5);
-      const tClamped = Math.max(0,Math.min(v2.duration||5,t));
-      if(Math.abs(v2.currentTime-tClamped)>0.033){
-        v2.currentTime=tClamped;
-      } else {
-        draw(v2);
-      }
-    }
+    if(p > 0.75) nav.className = 'dark';
+    else if(p > 0.02) nav.className = 'light';
+    else nav.className = '';
   }
+
+  window.addEventListener('scroll', onScroll, {passive:true});
+  preloadAll();
+  onScroll();
 
 })();
 </script>
+
 </body>
 </html>
