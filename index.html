@@ -4,550 +4,413 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Concepto Development</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════════════════
-   CONCEPTO DEVELOPMENT — MOBILE VIDEO SCRUBBER HERO
-   Integración: reemplaza #s-hero en mobile (≤680px)
-   Desktop: Three.js GLB sigue intacto
-   ═══════════════════════════════════════════════════════ */
-
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-:root{
-  --cream:#f0ede8;
-  --ink:#0d0d0d;
-  --mid:#585858;
-  --dim:#a0a0a0;
-  --vlt:#7c3aed;
-  --vlt-l:#a855f7;
-  --night:#06040f;
-}
-html,body{
-  background:var(--cream);
+html{scroll-behavior:auto;}
+body{
+  background:#f0ede8;
   font-family:'Inter',sans-serif;
   -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
+  overscroll-behavior:none;
 }
 
-/* ══════════════════════════════════════
-   MOBILE ONLY — video scrubber hero
-   ══════════════════════════════════════ */
-@media(max-width:680px){
-
-  /* La sección hero mobile ocupa 200vh —
-     100vh visible + 100vh de scroll para
-     animar los 10 segundos de video total */
-  #cd-hero-mobile{
-    position:relative;
-    height:200vh;
-    /* ocultar en desktop */
-  }
-
-  /* Canvas fijo que muestra el video */
-  #cd-hero-sticky{
-    position:sticky;
-    top:0;
-    height:100svh;
-    width:100%;
-    overflow:hidden;
-    background:var(--cream);
-  }
-
-  /* Video elements — hidden, solo para scrubbing */
-  #vid1,#vid2{
-    position:absolute;
-    width:1px;height:1px;
-    opacity:0;pointer-events:none;
-    /* preload silencioso */
-  }
-
-  /* Canvas donde dibujamos los frames */
-  #cd-canvas{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    /* object-position: center top para mostrar
-       el robot desde arriba hacia abajo */
-    background:var(--cream);
-  }
-
-  /* Overlay copy — aparece al inicio, fade out al scrollear */
-  #cd-copy{
-    position:absolute;
-    bottom:0;left:0;right:0;
-    padding:0 7vw calc(10svh + 21px);
-    display:flex;flex-direction:column;
-    align-items:center;text-align:center;
-    z-index:10;
-    transition:opacity .3s ease;
-    /* fondo gradiente para que el texto sea legible
-       sobre el robot claro */
-    background:linear-gradient(
-      to top,
-      rgba(240,237,232,.95) 0%,
-      rgba(240,237,232,.7) 40%,
-      transparent 100%
-    );
-    padding-top:3rem;
-  }
-  #cd-copy.hidden{
-    opacity:0;
-    pointer-events:none;
-  }
-
-  .cd-tag{
-    font-size:9.5px;
-    font-weight:400;
-    letter-spacing:.18em;
-    color:var(--dim);
-    text-transform:uppercase;
-    margin-bottom:.9rem;
-    font-family:'DM Mono',monospace;
-  }
-  .cd-h1{
-    font-family:'Syne',sans-serif;
-    font-size:clamp(30px,9.5vw,44px);
-    font-weight:800;
-    letter-spacing:-.04em;
-    line-height:.9;
-    color:var(--ink);
-  }
-  .cd-h1 .fade{color:var(--dim);}
-
-  .cd-sub{
-    font-size:13px;
-    color:var(--mid);
-    line-height:1.7;
-    margin-top:.8rem;
-    font-weight:300;
-    max-width:260px;
-  }
-
-  .cd-btns{
-    display:flex;gap:.45rem;
-    margin-top:1.2rem;
-    justify-content:center;
-  }
-  .cd-b1{
-    padding:.55rem 1.3rem;
-    border-radius:100px;
-    background:var(--ink);
-    color:var(--cream);
-    font-size:12.5px;
-    font-family:'Syne',sans-serif;
-    font-weight:700;
-    letter-spacing:-.01em;
-  }
-  .cd-b2{
-    padding:.55rem 1.3rem;
-    border-radius:100px;
-    border:1px solid rgba(13,13,13,.18);
-    color:var(--ink);
-    font-size:12.5px;
-    font-family:'Syne',sans-serif;
-  }
-
-  /* Scroll hint */
-  #cd-scroll-hint{
-    position:absolute;
-    bottom:24px;left:50%;
-    transform:translateX(-50%);
-    display:flex;flex-direction:column;
-    align-items:center;gap:4px;
-    z-index:11;
-    transition:opacity .4s;
-  }
-  #cd-scroll-hint.hidden{opacity:0;}
-  .cd-sh-text{
-    font-size:9px;
-    color:rgba(13,13,13,.35);
-    letter-spacing:.12em;
-    text-transform:uppercase;
-    font-family:'DM Mono',monospace;
-  }
-  .cd-sh-arrow{
-    width:18px;height:18px;
-    border-right:1.5px solid rgba(13,13,13,.25);
-    border-bottom:1.5px solid rgba(13,13,13,.25);
-    transform:rotate(45deg);
-    animation:cd-bounce 1.6s ease-in-out infinite;
-  }
-  @keyframes cd-bounce{
-    0%,100%{transform:rotate(45deg) translateY(0);}
-    50%{transform:rotate(45deg) translateY(4px);}
-  }
-
-  /* Loading state */
-  #cd-loader{
-    position:absolute;inset:0;
-    background:var(--cream);
-    display:flex;align-items:center;justify-content:center;
-    z-index:20;
-    transition:opacity .5s;
-  }
-  #cd-loader.hidden{opacity:0;pointer-events:none;}
-  .cd-loader-inner{
-    display:flex;flex-direction:column;
-    align-items:center;gap:1.2rem;
-  }
-  .cd-loader-logo{
-    font-family:'Syne',sans-serif;
-    font-size:15px;font-weight:800;
-    color:var(--ink);letter-spacing:-.03em;
-  }
-  .cd-loader-bar{
-    width:80px;height:1px;
-    background:rgba(13,13,13,.1);
-    overflow:hidden;
-  }
-  .cd-loader-fill{
-    height:100%;background:var(--ink);
-    width:0%;
-    transition:width .1s linear;
-  }
-
-  /* Scarcity bar push */
-  body.has-scarcity #cd-hero-mobile{
-    /* el nav y scarcity ya manejan el offset */
-  }
-
-  /* DESKTOP: ocultar el hero mobile */
+/* ── NAV ── */
+#nav{
+  position:fixed;top:0;left:0;right:0;
+  height:54px;z-index:500;
+  display:flex;align-items:center;
+  justify-content:space-between;
+  padding:0 6vw;
+  transition:background .4s;
 }
-
-/* Desktop: ocultar completamente el hero mobile */
-@media(min-width:681px){
-  #cd-hero-mobile{display:none;}
+#nav.light{background:rgba(240,237,232,.9);backdrop-filter:blur(16px);}
+#nav.dark{background:rgba(6,4,15,.85);backdrop-filter:blur(16px);}
+.nav-logo{
+  font-family:'Syne',sans-serif;
+  font-size:15px;font-weight:800;
+  color:#0d0d0d;letter-spacing:-.03em;
+  text-decoration:none;transition:color .3s;
 }
-
-/* Mobile: ocultar el hero original */
-@media(max-width:680px){
-  #s-hero{display:none !important;}
+#nav.dark .nav-logo{color:#fff;}
+.nav-cta{
+  padding:.4rem 1.1rem;border-radius:100px;
+  background:#0d0d0d;color:#f0ede8;
+  font-size:12px;font-family:'Syne',sans-serif;
+  font-weight:700;text-decoration:none;
+  transition:background .3s;
 }
+#nav.dark .nav-cta{background:#7c3aed;}
 
-/* ══════════════════════════════════════
-   NAV overrides mobile
-   ══════════════════════════════════════ */
-@media(max-width:680px){
-  nav{
-    position:fixed;top:0;left:0;right:0;
-    z-index:400;
-    background:transparent;
-    transition:background .4s, top .5s;
-  }
-  nav.scrolled{
-    background:rgba(240,237,232,.88);
-    backdrop-filter:blur(16px);
-  }
-  /* cuando estamos en la night section (video2 avanzado) */
-  nav.on-dark{
-    background:rgba(6,4,15,.7);
-    backdrop-filter:blur(16px);
-  }
-  nav.on-dark .nl,
-  nav.on-dark .nmb{
-    color:#fff;
-    background:rgba(168,85,247,.2);
-    border:1px solid rgba(168,85,247,.3);
-  }
-}
-
-/* ══════════════════════════════════════
-   DEMO PAGE STYLES (para preview)
-   ══════════════════════════════════════ */
-body.demo-mode{
-  background:#111;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  min-height:100vh;
-}
-.phone-preview{
-  width:375px;
-  height:812px;
-  border-radius:44px;
-  border:2px solid rgba(255,255,255,.15);
-  overflow:hidden;
-  box-shadow:0 40px 100px rgba(0,0,0,.8);
+/* ══════════════════════════════════════════
+   HERO SCROLL CONTAINER
+   200vh = el "scroll space" que anima el video
+   ══════════════════════════════════════════ */
+#hero-scroll{
+  height:200vh;
   position:relative;
-  background:var(--cream);
+}
+
+/* El sticky wrapper se queda fijo mientras
+   scrolleamos dentro de #hero-scroll */
+#hero-sticky{
+  position:sticky;
+  top:0;
+  height:100svh;
+  width:100%;
+  overflow:hidden;
+  background:#f0ede8;
+}
+
+/* Canvas fullscreen */
+#hero-canvas{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:100%;
+  display:block;
+}
+
+/* Copy overlay — bottom de la pantalla */
+#hero-copy{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  padding:4rem 7vw 2.5rem;
+  background:linear-gradient(
+    to top,
+    rgba(240,237,232,.96) 0%,
+    rgba(240,237,232,.75) 50%,
+    transparent 100%
+  );
+  display:flex;flex-direction:column;
+  align-items:center;text-align:center;
+  transition:opacity .25s ease;
+  pointer-events:none;
+}
+#hero-copy.gone{opacity:0;}
+#hero-copy a,#hero-copy button{pointer-events:auto;}
+
+.hc-tag{
+  font-size:9px;letter-spacing:.2em;
+  color:#a0a0a0;text-transform:uppercase;
+  font-family:'DM Mono',monospace;
+  margin-bottom:.75rem;
+}
+.hc-h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(28px,9vw,42px);
+  font-weight:800;letter-spacing:-.04em;
+  line-height:.88;color:#0d0d0d;
+}
+.hc-h1 em{color:#b0b0b0;font-style:normal;}
+.hc-sub{
+  font-size:12.5px;color:#707070;
+  line-height:1.7;margin-top:.7rem;
+  font-weight:300;
+}
+.hc-btns{
+  display:flex;gap:.4rem;
+  margin-top:1.1rem;
+  flex-wrap:wrap;justify-content:center;
+}
+.hc-b1{
+  padding:.52rem 1.3rem;border-radius:100px;
+  background:#0d0d0d;color:#f0ede8;
+  font-size:12px;font-family:'Syne',sans-serif;
+  font-weight:700;text-decoration:none;
+}
+.hc-b2{
+  padding:.52rem 1.3rem;border-radius:100px;
+  border:1px solid rgba(13,13,13,.2);
+  color:#0d0d0d;font-size:12px;
+  font-family:'Syne',sans-serif;text-decoration:none;
+}
+
+/* Scroll hint */
+#hero-hint{
+  position:absolute;
+  bottom:14px;left:50%;
+  transform:translateX(-50%);
+  display:flex;flex-direction:column;
+  align-items:center;gap:5px;
+  transition:opacity .3s;
+  pointer-events:none;
+}
+#hero-hint.gone{opacity:0;}
+.hint-txt{
+  font-size:8.5px;color:rgba(13,13,13,.3);
+  letter-spacing:.15em;text-transform:uppercase;
+  font-family:'DM Mono',monospace;
+}
+.hint-arr{
+  width:16px;height:16px;
+  border-right:1.5px solid rgba(13,13,13,.25);
+  border-bottom:1.5px solid rgba(13,13,13,.25);
+  transform:rotate(45deg);
+  animation:arr 1.5s ease-in-out infinite;
+}
+@keyframes arr{
+  0%,100%{transform:rotate(45deg) translateY(0);}
+  50%{transform:rotate(45deg) translateY(4px);}
+}
+
+/* Loader */
+#hero-loader{
+  position:absolute;inset:0;
+  background:#f0ede8;z-index:50;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:1.4rem;
+  transition:opacity .5s;
+}
+#hero-loader.gone{opacity:0;pointer-events:none;}
+.ld-logo{
+  font-family:'Syne',sans-serif;
+  font-size:16px;font-weight:800;
+  color:#0d0d0d;letter-spacing:-.03em;
+}
+.ld-bar{
+  width:72px;height:1px;
+  background:rgba(13,13,13,.1);overflow:hidden;
+}
+.ld-prog{
+  height:100%;background:#0d0d0d;
+  width:0%;transition:width .15s linear;
+}
+
+/* Videos — ocultos, solo para scrubbing */
+video{
+  position:absolute;
+  width:1px;height:1px;
+  opacity:0;pointer-events:none;
+  top:-9999px;left:-9999px;
+}
+
+/* ══════════════════════════════════════
+   NIGHT SECTION (la que ya tenés)
+   ══════════════════════════════════════ */
+#s-night{
+  background:#06040f;
+  min-height:100svh;
+  display:flex;flex-direction:column;
+  justify-content:center;
+  padding:80px 7vw 60px;
+  position:relative;overflow:hidden;
+}
+#s-night::before{
+  content:'';position:absolute;
+  width:500px;height:500px;
+  background:radial-gradient(circle,rgba(124,58,237,.2),transparent 70%);
+  top:-150px;right:-100px;pointer-events:none;
+}
+.nt-tag{
+  font-size:10px;letter-spacing:.18em;
+  color:rgba(168,85,247,.65);text-transform:uppercase;
+  font-family:'DM Mono',monospace;margin-bottom:1rem;
+}
+.nt-h{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(34px,10vw,52px);
+  font-weight:800;letter-spacing:-.04em;
+  line-height:.9;color:#fff;
+}
+.nt-h span{color:#a855f7;}
+.nt-sub{
+  font-size:13.5px;color:rgba(255,255,255,.38);
+  line-height:1.75;margin-top:1rem;font-weight:300;
+}
+.nt-cta{
+  display:inline-flex;align-items:center;gap:.4rem;
+  margin-top:1.6rem;padding:.68rem 1.6rem;
+  border-radius:100px;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  color:#fff;font-size:13.5px;
+  font-family:'Syne',sans-serif;font-weight:700;
+  text-decoration:none;width:fit-content;
+  box-shadow:0 8px 28px rgba(124,58,237,.35);
 }
 </style>
 </head>
 <body>
 
-<!--
-  ═══════════════════════════════════════════════════════
-  INSTRUCCIONES DE INTEGRACIÓN:
-  
-  1. Copiá el bloque #cd-hero-mobile al HTML principal
-     ANTES de #s-hero
-  
-  2. Copiá el <style> de este archivo al bloque <style>
-     principal (o a un <style> separado)
-  
-  3. Copiá el <script> de este archivo ANTES del cierre
-     </body>, DESPUÉS del script principal existente
-  
-  4. El resto del HTML (nav, secciones, modales, etc.)
-     queda exactamente igual
-  ═══════════════════════════════════════════════════════
--->
-
-<!-- ══ NAV (igual al original) ══ -->
+<!-- NAV -->
 <nav id="nav">
-  <a href="#" class="nl" style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#0d0d0d;text-decoration:none;letter-spacing:-.025em;">Concepto</a>
-  <div class="nlinks" style="display:flex;gap:2rem;align-items:center;">
-    <a href="#" style="font-size:13px;color:#585858;text-decoration:none;">Automatizaciones</a>
-    <a href="#" style="font-size:13px;color:#585858;text-decoration:none;">Webs</a>
-    <a href="#" style="font-size:13px;color:#585858;text-decoration:none;">Chatbots</a>
-    <a href="#" style="font-size:13px;color:#585858;text-decoration:none;">IA</a>
-    <a href="https://wa.me/59897976574" style="padding:.48rem 1.2rem;border-radius:100px;background:#0d0d0d;color:#f0ede8;font-size:13px;text-decoration:none;" target="_blank">Hablemos</a>
-  </div>
-  <a href="https://wa.me/59897976574" class="nmb" style="display:none;padding:.42rem 1rem;border-radius:100px;background:#0d0d0d;color:#f0ede8;font-size:12px;text-decoration:none;" target="_blank">Hablemos</a>
+  <a href="#" class="nav-logo">Concepto</a>
+  <a href="https://wa.me/59897976574" class="nav-cta" target="_blank">Hablemos</a>
 </nav>
 
-<!-- ══════════════════════════════════════
-     HERO MOBILE — VIDEO SCRUBBER
-     ══════════════════════════════════════ -->
-<div id="cd-hero-mobile">
-  <div id="cd-hero-sticky">
+<!-- VIDEOS (hidden) -->
+<video id="v1" playsinline muted preload="auto">
+  <source src="https://raw.githubusercontent.com/1brunosilva/Concepto-Robot/main/MaxCloseUp.mp4" type="video/mp4">
+</video>
+<video id="v2" playsinline muted preload="auto">
+  <source src="https://raw.githubusercontent.com/1brunosilva/Concepto-Robot/main/MaxSection2.mp4" type="video/mp4">
+</video>
 
-    <!-- Videos ocultos para scrubbing -->
-    <video id="vid1" playsinline muted preload="auto" crossorigin="anonymous">
-      <source src="https://raw.githubusercontent.com/1brunosilva/Concepto-Robot/main/MaxCloseUp.mp4" type="video/mp4">
-    </video>
-    <video id="vid2" playsinline muted preload="auto" crossorigin="anonymous">
-      <source src="https://raw.githubusercontent.com/1brunosilva/Concepto-Robot/main/MaxSection2.mp4" type="video/mp4">
-    </video>
+<!-- HERO SCROLL SPACE -->
+<div id="hero-scroll">
+  <div id="hero-sticky">
+    <canvas id="hero-canvas"></canvas>
 
-    <!-- Canvas donde se renderiza el frame actual -->
-    <canvas id="cd-canvas"></canvas>
+    <!-- Loader -->
+    <div id="hero-loader">
+      <div class="ld-logo">Concepto</div>
+      <div class="ld-bar"><div class="ld-prog" id="ld-prog"></div></div>
+    </div>
 
-    <!-- Copy superpuesto — fade out al scrollear -->
-    <div id="cd-copy">
-      <span class="cd-tag">Concepto Development</span>
-      <h1 class="cd-h1">Mientras dormís,<br><span class="fade">tu negocio vende.</span></h1>
-      <p class="cd-sub">Automatizaciones, webs y chatbots con IA.</p>
-      <div class="cd-btns">
-        <a href="https://wa.me/59897976574" class="cd-b1" target="_blank">Empezar ahora</a>
-        <a href="#s-auto" class="cd-b2">Ver cómo →</a>
+    <!-- Copy -->
+    <div id="hero-copy">
+      <span class="hc-tag">Concepto Development</span>
+      <h1 class="hc-h1">Mientras dormís,<br><em>tu negocio vende.</em></h1>
+      <p class="hc-sub">Automatizaciones, webs y chatbots con IA.</p>
+      <div class="hc-btns">
+        <a href="https://wa.me/59897976574" class="hc-b1" target="_blank">Empezar ahora</a>
+        <a href="#s-night" class="hc-b2">Ver cómo →</a>
       </div>
     </div>
 
     <!-- Scroll hint -->
-    <div id="cd-scroll-hint">
-      <span class="cd-sh-text">scroll</span>
-      <div class="cd-sh-arrow"></div>
+    <div id="hero-hint">
+      <span class="hint-txt">scroll</span>
+      <div class="hint-arr"></div>
     </div>
-
-    <!-- Loader -->
-    <div id="cd-loader">
-      <div class="cd-loader-inner">
-        <span class="cd-loader-logo">Concepto</span>
-        <div class="cd-loader-bar">
-          <div class="cd-loader-fill" id="cd-loader-fill"></div>
-        </div>
-      </div>
-    </div>
-
   </div>
 </div>
 
-<!-- ══ Resto de secciones del site van aquí ══ -->
-<!-- #s-night, #s-auto, #s-webs, etc. — sin cambios -->
-
-<!-- Preview placeholder para demo -->
-<div style="min-height:100vh;background:#06040f;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;padding:2rem;">
-  <span style="font-family:'DM Mono',monospace;font-size:11px;color:rgba(168,85,247,.6);letter-spacing:.15em;text-transform:uppercase;">Chatbots con IA</span>
-  <h2 style="font-family:'Syne',sans-serif;font-size:clamp(32px,9vw,52px);font-weight:800;color:#fff;letter-spacing:-.04em;line-height:.9;text-align:center;">Tu negocio cerró<br>ventas a las<br><span style="color:#a855f7;">3:14 AM.</span></h2>
-  <a href="https://wa.me/59897976574" style="margin-top:.5rem;padding:.7rem 1.6rem;border-radius:100px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;font-size:14px;font-family:'Syne',sans-serif;font-weight:700;text-decoration:none;" target="_blank">Quiero un chatbot así →</a>
-</div>
+<!-- NIGHT SECTION -->
+<section id="s-night">
+  <span class="nt-tag">Chatbots con IA</span>
+  <h2 class="nt-h">Tu negocio cerró<br>ventas a las<br><span>3:14 AM.</span></h2>
+  <p class="nt-sub">Vos dormías. Tu chatbot atendió, respondió y confirmó la venta.</p>
+  <a href="https://wa.me/59897976574" class="nt-cta" target="_blank">Quiero un chatbot así →</a>
+</section>
 
 <script>
-/* ═══════════════════════════════════════════════════════
-   CONCEPTO — MOBILE VIDEO SCRUBBER
-   
-   Lógica:
-   - Solo activa en mobile (≤680px)
-   - #cd-hero-mobile tiene height:200vh (scroll space)
-   - sticky inner mantiene el canvas fijo
-   - scroll 0→50% = video1 (5s, robot corriendo)
-   - scroll 50→100% = video2 (5s, zoom portal)
-   - copy fade out en scroll 0→15%
-   - nav cambia a dark en scroll 85→100%
-   ═══════════════════════════════════════════════════════ */
+(function(){
+  const v1       = document.getElementById('v1');
+  const v2       = document.getElementById('v2');
+  const canvas   = document.getElementById('hero-canvas');
+  const ctx      = canvas.getContext('2d');
+  const scroll   = document.getElementById('hero-scroll');
+  const copy     = document.getElementById('hero-copy');
+  const hint     = document.getElementById('hero-hint');
+  const loader   = document.getElementById('hero-loader');
+  const ldProg   = document.getElementById('ld-prog');
+  const nav      = document.getElementById('nav');
 
-(function() {
-  // Solo mobile
-  if (window.innerWidth > 680) return;
-
-  const vid1    = document.getElementById('vid1');
-  const vid2    = document.getElementById('vid2');
-  const canvas  = document.getElementById('cd-canvas');
-  const ctx     = canvas.getContext('2d');
-  const copy    = document.getElementById('cd-copy');
-  const hint    = document.getElementById('cd-scroll-hint');
-  const loader  = document.getElementById('cd-loader');
-  const fill    = document.getElementById('cd-loader-fill');
-  const navEl   = document.getElementById('nav');
-  const hero    = document.getElementById('cd-hero-mobile');
-
-  let v1Ready = false, v2Ready = false;
-  let rafId = null;
-  let lastDrawnTime = -1;
-  let lastDrawnVid  = null;
-  let isDrawing = false;
-
-  // Resize canvas al tamaño de pantalla
-  function resizeCanvas() {
+  // ── CANVAS SIZE ──
+  function resize(){
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
   }
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas, { passive: true });
+  resize();
+  window.addEventListener('resize', resize, {passive:true});
 
-  // ── LOADER PROGRESS ──
-  let loadCount = 0;
-  function onVideoReady(which) {
-    loadCount++;
-    fill.style.width = (loadCount * 50) + '%';
-    if (which === 1) v1Ready = true;
-    if (which === 2) v2Ready = true;
-    if (v1Ready && v2Ready) {
-      setTimeout(() => {
-        loader.classList.add('hidden');
-        // Dibujá el primer frame de vid1
-        drawFrame(vid1);
-      }, 300);
+  // ── DRAW ──
+  function draw(vid){
+    if(!vid || !vid.videoWidth) return;
+    const vw = vid.videoWidth, vh = vid.videoHeight;
+    const cw = canvas.width,   ch = canvas.height;
+    const scale = Math.max(cw/vw, ch/vh);
+    const dw = vw*scale, dh = vh*scale;
+    const dx = (cw-dw)/2, dy = (ch-dh)/2;
+    ctx.clearRect(0,0,cw,ch);
+    ctx.drawImage(vid, dx, dy, dw, dh);
+  }
+
+  // ── LOAD ──
+  let r1=false, r2=false, loaded=0;
+
+  function videoReady(n){
+    loaded++;
+    ldProg.style.width = (loaded*50)+'%';
+    if(n===1) r1=true;
+    if(n===2) r2=true;
+    if(r1&&r2){
+      setTimeout(()=>{
+        loader.classList.add('gone');
+        // Dibujá primer frame
+        v1.currentTime=0;
+      },400);
     }
   }
 
-  // Preload forzado — seek al inicio activa el decode
-  function forcePreload(video, cb) {
-    video.load();
-    const onMeta = () => {
-      video.removeEventListener('loadedmetadata', onMeta);
-      // Seek a t=0 para forzar decode del primer frame
-      video.currentTime = 0;
-      video.addEventListener('seeked', function onSeeked() {
-        video.removeEventListener('seeked', onSeeked);
-        cb();
-      }, { once: true });
+  function loadVid(vid, n){
+    vid.load();
+    const onMeta = ()=>{
+      vid.removeEventListener('loadedmetadata',onMeta);
+      vid.currentTime=0;
+      const onS=()=>{ vid.removeEventListener('seeked',onS); videoReady(n); };
+      vid.addEventListener('seeked',onS,{once:true});
     };
-    video.addEventListener('loadedmetadata', onMeta);
-    // Fallback timeout
-    setTimeout(cb, 4000);
+    vid.addEventListener('loadedmetadata',onMeta);
+    // Fallback 5s
+    setTimeout(()=>{ if(!r1||!r2) videoReady(n); },5000);
   }
 
-  forcePreload(vid1, () => onVideoReady(1));
-  forcePreload(vid2, () => onVideoReady(2));
+  loadVid(v1,1);
+  loadVid(v2,2);
 
-  // ── DRAW FRAME ──
-  function drawFrame(video) {
-    if (isDrawing) return;
-    isDrawing = true;
-    try {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // Redibujar cuando el seek termina
+  v1.addEventListener('seeked',()=>draw(v1));
+  v2.addEventListener('seeked',()=>draw(v2));
 
-      const vw = video.videoWidth  || canvas.width;
-      const vh = video.videoHeight || canvas.height;
-      const cw = canvas.width;
-      const ch = canvas.height;
+  // ── SCROLL ──
+  let raf=null;
 
-      // object-fit: cover centrado
-      const scale = Math.max(cw / vw, ch / vh);
-      const dw = vw * scale;
-      const dh = vh * scale;
-      const dx = (cw - dw) / 2;
-      const dy = (ch - dh) / 2;
+  window.addEventListener('scroll',()=>{
+    cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(onScroll);
+  },{passive:true});
 
-      ctx.drawImage(video, dx, dy, dw, dh);
-    } catch(e) {}
-    isDrawing = false;
-  }
+  function onScroll(){
+    if(!r1&&!r2) return;
 
-  // ── SCROLL HANDLER ──
-  function onScroll() {
-    if (!v1Ready && !v2Ready) return;
+    const top       = scroll.offsetTop;
+    const scrollH   = scroll.offsetHeight - window.innerHeight; // 100vh scrollable
+    const sy        = window.scrollY - top;
+    const p         = Math.max(0, Math.min(1, sy/scrollH)); // 0→1
 
-    const heroTop    = hero.offsetTop;
-    const heroHeight = hero.offsetHeight; // 200vh
-    const scrollY    = window.scrollY;
-    const scrollable = heroHeight - window.innerHeight;
+    // Copy: fade out 0→18%
+    const cOpacity = 1 - Math.min(1, p/0.18);
+    copy.style.opacity = cOpacity;
+    if(cOpacity<0.02) copy.classList.add('gone');
+    else copy.classList.remove('gone');
 
-    // progreso total 0→1 dentro del hero
-    const rawProgress = Math.max(0, Math.min(1,
-      (scrollY - heroTop) / scrollable
-    ));
+    // Hint: hide after 4%
+    if(p>0.04) hint.classList.add('gone');
+    else hint.classList.remove('gone');
 
-    // ── Copy fade out (0→15% scroll) ──
-    const copyOpacity = 1 - Math.min(1, rawProgress / 0.15);
-    copy.style.opacity = copyOpacity;
-    if (copyOpacity < 0.05) copy.classList.add('hidden');
-    else copy.classList.remove('hidden');
-
-    // ── Scroll hint ──
-    if (rawProgress > 0.03) hint.classList.add('hidden');
-    else hint.classList.remove('hidden');
-
-    // ── Nav color ──
-    if (rawProgress > 0.82) {
-      navEl.classList.add('on-dark');
-      navEl.classList.remove('scrolled');
-    } else if (rawProgress > 0.02) {
-      navEl.classList.add('scrolled');
-      navEl.classList.remove('on-dark');
+    // Nav
+    if(p>0.80){
+      nav.className='dark';
+    } else if(p>0.02){
+      nav.className='light';
     } else {
-      navEl.classList.remove('scrolled', 'on-dark');
+      nav.className='';
     }
 
-    // ── Video scrubbing ──
-    // 0→0.5 = vid1 (5s), 0.5→1.0 = vid2 (5s)
-    let targetVid, targetTime;
-
-    if (rawProgress <= 0.5) {
-      targetVid  = vid1;
-      targetTime = (rawProgress / 0.5) * (vid1.duration || 5);
+    // Video scrubbing
+    // 0→0.5  → v1 (5s)
+    // 0.5→1  → v2 (5s)
+    if(p<=0.5){
+      const t = (p/0.5)*(v1.duration||5);
+      const tClamped = Math.max(0,Math.min(v1.duration||5,t));
+      if(Math.abs(v1.currentTime-tClamped)>0.033){
+        v1.currentTime=tClamped;
+      } else {
+        draw(v1);
+      }
     } else {
-      targetVid  = vid2;
-      targetTime = ((rawProgress - 0.5) / 0.5) * (vid2.duration || 5);
+      const t = ((p-0.5)/0.5)*(v2.duration||5);
+      const tClamped = Math.max(0,Math.min(v2.duration||5,t));
+      if(Math.abs(v2.currentTime-tClamped)>0.033){
+        v2.currentTime=tClamped;
+      } else {
+        draw(v2);
+      }
     }
-
-    targetTime = Math.max(0, Math.min(
-      targetVid.duration || 5,
-      targetTime
-    ));
-
-    // Solo seekamos si cambió significativamente (>40ms)
-    const timeDiff = Math.abs(targetTime - (targetVid.currentTime || 0));
-    const vidChanged = targetVid !== lastDrawnVid;
-
-    if (timeDiff > 0.04 || vidChanged) {
-      targetVid.currentTime = targetTime;
-      lastDrawnVid = targetVid;
-    }
-
-    // Dibujamos siempre (el seek puede ser async)
-    cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(() => drawFrame(targetVid));
   }
-
-  // Escuchamos seeked para redibujar cuando el frame esté listo
-  function onSeeked() { drawFrame(this); }
-  vid1.addEventListener('seeked', onSeeked);
-  vid2.addEventListener('seeked', onSeeked);
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-
-  // Init
-  onScroll();
 
 })();
 </script>
-
 </body>
 </html>
