@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Concepto Development</title>
 
 <!-- PERF: preconnect solo a dominios usados en critical path -->
@@ -29,7 +29,7 @@ if(window.innerWidth>680){
   --cream:#f5f4f0;
   --ink:#0d0d0d;
   --mid:#585858;
-  --dim:#a0a0a0;
+  --dim:#767676;
   --vlt:#7c3aed;
   --vlt-l:#a855f7;
 }
@@ -426,7 +426,7 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
   <a href="https://wa.me/59897976574" class="nmb" target="_blank">Hablemos</a>
 </nav>
 
-<!-- HERO MOBILE — video fullscreen (solo ≤680px) -->
+<main id="main-content"><!-- HERO MOBILE — video fullscreen (solo ≤680px) -->
 <div id="hero-mobile">
   <!-- PERF: fetchpriority=high para que el video no espere scripts; poster evita pantalla negra -->
   <video
@@ -565,6 +565,7 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
   <p class="urgency-line rv d3" id="urgency-line"></p>
 </section>
 
+</main>
 <footer>
   <span class="fl">Concepto Development</span>
   <div class="fls">
@@ -586,7 +587,7 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
         <div class="mh-name">Asistente Concepto</div>
         <div class="mh-sub"><span class="mh-dot"></span> En línea ahora</div>
       </div>
-      <button class="modal-close" onclick="closeModal('chat')">✕</button>
+      <button class="modal-close" onclick="closeModal('chat')" aria-label="Cerrar chat">✕</button>
     </div>
     <div class="modal-body" id="chat-modal-body">
       <div id="demo-messages"></div>
@@ -599,7 +600,7 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
     </div>
     <div id="demo-input-area">
       <textarea id="demo-input" placeholder="Escribí tu consulta..." rows="1"></textarea>
-      <button id="demo-send" onclick="sendMessage()">
+      <button id="demo-send" onclick="sendMessage()" aria-label="Enviar mensaje">
         <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
       </button>
     </div>
@@ -615,7 +616,7 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
         <div class="mh-name">Generador de Copy para Ads</div>
         <div class="mh-sub"><span class="mh-dot"></span> IA en tiempo real</div>
       </div>
-      <button class="modal-close" onclick="closeModal('mkt')">✕</button>
+      <button class="modal-close" onclick="closeModal('mkt')" aria-label="Cerrar generador de copy">✕</button>
     </div>
     <div class="modal-body" id="mkt-body">
       <div>
@@ -640,7 +641,7 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
         <div class="mh-name">Analizador de Texto con IA</div>
         <div class="mh-sub"><span class="mh-dot"></span> Clasificación instantánea</div>
       </div>
-      <button class="modal-close" onclick="closeModal('ia')">✕</button>
+      <button class="modal-close" onclick="closeModal('ia')" aria-label="Cerrar analizador de texto">✕</button>
     </div>
     <div class="modal-body" id="ia-body">
       <div>
@@ -668,7 +669,7 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
   <div id="faq-overlay-panel">
     <div id="faq-overlay-bar">
       <span class="faq-bar-title"><span class="faq-bar-dot"></span>Preguntas frecuentes — Concepto Development</span>
-      <button id="faq-overlay-close" onclick="closeFaqOverlay()">✕</button>
+      <button id="faq-overlay-close" onclick="closeFaqOverlay()" aria-label="Cerrar preguntas frecuentes">✕</button>
     </div>
     <iframe id="faq-frame" src="" title="FAQ Concepto Development"></iframe>
   </div>
