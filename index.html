@@ -168,11 +168,16 @@ nav.dk .nl{color:#fff;}
 /* VIDEO en .rcol */
 .rcol video{width:100%;height:100%;object-fit:contain;display:block;}
 
-/* VIDEO fondo mobile — secciones */
+/* VIDEO fondo secciones — auto (mobile) y webs (desktop+mobile) */
 #auto-video,#webs-video{display:none;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;}
 @media(max-width:680px){
   #auto-video,#webs-video{display:block;}
   #s-auto .srow,#s-webs .srow{position:relative;z-index:1;}
+}
+@media(min-width:681px){
+  #webs-video{display:block;}
+  #s-webs{align-items:flex-start;padding-top:calc(58px + 8vh);}
+  #s-webs .srow{grid-template-columns:1fr 1fr;position:relative;z-index:1;}
 }
 
 /* TIPOGRAFÍA */
@@ -509,18 +514,14 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
   <video id="webs-video" autoplay muted playsinline loop preload="auto">
     <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/hf_20260522_142841_a659667e-ae57-479f-b095-0c6d1b58508f.mp4" type="video/mp4">
   </video>
-  <div class="srow flip">
+  <div class="srow">
     <div class="scol">
       <span class="tag rv">02 — Webs</span>
       <h2 class="h2 rv d1">Tu primera impresión,<br><span class="fade">perfeccionada.</span></h2>
       <p class="sub mob-hide rv d2">Tu web, tu mejor vendedor.</p>
       <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Hablemos</a>
     </div>
-    <div class="rcol">
-      <video autoplay muted playsinline loop preload="auto">
-        <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/hf_20260522_142841_a659667e-ae57-479f-b095-0c6d1b58508f.mp4" type="video/mp4">
-      </video>
-    </div>
+    <div class="rcol"></div>
   </div>
 </section>
 
