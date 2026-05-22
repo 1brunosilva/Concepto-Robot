@@ -181,10 +181,10 @@ nav.dk .nl{color:#fff;}
 .rcol video{width:100%;height:100%;object-fit:contain;display:block;}
 
 /* VIDEO fondo — solo mobile */
-#auto-video,#webs-video{display:none !important;}
+#auto-video,#webs-video,#chat-video{display:none !important;}
 @media(max-width:680px){
-  #auto-video,#webs-video{display:block !important;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;}
-  #s-auto .srow,#s-webs .srow{position:relative;z-index:1;}
+  #auto-video,#webs-video,#chat-video{display:block !important;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;}
+  #s-auto .srow,#s-webs .srow,#s-chat .srow{position:relative;z-index:1;}
 }
 
 /* TIPOGRAFÍA */
@@ -538,6 +538,9 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
 
 <!-- CHATBOTS -->
 <section class="svc-sec" id="s-chat">
+  <video id="chat-video" autoplay muted playsinline loop preload="none">
+    <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/hf_20260522_154541_9b2a329a-9c36-4cdc-9ae5-175238a84573.mp4" type="video/mp4">
+  </video>
   <div class="srow flip">
     <div class="scol">
       <span class="tag rv">03 — Chatbots</span>
@@ -545,7 +548,11 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
       <p class="sub mob-hide rv d2">Sistemas conversacionales con IA que califican y cierran prospectos en segundos, las 24 horas.</p>
       <button class="btn-demo rv d3" onclick="openModal('chat')">Probar demo en vivo <span class="btn-demo-icon">→</span></button>
     </div>
-    <div class="rcol"></div>
+    <div class="rcol">
+      <video autoplay muted playsinline loop preload="auto">
+        <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/hf_20260522_154541_9b2a329a-9c36-4cdc-9ae5-175238a84573.mp4" type="video/mp4">
+      </video>
+    </div>
   </div>
 </section>
 
