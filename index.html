@@ -482,28 +482,6 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
   </div>
 </section>
 
-<!-- NIGHT -->
-<section id="s-night">
-  <div class="night-inner">
-    <div class="night-text">
-      <span class="ntag rv">Chatbots con IA</span>
-      <h2 class="nh rv d1">Tu negocio cerró<br>ventas a las<br><span class="na">3:14 AM.</span></h2>
-      <p class="nsub rv d2">Vos dormías. Tu chatbot atendió, respondió y confirmó la venta. Sin intervención humana.</p>
-      <a href="https://wa.me/59897976574" class="ncta rv d3" target="_blank">Quiero un chatbot así →</a>
-      <p class="nstamp rv d3">Última actividad: <strong>3:14 AM</strong> · Venta confirmada ✓</p>
-    </div>
-    <div class="night-chat-col">
-      <div class="cw">
-        <div class="cw-head">
-          <div class="cw-av">🤖</div>
-          <div><div class="cw-name">Asistente IA</div><div class="cw-status">en línea</div></div>
-          <div class="cw-dots"><div class="cw-dot"></div><div class="cw-dot"></div><div class="cw-dot"></div></div>
-        </div>
-        <div class="cw-body" id="cwBody"></div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- MARKETING -->
 <section class="svc-sec" id="s-mkt">
@@ -585,6 +563,29 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
   </div>
 </section>
 
+
+<!-- NIGHT -->
+<section id="s-night">
+  <div class="night-inner">
+    <div class="night-text">
+      <span class="ntag rv">Chatbots con IA</span>
+      <h2 class="nh rv d1">Tu negocio cerró<br>ventas a las<br><span class="na">3:14 AM.</span></h2>
+      <p class="nsub rv d2">Vos dormías. Tu chatbot atendió, respondió y confirmó la venta. Sin intervención humana.</p>
+      <a href="https://wa.me/59897976574" class="ncta rv d3" target="_blank">Quiero un chatbot así →</a>
+      <p class="nstamp rv d3">Última actividad: <strong>3:14 AM</strong> · Venta confirmada ✓</p>
+    </div>
+    <div class="night-chat-col">
+      <div class="cw">
+        <div class="cw-head">
+          <div class="cw-av">🤖</div>
+          <div><div class="cw-name">Asistente IA</div><div class="cw-status">en línea</div></div>
+          <div class="cw-dots"><div class="cw-dot"></div><div class="cw-dot"></div><div class="cw-dot"></div></div>
+        </div>
+        <div class="cw-body" id="cwBody"></div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- CTA -->
 <section id="s-cta">
@@ -1034,7 +1035,7 @@ function closeFaqOverlay(){
 // ── MOBILE SNAP
 (function initMobileSnap(){
   if(window.innerWidth>680)return;
-  const SNAP_IDS=['s-night','s-mkt','s-webs','s-chat','s-auto','s-cta'];
+  const SNAP_IDS=['s-mkt','s-webs','s-chat','s-auto','s-night','s-cta'];
   const NAV_H=()=>document.body.classList.contains('has-scarcity')?92:58;
   const NUDGE_THRESHOLD=0.35;
   function getHeroBottom(){const h=document.getElementById('hero-mobile');return h?h.offsetTop+h.offsetHeight:0;}
