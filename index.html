@@ -168,6 +168,12 @@ nav.dk .nl{color:#fff;}
 /* VIDEO en .rcol */
 .rcol video{width:100%;height:100%;object-fit:contain;display:block;}
 
+/* VIDEO mobile en secciones */
+.mob-vid{display:none;}
+@media(max-width:680px){
+  .mob-vid{display:block;width:100%;max-height:38vh;object-fit:contain;margin:1.2rem 0;}
+}
+
 /* TIPOGRAFÍA */
 .tag{font-size:11px;font-weight:500;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;margin-bottom:1.4rem;display:block;}
 .h1{font-size:clamp(40px,6.2vw,94px);font-weight:600;letter-spacing:-.04em;line-height:.93;}
@@ -483,11 +489,14 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
     <div class="scol">
       <span class="tag rv">01 — Automatizaciones</span>
       <h2 class="h2 rv d1">Menos fricción.<br><span class="fade">Más escala.</span></h2>
+      <video class="mob-vid rv d1" autoplay muted playsinline loop preload="auto">
+        <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/MaxHamaca.mp4" type="video/mp4">
+      </video>
       <p class="sub mob-hide rv d2">Tareas repetitivas convertidas en sistemas que corren solos.</p>
       <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Hablemos</a>
     </div>
     <div class="rcol">
-      <video autoplay muted playsinline loop>
+      <video autoplay muted playsinline loop preload="auto">
         <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/MaxHamaca.mp4" type="video/mp4">
       </video>
     </div>
