@@ -810,13 +810,15 @@ chatObs.observe(nightEl);
   const copy=document.getElementById('hero-copy');
   const hint=document.getElementById('hero-hint');
   const heroDiv=document.getElementById('hero-mobile');
-  const nightSec=document.getElementById('s-night');
   video.addEventListener('loadedmetadata',()=>hint.classList.remove('hidden'));
   video.addEventListener('timeupdate',()=>{
     const p=video.currentTime/(video.duration||5);
     if(p>0.60)copy.classList.add('fade');else copy.classList.remove('fade');
   });
-  video.addEventListener('ended',()=>setTimeout(()=>nightSec.scrollIntoView({behavior:'smooth'}),400));
+  video.addEventListener('ended',()=>setTimeout(()=>{
+    const next=document.getElementById('s-mkt');
+    if(next)next.scrollIntoView({behavior:'smooth'});
+  },400));
   const heroObs=new IntersectionObserver(entries=>{
     entries.forEach(entry=>{
       if(entry.isIntersecting){video.currentTime=0;copy.classList.remove('fade');video.play().catch(()=>{});}
