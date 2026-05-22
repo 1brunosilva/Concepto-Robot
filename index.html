@@ -18,9 +18,9 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500;600&display=swap">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"></noscript>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500;600;700&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
 
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -42,7 +42,7 @@ body{
 }
 
 /* CURSOR */
-#cd,#cr{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:background .3s,border-color .3s;}
+#cd,#cr{position:fixed;left:0;top:0;border-radius:50%;pointer-events:none;z-index:9999;will-change:transform;transition:background .3s,border-color .3s;}
 #cd{width:5px;height:5px;background:var(--ink);}
 #cr{width:28px;height:28px;border:1px solid rgba(13,13,13,.22);}
 #cd.vlt{background:#a855f7;}
@@ -53,9 +53,9 @@ body{
 #ldr{position:fixed;inset:0;background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:8000;transition:opacity .6s;}
 #ldr.out{opacity:0;pointer-events:none;}
 .ldr-logo{font-size:15px;font-weight:500;letter-spacing:-.02em;margin-bottom:1.8rem;}
-.ldr-t{width:80px;height:1px;background:rgba(13,13,13,.1);overflow:hidden;}
-.ldr-b{width:0;height:100%;background:var(--ink);animation:la 1.8s ease forwards;}
-@keyframes la{to{width:100%;}}
+.ldr-t{width:80px;height:1px;background:rgba(13,13,13,.1);}
+.ldr-b{width:100%;height:100%;background:var(--ink);transform:scaleX(0);transform-origin:left center;animation:la 1.8s ease forwards;}
+@keyframes la{to{transform:scaleX(1);}}
 
 /* SCARCITY BAR */
 #scarcity-bar{
@@ -121,8 +121,8 @@ nav.dk .nl{color:#fff;}
 }
 #hero-copy.fade{opacity:0;}
 .hc-tag{font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.45);text-transform:none;font-family:'DM Mono',monospace;font-weight:300;margin-bottom:.55rem;display:block;}
-.hc-h1{font-family:'Syne',sans-serif;font-size:clamp(30px,9.5vw,46px);font-weight:800;letter-spacing:-.05em;line-height:.92;color:#fff;}
-.hc-h1 em{color:#fff;font-style:normal;display:block;font-weight:800;opacity:.7;}
+.hc-h1{font-family:'Inter',sans-serif;font-size:clamp(30px,9.5vw,46px);font-weight:700;letter-spacing:-.03em;line-height:.95;color:#fff;}
+.hc-h1 em{color:#fff;font-style:normal;display:block;font-weight:700;opacity:.7;}
 .hc-sub{font-size:13.5px;color:rgba(255,255,255,.5);line-height:1.6;margin-top:.55rem;font-weight:300;max-width:240px;text-align:center;font-family:'Inter',sans-serif;letter-spacing:-.01em;}
 .hc-btns{display:flex;gap:.5rem;margin-top:1.1rem;flex-wrap:wrap;justify-content:center;}
 .hc-b1{padding:.58rem 1.4rem;border-radius:100px;background:#fff;color:#0d0d0d;font-size:13px;font-family:'Inter',sans-serif;font-weight:500;text-decoration:none;letter-spacing:-.01em;}
@@ -174,12 +174,6 @@ nav.dk .nl{color:#fff;}
   #s-mkt .fade{opacity:.65;}
   #s-mkt .sub{color:rgba(255,255,255,.65);}
   #s-mkt .btn-demo{margin-top:1.4rem;}
-  #s-ia{justify-content:flex-end;padding-top:60px;padding-bottom:60px;}
-  #s-ia .scol{align-items:flex-start;text-align:left;}
-  #s-ia .sub{text-align:left;max-width:100%;}
-  #s-ia .tag,#s-ia .h2,#s-ia .fade,#s-ia .sub,#s-ia .lnk{color:#fff;}
-  #s-ia .fade{opacity:.65;}
-  #s-ia .sub{color:rgba(255,255,255,.65);}
   #s-cta{height:100svh;overflow:hidden;justify-content:flex-start;padding-top:18vh;padding-bottom:0;flex-direction:column;align-items:center;text-align:center;}
   #s-cta .ctah{text-align:center;max-width:100%;font-size:clamp(34px,11vw,52px);}
   #s-cta .ctap{max-width:100%;text-align:center;}
@@ -194,7 +188,7 @@ nav.dk .nl{color:#fff;}
 #auto-video,#webs-video,#chat-video,#mkt-bg-video,#ia-bg-video{display:none !important;}
 @media(max-width:680px){
   #auto-video,#webs-video,#chat-video,#mkt-bg-video,#ia-bg-video{display:block !important;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;}
-  #s-auto .srow,#s-webs .srow,#s-chat .srow,#s-mkt .srow,#s-ia .srow{position:relative;z-index:1;}
+  #s-auto .srow,#s-webs .srow,#s-chat .srow,#s-mkt .srow{position:relative;z-index:1;}
 }
 
 /* TIPOGRAFÍA */
@@ -427,10 +421,10 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
 <nav id="nav">
   <a href="#" class="nl">Concepto</a>
   <div class="nlinks">
-    <a href="#s-auto" class="nlink">Automatizaciones</a>
+    <a href="#s-mkt" class="nlink">Marketing</a>
     <a href="#s-webs" class="nlink">Webs</a>
+    <a href="#s-auto" class="nlink">Automatizaciones</a>
     <a href="#s-chat" class="nlink">Chatbots</a>
-    <a href="#s-ia" class="nlink">IA</a>
     <a href="https://wa.me/59897976574" class="nbtn" target="_blank">Hablemos</a>
   </div>
   <a href="https://wa.me/59897976574" class="nmb" target="_blank">Hablemos</a>
@@ -442,7 +436,7 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
 <div id="hero-mobile">
   <video
     id="hero-video"
-    src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/MaxCloseUp.mp4"
+    src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@7abac0c/MaxCloseUp.mp4"
     autoplay muted playsinline preload="auto"
     fetchpriority="high"
     poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
@@ -476,9 +470,89 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
     </div>
     <div class="rcol">
       <video
-        src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/MaxCloseUp.mp4"
+        src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@7abac0c/MaxCloseUp.mp4"
         autoplay muted playsinline
       ></video>
+    </div>
+  </div>
+</section>
+
+<!-- MARKETING -->
+<section class="svc-sec" id="s-mkt">
+  <video id="mkt-bg-video" autoplay muted playsinline loop preload="none">
+    <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@7abac0c/hf_20260522_161954_32b95a03-858f-47bb-a407-2ff2cd34468b.mp4" type="video/mp4">
+  </video>
+  <div class="srow">
+    <div class="scol">
+      <span class="tag rv">01 — Marketing</span>
+      <h2 class="h2 rv d1">Tu marca,<br><span class="fade">en todos lados.</span></h2>
+      <p class="sub mob-hide rv d2">El marketing que tu negocio necesitaba.</p>
+      <button class="btn-demo rv d3" onclick="openModal('mkt')">Generar copy gratis <span class="btn-demo-icon">→</span></button>
+    </div>
+    <div class="rcol">
+      <video autoplay muted playsinline loop preload="none">
+        <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@7abac0c/hf_20260522_161954_32b95a03-858f-47bb-a407-2ff2cd34468b.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+
+<!-- WEBS -->
+<section class="svc-sec" id="s-webs">
+  <video id="webs-video" autoplay muted playsinline loop preload="none">
+    <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@7abac0c/hf_20260522_144555_59923b42-c80c-4be7-8db0-3785c13e1afb.mp4" type="video/mp4">
+  </video>
+  <div class="srow">
+    <div class="scol">
+      <span class="tag rv">02 — Webs</span>
+      <h2 class="h2 rv d1">Tu primera impresión,<br><span class="fade">perfeccionada.</span></h2>
+      <p class="sub mob-hide rv d2">Tu web, tu mejor vendedor.</p>
+      <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Hablemos</a>
+    </div>
+    <div class="rcol">
+      <video autoplay muted playsinline loop preload="none">
+        <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@7abac0c/hf_20260522_144555_59923b42-c80c-4be7-8db0-3785c13e1afb.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+
+<!-- AUTOMATIZACIONES -->
+<section class="svc-sec" id="s-auto">
+  <video id="auto-video" autoplay muted playsinline loop preload="none">
+    <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@7abac0c/MaxHamaca.mp4" type="video/mp4">
+  </video>
+  <div class="srow flip">
+    <div class="scol">
+      <span class="tag rv">03 — Automatizaciones</span>
+      <h2 class="h2 rv d1">Menos fricción.<br><span class="fade">Más escala.</span></h2>
+      <p class="sub mob-hide rv d2">Tareas repetitivas convertidas en sistemas que corren solos.</p>
+      <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Hablemos</a>
+    </div>
+    <div class="rcol">
+      <video autoplay muted playsinline loop preload="none">
+        <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@7abac0c/MaxHamaca.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+
+<!-- CHATBOTS -->
+<section class="svc-sec" id="s-chat">
+  <video id="chat-video" autoplay muted playsinline loop preload="none">
+    <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@7abac0c/hf_20260522_154541_9b2a329a-9c36-4cdc-9ae5-175238a84573.mp4" type="video/mp4">
+  </video>
+  <div class="srow flip">
+    <div class="scol">
+      <span class="tag rv">04 — Chatbots</span>
+      <h2 class="h2 rv d1">Conversaciones que<br><span class="fade">convierten.</span></h2>
+      <p class="sub mob-hide rv d2">Sistemas conversacionales con IA que califican y cierran prospectos en segundos, las 24 horas.</p>
+      <button class="btn-demo rv d3" onclick="openModal('chat')">Probar demo en vivo <span class="btn-demo-icon">→</span></button>
+    </div>
+    <div class="rcol">
+      <video autoplay muted playsinline loop preload="none">
+        <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@7abac0c/hf_20260522_154541_9b2a329a-9c36-4cdc-9ae5-175238a84573.mp4" type="video/mp4">
+      </video>
     </div>
   </div>
 </section>
@@ -506,106 +580,6 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
   </div>
 </section>
 
-<!-- AUTOMATIZACIONES -->
-<section class="svc-sec" id="s-auto">
-  <video id="auto-video" autoplay muted playsinline loop preload="none">
-    <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/MaxHamaca.mp4" type="video/mp4">
-  </video>
-  <div class="srow flip">
-    <div class="scol">
-      <span class="tag rv">01 — Automatizaciones</span>
-      <h2 class="h2 rv d1">Menos fricción.<br><span class="fade">Más escala.</span></h2>
-      <p class="sub mob-hide rv d2">Tareas repetitivas convertidas en sistemas que corren solos.</p>
-      <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Hablemos</a>
-    </div>
-    <div class="rcol">
-      <video autoplay muted playsinline loop preload="none">
-        <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/MaxHamaca.mp4" type="video/mp4">
-      </video>
-    </div>
-  </div>
-</section>
-
-<!-- WEBS -->
-<section class="svc-sec" id="s-webs">
-  <video id="webs-video" autoplay muted playsinline loop preload="none">
-    <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/hf_20260522_144555_59923b42-c80c-4be7-8db0-3785c13e1afb.mp4" type="video/mp4">
-  </video>
-  <div class="srow">
-    <div class="scol">
-      <span class="tag rv">02 — Webs</span>
-      <h2 class="h2 rv d1">Tu primera impresión,<br><span class="fade">perfeccionada.</span></h2>
-      <p class="sub mob-hide rv d2">Tu web, tu mejor vendedor.</p>
-      <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Hablemos</a>
-    </div>
-    <div class="rcol">
-      <video autoplay muted playsinline loop preload="none">
-        <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/hf_20260522_144555_59923b42-c80c-4be7-8db0-3785c13e1afb.mp4" type="video/mp4">
-      </video>
-    </div>
-  </div>
-</section>
-
-<!-- CHATBOTS -->
-<section class="svc-sec" id="s-chat">
-  <video id="chat-video" autoplay muted playsinline loop preload="none">
-    <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/hf_20260522_154541_9b2a329a-9c36-4cdc-9ae5-175238a84573.mp4" type="video/mp4">
-  </video>
-  <div class="srow flip">
-    <div class="scol">
-      <span class="tag rv">03 — Chatbots</span>
-      <h2 class="h2 rv d1">Conversaciones que<br><span class="fade">convierten.</span></h2>
-      <p class="sub mob-hide rv d2">Sistemas conversacionales con IA que califican y cierran prospectos en segundos, las 24 horas.</p>
-      <button class="btn-demo rv d3" onclick="openModal('chat')">Probar demo en vivo <span class="btn-demo-icon">→</span></button>
-    </div>
-    <div class="rcol">
-      <video autoplay muted playsinline loop preload="none">
-        <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/hf_20260522_154541_9b2a329a-9c36-4cdc-9ae5-175238a84573.mp4" type="video/mp4">
-      </video>
-    </div>
-  </div>
-</section>
-
-<!-- MARKETING -->
-<section class="svc-sec" id="s-mkt">
-  <video id="mkt-bg-video" autoplay muted playsinline loop preload="none">
-    <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/hf_20260522_161954_32b95a03-858f-47bb-a407-2ff2cd34468b.mp4" type="video/mp4">
-  </video>
-  <div class="srow">
-    <div class="scol">
-      <span class="tag rv">04 — Marketing</span>
-      <h2 class="h2 rv d1">Tu marca,<br><span class="fade">en todos lados.</span></h2>
-      <p class="sub mob-hide rv d2">El marketing que tu negocio necesitaba.</p>
-      <button class="btn-demo rv d3" onclick="openModal('mkt')">Generar copy gratis <span class="btn-demo-icon">→</span></button>
-    </div>
-    <div class="rcol">
-      <video autoplay muted playsinline loop preload="none">
-        <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/hf_20260522_161954_32b95a03-858f-47bb-a407-2ff2cd34468b.mp4" type="video/mp4">
-      </video>
-    </div>
-  </div>
-</section>
-
-<!-- IA -->
-<section class="svc-sec" id="s-ia">
-  <video id="ia-bg-video" autoplay muted playsinline loop preload="none">
-    <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/hf_20260522_163934_78c5ad4e-907c-4030-98bf-42c1714243fc.mp4" type="video/mp4">
-  </video>
-  <div class="srow flip">
-    <div class="scol">
-      <span class="tag rv">05 — Desarrollo con IA</span>
-      <h2 class="h2 rv d1">Automatizá decisiones.<br><span class="fade">Potenciá resultados.</span></h2>
-      <p class="sub mob-hide rv d2">El futuro de tu negocio, hoy.</p>
-      <button class="btn-demo rv d3" onclick="openModal('ia')">Analizar texto con IA <span class="btn-demo-icon">→</span></button>
-    </div>
-    <div class="rcol">
-      <video autoplay muted playsinline loop preload="none">
-        <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/hf_20260522_163934_78c5ad4e-907c-4030-98bf-42c1714243fc.mp4" type="video/mp4">
-      </video>
-    </div>
-  </div>
-</section>
-
 <!-- CTA -->
 <section id="s-cta">
   <h2 class="ctah rv">Hablemos de<br><span class="fade">tu proyecto.</span></h2>
@@ -621,10 +595,10 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
 <footer>
   <span class="fl">Concepto Development</span>
   <div class="fls">
-    <a href="#s-auto" class="fla">Automatizaciones</a>
+    <a href="#s-mkt" class="fla">Marketing</a>
     <a href="#s-webs" class="fla">Webs</a>
+    <a href="#s-auto" class="fla">Automatizaciones</a>
     <a href="#s-chat" class="fla">Chatbots</a>
-    <a href="#s-ia" class="fla">IA</a>
   </div>
   <span class="fc">© 2025 Montevideo</span>
 </footer>
@@ -686,36 +660,6 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
 </div>
 
 <!-- MODAL: IA ANALYZER -->
-<div class="modal-overlay" id="mo-ia">
-  <div class="modal-backdrop" onclick="closeModal('ia')"></div>
-  <div class="modal-panel">
-    <div class="modal-header">
-      <div class="mh-av">🧠</div>
-      <div class="mh-info">
-        <div class="mh-name">Analizador de Texto con IA</div>
-        <div class="mh-sub"><span class="mh-dot"></span> Clasificación instantánea</div>
-      </div>
-      <button class="modal-close" onclick="closeModal('ia')" aria-label="Cerrar analizador de texto">✕</button>
-    </div>
-    <div class="modal-body" id="ia-body">
-      <div>
-        <div class="ia-label">Pegá cualquier mensaje de cliente</div>
-        <div class="ia-examples">
-          <button class="ia-ex-btn" onclick="setIaExample(0)">Pedido urgente</button>
-          <button class="ia-ex-btn" onclick="setIaExample(1)">Queja de cliente</button>
-          <button class="ia-ex-btn" onclick="setIaExample(2)">Consulta de precio</button>
-          <button class="ia-ex-btn" onclick="setIaExample(3)">Solicitud de turno</button>
-        </div>
-        <textarea class="ia-textarea" id="ia-input" placeholder="Pegá aquí un mensaje, pedido, queja o consulta de cliente…"></textarea>
-      </div>
-      <button class="ia-analyze-btn" id="ia-btn" onclick="analyzeText()">
-        <div class="mkt-spinner" id="ia-spinner"></div>
-        <span id="ia-btn-text">Analizar con IA ✦</span>
-      </button>
-      <div id="ia-result-container"></div>
-    </div>
-  </div>
-</div>
 
 <!-- FAQ OVERLAY -->
 <div id="faq-overlay">
@@ -764,31 +708,35 @@ setTimeout(() => document.getElementById('ldr').classList.add('out'), 400);
 const cd = document.getElementById('cd'), cr = document.getElementById('cr');
 if (!isMob()) {
   let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.left=mx+'px';cd.style.top=my+'px';});
-  (function ac(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(ac);})();
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.transform='translate('+(mx-2.5)+'px,'+(my-2.5)+'px)';});
+  (function ac(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;cr.style.transform='translate('+(rx-14)+'px,'+(ry-14)+'px)';requestAnimationFrame(ac);})();
 }
 
 // ── NAV
 const navEl=document.getElementById('nav');
 const nightEl=document.getElementById('s-night');
 const heroMobEl=document.getElementById('hero-mobile');
+let _heroBottom=0,_nightTop=0,_nightH=0;
+function cacheNavLayout(){
+  _heroBottom=heroMobEl.offsetTop+heroMobEl.offsetHeight;
+  _nightTop=nightEl.offsetTop;
+  _nightH=nightEl.offsetHeight;
+}
+cacheNavLayout();
+window.addEventListener('resize',cacheNavLayout,{passive:true});
 function updateNav(){
+  const sy=window.scrollY;
+  const nightViewTop=_nightTop-sy;
+  const inNight=nightViewTop<58&&nightViewTop+_nightH>0;
   if(isMob()){
-    const heroBottom=heroMobEl.offsetTop+heroMobEl.offsetHeight;
-    const nightR=nightEl.getBoundingClientRect();
-    const inNight=nightR.top<58&&nightR.bottom>0;
-    const inHeroVideo=window.scrollY<heroBottom-80;
-    const inDark=inHeroVideo||inNight;
+    const inDark=sy<_heroBottom-80||inNight;
     navEl.classList.toggle('dk',inDark);
-    navEl.classList.toggle('bg',!inDark&&window.scrollY>30);
-    cd.classList.toggle('vlt',inNight);cr.classList.toggle('vlt',inNight);
+    navEl.classList.toggle('bg',!inDark&&sy>30);
   } else {
-    const r=nightEl.getBoundingClientRect();
-    const inNight=r.top<58&&r.bottom>0;
     navEl.classList.toggle('dk',inNight);
-    navEl.classList.toggle('bg',!inNight&&window.scrollY>30);
-    cd.classList.toggle('vlt',inNight);cr.classList.toggle('vlt',inNight);
+    navEl.classList.toggle('bg',!inNight&&sy>30);
   }
+  cd.classList.toggle('vlt',inNight);cr.classList.toggle('vlt',inNight);
 }
 window.addEventListener('scroll',updateNav,{passive:true});
 updateNav();
@@ -875,7 +823,7 @@ chatObs.observe(nightEl);
 })();
 
 // ── MODAL SYSTEM
-const MODAL_MAP={chat:'mo-chat',mkt:'mo-mkt',ia:'mo-ia'};
+const MODAL_MAP={chat:'mo-chat',mkt:'mo-mkt'};
 let openModalKey=null;
 function openModal(key){
   if(openModalKey)closeModal(openModalKey);
@@ -1046,8 +994,8 @@ function closeFaqOverlay(){
 (function initScarcityBar(){
   const TOTAL_SLOTS=3;
   const now=new Date();
-  const day=now.getDate();
-  const available=day<=10?3:day<=20?2:1;
+  const monthSeed=now.getFullYear()*100+(now.getMonth()+1);
+  const available=(monthSeed%3===0)?2:1;
   const bar=document.getElementById('scarcity-bar');
   const textEl=document.getElementById('sb-text-content');
   const monthNames=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
@@ -1080,7 +1028,7 @@ function closeFaqOverlay(){
 // ── MOBILE SNAP
 (function initMobileSnap(){
   if(window.innerWidth>680)return;
-  const SNAP_IDS=['s-night','s-auto','s-webs','s-chat','s-mkt','s-ia','s-cta'];
+  const SNAP_IDS=['s-mkt','s-webs','s-auto','s-chat','s-night','s-cta'];
   const NAV_H=()=>document.body.classList.contains('has-scarcity')?92:58;
   const NUDGE_THRESHOLD=0.35;
   function getHeroBottom(){const h=document.getElementById('hero-mobile');return h?h.offsetTop+h.offsetHeight:0;}
