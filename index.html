@@ -23,11 +23,6 @@
 @font-face{font-family:'DM Mono';font-display:swap;}
 @font-face{font-family:'Inter';font-display:swap;}
 
-html{
-  scroll-behavior:smooth;
-  scroll-snap-type:y proximity;
-  scroll-padding-top:58px;
-}
 body{
   background:var(--cream);color:var(--ink);
   font-family:'Inter',system-ui,-apple-system,sans-serif;
@@ -106,7 +101,7 @@ nav.dk .nl{color:#fff;}
 
 /* HERO MOBILE */
 #hero-mobile{position:relative;height:100svh;overflow:hidden;background:#0d0d0d;display:none;}
-@media(max-width:680px){#hero-mobile{display:block;scroll-snap-align:start;scroll-snap-stop:normal;}}
+@media(max-width:680px){#hero-mobile{display:block;}}
 #hero-video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center center;}
 #hero-copy{
   position:absolute;top:0;left:0;right:0;
@@ -130,7 +125,7 @@ nav.dk .nl{color:#fff;}
 
 /* SECCIONES — Desktop */
 @media(min-width:681px){
-  section{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:0 clamp(28px,7vw,100px);z-index:20;scroll-snap-align:start;scroll-snap-stop:normal;}
+  section{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:0 clamp(28px,7vw,100px);z-index:20;}
   .srow{display:grid;grid-template-columns:1fr 1fr;width:100%;align-items:center;gap:4vw;}
   .srow.flip{direction:rtl;}
   .srow.flip .scol{direction:ltr;}
@@ -145,9 +140,9 @@ nav.dk .nl{color:#fff;}
 
 /* SECCIONES — Mobile */
 @media(max-width:680px){
-  html{overflow-y:scroll;overscroll-behavior-y:none;scroll-snap-type:y proximity;scroll-padding-top:58px;}
+  html{overflow-y:scroll;overscroll-behavior-y:none;}
   #s-hero{display:none !important;}
-  section{position:relative;height:100svh;overflow:hidden;display:flex;flex-direction:column;padding:0 7vw;z-index:20;scroll-snap-align:start;scroll-snap-stop:normal;}
+  section{position:relative;height:100svh;overflow:hidden;display:flex;flex-direction:column;padding:0 7vw;z-index:20;}
   .srow{display:block;direction:ltr !important;}
   .rcol{display:none;}
   #s-night{height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding:80px 7vw 40px;}
@@ -493,7 +488,7 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
     </div>
     <div class="rcol">
       <video autoplay muted playsinline loop>
-        <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/MaxHamaca" type="video/mp4">
+        <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/MaxHamaca.mp4" type="video/mp4">
       </video>
     </div>
   </div>
@@ -1003,13 +998,43 @@ function closeFaqOverlay(){
   if(el)el.innerHTML=`Cada semana sin automatizar = <strong>${HRS_POR_SEMANA} horas perdidas.</strong> Este año ya van <strong>${hrsTotal.toLocaleString('es-UY')} hs.</strong>`;
 })();
 
-// ── SCROLL PADDING — ajusta cuando aparece la scarcity bar
-(function(){
-  const obs=new MutationObserver(()=>{
-    const h=document.body.classList.contains('has-scarcity')?92:58;
-    document.documentElement.style.scrollPaddingTop=h+'px';
-  });
-  obs.observe(document.body,{attributes:true,attributeFilter:['class']});
+// ── MOBILE SNAP
+(function initMobileSnap(){
+  if(window.innerWidth>680)return;
+  const SNAP_IDS=['s-night','s-auto','s-webs','s-chat','s-mkt','s-ia','s-cta'];
+  const NAV_H=()=>document.body.classList.contains('has-scarcity')?92:58;
+  const NUDGE_THRESHOLD=0.35;
+  function getHeroBottom(){const h=document.getElementById('hero-mobile');return h?h.offsetTop+h.offsetHeight:0;}
+  function getSnapSections(){return SNAP_IDS.map(id=>document.getElementById(id)).filter(Boolean);}
+  function getCurrentSnappedSection(){
+    const sections=getSnapSections();
+    const offset=NAV_H();const scrollY=window.scrollY;
+    if(scrollY<getHeroBottom()-10)return null;
+    let current=sections[0];
+    for(const sec of sections){const top=sec.offsetTop-offset;if(top<=scrollY+2)current=sec;}
+    return current;
+  }
+  function nudgeTo(sec){if(!sec)return;const offset=NAV_H();const target=Math.max(0,sec.offsetTop-offset);window.scrollTo({top:target,behavior:'smooth'});}
+  let nudgeTimer=null,isTouching=false;
+  function onScrollSettle(){
+    if(document.documentElement.style.overflow==='hidden')return;
+    if(window.scrollY<getHeroBottom()-50)return;
+    const scrollY=window.scrollY,vpH=window.innerHeight,offset=NAV_H();
+    const sections=getSnapSections();
+    const currentSec=getCurrentSnappedSection();if(!currentSec)return;
+    const currentIdx=sections.indexOf(currentSec);
+    const currentSnapY=Math.max(0,currentSec.offsetTop-offset);
+    const overshoot=scrollY-currentSnapY;
+    if(overshoot>vpH*NUDGE_THRESHOLD&&currentIdx<sections.length-1)nudgeTo(sections[currentIdx+1]);
+    else nudgeTo(currentSec);
+  }
+  document.addEventListener('touchstart',()=>{isTouching=true;clearTimeout(nudgeTimer);},{passive:true});
+  document.addEventListener('touchend',()=>{isTouching=false;nudgeTimer=setTimeout(onScrollSettle,500);},{passive:true});
+  if('onscrollend' in window){
+    window.addEventListener('scrollend',()=>{if(isTouching)return;clearTimeout(nudgeTimer);nudgeTimer=setTimeout(onScrollSettle,120);},{passive:true});
+  } else {
+    window.addEventListener('scroll',()=>{if(isTouching)return;clearTimeout(nudgeTimer);nudgeTimer=setTimeout(onScrollSettle,250);},{passive:true});
+  }
 })();
 </script>
 </body>
