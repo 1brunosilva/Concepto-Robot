@@ -168,7 +168,7 @@ nav.dk .nl{color:#fff;}
   #s-chat .tag,#s-chat .h2,#s-chat .fade,#s-chat .sub,#s-chat .lnk{color:#fff;}
   #s-chat .fade{opacity:.65;}
   #s-chat .sub{color:rgba(255,255,255,.65);}
-  #s-mkt{justify-content:flex-end;padding-bottom:12vh;padding-top:70px;}
+  #s-mkt{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
   #s-mkt .scol{align-items:flex-start;text-align:left;}
   #s-ia{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
   #s-ia .scol{align-items:flex-end;text-align:right;}
@@ -184,10 +184,10 @@ nav.dk .nl{color:#fff;}
 .rcol video{width:100%;height:100%;object-fit:contain;display:block;}
 
 /* VIDEO fondo — solo mobile */
-#auto-video,#webs-video,#chat-video{display:none !important;}
+#auto-video,#webs-video,#chat-video,#mkt-bg-video{display:none !important;}
 @media(max-width:680px){
-  #auto-video,#webs-video,#chat-video{display:block !important;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;}
-  #s-auto .srow,#s-webs .srow,#s-chat .srow{position:relative;z-index:1;}
+  #auto-video,#webs-video,#chat-video,#mkt-bg-video{display:block !important;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;}
+  #s-auto .srow,#s-webs .srow,#s-chat .srow,#s-mkt .srow{position:relative;z-index:1;}
 }
 
 /* TIPOGRAFÍA */
@@ -561,6 +561,9 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
 
 <!-- MARKETING -->
 <section class="svc-sec" id="s-mkt">
+  <video id="mkt-bg-video" autoplay muted playsinline loop preload="none">
+    <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/hf_20260522_161954_32b95a03-858f-47bb-a407-2ff2cd34468b.mp4" type="video/mp4">
+  </video>
   <div class="srow">
     <div class="scol">
       <span class="tag rv">04 — Marketing</span>
@@ -568,7 +571,11 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
       <p class="sub mob-hide rv d2">El marketing que tu negocio necesitaba.</p>
       <button class="btn-demo rv d3" onclick="openModal('mkt')">Generar copy gratis <span class="btn-demo-icon">→</span></button>
     </div>
-    <div class="rcol"></div>
+    <div class="rcol">
+      <video autoplay muted playsinline loop preload="auto">
+        <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/hf_20260522_161954_32b95a03-858f-47bb-a407-2ff2cd34468b.mp4" type="video/mp4">
+      </video>
+    </div>
   </div>
 </section>
 
