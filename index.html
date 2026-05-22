@@ -1046,8 +1046,8 @@ function closeFaqOverlay(){
 (function initScarcityBar(){
   const TOTAL_SLOTS=3;
   const now=new Date();
-  const monthSeed=now.getFullYear()*100+(now.getMonth()+1);
-  const available=(monthSeed%3===0)?2:1;
+  const day=now.getDate();
+  const available=day<=10?3:day<=20?2:1;
   const bar=document.getElementById('scarcity-bar');
   const textEl=document.getElementById('sb-text-content');
   const monthNames=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
