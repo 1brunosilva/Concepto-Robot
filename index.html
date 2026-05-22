@@ -146,6 +146,8 @@ nav.dk .nl{color:#fff;}
   #s-cta .ctah{text-align:center;max-width:58vw;}
   #s-cta .brow{justify-content:center;}
   #s-hero{align-items:flex-end;padding-bottom:14vh;}
+  #s-webs{align-items:flex-start;padding-top:calc(58px + 8vh);}
+  #s-webs .scol{align-items:flex-start;text-align:left;}
 }
 
 /* SECCIONES — Mobile */
@@ -178,17 +180,11 @@ nav.dk .nl{color:#fff;}
 /* VIDEO en .rcol */
 .rcol video{width:100%;height:100%;object-fit:contain;display:block;}
 
-/* VIDEO fondo secciones — auto (mobile) y webs (desktop+mobile) */
-#auto-video,#webs-video{display:none;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;}
+/* VIDEO fondo — solo mobile */
+#auto-video,#webs-video{display:none !important;}
 @media(max-width:680px){
-  #auto-video,#webs-video{display:block;}
+  #auto-video,#webs-video{display:block !important;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;}
   #s-auto .srow,#s-webs .srow{position:relative;z-index:1;}
-}
-@media(min-width:681px){
-  #webs-video{display:block;}
-  #s-webs{align-items:flex-start !important;padding-top:calc(58px + 8vh) !important;}
-  #s-webs .srow{position:relative;z-index:1;}
-  #s-webs .scol{align-items:flex-start;text-align:left;}
 }
 
 /* TIPOGRAFÍA */
@@ -532,7 +528,11 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
       <p class="sub mob-hide rv d2">Tu web, tu mejor vendedor.</p>
       <a href="https://wa.me/59897976574" class="lnk rv d3" target="_blank">Hablemos</a>
     </div>
-    <div class="rcol"></div>
+    <div class="rcol">
+      <video autoplay muted playsinline loop preload="auto">
+        <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/hf_20260522_144555_59923b42-c80c-4be7-8db0-3785c13e1afb.mp4" type="video/mp4">
+      </video>
+    </div>
   </div>
 </section>
 
