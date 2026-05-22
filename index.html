@@ -3,11 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Concepto Development</title>
+<title>Concepto Development — Automatizaciones, Webs y Chatbots con IA · Uruguay</title>
+<meta name="description" content="Agencia digital en Uruguay especializada en automatizaciones, desarrollo web y chatbots con IA. Tu negocio operando 24/7 mientras vos descansás.">
+<meta property="og:title" content="Concepto Development">
+<meta property="og:description" content="Automatizaciones, webs y chatbots con IA. Tu negocio operando 24/7.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://conceptodevelopment.com">
+<meta property="og:image" content="https://conceptodevelopment.com/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Concepto Development">
+<meta name="twitter:description" content="Automatizaciones, webs y chatbots con IA · Uruguay">
+<link rel="canonical" href="https://conceptodevelopment.com">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230d0d0d'/><text y='.9em' font-size='72' x='12' fill='%23f5f4f0' font-family='system-ui'>C</text></svg>">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500;600&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"></noscript>
 
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -19,9 +32,6 @@
   --vlt:#7c3aed;
   --vlt-l:#a855f7;
 }
-@font-face{font-family:'Syne';font-display:swap;}
-@font-face{font-family:'DM Mono';font-display:swap;}
-@font-face{font-family:'Inter';font-display:swap;}
 
 body{
   background:var(--cream);color:var(--ink);
@@ -433,7 +443,7 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
   ></video>
   <div id="hero-copy">
     <span class="hc-tag">Concepto Development</span>
-    <h1 class="hc-h1">Mientras dormís,<br><em>tu negocio vende.</em></h1>
+    <p class="hc-h1">Mientras dormís,<br><em>tu negocio vende.</em></p>
     <p class="hc-sub">Automatizaciones, webs y chatbots con IA.</p>
     <div class="hc-btns">
       <a href="https://wa.me/59897976574" class="hc-b1" target="_blank">Empezar ahora</a>
@@ -492,7 +502,7 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
 
 <!-- AUTOMATIZACIONES -->
 <section class="svc-sec" id="s-auto">
-  <video id="auto-video" autoplay muted playsinline loop preload="auto">
+  <video id="auto-video" autoplay muted playsinline loop preload="none">
     <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/MaxHamaca.mp4" type="video/mp4">
   </video>
   <div class="srow flip">
@@ -512,7 +522,7 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
 
 <!-- WEBS -->
 <section class="svc-sec" id="s-webs">
-  <video id="webs-video" autoplay muted playsinline loop preload="auto">
+  <video id="webs-video" autoplay muted playsinline loop preload="none">
     <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/hf_20260522_144555_59923b42-c80c-4be7-8db0-3785c13e1afb.mp4" type="video/mp4">
   </video>
   <div class="srow">
@@ -695,7 +705,26 @@ body.faq-open #faq-fab{opacity:0;pointer-events:none;transform:scale(.8);}
 </button>
 
 <script>
-const isMob = () => window.innerWidth <= 680;
+const MOB = window.matchMedia('(max-width:680px)');
+const isMob = () => MOB.matches;
+
+// ── LAZY VIDEO — carga videos de fondo solo al acercarse
+(function lazyVideos(){
+  const vids=document.querySelectorAll('video[preload="none"]');
+  if(!vids.length)return;
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting)return;
+      const v=e.target;
+      if(!v.src&&v.querySelector('source')){
+        // trigger load via preload change
+        v.preload='auto';v.load();
+      }
+      obs.unobserve(v);
+    });
+  },{rootMargin:'200px'});
+  vids.forEach(v=>obs.observe(v));
+})();
 
 // ── LOADER — se oculta al cargar, sin depender de GLB
 setTimeout(() => document.getElementById('ldr').classList.add('out'), 400);
