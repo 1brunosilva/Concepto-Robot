@@ -146,8 +146,13 @@ nav.dk .nl{color:#fff;}
   #s-cta .ctah{text-align:center;max-width:58vw;}
   #s-cta .brow{justify-content:center;}
   #s-hero{align-items:flex-end;padding-bottom:14vh;}
-  #s-webs{align-items:flex-start;padding-top:calc(58px + 8vh);}
-  #s-webs .scol{align-items:flex-start;text-align:left;}
+
+  /* SPLIT-SCREEN para secciones de servicios */
+  .svc-sec{padding:0;min-height:100vh;min-height:100svh;overflow:hidden;}
+  .svc-sec .srow{height:100vh;height:100svh;gap:0;align-items:stretch;}
+  .svc-sec .scol{padding:0 clamp(40px,6vw,90px);justify-content:center;align-items:flex-start;text-align:left;}
+  .svc-sec .rcol{height:100%;overflow:hidden;position:relative;}
+  .svc-sec .rcol video{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
 }
 
 /* SECCIONES — Mobile */
@@ -181,7 +186,7 @@ nav.dk .nl{color:#fff;}
   #s-cta .urgency-line{text-align:center;max-width:260px;}
 }
 
-/* VIDEO en .rcol */
+/* VIDEO en .rcol — base (svc-sec lo override con cover) */
 .rcol video{width:100%;height:100%;object-fit:contain;display:block;}
 
 /* VIDEO fondo — solo mobile */
