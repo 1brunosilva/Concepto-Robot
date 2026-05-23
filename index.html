@@ -705,8 +705,9 @@ const isMob = () => MOB.matches;
       if(!e.isIntersecting)return;
       const v=e.target;
       if(!v.src&&v.querySelector('source')){
-        // trigger load via preload change
-        v.preload='auto';v.load();
+        v.preload='auto';
+        v.load();
+        v.addEventListener('canplay',()=>v.play().catch(()=>{}),{once:true});
       }
       obs.unobserve(v);
     });
