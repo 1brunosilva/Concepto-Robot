@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShockBag Dashboard — HAL Analytics</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0d1117;color:#e6edf3;padding:24px;min-height:100vh}
+  header{margin-bottom:28px}
+  header h1{font-size:22px;font-weight:700;color:#f0f6fc}
+  header p{font-size:13px;color:#8b949e;margin-top:4px}
+  .scorecards{display:flex;gap:14px;margin-bottom:20px;flex-wrap:wrap}
+  .card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:18px 20px;flex:1;min-width:150px}
+  .card-label{font-size:12px;color:#8b949e;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+  .card-value{font-size:36px;font-weight:700;line-height:1}
+  .card-sub{font-size:12px;color:#8b949e;margin-top:6px}
+  .row{display:grid;gap:14px;margin-bottom:14px}
+  .row-2{grid-template-columns:1fr 1fr}
+  .row-3{grid-template-columns:2fr 1fr 1fr}
+  .box{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:16px}
+  .box-title{font-size:11px;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  thead th{color:#8b949e;font-weight:500;padding:6px 8px;text-align:left;border-bottom:1px solid #30363d}
+  tbody td{padding:7px 8px;border-bottom:1px solid #21262d;color:#e6edf3;vertical-align:middle}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover td{background:#21262d}
+  td.num{text-align:center;font-variant-numeric:tabular-nums}
+  .badge{display:inline-block;background:rgba(31,111,235,.15);color:#58a6ff;border:1px solid rgba(31,111,235,.4);border-radius:12px;padding:1px 9px;font-size:12px;font-weight:600}
+  .msg-text{max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+  @media(max-width:700px){.row-2,.row-3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <h1>ShockBag Analytics — HAL</h1>
+  <p id="ts">Cargando datos...</p>
+</header>
+
+<div class="scorecards" id="cards"></div>
+
+<div class="row" style="grid-template-columns:1fr;margin-bottom:14px">
+  <div class="box">
+    <div class="box-title">Consultas por dia</div>
+    <canvas id="cDay" height="70"></canvas>
+  </div>
+</div>
+
+<div class="row row-3">
+  <div class="box">
+    <div class="box-title">Usuarios mas activos (top 10)</div>
+    <canvas id="cUsers" height="220"></canvas>
+  </div>
+  <div class="box">
+    <div class="box-title">Actividad por hora</div>
+    <canvas id="cHour" height="220"></canvas>
+  </div>
+  <div class="box">
+    <div class="box-title">Consultas vs Derivados</div>
+    <canvas id="cPie" height="220"></canvas>
+  </div>
+</div>
+
+<div class="row" style="grid-template-columns:1fr">
+  <div class="box">
+    <div class="box-title">Mensajes mas frecuentes (top 20)</div>
+    <div id="msgTable"></div>
+  </div>
+</div>
+
+<script>
+var BLUE='#58a6ff',GREEN='#3fb950',PURPLE='#bc8cff',ORANGE='#f78166',GREY='#8b949e',BORDER='#30363d';
+var ax={ticks:{color:GREY},grid:{color:BORDER}};
+
+function load(){
+  fetch('/api/stats').then(function(r){return r.json();}).then(function(d){
+
+    document.getElementById('ts').textContent='Actualizado: '+
+      new Date(d.updatedAt).toLocaleString('es-UY',{timeZone:'America/Montevideo',
+      day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+
+    var tasa=d.totalConsultas?((d.totalDerivados/d.totalConsultas)*100).toFixed(1)+'%':'0%';
+    var uniq=d.topUsers.length>0?d.topUsers.length+'+':0;
+    var sc=[
+      [BLUE,'Consultas totales',d.totalConsultas,'mensajes recibidos'],
+      [GREEN,'Derivados',d.totalDerivados,'leads a asesor'],
+      [PURPLE,'Tasa conversion',tasa,'consultas a derivado'],
+      [ORANGE,'Usuarios unicos',uniq,'interactuaron con HAL']
+    ];
+    document.getElementById('cards').innerHTML=sc.map(function(x){
+      return '<div class="card"><div class="card-label">'+x[1]+'</div>'
+        +'<div class="card-value" style="color:'+x[0]+'">'+x[2]+'</div>'
+        +'<div class="card-sub">'+x[3]+'</div></div>';
+    }).join('');
+
+    new Chart(document.getElementById('cDay'),{
+      type:'line',
+      data:{
+        labels:d.perDay.map(function(x){return x.date;}),
+        datasets:[
+          {label:'Consultas',data:d.perDay.map(function(x){return x.consultas;}),
+           borderColor:BLUE,backgroundColor:BLUE+'22',fill:true,tension:.3,pointRadius:3},
+          {label:'Derivados',data:d.perDay.map(function(x){return x.derivados;}),
+           borderColor:GREEN,backgroundColor:GREEN+'22',fill:true,tension:.3,pointRadius:3}
+        ]
+      },
+      options:{responsive:true,plugins:{legend:{display:true,labels:{color:GREY}}},scales:{x:ax,y:ax}}
+    });
+
+    var tu=d.topUsers.slice(0,10);
+    new Chart(document.getElementById('cUsers'),{
+      type:'bar',
+      data:{
+        labels:tu.map(function(x){return x.user;}),
+        datasets:[{data:tu.map(function(x){return x.count;}),
+          backgroundColor:ORANGE+'99',borderColor:ORANGE,borderWidth:1,borderRadius:4}]
+      },
+      options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false}},
+        scales:{x:ax,y:{ticks:{color:GREY,font:{size:11}},grid:{color:BORDER}}}}
+    });
+
+    new Chart(document.getElementById('cHour'),{
+      type:'bar',
+      data:{
+        labels:d.perHour.map(function(x){return x.hour+'h';}),
+        datasets:[{data:d.perHour.map(function(x){return x.count;}),
+          backgroundColor:PURPLE+'99',borderColor:PURPLE,borderWidth:1,borderRadius:3}]
+      },
+      options:{responsive:true,plugins:{legend:{display:false}},scales:{x:ax,y:ax}}
+    });
+
+    new Chart(document.getElementById('cPie'),{
+      type:'doughnut',
+      data:{
+        labels:['Consultas','Derivados'],
+        datasets:[{data:[d.totalConsultas,d.totalDerivados],
+          backgroundColor:[BLUE+'bb',GREEN+'bb'],borderColor:[BLUE,GREEN],borderWidth:2}]
+      },
+      options:{responsive:true,cutout:'58%',
+        plugins:{legend:{display:true,position:'bottom',labels:{color:GREY,padding:14}}}}
+    });
+
+    var rows=d.topMessages.map(function(m,i){
+      return '<tr><td class="num" style="color:'+GREY+';width:36px">'+(i+1)+'</td>'
+        +'<td><span class="msg-text" title="'+m.msg.replace(/"/g,'&quot;')+'">'+m.msg+'</span></td>'
+        +'<td class="num"><span class="badge">'+m.count+'</span></td></tr>';
+    }).join('');
+    document.getElementById('msgTable').innerHTML=
+      '<table><thead><tr><th>#</th><th>Mensaje</th><th style="text-align:center">Veces</th></tr></thead>'
+      +'<tbody>'+rows+'</tbody></table>';
+
+  }).catch(function(e){
+    console.error(e);
+    document.getElementById('ts').textContent='Error al cargar datos. Verificar que el workflow Stats API este activo en n8n.';
+  });
+}
+
+load();
+setInterval(load,300000);
+</script>
+</body>
+</html>

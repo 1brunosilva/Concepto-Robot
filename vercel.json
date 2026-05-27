@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/stats",
+      "destination": "https://brunoconcepto.app.n8n.cloud/webhook/shockbag-stats"
+    }
+  ]
+}
