@@ -15,6 +15,10 @@
     {
       "source": "/automatizaciones",
       "destination": "/automatizaciones.html"
+    },
+    {
+      "source": "/pintelux",
+      "destination": "/clientes/pintelux/propuesta-chatbot.html"
     }
   ]
 }
