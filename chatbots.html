@@ -28,33 +28,30 @@ nav{position:fixed;top:0;left:0;right:0;z-index:400;display:flex;justify-content
 .nbtn{padding:.48rem 1.2rem;border-radius:100px;background:#9333ea;color:#fff;font-size:13px;font-weight:400;text-decoration:none;transition:background .2s,transform .15s;white-space:nowrap;}
 .nbtn:hover{background:#7c3aed;transform:translateY(-1px);}
 
-/* ── HERO ── */
-.hero{display:grid;grid-template-columns:1fr 1fr;min-height:100svh;overflow:hidden;position:relative;background:#060010;}
-@media(max-width:680px){.hero{grid-template-columns:1fr;height:100svh;min-height:100svh;}}
+/* ── HERO — video full-screen bg ── */
+.hero{position:relative;min-height:100svh;overflow:hidden;background:#060010;}
 
-.hero-copy{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:calc(58px + clamp(2rem,5vh,4rem)) clamp(24px,6vw,80px) clamp(2rem,5vh,4rem);position:relative;z-index:2;}
+/* Videos de fondo — cubren toda la pantalla */
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
+.hero-bg-desk{display:block;}
+.hero-bg-mob{display:none;}
 @media(max-width:680px){
-  .hero-copy{justify-content:flex-start;padding-top:calc(58px + 1.6rem);align-items:flex-end;padding-left:clamp(16px,4vw,24px);padding-right:clamp(16px,4vw,24px);}
-  .tag,.hero-sub,.guarantee{text-align:right;}
-  .hero-h1{text-align:right;}
+  .hero-bg-desk{display:none;}
+  .hero-bg-mob{display:block;object-position:left center;}
+}
+
+/* Overlay — oscuro a la DERECHA donde está el texto */
+.hero::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(to left,rgba(6,0,16,.90) 0%,rgba(6,0,16,.75) 45%,rgba(6,0,16,.25) 100%);pointer-events:none;}
+@media(max-width:680px){
+  .hero::before{background:linear-gradient(to bottom,rgba(6,0,16,.80) 0%,rgba(6,0,16,.72) 50%,rgba(6,0,16,.35) 75%,rgba(6,0,16,.08) 100%);}
+}
+
+/* Copy — derecha en desktop, arriba en mobile */
+.hero-copy{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-height:100svh;padding:calc(58px + clamp(2rem,5vh,4rem)) clamp(24px,6vw,80px) clamp(2rem,5vh,4rem);max-width:50%;margin-left:auto;}
+@media(max-width:680px){
+  .hero-copy{max-width:100%;margin-left:0;justify-content:flex-start;padding-top:calc(58px + 1.6rem);align-items:flex-end;}
+  .tag,.hero-h1,.hero-sub,.guarantee{text-align:right;}
   .brow{justify-content:flex-end;}
-}
-
-/* Gradient overlay mobile para legibilidad */
-@media(max-width:680px){
-  .hero::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(6,0,16,.80) 0%,rgba(6,0,16,.72) 50%,rgba(6,0,16,.35) 75%,rgba(6,0,16,.08) 100%);pointer-events:none;}
-  .hero-copy{z-index:2;}
-}
-
-/* Video desktop (columna derecha) */
-.hero-vid{position:relative;overflow:hidden;height:100svh;}
-.hero-vid video{width:100%;height:100%;object-fit:cover;display:block;}
-@media(max-width:680px){.hero-vid{display:none;}}
-
-/* Video mobile (fondo absoluto) */
-.hero-mob-vid{display:none;}
-@media(max-width:680px){
-  .hero-mob-vid{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:left center;z-index:0;}
 }
 
 /* ── TIPOGRAFÍA — copia exacta del sitio ── */
@@ -156,12 +153,17 @@ footer{padding:2rem clamp(24px,6vw,80px);display:flex;justify-content:space-betw
 ─────────────────────────────────────────────── -->
 <div class="hero">
 
-  <!-- Video fondo móvil (hidden en desktop) -->
-  <video class="hero-mob-vid" autoplay muted playsinline loop preload="auto">
+  <!-- Video desktop full-screen bg -->
+  <video class="hero-bg hero-bg-desk" autoplay muted playsinline loop preload="auto">
+    <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@141f2e5907eba56632afcf44d53fa0b6865ad7d7/hf_20260522_232750_4fdcf580-71b9-42cf-9fb7-300c0c45fcf6.mp4" type="video/mp4">
+  </video>
+
+  <!-- Video mobile full-screen bg -->
+  <video class="hero-bg hero-bg-mob" autoplay muted playsinline loop preload="auto">
     <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@7abac0c/hf_20260522_154541_9b2a329a-9c36-4cdc-9ae5-175238a84573.mp4" type="video/mp4">
   </video>
 
-  <!-- Columna izquierda: copy -->
+  <!-- Copy — derecha desktop / arriba-derecha mobile -->
   <div class="hero-copy">
     <span class="tag rv">Chatbots con IA · Uruguay</span>
     <h1 class="hero-h1 rv d1">Tu negocio vendió<br>a las 3 AM.<br><em>Vos dormías.</em></h1>
@@ -170,13 +172,6 @@ footer{padding:2rem clamp(24px,6vw,80px);display:flex;justify-content:space-betw
       <a href="https://wa.me/59897976574?text=Hola!%20Vi%20la%20landing%20de%20chatbots%20y%20quiero%20saber%20más." class="btn-demo" target="_blank" rel="noopener">Quiero mi chatbot <span class="btn-demo-icon">→</span></a>
     </div>
     <p class="guarantee rv d4">Diagnóstico gratis · Respondemos en minutos</p>
-  </div>
-
-  <!-- Columna derecha: video desktop (hidden en mobile) -->
-  <div class="hero-vid">
-    <video autoplay muted playsinline loop preload="auto">
-      <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@141f2e5907eba56632afcf44d53fa0b6865ad7d7/hf_20260522_232750_4fdcf580-71b9-42cf-9fb7-300c0c45fcf6.mp4" type="video/mp4">
-    </video>
   </div>
 
 </div>
