@@ -34,8 +34,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:400;display:flex;justify-content
 
 .hero-copy{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:calc(58px + clamp(2rem,5vh,4rem)) clamp(24px,6vw,80px) clamp(2rem,5vh,4rem);position:relative;z-index:2;background:var(--cream);}
 @media(max-width:680px){
-  .hero-copy{justify-content:flex-start;padding-top:calc(58px + 1.6rem);background:transparent;height:100svh;padding-bottom:3rem;}
-  .brow{margin-top:auto;}
+  .hero-copy{justify-content:flex-start;padding-top:calc(58px + 1.6rem);background:transparent;height:100svh;}
+  .brow{position:absolute;bottom:3.5rem;margin-top:0;}
+  .guarantee{position:absolute;bottom:1.6rem;}
 }
 
 /* Gradient overlay mobile */
