@@ -3,6 +3,18 @@
     {
       "source": "/api/stats",
       "destination": "https://brunoconcepto.app.n8n.cloud/webhook/shockbag-stats"
+    },
+    {
+      "source": "/chatbots",
+      "destination": "/chatbots.html"
+    },
+    {
+      "source": "/webs",
+      "destination": "/webs.html"
+    },
+    {
+      "source": "/automatizaciones",
+      "destination": "/automatizaciones.html"
     }
   ]
 }
