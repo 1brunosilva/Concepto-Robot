@@ -10,10 +10,10 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230d0d0d'/><text y='.9em' font-size='72' x='12' fill='%23f5f4f0' font-family='system-ui'>C</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* ── RESET & VARS (idéntico al sitio) ── */
+/* ── RESET + VARS (idéntico al sitio) ── */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
   --cream:#f5f4f0;--ink:#0d0d0d;--mid:#585858;--dim:#767676;
@@ -22,71 +22,64 @@
 html{scroll-behavior:smooth;}
 body{background:var(--cream);color:var(--ink);font-family:'Inter',system-ui,-apple-system,sans-serif;font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
 
-/* ── NAV (mismo estilo que el sitio) ── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:400;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:0 clamp(24px,6vw,80px);height:58px;
-  background:rgba(6,0,16,.85);backdrop-filter:blur(20px);
-}
+/* ── NAV FIJO ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:400;display:flex;justify-content:space-between;align-items:center;padding:0 clamp(24px,6vw,80px);height:58px;background:rgba(6,0,16,.85);backdrop-filter:blur(20px);}
 .nl{font-family:system-ui,-apple-system,sans-serif;font-size:15px;font-weight:500;letter-spacing:-.02em;color:#fff;text-decoration:none;}
-.nbtn{padding:.48rem 1.2rem;border-radius:100px;background:#9333ea;color:#fff;font-size:13px;font-weight:400;text-decoration:none;transition:background .2s,transform .2s;white-space:nowrap;}
+.nbtn{padding:.48rem 1.2rem;border-radius:100px;background:#9333ea;color:#fff;font-size:13px;font-weight:400;text-decoration:none;transition:background .2s,transform .15s;white-space:nowrap;}
 .nbtn:hover{background:#7c3aed;transform:translateY(-1px);}
 
-/* ── TIPOGRAFÍA (copia exacta del sitio) ── */
-.tag{font-size:11px;font-weight:500;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;margin-bottom:1.4rem;display:block;}
-.h1{font-size:clamp(40px,6.2vw,94px);font-weight:600;letter-spacing:-.04em;line-height:.93;}
-.h2{font-size:clamp(34px,5vw,76px);font-weight:600;letter-spacing:-.04em;line-height:.93;}
-.fade{color:var(--dim);}
-.sub{font-size:clamp(14px,1.1vw,16px);color:var(--mid);line-height:1.78;max-width:380px;margin-top:1.6rem;font-weight:300;}
-@media(max-width:680px){.sub{font-size:14px;max-width:100%;}.sub.mob-hide{display:none;}}
-a{color:inherit;text-decoration:none;}
-.lnk{display:inline-flex;align-items:center;gap:.32rem;margin-top:1.4rem;font-size:13px;font-weight:400;transition:gap .2s;}
-.lnk:hover{gap:.65rem;}
-.lnk::after{content:'→';}
+/* ── HERO ── */
+.hero{display:grid;grid-template-columns:1fr 1fr;min-height:100svh;overflow:hidden;position:relative;background:#060010;}
+@media(max-width:680px){.hero{grid-template-columns:1fr;height:100svh;min-height:100svh;}}
+
+.hero-copy{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:calc(58px + clamp(2rem,5vh,4rem)) clamp(24px,6vw,80px) clamp(2rem,5vh,4rem);position:relative;z-index:2;}
+@media(max-width:680px){.hero-copy{justify-content:flex-start;padding-top:calc(58px + 1.6rem);}}
+
+/* Gradient overlay mobile para legibilidad */
+@media(max-width:680px){
+  .hero::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(6,0,16,.88) 0%,rgba(6,0,16,.65) 55%,transparent 100%);pointer-events:none;}
+  .hero-copy{z-index:2;}
+}
+
+/* Video desktop (columna derecha) */
+.hero-vid{position:relative;overflow:hidden;height:100svh;}
+.hero-vid video{width:100%;height:100%;object-fit:cover;display:block;}
+@media(max-width:680px){.hero-vid{display:none;}}
+
+/* Video mobile (fondo absoluto) */
+.hero-mob-vid{display:none;}
+@media(max-width:680px){
+  .hero-mob-vid{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
+}
+
+/* ── TIPOGRAFÍA — copia exacta del sitio ── */
+.tag{font-size:11px;font-weight:500;letter-spacing:.16em;color:rgba(168,85,247,.7);text-transform:uppercase;margin-bottom:1.4rem;display:block;}
+.hero-h1{font-size:clamp(34px,5vw,76px);font-weight:600;letter-spacing:-.04em;line-height:.93;color:#fff;}
+.hero-h1 em{font-style:normal;color:rgba(255,255,255,.5);}
+.hero-sub{font-size:clamp(14px,1.1vw,16px);color:rgba(255,255,255,.55);line-height:1.78;max-width:380px;margin-top:1.6rem;font-weight:300;}
+@media(max-width:680px){.hero-sub{font-size:14px;max-width:100%;}}
+
+/* ── BOTONES (copia exacta del sitio) ── */
 .brow{display:flex;gap:.6rem;margin-top:2rem;flex-wrap:wrap;}
 .btn{display:inline-flex;align-items:center;padding:.7rem 1.65rem;border-radius:100px;font-size:14px;font-weight:400;text-decoration:none;transition:opacity .18s;letter-spacing:-.01em;}
 .btn:hover{opacity:.62;}
-.bd{background:#0d0d0d;color:#f5f4f0 !important;}
+.bd{background:var(--cream);color:var(--ink) !important;}
 .btn-demo{display:inline-flex;align-items:center;gap:.45rem;margin-top:1.4rem;padding:.7rem 1.65rem;border-radius:100px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff !important;font-size:14px;font-weight:400;text-decoration:none;letter-spacing:-.01em;box-shadow:0 6px 24px rgba(124,58,237,.28);transition:opacity .18s,transform .18s,box-shadow .18s;}
 .btn-demo:hover{opacity:.85;transform:translateY(-2px);box-shadow:0 10px 32px rgba(124,58,237,.42);}
+.btn-demo-icon{transition:transform .2s;}
+.btn-demo:hover .btn-demo-icon{transform:translateX(3px);}
 
-/* ── SVC-SEC (copia exacta del sitio — layout split-screen) ── */
-@media(min-width:681px){
-  .svc-sec{position:relative;display:block;padding:0;height:100vh;height:100svh;overflow:hidden;}
-  .svc-sec .srow{height:100%;display:flex;align-items:center;direction:ltr !important;}
-  .svc-sec .srow.flip{direction:rtl;}
-  .svc-sec .srow.flip .scol{direction:ltr;margin-left:50%;}
-  .svc-sec .scol{position:relative;z-index:1;width:50%;display:flex;flex-direction:column;padding:0 clamp(40px,6vw,90px);justify-content:center;align-items:flex-start;text-align:left;}
-  .svc-sec .rcol{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;overflow:hidden;}
-  .svc-sec .rcol video{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
-  /* s-chat desktop: oscuro, texto blanco */
-  #s-hero{background:#060010;}
-  #s-hero .tag,#s-hero .h2,#s-hero .fade,#s-hero .sub,#s-hero .lnk,#s-hero .btn-demo{color:#fff;}
-  #s-hero .fade{opacity:.65;}
-  #s-hero .sub{color:rgba(255,255,255,.7);}
-}
+.guarantee{margin-top:1rem;font-size:11.5px;color:rgba(255,255,255,.25);font-weight:300;letter-spacing:.01em;}
+.guarantee strong{color:rgba(255,255,255,.45);font-weight:400;}
 
-/* ── MOBILE (copia exacta — sección #s-chat) ── */
-#mob-vid{display:none !important;}
-@media(max-width:680px){
-  .svc-sec{position:relative;height:100svh;overflow:hidden;display:flex;flex-direction:column;padding:0 7vw;z-index:20;}
-  #s-hero{justify-content:flex-start;padding-top:100px;padding-bottom:60px;background:#060010;}
-  #mob-vid{display:block !important;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;}
-  .svc-sec .srow{position:relative;z-index:1;display:block;}
-  #s-hero .scol{align-items:flex-end;text-align:right;display:flex;flex-direction:column;}
-  #s-hero .tag,#s-hero .h2,#s-hero .fade,#s-hero .sub,#s-hero .btn-demo{color:#fff;}
-  #s-hero .fade{opacity:.65;}
-  #s-hero .sub{color:rgba(255,255,255,.65);max-width:100%;text-align:right;}
-}
+/* ── SECCIONES ── */
+section.lp{position:relative;padding:clamp(60px,9vh,110px) clamp(24px,6vw,80px);}
 
-/* ── SECCIONES LANDING (debajo del hero) ── */
-section.lp-sec{position:relative;padding:clamp(60px,9vh,110px) clamp(24px,6vw,80px);}
-
-/* Sección beneficios */
 .lp-label{font-size:11px;font-weight:500;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;margin-bottom:1rem;display:block;}
-.lp-title{font-size:clamp(28px,3.8vw,52px);font-weight:600;letter-spacing:-.04em;line-height:.95;max-width:560px;margin-bottom:clamp(2rem,4vh,3.5rem);}
-.lp-title .fade{color:var(--dim);}
+.lp-h2{font-size:clamp(28px,3.8vw,52px);font-weight:600;letter-spacing:-.04em;line-height:.95;max-width:560px;margin-bottom:clamp(2rem,4vh,3.5rem);}
+.lp-h2 em{font-style:normal;color:var(--dim);}
+
+/* Cards de beneficios */
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;}
 .card{background:#fff;border-radius:18px;padding:1.75rem;border:1px solid rgba(13,13,13,.06);transition:transform .22s,box-shadow .22s,border-color .22s;}
 .card:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(124,58,237,.09);border-color:rgba(124,58,237,.2);}
@@ -94,13 +87,14 @@ section.lp-sec{position:relative;padding:clamp(60px,9vh,110px) clamp(24px,6vw,80
 .card-t{font-size:14.5px;font-weight:600;letter-spacing:-.01em;margin-bottom:.45rem;}
 .card-d{font-size:13px;color:var(--mid);line-height:1.7;font-weight:300;}
 
-/* Sección pasos (estilo s-night) */
-.lp-dark{background:#06040f;position:relative;overflow:hidden;}
-.lp-dark::before{content:'';position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(124,58,237,.18) 0%,transparent 70%);top:-150px;right:-100px;pointer-events:none;z-index:0;}
-.lp-dark .lp-inner{position:relative;z-index:1;}
-.lp-dark .lp-label{color:rgba(168,85,247,.7);}
-.lp-dark .lp-title{color:#fff;}
-.lp-dark .lp-title .fade{color:var(--vlt-l);opacity:1;}
+/* Sección oscura — pasos (estilo s-night del sitio) */
+.dark-sec{background:#06040f;position:relative;overflow:hidden;}
+.dark-sec::before{content:'';position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(124,58,237,.18) 0%,transparent 70%);top:-150px;right:-100px;pointer-events:none;z-index:0;}
+.dark-inner{position:relative;z-index:1;}
+.dark-sec .lp-label{color:rgba(168,85,247,.7);}
+.dark-sec .lp-h2{color:#fff;}
+.dark-sec .lp-h2 em{color:var(--vlt-l);opacity:1;}
+
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
 @media(max-width:680px){.steps{grid-template-columns:1fr;gap:1.25rem;}}
 .step{background:rgba(255,255,255,.04);border:1px solid rgba(124,58,237,.14);border-radius:18px;padding:1.75rem;position:relative;}
@@ -109,14 +103,23 @@ section.lp-sec{position:relative;padding:clamp(60px,9vh,110px) clamp(24px,6vw,80
 .step-d{font-size:13px;color:rgba(255,255,255,.4);line-height:1.7;font-weight:300;}
 .step-ico{position:absolute;top:1.5rem;right:1.5rem;width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#a855f7);display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 4px 14px rgba(124,58,237,.35);}
 
-/* Sección CTA final (estilo s-cta del sitio) */
+/* Proof stats */
+.proof{background:#06040f;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;padding:clamp(36px,5vh,56px) clamp(24px,6vw,80px);}
+.proof-stat{text-align:center;flex:1;min-width:120px;}
+.proof-n{font-size:clamp(32px,5vw,56px);font-weight:600;color:#fff;letter-spacing:-.04em;line-height:.93;display:block;}
+.proof-n span{color:var(--vlt-l);}
+.proof-l{font-size:11.5px;color:rgba(255,255,255,.3);margin-top:.3rem;font-weight:300;letter-spacing:.03em;}
+.proof-div{width:1px;height:50px;background:rgba(255,255,255,.07);flex-shrink:0;}
+@media(max-width:500px){.proof-div{display:none;}.proof{gap:1.5rem;}.proof-stat{min-width:80px;}}
+
+/* CTA final (estilo s-cta del sitio) */
 .lp-cta{text-align:center;display:flex;flex-direction:column;align-items:center;}
 .ctah{font-size:clamp(38px,6vw,96px);font-weight:600;letter-spacing:-.04em;line-height:.93;}
-.ctah .fade{color:var(--dim);}
+.ctah em{font-style:normal;color:var(--dim);}
 .ctap{font-size:clamp(14px,1.1vw,16px);color:var(--mid);max-width:320px;line-height:1.78;margin-top:1.4rem;font-weight:300;}
 .lp-cta .brow{justify-content:center;}
-.urgency{margin-top:.85rem;font-size:12px;color:var(--dim);font-weight:300;letter-spacing:.01em;}
-.urgency strong{color:var(--mid);font-weight:500;}
+.scarcity-note{margin-top:.9rem;font-size:12px;color:var(--dim);font-weight:300;}
+.scarcity-note strong{color:var(--mid);font-weight:500;}
 
 /* Footer */
 footer{padding:2rem clamp(24px,6vw,80px);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(13,13,13,.06);background:var(--cream);}
@@ -127,10 +130,10 @@ footer{padding:2rem clamp(24px,6vw,80px);display:flex;justify-content:space-betw
 .fc{font-size:12px;color:var(--dim);}
 @media(max-width:680px){footer{flex-direction:column;gap:.9rem;text-align:center;padding:1.8rem 7vw;}.fls{justify-content:center;flex-wrap:wrap;}}
 
-/* Reveal */
+/* Reveal — copia exacta del sitio */
 .rv{opacity:0;transform:translateY(26px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
 .rv.in{opacity:1;transform:none;}
-.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.32s;}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.32s;}.d4{transition-delay:.44s;}
 @media(prefers-reduced-motion:reduce){.rv{transition:opacity .3s;transform:none;}}
 </style>
 </head>
@@ -138,104 +141,128 @@ footer{padding:2rem clamp(24px,6vw,80px);display:flex;justify-content:space-betw
 
 <nav>
   <a href="https://conceptodevelopment.com" class="nl">Concepto</a>
-  <a href="https://wa.me/59897976574?text=Hola!%20Quiero%20saber%20más%20sobre%20chatbots%20con%20IA." class="nbtn" target="_blank" rel="noopener">Hablemos →</a>
+  <a href="https://wa.me/59897976574?text=Hola!%20Vi%20la%20landing%20de%20chatbots%20y%20quiero%20saber%20más." class="nbtn" target="_blank" rel="noopener">Hablemos →</a>
 </nav>
 
-<!-- ─────────────────────────────────────────────
-     HERO — copia exacta de #s-chat del sitio
-     Mobile: hf_20260522_154541
-     Desktop: hf_20260522_232750
-──────────────────────────────────────────────── -->
-<section class="svc-sec" id="s-hero">
+<!-- ──────────────────────────────────────────────
+     HERO
+     Mobile video:  hf_20260522_154541 (mismo que #s-chat móvil)
+     Desktop video: hf_20260522_232750 (mismo que #s-chat desktop)
+─────────────────────────────────────────────── -->
+<div class="hero">
 
-  <!-- Video fondo móvil -->
-  <video id="mob-vid" autoplay muted playsinline loop preload="auto"
-    src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@7abac0c/hf_20260522_154541_9b2a329a-9c36-4cdc-9ae5-175238a84573.mp4">
+  <!-- Video fondo móvil (hidden en desktop) -->
+  <video class="hero-mob-vid" autoplay muted playsinline loop preload="auto">
+    <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@7abac0c/hf_20260522_154541_9b2a329a-9c36-4cdc-9ae5-175238a84573.mp4" type="video/mp4">
   </video>
 
-  <div class="srow flip">
-    <div class="scol">
-      <span class="tag rv">03 — Chatbots</span>
-      <h1 class="h2 rv d1">Conversaciones que<br><span class="fade">convierten.</span></h1>
-      <p class="sub mob-hide rv d2">Sistemas conversacionales con IA que califican y cierran prospectos en segundos, las 24 horas.</p>
-      <a href="https://wa.me/59897976574?text=Hola!%20Quiero%20saber%20más%20sobre%20chatbots%20con%20IA." class="btn-demo rv d3" target="_blank" rel="noopener">Quiero mi chatbot <span>→</span></a>
+  <!-- Columna izquierda: copy -->
+  <div class="hero-copy">
+    <span class="tag rv">Chatbots con IA · Uruguay</span>
+    <h1 class="hero-h1 rv d1">Tu negocio vendió<br>a las 3 AM.<br><em>Vos dormías.</em></h1>
+    <p class="hero-sub rv d2">Chatbots con inteligencia artificial que atienden, califican y cierran clientes 24/7 — sin intervención humana, sin horarios.</p>
+    <div class="brow rv d3">
+      <a href="https://wa.me/59897976574?text=Hola!%20Vi%20la%20landing%20de%20chatbots%20y%20quiero%20saber%20más." class="btn-demo" target="_blank" rel="noopener">Quiero mi chatbot <span class="btn-demo-icon">→</span></a>
     </div>
+    <p class="guarantee rv d4">Diagnóstico gratis · <strong>Sin contrato</strong> · Respondemos en minutos</p>
   </div>
 
-  <!-- Video desktop (cubre toda la sección) -->
-  <div class="rcol">
+  <!-- Columna derecha: video desktop (hidden en mobile) -->
+  <div class="hero-vid">
     <video autoplay muted playsinline loop preload="auto">
       <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@141f2e5907eba56632afcf44d53fa0b6865ad7d7/hf_20260522_232750_4fdcf580-71b9-42cf-9fb7-300c0c45fcf6.mp4" type="video/mp4">
     </video>
   </div>
-</section>
+
+</div>
 
 <!-- ── BENEFICIOS ── -->
-<section class="lp-sec">
-  <div class="lp-inner">
-    <span class="lp-label rv">Por qué un chatbot con IA</span>
-    <h2 class="lp-title rv d1">Lo que ganás<br><span class="fade">desde el primer día.</span></h2>
-    <div class="cards">
-      <div class="card rv d1">
-        <span class="card-ico">⚡</span>
-        <div class="card-t">Respuesta instantánea</div>
-        <p class="card-d">Sin esperas. Tu cliente recibe respuesta en segundos, a cualquier hora del día o la noche.</p>
-      </div>
-      <div class="card rv d2">
-        <span class="card-ico">🎯</span>
-        <div class="card-t">Leads ya calificados</div>
-        <p class="card-d">El bot filtra y califica prospectos automáticamente. Solo hablás con los que están listos para comprar.</p>
-      </div>
-      <div class="card rv d3">
-        <span class="card-ico">💬</span>
-        <div class="card-t">WhatsApp · Instagram · Web</div>
-        <p class="card-d">Donde están tus clientes, ahí está tu bot. Integrado con los canales que ya usás.</p>
-      </div>
-      <div class="card rv d3">
-        <span class="card-ico">📈</span>
-        <div class="card-t">Mejora con el tiempo</div>
-        <p class="card-d">El sistema aprende de cada conversación y se vuelve más efectivo mes a mes.</p>
-      </div>
+<section class="lp">
+  <span class="lp-label rv">Por qué un chatbot con IA</span>
+  <h2 class="lp-h2 rv d1">Lo que ganás<br><em>desde el primer día.</em></h2>
+  <div class="cards">
+    <div class="card rv d1">
+      <span class="card-ico">⚡</span>
+      <div class="card-t">Respuesta instantánea</div>
+      <p class="card-d">Sin esperas. Tu cliente recibe respuesta en segundos, a cualquier hora del día o la noche.</p>
+    </div>
+    <div class="card rv d2">
+      <span class="card-ico">🎯</span>
+      <div class="card-t">Leads ya calificados</div>
+      <p class="card-d">El bot filtra y califica prospectos automáticamente. Solo hablás con los que están listos para comprar.</p>
+    </div>
+    <div class="card rv d3">
+      <span class="card-ico">💬</span>
+      <div class="card-t">WhatsApp · Instagram · Web</div>
+      <p class="card-d">Donde están tus clientes, ahí está tu bot. Integrado con los canales que ya usás.</p>
+    </div>
+    <div class="card rv d4">
+      <span class="card-ico">📈</span>
+      <div class="card-t">Mejora solo con el tiempo</div>
+      <p class="card-d">El sistema aprende de cada conversación y se vuelve más efectivo mes a mes.</p>
     </div>
   </div>
 </section>
 
-<!-- ── CÓMO FUNCIONA (estilo s-night) ── -->
-<section class="lp-sec lp-dark">
-  <div class="lp-inner">
+<!-- ── CÓMO FUNCIONA ── -->
+<section class="lp dark-sec">
+  <div class="dark-inner">
     <span class="lp-label rv">El proceso</span>
-    <h2 class="lp-title rv d1">De cero a tu chatbot<br><span class="fade">en 2 semanas.</span></h2>
+    <h2 class="lp-h2 rv d1">De cero a tu chatbot<br><em>en 2 semanas.</em></h2>
     <div class="steps">
       <div class="step rv d1">
         <div class="step-ico">🔍</div>
-        <span class="step-n">01 — Diagnóstico</span>
-        <div class="step-t">Entendemos tu negocio</div>
-        <p class="step-d">30 minutos para mapear tu flujo de ventas, las preguntas frecuentes y los objetivos del bot.</p>
+        <span class="step-n">01 — Día 1 · 30 min</span>
+        <div class="step-t">Diagnóstico</div>
+        <p class="step-d">Mapeamos tu flujo de ventas, las preguntas más frecuentes y los objetivos del bot.</p>
       </div>
       <div class="step rv d2">
         <div class="step-ico">🛠</div>
-        <span class="step-n">02 — Build</span>
-        <div class="step-t">Armamos tu solución</div>
-        <p class="step-d">Diseñamos los flujos, escribimos las respuestas con tu voz de marca y conectamos los canales.</p>
+        <span class="step-n">02 — Semana 1</span>
+        <div class="step-t">Build</div>
+        <p class="step-d">Diseñamos flujos, escribimos las respuestas con tu voz de marca y conectamos tus canales.</p>
       </div>
       <div class="step rv d3">
         <div class="step-ico">🚀</div>
-        <span class="step-n">03 — En vivo</span>
-        <div class="step-t">Lanzamos y medimos</div>
+        <span class="step-n">03 — Semana 2</span>
+        <div class="step-t">En vivo</div>
         <p class="step-d">Tu chatbot en producción. Monitoreo de las primeras semanas y ajustes incluidos.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── CTA FINAL (estilo s-cta del sitio) ── -->
-<section class="lp-sec lp-cta">
-  <h2 class="ctah rv">Hablemos de<br><span class="fade">tu proyecto.</span></h2>
-  <p class="ctap rv d1">30 minutos. Sin compromiso. Con un plan concreto al final.</p>
-  <div class="brow rv d2">
-    <a href="https://wa.me/59897976574?text=Hola!%20Quiero%20saber%20más%20sobre%20chatbots%20con%20IA." class="btn bd" target="_blank" rel="noopener">Agendar llamada →</a>
+<!-- ── PROOF STATS ── -->
+<div class="proof">
+  <div class="proof-stat rv">
+    <span class="proof-n">24<span>/7</span></span>
+    <div class="proof-l">Atención sin parar</div>
   </div>
-  <p class="urgency rv d3" id="urgency-line"></p>
+  <div class="proof-div"></div>
+  <div class="proof-stat rv d1">
+    <span class="proof-n"><span>-</span>80<span>%</span></span>
+    <div class="proof-l">Consultas manuales</div>
+  </div>
+  <div class="proof-div"></div>
+  <div class="proof-stat rv d2">
+    <span class="proof-n">2<span>sem</span></span>
+    <div class="proof-l">Tiempo de entrega</div>
+  </div>
+  <div class="proof-div"></div>
+  <div class="proof-stat rv d3">
+    <span class="proof-n"><span>$</span>0</span>
+    <div class="proof-l">Diagnóstico inicial</div>
+  </div>
+</div>
+
+<!-- ── CTA FINAL ── -->
+<section class="lp lp-cta">
+  <h2 class="ctah rv">¿Cuántas ventas estás<br><em>perdiendo ahora mismo?</em></h2>
+  <p class="ctap rv d1">Cada consulta sin respuesta es un cliente que se va. Resolvelo esta semana.</p>
+  <div class="brow rv d2">
+    <a href="https://wa.me/59897976574?text=Hola!%20Vi%20la%20landing%20de%20chatbots%20y%20quiero%20saber%20más." class="btn bd" target="_blank" rel="noopener">Agendar llamada →</a>
+  </div>
+  <p class="scarcity-note rv d3" id="scarcity-note"></p>
 </section>
 
 <footer>
@@ -249,18 +276,18 @@ footer{padding:2rem clamp(24px,6vw,80px);display:flex;justify-content:space-betw
 </footer>
 
 <script>
-// Reveal
-const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});},{threshold:.08});
-document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+// Reveal — copia exacta del sitio
+const revealObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(!e.isIntersecting)return;const el=e.target;el.style.willChange='opacity, transform';el.classList.add('in');el.addEventListener('transitionend',()=>{el.style.willChange='auto';},{once:true});revealObs.unobserve(el);});},{threshold:0.08});
+document.querySelectorAll('.rv').forEach(el=>revealObs.observe(el));
 
-// Urgencia dinámica (misma lógica que el sitio)
+// Scarcity dinámica — misma lógica que el sitio
 (function(){
-  const HRS=8;const now=new Date();
-  const start=new Date(now.getFullYear(),0,1);
-  const week=Math.floor((now-start)/(1000*60*60*24*7));
-  const total=week*HRS;
-  const el=document.getElementById('urgency-line');
-  if(el)el.innerHTML=`Cada semana sin automatizar = <strong>${HRS} horas perdidas.</strong> Este año ya van <strong>${total.toLocaleString('es-UY')} hs.</strong>`;
+  const TOTAL=3,now=new Date(),seed=now.getFullYear()*100+(now.getMonth()+1);
+  const available=(seed%3===0)?2:1;
+  const meses=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const mes=meses[now.getMonth()];
+  const el=document.getElementById('scarcity-note');
+  if(el)el.innerHTML=`Solo tomamos <strong>${TOTAL} proyectos por mes</strong> — ${available===1?`queda <strong>1 lugar</strong> en ${mes}`:`quedan <strong>${available} lugares</strong> en ${mes}`}.`;
 })();
 </script>
 </body>
