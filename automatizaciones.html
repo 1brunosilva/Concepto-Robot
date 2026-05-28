@@ -30,6 +30,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:400;display:flex;justify-content
 
 /* ── HERO ── */
 .hero{position:relative;min-height:100svh;overflow:hidden;background:#0a0519;}
+@media(max-width:680px){.hero{height:var(--real-vh,100dvh);min-height:var(--real-vh,100dvh);}}
 
 /* Video desktop — fondo completo */
 .hero-vid{position:absolute;inset:0;z-index:0;}
@@ -149,6 +150,7 @@ footer{padding:2rem clamp(24px,6vw,80px);display:flex;justify-content:space-betw
 .d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.32s;}.d4{transition-delay:.44s;}
 @media(prefers-reduced-motion:reduce){.rv{transition:opacity .3s;transform:none;}}
 </style>
+<script>(function(){function s(){document.documentElement.style.setProperty('--real-vh',window.innerHeight+'px');}s();window.addEventListener('resize',s);})();</script>
 </head>
 <body>
 
