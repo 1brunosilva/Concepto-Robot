@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pintelux — Chatbot IA · Propuesta 2026 · Concepto Development</title>
+  <style>
+    :root {
+      /* Paleta oficial Pintelux (extraída del logo SVG) */
+      --red: #E40A2B;
+      --red-light: #FF3352;
+      --red-dark: #A00720;
+      --red-glow: rgba(228,10,43,0.22);
+      --green: #92D207;
+      --green-dark: #6A9A05;
+      --blue: #059AD6;
+      --blue-dark: #0474A0;
+      --navy: #041D6B;
+      --navy-mid: #0A2B8F;
+      --navy-light: #0F3AAB;
+      --dark: #021045;
+      --dark-mid: #041A60;
+      --dark-card: #071E70;
+      --cream: #F8FAFF;
+      --cream-dark: #E8EEF8;
+      --white: #FDFEFE;
+      --charcoal: #041D6B;
+      --gray: #5A6A8A;
+      --violet: #7C3AED;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Georgia', serif; background: var(--cream); color: var(--charcoal); overflow-x: hidden; }
+
+    #progressBar { position: fixed; top: 0; left: 0; height: 3px; background: var(--navy); z-index: 1000; width: 0%; transition: width 0.2s ease; }
+
+    .side-nav { position: fixed; right: 22px; top: 50%; transform: translateY(-50%); z-index: 200; display: flex; flex-direction: column; gap: 12px; }
+    .nav-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(4,29,107,0.18); cursor: pointer; transition: all 0.3s; position: relative; }
+    .nav-dot.active { background: var(--navy); transform: scale(1.35); }
+    .nav-dot:hover { background: var(--navy-mid); }
+    .nav-dot .nav-label { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); background: var(--dark); color: var(--white); font-family: sans-serif; font-size: 10px; letter-spacing: 1px; padding: 4px 10px; border-radius: 4px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+    .nav-dot:hover .nav-label { opacity: 1; }
+
+    section { min-height: 100vh; padding: 70px 80px; display: flex; flex-direction: column; justify-content: center; position: relative; }
+    .step-label { font-family: sans-serif; font-size: 10px; letter-spacing: 3px; color: var(--navy); font-weight: 600; text-transform: uppercase; margin-bottom: 10px; }
+    .section-heading { font-size: 34px; color: var(--navy); margin-bottom: 14px; line-height: 1.25; }
+    .section-sub { font-family: sans-serif; font-size: 15px; color: var(--gray); margin-bottom: 40px; max-width: 640px; line-height: 1.65; }
+    .next-hint { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); font-family: sans-serif; font-size: 9px; color: rgba(4,29,107,0.22); letter-spacing: 2px; text-transform: uppercase; cursor: pointer; text-align: center; }
+    .next-hint::after { content: '↓'; display: block; font-size: 14px; margin-top: 4px; animation: bounce 2s infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(5px)} }
+
+    /* ── PORTADA ── */
+    #portada { background: linear-gradient(155deg, #020D35 0%, #041D6B 50%, #030F42 100%); align-items: center; text-align: center; padding: 0; overflow: hidden; }
+    #portada::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 40% at 50% 35%, rgba(5,154,214,0.12) 0%, transparent 65%); pointer-events: none; }
+    .portada-inner { max-width: 860px; padding: 60px 40px; position: relative; z-index: 1; }
+    .portada-eyebrow { font-family: sans-serif; font-size: 10px; letter-spacing: 5px; color: rgba(255,255,255,0.35); text-transform: uppercase; margin-bottom: 36px; }
+    /* Logo multicolor — espíritu del pájaro Pintelux */
+    .portada-logo { font-size: 70px; color: var(--white); letter-spacing: 12px; font-weight: 400; line-height: 1; margin-bottom: 6px; }
+    .portada-logo .c-r { color: var(--red); }
+    .portada-logo .c-g { color: var(--green); }
+    .portada-logo .c-b { color: var(--blue); }
+    .portada-sub-logo { font-family: sans-serif; font-size: 11px; letter-spacing: 5px; color: rgba(255,255,255,0.28); margin-bottom: 50px; text-transform: uppercase; }
+    .portada-divider { width: 48px; height: 1px; background: rgba(255,255,255,0.15); margin: 0 auto 40px; }
+    .portada-tagline { font-size: 22px; color: rgba(255,255,255,0.68); font-style: italic; line-height: 1.55; margin-bottom: 56px; max-width: 580px; margin-left: auto; margin-right: auto; }
+    .portada-tagline strong { color: var(--white); font-style: normal; font-weight: 700; }
+    .portada-stats { display: flex; gap: 64px; justify-content: center; margin-bottom: 56px; }
+    /* Cada stat en un color del logo multicolor */
+    .portada-stat-val { font-size: 44px; font-weight: 700; line-height: 1; }
+    .portada-stat-val.c-r { color: var(--red); }
+    .portada-stat-val.c-g { color: var(--green); }
+    .portada-stat-val.c-b { color: var(--blue); }
+    .portada-stat-lbl { font-family: sans-serif; font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,0.28); text-transform: uppercase; margin-top: 5px; }
+    .start-btn { display: inline-block; padding: 14px 36px; border: 1.5px solid rgba(255,255,255,0.3); border-radius: 6px; font-family: sans-serif; font-size: 11px; letter-spacing: 3px; color: rgba(255,255,255,0.8); text-transform: uppercase; cursor: pointer; transition: all 0.3s; }
+    .start-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.6); color: white; }
+
+    /* ── PROBLEMA ── */
+    #problema { background: var(--dark-mid); }
+    #problema .step-label { color: var(--blue); }
+    #problema .section-heading { color: var(--white); }
+    #problema .section-sub { color: rgba(255,255,255,0.42); }
+    .prob-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: start; }
+    .prob-stat-row { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+    .prob-stat { display: flex; align-items: flex-start; gap: 18px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-left: 3px solid var(--blue); border-radius: 10px; padding: 18px 20px; }
+    .prob-stat-num { font-size: 36px; font-weight: 700; color: var(--white); line-height: 1; flex-shrink: 0; min-width: 88px; }
+    .prob-stat-desc { font-family: sans-serif; font-size: 12px; color: rgba(255,255,255,0.62); line-height: 1.6; padding-top: 4px; }
+    .prob-stat-desc strong { color: var(--white); }
+    .prob-stat-source { font-family: sans-serif; font-size: 9px; color: rgba(255,255,255,0.22); letter-spacing: 1px; text-transform: uppercase; margin-top: 6px; display: block; }
+    .prob-quote-box { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 24px 26px; }
+    .prob-quote { font-size: 16px; color: rgba(255,255,255,0.8); font-style: italic; line-height: 1.6; margin-bottom: 10px; }
+    .prob-quote-source { font-family: sans-serif; font-size: 10px; letter-spacing: 1.5px; color: var(--blue); text-transform: uppercase; }
+    .perdida-visual { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 28px; }
+    .perdida-title { font-family: sans-serif; font-size: 10px; letter-spacing: 2px; color: rgba(255,255,255,0.28); text-transform: uppercase; margin-bottom: 20px; }
+    .perdida-num { font-size: 52px; font-weight: 700; color: #F87171; line-height: 1; margin-bottom: 6px; }
+    .perdida-sub { font-family: sans-serif; font-size: 12px; color: rgba(255,255,255,0.42); line-height: 1.6; margin-bottom: 20px; }
+    .perdida-breakdown { display: flex; flex-direction: column; gap: 8px; }
+    .pb-row { display: flex; justify-content: space-between; align-items: center; font-family: sans-serif; font-size: 12px; padding: 9px 12px; border-radius: 7px; }
+    .pb-row.bad { background: rgba(248,113,113,0.1); }
+    .pb-row.neutral { background: rgba(255,255,255,0.03); }
+    .pb-row.good { background: rgba(146,210,7,0.1); }
+    .pb-label { color: rgba(255,255,255,0.45); }
+    .pb-val { font-weight: 700; }
+    .pb-row.bad .pb-val { color: #F87171; }
+    .pb-row.neutral .pb-val { color: rgba(255,255,255,0.55); }
+    .pb-row.good .pb-val { color: var(--green); }
+
+    /* ── LUCA ── */
+    #luca { background: var(--cream); }
+    .luca-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .luca-intro-tag { display: inline-block; background: rgba(4,29,107,0.07); border: 1px solid rgba(4,29,107,0.22); border-radius: 100px; padding: 5px 16px; font-family: sans-serif; font-size: 10px; letter-spacing: 2px; color: var(--navy); text-transform: uppercase; margin-bottom: 20px; }
+    .luca-name { font-size: 52px; color: var(--charcoal); font-weight: 400; margin-bottom: 6px; letter-spacing: 2px; }
+    .luca-title { font-family: sans-serif; font-size: 11px; letter-spacing: 3px; color: var(--gray); text-transform: uppercase; margin-bottom: 28px; }
+    .luca-desc { font-family: sans-serif; font-size: 14px; color: var(--charcoal); line-height: 1.78; margin-bottom: 28px; max-width: 440px; }
+    .luca-traits { display: flex; flex-direction: column; gap: 10px; }
+    .luca-trait { display: flex; align-items: flex-start; gap: 12px; background: var(--white); border-radius: 10px; padding: 14px 16px; box-shadow: 0 2px 10px rgba(4,29,107,0.07); }
+    .trait-icon { width: 34px; height: 34px; border-radius: 8px; background: rgba(4,29,107,0.07); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .trait-title { font-family: sans-serif; font-size: 12px; font-weight: 700; color: var(--charcoal); margin-bottom: 2px; }
+    .trait-desc { font-family: sans-serif; font-size: 11px; color: var(--gray); line-height: 1.5; }
+    .luca-widget { width: 290px; background: var(--white); border-radius: 20px; box-shadow: 0 24px 64px rgba(4,29,107,0.16); overflow: hidden; border: 1px solid rgba(4,29,107,0.1); position: relative; }
+    .widget-header { background: var(--navy); padding: 13px 15px; display: flex; align-items: center; gap: 10px; }
+    .widget-avatar { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 17px; color: white; flex-shrink: 0; }
+    .widget-name { font-family: sans-serif; font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 1px; }
+    .widget-status { font-family: sans-serif; font-size: 10px; color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 4px; }
+    .online-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+    .widget-body { padding: 14px; display: flex; flex-direction: column; gap: 9px; min-height: 190px; background: var(--cream); }
+    .w-msg { font-family: sans-serif; font-size: 12px; line-height: 1.55; padding: 9px 13px; border-radius: 14px; max-width: 85%; }
+    .w-msg.bot { background: var(--white); color: var(--charcoal); border-bottom-left-radius: 3px; box-shadow: 0 1px 4px rgba(4,29,107,0.07); align-self: flex-start; }
+    .w-msg.user { background: var(--navy); color: var(--white); border-bottom-right-radius: 3px; align-self: flex-end; }
+    .widget-input-bar { background: var(--white); padding: 9px 13px; display: flex; align-items: center; gap: 8px; border-top: 1px solid var(--cream-dark); }
+    .widget-input-mock { flex: 1; font-family: sans-serif; font-size: 11px; color: rgba(4,29,107,0.28); padding: 7px 11px; background: var(--cream); border-radius: 20px; border: 1px solid var(--cream-dark); }
+    .widget-send-btn { width: 28px; height: 28px; border-radius: 50%; background: var(--navy); display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; }
+    .widget-branding { padding: 6px 13px 9px; text-align: center; font-family: sans-serif; font-size: 9px; letter-spacing: 1.5px; color: rgba(4,29,107,0.22); text-transform: uppercase; background: var(--white); }
+    .ai-badge { position: absolute; top: -12px; right: -12px; background: var(--green); color: #041D6B; font-family: sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1px; padding: 5px 13px; border-radius: 100px; text-transform: uppercase; box-shadow: 0 4px 16px rgba(146,210,7,0.4); }
+
+    /* ── DEMO ── */
+    #demo { background: var(--dark); padding: 70px 80px; }
+    #demo .step-label { color: var(--blue); }
+    #demo .section-heading { color: var(--white); }
+    #demo .section-sub { color: rgba(255,255,255,0.42); }
+    .demo-layout { display: grid; grid-template-columns: 1fr 1.1fr; gap: 48px; align-items: start; }
+    .demo-note { background: rgba(5,154,214,0.08); border: 1px solid rgba(5,154,214,0.2); border-radius: 12px; padding: 22px 24px; margin-bottom: 24px; }
+    .demo-note-label { font-family: sans-serif; font-size: 9px; letter-spacing: 2px; color: var(--blue); text-transform: uppercase; margin-bottom: 8px; }
+    .demo-note-text { font-family: sans-serif; font-size: 13px; color: rgba(255,255,255,0.62); line-height: 1.65; }
+    .demo-note-text strong { color: var(--white); }
+    .demo-cap { display: flex; align-items: flex-start; gap: 10px; font-family: sans-serif; font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.5; margin-bottom: 10px; }
+    .demo-cap-check { color: var(--green); flex-shrink: 0; margin-top: 1px; }
+    .live-chat-container { background: var(--white); border-radius: 20px; overflow: hidden; box-shadow: 0 32px 80px rgba(0,0,0,0.55); display: flex; flex-direction: column; height: 560px; }
+    .lc-header { background: var(--navy); padding: 13px 17px; display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .lc-avatar { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .lc-name { font-family: sans-serif; font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+    .lc-status { font-family: sans-serif; font-size: 11px; color: rgba(255,255,255,0.52); display: flex; align-items: center; gap: 5px; }
+    .lc-online { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+    .lc-brand-badge { font-family: sans-serif; font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,0.5); text-transform: uppercase; margin-left: auto; }
+    .lc-messages { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 9px; background: var(--cream); }
+    .lc-messages::-webkit-scrollbar { width: 3px; }
+    .lc-messages::-webkit-scrollbar-thumb { background: rgba(4,29,107,0.15); border-radius: 2px; }
+    @keyframes msgIn { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+    .lc-msg { font-family: sans-serif; font-size: 13px; line-height: 1.55; padding: 10px 14px; border-radius: 16px; max-width: 88%; word-wrap: break-word; animation: msgIn 0.22s ease; }
+    .lc-msg.bot { background: var(--white); color: var(--charcoal); border-bottom-left-radius: 3px; box-shadow: 0 1px 6px rgba(4,29,107,0.08); align-self: flex-start; }
+    .lc-msg.user { background: var(--navy); color: var(--white); border-bottom-right-radius: 3px; align-self: flex-end; }
+    .lc-typing { display: flex; align-items: center; gap: 4px; padding: 10px 14px; background: var(--white); border-radius: 16px; border-bottom-left-radius: 3px; align-self: flex-start; box-shadow: 0 1px 6px rgba(4,29,107,0.08); opacity: 0; transition: opacity 0.25s; width: 52px; flex-shrink: 0; }
+    .lc-typing.vis { opacity: 1; }
+    .td { width: 6px; height: 6px; border-radius: 50%; background: rgba(4,29,107,0.3); animation: typd 1.2s infinite; }
+    .td:nth-child(2) { animation-delay: 0.2s; }
+    .td:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typd { 0%,80%,100%{transform:scale(0.7);opacity:0.4} 40%{transform:scale(1);opacity:1} }
+    .lc-hints { display: flex; flex-wrap: wrap; gap: 6px; padding: 9px 13px 6px; border-top: 1px solid var(--cream-dark); background: var(--white); flex-shrink: 0; }
+    .lc-hint { font-family: sans-serif; font-size: 11px; padding: 5px 11px; border-radius: 100px; border: 1px solid rgba(4,29,107,0.22); color: var(--navy); cursor: pointer; transition: all 0.2s; background: transparent; }
+    .lc-hint:hover { background: var(--navy); color: var(--white); border-color: var(--navy); }
+    .lc-input-area { display: flex; align-items: flex-end; gap: 8px; padding: 9px 13px; border-top: 1px solid var(--cream-dark); background: var(--white); flex-shrink: 0; }
+    #lc-input { flex: 1; font-family: sans-serif; font-size: 14px; padding: 9px 13px; border-radius: 20px; border: 1px solid rgba(4,29,107,0.14); background: var(--cream); color: var(--charcoal); resize: none; outline: none; max-height: 80px; min-height: 40px; line-height: 1.5; transition: border-color 0.2s; -webkit-text-size-adjust: 100%; }
+    #lc-input::placeholder { color: rgba(4,29,107,0.28); }
+    #lc-input:focus { border-color: var(--navy); }
+    #lc-send { width: 40px; height: 40px; border-radius: 50%; background: var(--navy); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: opacity 0.18s, transform 0.18s; box-shadow: 0 3px 12px rgba(4,29,107,0.3); flex-shrink: 0; }
+    #lc-send:hover { opacity: 0.85; transform: scale(1.05); }
+    #lc-send:disabled { opacity: 0.35; transform: none; cursor: not-allowed; }
+    #lc-send svg { width: 16px; height: 16px; fill: none; stroke: white; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .lc-branding { text-align: center; padding: 6px 0 8px; font-family: sans-serif; font-size: 9px; letter-spacing: 1.5px; color: rgba(4,29,107,0.3); text-transform: uppercase; background: var(--white); flex-shrink: 0; }
+
+    /* ── CAPACIDADES ── */
+    #capacidades { background: var(--cream); }
+    .cap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+    .cap-card { background: var(--white); border-radius: 14px; padding: 22px 20px; box-shadow: 0 2px 12px rgba(4,29,107,0.07); border-top: 3px solid transparent; transition: transform 0.25s, box-shadow 0.25s; }
+    .cap-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(4,29,107,0.12); }
+    .cap-card.accent-red { border-top-color: var(--red); }
+    .cap-card.accent-navy { border-top-color: var(--navy); }
+    .cap-card.accent-green { border-top-color: var(--green); }
+    .cap-card.accent-blue { border-top-color: var(--blue); }
+    .cap-icon { font-size: 26px; margin-bottom: 12px; }
+    .cap-title { font-family: sans-serif; font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 7px; }
+    .cap-desc { font-family: sans-serif; font-size: 12px; color: var(--gray); line-height: 1.6; }
+    .cap-examples { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 4px; }
+    .cap-ex { font-family: sans-serif; font-size: 10px; background: rgba(4,29,107,0.06); padding: 3px 8px; border-radius: 4px; color: var(--navy); }
+
+    /* ── FLUJO ── */
+    #flujo { background: var(--white); }
+    .flujo-diagram { display: flex; align-items: flex-start; gap: 0; margin-bottom: 36px; position: relative; overflow-x: auto; padding-bottom: 8px; }
+    .flujo-step { display: flex; flex-direction: column; align-items: center; text-align: center; flex: 1; min-width: 100px; }
+    .flujo-node { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 10px; position: relative; z-index: 1; box-shadow: 0 4px 16px rgba(4,29,107,0.1); }
+    .fn-web { background: rgba(4,29,107,0.10); }
+    .fn-wa { background: rgba(146,210,7,0.14); }
+    .fn-ig { background: rgba(5,154,214,0.12); }
+    .fn-luca { background: rgba(4,29,107,0.16); border: 2px solid rgba(4,29,107,0.35); }
+    .fn-venta { background: rgba(146,210,7,0.14); }
+    .flujo-title { font-family: sans-serif; font-size: 11px; font-weight: 700; color: var(--charcoal); margin-bottom: 3px; }
+    .flujo-desc { font-family: sans-serif; font-size: 10px; color: var(--gray); line-height: 1.5; padding: 0 5px; }
+    .flujo-arrow { flex-shrink: 0; display: flex; align-items: center; padding-bottom: 44px; color: rgba(4,29,107,0.22); font-size: 16px; margin: 0 -4px; }
+    .ff-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .ff-card { background: var(--cream); border-radius: 12px; padding: 18px 20px; border-left: 3px solid var(--navy); }
+    .ff-title { font-family: sans-serif; font-size: 12px; font-weight: 700; color: var(--charcoal); margin-bottom: 5px; }
+    .ff-desc { font-family: sans-serif; font-size: 12px; color: var(--gray); line-height: 1.6; }
+
+    /* ── MES GRATIS ── */
+    #mes-gratis { background: var(--dark-mid); padding: 70px 80px; }
+    #mes-gratis .step-label { color: var(--blue); }
+    #mes-gratis .section-heading { color: var(--white); }
+    #mes-gratis .section-sub { color: rgba(255,255,255,0.42); }
+    .gratis-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+    .single-plan { background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 40px; position: relative; }
+    .single-plan::before { content: 'PLAN PINTELUX'; position: absolute; top: -12px; left: 28px; background: var(--navy); color: white; font-family: sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 2.5px; padding: 4px 14px; border-radius: 4px; }
+    .plan-price-wrap { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 6px; }
+    .plan-price-big { font-size: 72px; color: var(--white); font-weight: 700; line-height: 1; }
+    .plan-price-unit { font-family: sans-serif; font-size: 14px; color: rgba(255,255,255,0.32); margin-bottom: 12px; }
+    .plan-setup-tag { display: inline-block; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; font-family: sans-serif; font-size: 11px; color: rgba(255,255,255,0.38); padding: 4px 12px; margin-bottom: 28px; }
+    .plan-tagline { font-family: sans-serif; font-size: 14px; color: rgba(255,255,255,0.65); font-style: italic; margin-bottom: 28px; line-height: 1.5; }
+    .plan-features { list-style: none; margin-bottom: 28px; }
+    .plan-features li { font-family: sans-serif; font-size: 13px; color: rgba(255,255,255,0.62); padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: flex-start; gap: 10px; }
+    .plan-features li:last-child { border-bottom: none; }
+    .plan-features li::before { content: '✓'; color: var(--green); font-size: 11px; flex-shrink: 0; margin-top: 1px; }
+    .plan-note { background: rgba(146,210,7,0.08); border: 1px solid rgba(146,210,7,0.2); border-radius: 10px; padding: 16px 18px; }
+    .plan-note-text { font-family: sans-serif; font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+    .plan-note-text strong { color: var(--green); }
+    .gratis-timeline { display: flex; flex-direction: column; gap: 0; }
+    .gt-step { display: flex; gap: 22px; padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .gt-step:last-child { border-bottom: none; }
+    .gt-num { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 1.5px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-family: sans-serif; font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.55); flex-shrink: 0; margin-top: 3px; }
+    .gt-num.active { background: var(--navy); border-color: var(--navy-mid); color: white; }
+    .gt-week { font-family: sans-serif; font-size: 9px; letter-spacing: 2px; color: var(--blue); text-transform: uppercase; margin-bottom: 4px; }
+    .gt-title { font-family: sans-serif; font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+    .gt-desc { font-family: sans-serif; font-size: 12px; color: rgba(255,255,255,0.42); line-height: 1.6; }
+
+    /* ── ROI ── */
+    #roi { background: var(--dark); }
+    #roi .step-label { color: var(--blue); }
+    #roi .section-heading { color: var(--white); }
+    #roi .section-sub { color: rgba(255,255,255,0.42); }
+    .roi-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+    .roi-calc { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; overflow: hidden; margin-bottom: 20px; }
+    .roi-calc-header { background: rgba(5,154,214,0.1); padding: 14px 20px; font-family: sans-serif; font-size: 9px; letter-spacing: 2px; color: var(--blue); text-transform: uppercase; }
+    .roi-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.04); font-family: sans-serif; }
+    .roi-row:last-child { border-bottom: none; }
+    .roi-row-label { font-size: 12px; color: rgba(255,255,255,0.48); }
+    .roi-row-val { font-size: 13px; color: var(--white); font-weight: 700; }
+    .roi-row.total { background: rgba(146,210,7,0.07); border-top: 1px solid rgba(146,210,7,0.15); }
+    .roi-row.total .roi-row-label { color: rgba(255,255,255,0.68); font-weight: 600; }
+    .roi-row.total .roi-row-val { font-size: 20px; color: var(--green); }
+    .roi-row-note { font-family: sans-serif; font-size: 9px; color: rgba(255,255,255,0.22); padding: 10px 20px 14px; border-top: 1px solid rgba(255,255,255,0.04); font-style: italic; }
+    .roi-stats-col { display: flex; flex-direction: column; gap: 14px; }
+    .roi-stat { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 18px 20px; }
+    .roi-stat-val { font-size: 34px; font-weight: 700; color: var(--blue); line-height: 1; margin-bottom: 5px; }
+    .roi-stat-desc { font-family: sans-serif; font-size: 12px; color: rgba(255,255,255,0.48); line-height: 1.55; }
+    .roi-stat-desc strong { color: rgba(255,255,255,0.78); }
+    .roi-stat-source { font-family: sans-serif; font-size: 9px; letter-spacing: 1px; color: rgba(255,255,255,0.22); text-transform: uppercase; margin-top: 7px; }
+
+    /* ── CIERRE ── */
+    #cierre { background: var(--cream); }
+    .timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; max-width: 800px; margin: 36px 0; position: relative; }
+    .timeline::before { content: ''; position: absolute; top: 16px; left: 16px; right: 16px; height: 2px; background: var(--cream-dark); }
+    .t-step { text-align: center; position: relative; }
+    .t-dot { width: 32px; height: 32px; border-radius: 50%; background: var(--charcoal); display: flex; align-items: center; justify-content: center; font-family: sans-serif; font-size: 12px; font-weight: 700; color: var(--white); margin: 0 auto 12px; position: relative; z-index: 1; }
+    .t-step.hl .t-dot { background: var(--red); }
+    .t-title { font-family: sans-serif; font-size: 11px; font-weight: 700; color: var(--charcoal); margin-bottom: 4px; }
+    .t-desc { font-family: sans-serif; font-size: 10px; color: var(--gray); line-height: 1.5; padding: 0 6px; }
+    .cierre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 8px; }
+    .cta-block { background: var(--dark); border-radius: 14px; padding: 34px; }
+    .cta-block h3 { font-size: 26px; color: var(--white); margin-bottom: 12px; line-height: 1.3; }
+    .cta-block p { font-family: sans-serif; font-size: 13px; color: rgba(255,255,255,0.42); line-height: 1.65; margin-bottom: 22px; }
+    .cta-contact { font-family: sans-serif; font-size: 12px; color: rgba(255,255,255,0.52); line-height: 2; }
+    .cta-highlight { color: var(--blue); font-weight: 600; }
+    .summary-box { background: var(--white); border-radius: 14px; padding: 28px; box-shadow: 0 2px 12px rgba(4,29,107,0.08); }
+    .summary-box h4 { font-family: sans-serif; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); margin-bottom: 20px; }
+    .summary-row { display: flex; justify-content: space-between; align-items: center; font-family: sans-serif; font-size: 13px; padding: 10px 0; border-bottom: 1px solid var(--cream-dark); }
+    .summary-row:last-of-type { border-bottom: none; }
+    .s-lbl { color: var(--gray); }
+    .s-val { color: var(--charcoal); font-weight: 700; font-size: 15px; }
+    .s-val.green { color: var(--green-dark); }
+    .summary-note { font-family: sans-serif; font-size: 10px; color: var(--gray); font-style: italic; margin-top: 16px; line-height: 1.5; }
+
+    footer { background: var(--dark); padding: 20px 80px; display: flex; justify-content: space-between; align-items: center; }
+    footer p { font-family: sans-serif; font-size: 9px; color: rgba(255,255,255,0.18); letter-spacing: 0.5px; }
+    .footer-brand { font-family: sans-serif; font-size: 10px; letter-spacing: 2px; color: rgba(255,255,255,0.35); }
+    .footer-brand span { color: var(--violet); }
+
+    @media (max-width: 960px) {
+      section { padding: 50px 28px; }
+      .portada-logo { font-size: 46px; letter-spacing: 8px; }
+      .portada-stats { gap: 28px; }
+      .side-nav { display: none; }
+      .prob-grid,.luca-grid,.demo-layout,.gratis-layout,.roi-layout,.cierre-grid { grid-template-columns: 1fr; }
+      .cap-grid { grid-template-columns: 1fr 1fr; }
+      .ff-grid { grid-template-columns: 1fr; }
+      .timeline { grid-template-columns: 1fr 1fr; }
+      footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px 28px; }
+      #mes-gratis, #demo { padding: 50px 28px; }
+      .live-chat-container { height: 480px; }
+      .luca-widget { width: 100%; max-width: 290px; }
+    }
+    @media (max-width: 600px) {
+      .cap-grid { grid-template-columns: 1fr; }
+      .portada-stats { gap: 20px; flex-wrap: wrap; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="progressBar"></div>
+
+<nav class="side-nav" id="sideNav">
+  <div class="nav-dot active" onclick="goTo('portada')" data-s="portada"><span class="nav-label">Portada</span></div>
+  <div class="nav-dot" onclick="goTo('problema')" data-s="problema"><span class="nav-label">El Problema</span></div>
+  <div class="nav-dot" onclick="goTo('luca')" data-s="luca"><span class="nav-label">Conocé a Luca</span></div>
+  <div class="nav-dot" onclick="goTo('demo')" data-s="demo"><span class="nav-label">Demo en Vivo</span></div>
+  <div class="nav-dot" onclick="goTo('capacidades')" data-s="capacidades"><span class="nav-label">Capacidades</span></div>
+  <div class="nav-dot" onclick="goTo('flujo')" data-s="flujo"><span class="nav-label">Cómo Funciona</span></div>
+  <div class="nav-dot" onclick="goTo('mes-gratis')" data-s="mes-gratis"><span class="nav-label">Mes Gratis</span></div>
+  <div class="nav-dot" onclick="goTo('roi')" data-s="roi"><span class="nav-label">ROI</span></div>
+  <div class="nav-dot" onclick="goTo('cierre')" data-s="cierre"><span class="nav-label">Cierre</span></div>
+</nav>
+
+
+<!-- ══════════════════════════════════════
+     PORTADA
+     ══════════════════════════════════════ -->
+<section id="portada">
+  <div class="portada-inner">
+    <p class="portada-eyebrow">Chatbot con IA · Propuesta 2026 · Concepto Development</p>
+    <h1 class="portada-logo">PINTE<span class="c-r">L</span><span class="c-g">U</span><span class="c-b">X</span></h1>
+    <p class="portada-sub-logo">La pinturería de Uruguay · 50 años</p>
+    <div class="portada-divider"></div>
+    <p class="portada-tagline">
+      Hay clientes que eligen sus colores a las <strong>10 de la noche.</strong><br>
+      Pintelux merece estar ahí para cerrar esa venta.
+    </p>
+    <div class="portada-stats">
+      <div>
+        <div class="portada-stat-val c-r">24/7</div>
+        <div class="portada-stat-lbl">siempre disponible</div>
+      </div>
+      <div>
+        <div class="portada-stat-val c-g">6</div>
+        <div class="portada-stat-lbl">sucursales cubiertas</div>
+      </div>
+      <div>
+        <div class="portada-stat-val c-b">&lt;3s</div>
+        <div class="portada-stat-lbl">tiempo de respuesta</div>
+      </div>
+    </div>
+    <div class="start-btn" onclick="goTo('problema')">Ver la propuesta</div>
+  </div>
+  <span class="next-hint" onclick="goTo('problema')">continuar</span>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     EL PROBLEMA — costo del silencio
+     ══════════════════════════════════════ -->
+<section id="problema">
+  <p class="step-label">01 · El costo del silencio</p>
+  <h2 class="section-heading">Pintelux atiende de 8 a 19.<br>Los clientes preguntan todo el día.</h2>
+  <p class="section-sub">El negocio está abierto 11 horas al día. Las otras 13 horas — y todo el domingo — cada consulta que llega a Instagram, WhatsApp o la web se queda sin respuesta. Y sin respuesta, el cliente elige otra pinturería.</p>
+
+  <div class="prob-grid">
+    <div>
+      <div class="prob-stat-row">
+        <div class="prob-stat">
+          <div class="prob-stat-num">13hs</div>
+          <div class="prob-stat-desc">
+            cada día hay <strong>13 horas sin atención</strong> — de 19 hs a 8 hs. Más el domingo completo. Eso es el <strong>46% de la semana</strong> en silencio para el cliente que pregunta.
+            <span class="prob-stat-source">Horario oficial Pintelux · análisis propio</span>
+          </div>
+        </div>
+        <div class="prob-stat">
+          <div class="prob-stat-num">67%</div>
+          <div class="prob-stat-desc">
+            de los consumidores espera respuesta en menos de <strong>una hora</strong> cuando consulta por WhatsApp o Instagram. Si no hay respuesta en ese plazo, el 43% ya fue a la competencia.
+            <span class="prob-stat-source">Hubspot Consumer Behavior Report · 2024</span>
+          </div>
+        </div>
+        <div class="prob-stat">
+          <div class="prob-stat-num">40h</div>
+          <div class="prob-stat-desc">
+            de tiempo de equipo que se va cada semana respondiendo las mismas preguntas: <strong>"¿A qué hora cierran?", "¿Cuántos litros necesito?", "¿Tienen X color en Pocitos?"</strong>. Tiempo que Luca puede liberar.
+            <span class="prob-stat-source">Estimación basada en 40 colaboradores × 1 consulta FAQ / persona / día</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="prob-quote-box">
+        <p class="prob-quote">
+          "El primer negocio que responde gana la venta. En retail especializado, el 58% de las compras se decide en el primer contacto con el vendedor."
+        </p>
+        <p class="prob-quote-source">— Nielsen Consumer Research · Retail Study 2024</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="perdida-visual">
+        <div class="perdida-title">¿Cuánto vale una consulta perdida?</div>
+        <div class="perdida-num">$95</div>
+        <div class="perdida-sub">ingreso promedio por venta minorista en Pintelux.<br>Cada consulta sin respuesta tiene ese costo potencial.</div>
+        <div class="perdida-breakdown">
+          <div class="pb-row neutral">
+            <span class="pb-label">Ticket promedio residencial</span>
+            <span class="pb-val">~$45 USD</span>
+          </div>
+          <div class="pb-row neutral">
+            <span class="pb-label">Ticket promedio profesional/pintor</span>
+            <span class="pb-val">~$280 USD</span>
+          </div>
+          <div class="pb-row bad">
+            <span class="pb-label">Consultas sin respuesta fuera de horario</span>
+            <span class="pb-val">pérdida total</span>
+          </div>
+          <div class="pb-row bad">
+            <span class="pb-label">El 43% no vuelve a preguntar</span>
+            <span class="pb-val">sale para siempre</span>
+          </div>
+          <div class="pb-row good">
+            <span class="pb-label">Con Luca activo 24/7</span>
+            <span class="pb-val">0 sin respuesta</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <span class="next-hint" onclick="goTo('luca')">continuar</span>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     LUCA — la solución personificada
+     ══════════════════════════════════════ -->
+<section id="luca">
+  <p class="step-label">02 · La solución</p>
+  <h2 class="section-heading">El asesor que nunca cierra.</h2>
+  <p class="section-sub">No es un menú de opciones con números. Luca entiende lenguaje natural, conoce cada producto del catálogo, y guía a cada cliente — desde la duda hasta la venta — en el canal que elija.</p>
+
+  <div class="luca-grid">
+    <div>
+      <div class="luca-intro-tag">Asesor IA · Pintelux</div>
+      <h3 class="luca-name">Luca</h3>
+      <p class="luca-title">Asesor Digital · Pintelux Uruguay</p>
+      <p class="luca-desc">
+        Luca conoce el catálogo completo de Pintelux e Inca, las 6 sucursales con sus horarios y teléfonos, y la paleta de colores completa. Calcula litros para cualquier superficie, recomienda la pintura correcta para cada situación, y cuando hace falta, deriva al equipo humano sin fricciones.
+      </p>
+      <div class="luca-traits">
+        <div class="luca-trait">
+          <div class="trait-icon">🎨</div>
+          <div>
+            <div class="trait-title">Asesor de colores</div>
+            <div class="trait-desc">Recomienda paletas, combinaciones y tendencias según el ambiente y el estilo del cliente.</div>
+          </div>
+        </div>
+        <div class="luca-trait">
+          <div class="trait-icon">🧮</div>
+          <div>
+            <div class="trait-title">Calculadora de litros</div>
+            <div class="trait-desc">Calcula exactamente cuánto producto necesita el cliente según las medidas de su espacio.</div>
+          </div>
+        </div>
+        <div class="luca-trait">
+          <div class="trait-icon">🔧</div>
+          <div>
+            <div class="trait-title">Experto en productos</div>
+            <div class="trait-desc">Conoce toda la línea Inca y Pintelux — exteriores, metales, pisos, impermeabilizantes y más.</div>
+          </div>
+        </div>
+        <div class="luca-trait">
+          <div class="trait-icon">📍</div>
+          <div>
+            <div class="trait-title">Guía de sucursales</div>
+            <div class="trait-desc">Dirige al cliente a la sucursal más cercana con dirección exacta, teléfono y horario actualizado.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:center; padding-top:16px;">
+      <div style="position:relative;">
+        <div class="luca-widget">
+          <div class="widget-header">
+            <div class="widget-avatar">🎨</div>
+            <div>
+              <div class="widget-name">Luca · Pintelux</div>
+              <div class="widget-status"><div class="online-dot"></div>En línea · responde al instante</div>
+            </div>
+          </div>
+          <div class="widget-body">
+            <div class="w-msg bot">¡Hola! ¿En qué te ayudo hoy? Puedo asesorarte en colores, calcular litros, o decirte dónde está la sucursal más cerca. 🎨</div>
+            <div class="w-msg user">¿Cuántos litros para un baño de 3×3?</div>
+            <div class="w-msg bot">Para un baño 3×3 m con 2.4 m de techo necesitás <strong>2 litros</strong> (2 manos). ¿Ya elegiste el color o te ayudo con eso también? 😊</div>
+          </div>
+          <div class="widget-input-bar">
+            <div class="widget-input-mock">Escribí tu consulta…</div>
+            <div class="widget-send-btn">→</div>
+          </div>
+          <div class="widget-branding">Powered by Concepto Development · IA real</div>
+        </div>
+        <div class="ai-badge">IA en vivo</div>
+      </div>
+    </div>
+  </div>
+
+  <span class="next-hint dark" onclick="goTo('demo')">continuar</span>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     DEMO EN VIVO
+     ══════════════════════════════════════ -->
+<section id="demo">
+  <p class="step-label">03 · Demo en vivo</p>
+  <h2 class="section-heading">Hablale a Luca ahora.</h2>
+  <p class="section-sub">Este no es un mockup. Es Luca funcionando en tiempo real, entrenado con el catálogo y las sucursales de Pintelux. Hacé la pregunta que quieras.</p>
+
+  <div class="demo-layout">
+    <div>
+      <div class="demo-note">
+        <div class="demo-note-label">Lo que Luca sabe hacer hoy</div>
+        <div class="demo-note-text">
+          Esta es la versión de demo, configurada con <strong>información pública de Pintelux</strong>. En la implementación real, se carga el catálogo completo, precios actualizados, stock por sucursal y cualquier información que Pintelux quiera compartir con sus clientes.
+        </div>
+      </div>
+
+      <div class="demo-cap"><span class="demo-cap-check">▶</span>Preguntale sobre colores, tendencias y combinaciones</div>
+      <div class="demo-cap"><span class="demo-cap-check">▶</span>Pedile que calcule cuántos litros necesitás</div>
+      <div class="demo-cap"><span class="demo-cap-check">▶</span>Consultá por una superficie específica (metal, madera, exterior húmedo)</div>
+      <div class="demo-cap"><span class="demo-cap-check">▶</span>Preguntá por horarios o la sucursal más cercana</div>
+      <div class="demo-cap"><span class="demo-cap-check">▶</span>Pedile que te recomiende el producto correcto para tu proyecto</div>
+    </div>
+
+    <div>
+      <div class="live-chat-container">
+        <div class="lc-header">
+          <div class="lc-avatar">🎨</div>
+          <div class="lc-info">
+            <div class="lc-name">Luca · Asesor Pintelux</div>
+            <div class="lc-status"><div class="lc-online"></div>En línea · responde al instante</div>
+          </div>
+          <div class="lc-brand-badge">Pintelux</div>
+        </div>
+        <div class="lc-messages" id="lcMessages">
+          <div id="lcTyping" class="lc-typing"><div class="td"></div><div class="td"></div><div class="td"></div></div>
+        </div>
+        <div class="lc-hints" id="lcHints">
+          <button class="lc-hint" onclick="lcHintClick(this)">🎨 Asesoramiento de colores</button>
+          <button class="lc-hint" onclick="lcHintClick(this)">🧮 Calcular litros para mi espacio</button>
+          <button class="lc-hint" onclick="lcHintClick(this)">📍 Sucursales y horarios</button>
+          <button class="lc-hint" onclick="lcHintClick(this)">🔧 Pintura para exterior o metal</button>
+        </div>
+        <div class="lc-input-area">
+          <textarea id="lc-input" placeholder="Hacé tu pregunta sobre pinturas…" rows="1"></textarea>
+          <button id="lc-send" onclick="lcSend()">
+            <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          </button>
+        </div>
+        <div class="lc-branding">Powered by Concepto Development · IA real · <span style="opacity:0.55;">Enter para enviar</span></div>
+      </div>
+    </div>
+  </div>
+
+  <span class="next-hint" onclick="goTo('capacidades')">continuar</span>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     CAPACIDADES
+     ══════════════════════════════════════ -->
+<section id="capacidades">
+  <p class="step-label">04 · Qué puede hacer</p>
+  <h2 class="section-heading">Diseñado para una pinturería.</h2>
+  <p class="section-sub">Luca no es un chatbot genérico. Está entrenado específicamente para los desafíos y preguntas reales que enfrenta Pintelux todos los días.</p>
+
+  <div class="cap-grid">
+    <div class="cap-card accent-red">
+      <div class="cap-icon">🎨</div>
+      <div class="cap-title">Asesor de Colores</div>
+      <div class="cap-desc">Recomienda paletas, combinaciones y tendencias según el ambiente, la luz y el estilo del cliente. Referencia colores de la paleta Pintelux/Inca.</div>
+      <div class="cap-examples">
+        <span class="cap-ex">"¿Qué color para living oscuro?"</span>
+        <span class="cap-ex">"Colores en tendencia 2025"</span>
+        <span class="cap-ex">"Combinar con piso gris"</span>
+      </div>
+    </div>
+
+    <div class="cap-card accent-blue">
+      <div class="cap-icon">🧮</div>
+      <div class="cap-title">Calculadora de Litros</div>
+      <div class="cap-desc">Con las medidas del espacio, calcula exactamente cuánto producto necesita el cliente. Considera número de manos y tipo de superficie.</div>
+      <div class="cap-examples">
+        <span class="cap-ex">"Pieza de 4×5 metros"</span>
+        <span class="cap-ex">"Fachada de 80 m²"</span>
+        <span class="cap-ex">"Techo + paredes"</span>
+      </div>
+    </div>
+
+    <div class="cap-card accent-navy">
+      <div class="cap-icon">🔧</div>
+      <div class="cap-title">Recomendador de Productos</div>
+      <div class="cap-desc">Identifica el producto correcto para cada situación: metal oxidado, madera exterior, pisos de cemento, humedad, zona costera y más.</div>
+      <div class="cap-examples">
+        <span class="cap-ex">"Reja con óxido"</span>
+        <span class="cap-ex">"Pintura de piso tráfico intenso"</span>
+        <span class="cap-ex">"Exterior con humedad"</span>
+      </div>
+    </div>
+
+    <div class="cap-card accent-green">
+      <div class="cap-icon">📍</div>
+      <div class="cap-title">Guía de Sucursales</div>
+      <div class="cap-desc">Informa dirección, horarios y teléfono de las 6 sucursales. Orienta al cliente hacia la más conveniente y lo prepara para la visita.</div>
+      <div class="cap-examples">
+        <span class="cap-ex">"¿Sucursal en Pocitos?"</span>
+        <span class="cap-ex">"¿A qué hora cierran el sábado?"</span>
+        <span class="cap-ex">"¿Hacen envíos?"</span>
+      </div>
+    </div>
+
+    <div class="cap-card accent-blue">
+      <div class="cap-icon">💬</div>
+      <div class="cap-title">Consultas Frecuentes</div>
+      <div class="cap-desc">Responde instantáneamente las preguntas repetitivas que hoy consumen tiempo del equipo. Horarios, envíos, métodos de pago, preparación de superficies.</div>
+      <div class="cap-examples">
+        <span class="cap-ex">"¿Cuánto tiempo de secado?"</span>
+        <span class="cap-ex">"¿Aceptan tarjeta?"</span>
+        <span class="cap-ex">"¿Cómo preparo la pared?"</span>
+      </div>
+    </div>
+
+    <div class="cap-card accent-red">
+      <div class="cap-icon">🤝</div>
+      <div class="cap-title">Derivación Inteligente</div>
+      <div class="cap-desc">Cuando la consulta requiere atención humana (presupuesto grande, cliente VIP, reclamo), Luca deriva al equipo de Pintelux con el contexto completo de la conversación.</div>
+      <div class="cap-examples">
+        <span class="cap-ex">"Quiero hablar con alguien"</span>
+        <span class="cap-ex">Presupuesto > $500 USD</span>
+        <span class="cap-ex">Consultas técnicas complejas</span>
+      </div>
+    </div>
+  </div>
+
+  <span class="next-hint dark" onclick="goTo('flujo')">continuar</span>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     CÓMO FUNCIONA
+     ══════════════════════════════════════ -->
+<section id="flujo">
+  <p class="step-label">05 · Cómo funciona</p>
+  <h2 class="section-heading">Luca en todos los canales.</h2>
+  <p class="section-sub">El cliente llega desde donde le resulte más cómodo — la web, WhatsApp o Instagram. Luca responde en todos desde un mismo sistema centralizado.</p>
+
+  <div class="flujo-diagram">
+    <div class="flujo-step">
+      <div class="flujo-node fn-web">🌐</div>
+      <div class="flujo-title">Sitio Web</div>
+      <div class="flujo-desc">Botón flotante en pintelux.com</div>
+    </div>
+    <div class="flujo-arrow">→</div>
+
+    <div class="flujo-step">
+      <div class="flujo-node fn-wa">💬</div>
+      <div class="flujo-title">WhatsApp</div>
+      <div class="flujo-desc">WhatsApp Business 24/7</div>
+    </div>
+    <div class="flujo-arrow">→</div>
+
+    <div class="flujo-step">
+      <div class="flujo-node fn-ig">📸</div>
+      <div class="flujo-title">Instagram DM</div>
+      <div class="flujo-desc">Respuesta automática en @pinteluxuy</div>
+    </div>
+    <div class="flujo-arrow">→</div>
+
+    <div class="flujo-step">
+      <div class="flujo-node fn-luca">🎨</div>
+      <div class="flujo-title">Luca</div>
+      <div class="flujo-desc">Un solo sistema. Todas las conversaciones.</div>
+    </div>
+    <div class="flujo-arrow">→</div>
+
+    <div class="flujo-step">
+      <div class="flujo-node fn-venta">✅</div>
+      <div class="flujo-title">Venta / Visita</div>
+      <div class="flujo-desc">Cliente llega preparado a la sucursal</div>
+    </div>
+  </div>
+
+  <div class="ff-grid">
+    <div class="ff-card">
+      <div class="ff-title">Instalación sin desarrollo</div>
+      <div class="ff-desc">Se integra con un snippet de código en el sitio actual de Pintelux. Sin cambiar nada del diseño ni la tecnología existente. Listo en días, no en semanas.</div>
+    </div>
+    <div class="ff-card">
+      <div class="ff-title">Aprendizaje continuo</div>
+      <div class="ff-desc">Cada conversación es un dato. Cada semana sabés cuáles son las preguntas más frecuentes, qué productos buscan más, y qué horas tiene mayor demanda.</div>
+    </div>
+    <div class="ff-card">
+      <div class="ff-title">Control total de Pintelux</div>
+      <div class="ff-desc">El equipo de Pintelux puede ver todas las conversaciones, corregir respuestas en tiempo real, y ajustar el tono o la información cuando sea necesario.</div>
+    </div>
+    <div class="ff-card">
+      <div class="ff-title">Deriva fluida al humano</div>
+      <div class="ff-desc">Cuando Luca identifica que el cliente necesita atención personal, transfiere la conversación completa al vendedor — sin que el cliente tenga que repetir todo desde cero.</div>
+    </div>
+  </div>
+
+  <span class="next-hint dark" onclick="goTo('mes-gratis')">continuar</span>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     MES GRATIS
+     ══════════════════════════════════════ -->
+<section id="mes-gratis">
+  <p class="step-label">06 · La propuesta</p>
+  <h2 class="section-heading">Un mes completo, sin costo.</h2>
+  <p class="section-sub">La única manera de saber si Luca funciona para Pintelux es verlo en acción con los clientes reales. Por eso la propuesta es simple: probamos un mes entero, gratis, sin compromiso de continuidad.</p>
+
+  <div class="gratis-layout">
+    <div>
+      <div class="single-plan">
+        <div class="plan-price-wrap">
+          <div class="plan-price-big">$0</div>
+          <div class="plan-price-unit">el primer mes completo</div>
+        </div>
+        <div class="plan-setup-tag">Sin costo de setup · Sin permanencia</div>
+        <div class="plan-tagline">"Si en 30 días no ven el valor, no seguimos. Así de simple."</div>
+        <ul class="plan-features">
+          <li>Configuración completa de Luca para Pintelux</li>
+          <li>Carga del catálogo de productos Inca y Pintelux</li>
+          <li>Integración con WhatsApp Business o sitio web (a elección)</li>
+          <li>Entrenamiento con información de sucursales, horarios y FAQ</li>
+          <li>Reportes semanales de conversaciones y métricas</li>
+          <li>Soporte directo con el equipo de Concepto Development</li>
+          <li>Ajustes y optimizaciones durante el mes</li>
+        </ul>
+        <div class="plan-note">
+          <div class="plan-note-text"><strong>Al final del mes:</strong> revisamos los datos juntos. Si los resultados convencen, seguimos con un plan mensual a acordar. Si no, terminamos sin ningún compromiso.</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="gratis-timeline">
+        <div class="gt-step">
+          <div class="gt-num active">1</div>
+          <div>
+            <div class="gt-week">Semana 1</div>
+            <div class="gt-title">Onboarding y configuración</div>
+            <div class="gt-desc">Cargamos el catálogo completo, configuramos los flujos de conversación y personalizamos el tono de Luca para que suene como Pintelux.</div>
+          </div>
+        </div>
+        <div class="gt-step">
+          <div class="gt-num">2</div>
+          <div>
+            <div class="gt-week">Semana 2</div>
+            <div class="gt-title">Luca en vivo</div>
+            <div class="gt-desc">Activamos Luca en el canal elegido. Las primeras conversaciones las revisamos juntos para ajustar respuestas y cubrir casos que no habíamos previsto.</div>
+          </div>
+        </div>
+        <div class="gt-step">
+          <div class="gt-num">3</div>
+          <div>
+            <div class="gt-week">Semanas 3–4</div>
+            <div class="gt-title">Optimización con datos reales</div>
+            <div class="gt-desc">Con conversaciones reales ya acumuladas, ajustamos y mejoramos. Recibís reportes con las preguntas más frecuentes y las métricas de atención.</div>
+          </div>
+        </div>
+        <div class="gt-step">
+          <div class="gt-num">4</div>
+          <div>
+            <div class="gt-week">Fin del mes</div>
+            <div class="gt-title">Decisión con datos en la mano</div>
+            <div class="gt-desc">Revisamos juntos qué pasó: cuántas consultas atendió Luca, cuántas ventas se generaron, cuánto tiempo le ahorró al equipo. La decisión es de Pintelux.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <span class="next-hint" onclick="goTo('roi')">continuar</span>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     ROI — matemática del negocio
+     ══════════════════════════════════════ -->
+<section id="roi">
+  <p class="step-label">07 · El impacto en números</p>
+  <h2 class="section-heading">Estimación conservadora.</h2>
+  <p class="section-sub">Si Luca captura solo una fracción de las consultas que hoy se pierden fuera de horario, el retorno es claro. Estos son los números más conservadores posibles.</p>
+
+  <div class="roi-layout">
+    <div>
+      <div class="roi-calc">
+        <div class="roi-calc-header">Escenario conservador · mes típico</div>
+        <div class="roi-row">
+          <span class="roi-row-label">Consultas fuera de horario (estimado)</span>
+          <span class="roi-row-val">~25 / día</span>
+        </div>
+        <div class="roi-row">
+          <span class="roi-row-label">Porcentaje que deriva en venta con respuesta inmediata</span>
+          <span class="roi-row-val">30%</span>
+        </div>
+        <div class="roi-row">
+          <span class="roi-row-label">Ventas adicionales por día</span>
+          <span class="roi-row-val">7–8 ventas</span>
+        </div>
+        <div class="roi-row">
+          <span class="roi-row-label">Ticket promedio mixto (residencial + profesional)</span>
+          <span class="roi-row-val">$95 USD</span>
+        </div>
+        <div class="roi-row total">
+          <span class="roi-row-label">Ingreso adicional mensual estimado</span>
+          <span class="roi-row-val">+$19.000 USD</span>
+        </div>
+        <div class="roi-row-note">Estimación basada en 25 consultas/día × 30% conversión × $95 ticket × 30 días. Número real depende del volumen actual de Pintelux.</div>
+      </div>
+
+      <div class="roi-calc">
+        <div class="roi-calc-header">Ahorro de tiempo del equipo</div>
+        <div class="roi-row">
+          <span class="roi-row-label">Preguntas FAQ por colaborador por día</span>
+          <span class="roi-row-val">~3–5 min</span>
+        </div>
+        <div class="roi-row">
+          <span class="roi-row-label">Equipo total</span>
+          <span class="roi-row-val">40 personas</span>
+        </div>
+        <div class="roi-row total">
+          <span class="roi-row-label">Horas recuperadas por semana</span>
+          <span class="roi-row-val">~16 horas</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roi-stats-col">
+      <div class="roi-stat">
+        <div class="roi-stat-val">46%</div>
+        <div class="roi-stat-desc">de la semana hoy está <strong>sin cobertura</strong> — noches y domingo. Luca cubre ese tiempo sin costo adicional de personal.</div>
+        <div class="roi-stat-source">Análisis horario Pintelux</div>
+      </div>
+      <div class="roi-stat">
+        <div class="roi-stat-val">24K</div>
+        <div class="roi-stat-desc">seguidores en @pinteluxuy. <strong>Cada DM que llega a Instagram</strong> a las 9pm hoy queda sin respuesta. Con Luca, ninguno.</div>
+        <div class="roi-stat-source">Instagram Pintelux · 2026</div>
+      </div>
+      <div class="roi-stat">
+        <div class="roi-stat-val">6x</div>
+        <div class="roi-stat-desc">sucursales significa <strong>6 veces más consultas</strong> sobre horarios, ubicaciones y stock. Luca centraliza y responde todo desde un solo lugar.</div>
+        <div class="roi-stat-source">Pintelux · expansión 2025</div>
+      </div>
+      <div class="roi-stat">
+        <div class="roi-stat-val">$0</div>
+        <div class="roi-stat-desc">costo del primer mes. <strong>El riesgo es cero</strong> para Pintelux. Si los números no convencen al final del mes, no hay compromiso.</div>
+        <div class="roi-stat-source">Propuesta Concepto Development</div>
+      </div>
+    </div>
+  </div>
+
+  <span class="next-hint" onclick="goTo('cierre')">continuar</span>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     CIERRE — CTA
+     ══════════════════════════════════════ -->
+<section id="cierre">
+  <p class="step-label">08 · El siguiente paso</p>
+  <h2 class="section-heading">Pintelux tiene 50 años de historia.<br>El próximo paso es hablar con quien venga.</h2>
+
+  <div class="timeline">
+    <div class="t-step hl">
+      <div class="t-dot">H</div>
+      <div class="t-title">Hoy</div>
+      <div class="t-desc">Reunión y confirmación de la propuesta</div>
+    </div>
+    <div class="t-step">
+      <div class="t-dot">1</div>
+      <div class="t-title">Semana 1</div>
+      <div class="t-desc">Setup y configuración completa de Luca</div>
+    </div>
+    <div class="t-step">
+      <div class="t-dot">2</div>
+      <div class="t-title">Semana 2</div>
+      <div class="t-desc">Luca en vivo atendiendo clientes reales</div>
+    </div>
+    <div class="t-step hl">
+      <div class="t-dot">30</div>
+      <div class="t-title">Día 30</div>
+      <div class="t-desc">Revisión de resultados y decisión</div>
+    </div>
+  </div>
+
+  <div class="cierre-grid">
+    <div class="cta-block">
+      <h3>¿Empezamos la semana que viene?</h3>
+      <p>No hay papeles que firmar ni compromisos de largo plazo. Solo decidir si vale la pena probar un mes con Luca atendiendo a los clientes de Pintelux.</p>
+      <div class="cta-contact">
+        <div>Bruno Silva — Concepto Development</div>
+        <div class="cta-highlight">conceptodevelopment.com</div>
+        <div style="margin-top:12px;">
+          <a href="https://wa.me/59897577777" style="display:inline-flex;align-items:center;gap:8px;background:rgba(146,210,7,0.15);border:1px solid rgba(146,210,7,0.3);color:var(--green);font-family:sans-serif;font-size:12px;font-weight:600;padding:9px 18px;border-radius:8px;text-decoration:none;letter-spacing:0.5px;transition:background 0.2s;" onmouseover="this.style.background='rgba(146,210,7,0.25)'" onmouseout="this.style.background='rgba(146,210,7,0.15)'">
+            💬 Escribinos por WhatsApp
+          </a>
+        </div>
+        <div style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.3);">Montevideo, Uruguay</div>
+      </div>
+    </div>
+
+    <div class="summary-box">
+      <h4>Resumen de la propuesta</h4>
+      <div class="summary-row">
+        <span class="s-lbl">Chatbot personalizado para Pintelux</span>
+        <span class="s-val">Luca</span>
+      </div>
+      <div class="summary-row">
+        <span class="s-lbl">Costo del primer mes</span>
+        <span class="s-val green">$0</span>
+      </div>
+      <div class="summary-row">
+        <span class="s-lbl">Canales incluidos</span>
+        <span class="s-val">Web · WhatsApp · IG</span>
+      </div>
+      <div class="summary-row">
+        <span class="s-lbl">Tiempo de setup</span>
+        <span class="s-val">7 días</span>
+      </div>
+      <div class="summary-row">
+        <span class="s-lbl">Sucursales cubiertas</span>
+        <span class="s-val">Las 6</span>
+      </div>
+      <div class="summary-row">
+        <span class="s-lbl">Permanencia mínima</span>
+        <span class="s-val green">Ninguna</span>
+      </div>
+      <div class="summary-note">Esta propuesta es válida para Pintelux. Todos los detalles de implementación, integraciones y continuidad se definen en reunión.</div>
+    </div>
+  </div>
+</section>
+
+
+<footer>
+  <p>Concepto Development · Propuesta confidencial para Pintelux Uruguay · 2026</p>
+  <span class="footer-brand">CONCEPTO <span>DEVELOPMENT</span></span>
+</footer>
+
+
+<script>
+// ─── PROGRESS BAR
+window.addEventListener('scroll', function() {
+  var pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  document.getElementById('progressBar').style.width = Math.min(pct, 100) + '%';
+}, { passive: true });
+
+// ─── SECTION NAVIGATION
+var SECTIONS = ['portada','problema','luca','demo','capacidades','flujo','mes-gratis','roi','cierre'];
+function goTo(id) { var el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth' }); }
+function updateNavDots() {
+  var dots = document.querySelectorAll('.nav-dot'), active = SECTIONS[0];
+  SECTIONS.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - window.innerHeight / 2) active = id;
+  });
+  dots.forEach(function(d) { d.classList.toggle('active', d.dataset.s === active); });
+}
+window.addEventListener('scroll', updateNavDots, { passive: true });
+
+
+// ─── LIVE CHATBOT (Luca · Pintelux)
+var WORKER_URL = 'https://conceptodemo.conceptodevelopment.workers.dev';
+
+var LUCA_SYSTEM =
+'Sos Luca, el asesor virtual de Pintelux — la pinturería de Uruguay con 50 años de trayectoria.\n\n' +
+
+'== SOBRE PINTELUX ==\n' +
+'Pintelux es una pinturería uruguaya fundada en 1974 por Nelson Risso, hoy gerenciada por sus hijos. Empresa familiar con 40 colaboradores, 6 sucursales en Montevideo y alrededores, y alianza estratégica con Pinturas Inca (grupo AkzoNobel). Lema: "la pinturería de Uruguay".\n\n' +
+
+'== SUCURSALES ==\n' +
+'- Casa Central: Av. Italia 3854, Montevideo. Tel: 2508 0530\n' +
+'- Pocitos: Bvar. España 2499, Montevideo. Tel: 2707 1979\n' +
+'- Sayago: Av. Sayago 1002, Montevideo. Tel: 2354 4044\n' +
+'- Giannattasio: Av. Giannattasio esq. Arizona, Montevideo. Tel: 2600 0530\n' +
+'- Colinas de Solymar: Ruta Interbalnearia km 26 esq. Marquez Castro, Canelones\n' +
+'- (Nueva sucursal inaugurada 2025 — para detalles, consultar al equipo)\n\n' +
+'HORARIO TODAS LAS SUCURSALES: Lunes a Viernes 8 a 19 hs | Sábados 8 a 14 hs. Envíos gratis a todo el país.\n\n' +
+
+'== PRODUCTOS PRINCIPALES ==\n' +
+'Línea INCA (socio estratégico, AkzoNobel):\n' +
+'- Impermax Latex Exterior: alta resistencia UV e intemperie, ideal para fachadas\n' +
+'- Fondo Anticorrosivo Inca: para metal antes del esmalte\n' +
+'- Convertidor de Óxido Inca: transforma el óxido en capa protectora\n' +
+'- Esmaltes Sintéticos Inca: terminación brillante/satinada para metal y madera\n' +
+'- INCAMAX: producto multipropósito de alta cobertura\n\n' +
+'Línea PINTELUX (marca propia):\n' +
+'- Látex Interior y Exterior: amplia gama de colores\n' +
+'- Barnices para madera (interior/exterior)\n' +
+'- Impermeabilizantes para techos\n\n' +
+'NATURA PREMIUM PERFORMANCE:\n' +
+'- Pinturas perfumadas de alta calidad. Secado ultra rápido: el espacio se puede usar la misma noche.\n' +
+'- Ideal para oficinas, hogares, locales, escuelas, hospitales\n' +
+'- Acabado profesional, bajo olor\n\n' +
+'Otros: herramientas (rodillos, brochas, bandejas, lijas, cintas), empapelados. Paleta de colores completa en pintelux.com/paleta-de-colores\n\n' +
+
+'== CÁLCULO DE LITROS (fórmula) ==\n' +
+'1 litro de látex cubre ~10-12 m² por mano en superficie lisa.\n' +
+'Para 2 manos (estándar): multiplicar por 2 la cantidad.\n' +
+'Superficies porosas o texturadas: reducir cobertura a 8-10 m²/litro.\n' +
+'Ejemplo: pieza 4×4 m, techo 2.5 m → paredes ~40 m², techo ~16 m² → total ~56 m² → para 2 manos necesitás ~5 litros (con margen).\n' +
+'Para metal o madera: considerar imprimación + 2 manos de terminación.\n\n' +
+
+'== TU ROL: ASESOR QUE ACERCA A LA VENTA ==\n' +
+'1. Respondé cada consulta de forma útil, clara y concisa.\n' +
+'2. Siempre terminá con UNA pregunta que avance la consulta:\n' +
+'   - "¿Tenés las medidas del espacio?"\n' +
+'   - "¿Ya elegiste un color o te ayudo a decidir?"\n' +
+'   - "¿Buscás algo para interior o exterior?"\n' +
+'   - "¿Te queda cerca alguna de nuestras sucursales?"\n' +
+'3. Cuando la consulta está madura, orientá hacia la visita: "Te recomiendo pasar por [sucursal cercana] — están hasta las 19 hs de lunes a viernes. ¿Sabés cuál te queda más cerca?"\n\n' +
+
+'== TONO Y FORMATO ==\n' +
+'Tono: amigable, experto, uruguayo. Usá "vos". Sin tecnicismos innecesarios.\n' +
+'Longitud: respuestas cortas (máx 5-6 líneas + una pregunta). Directo y útil.\n' +
+'Podés usar 1-2 emojis por mensaje cuando acompañen bien el texto.\n' +
+'Nunca inventes información que no tenés — si no sabés algo, decí que el equipo de Pintelux puede ayudar mejor.';
+
+var lucaHistory = [];
+var lucaSending = false;
+var MIN_TYPING_MS = 900;
+var typingStart = 0;
+
+function getLcEl(id) { return document.getElementById(id); }
+
+function lcScrollBottom() {
+  var container = getLcEl('lcMessages');
+  if (container) requestAnimationFrame(function() {
+    container.scrollTop = container.scrollHeight;
+  });
+}
+
+function lcAddMessage(text, type) {
+  var container = getLcEl('lcMessages');
+  var typing = getLcEl('lcTyping');
+  if (!container) return;
+  var el = document.createElement('div');
+  el.className = 'lc-msg ' + type;
+  el.textContent = text;
+  if (typing && typing.parentNode === container) {
+    container.insertBefore(el, typing);
+  } else {
+    container.appendChild(el);
+  }
+  lcScrollBottom();
+}
+
+function lcShowTyping() {
+  var container = getLcEl('lcMessages');
+  var typing = getLcEl('lcTyping');
+  if (!container || !typing) return;
+  container.appendChild(typing);
+  typing.classList.add('vis');
+  typingStart = Date.now();
+  lcScrollBottom();
+}
+
+function lcHideTyping() {
+  var typing = getLcEl('lcTyping');
+  if (typing) typing.classList.remove('vis');
+}
+
+function lcSend(customText) {
+  var inputEl = getLcEl('lc-input');
+  var sendBtn = getLcEl('lc-send');
+  var hintsEl = getLcEl('lcHints');
+  var text = (customText || (inputEl ? inputEl.value : '')).trim();
+  if (!text || lucaSending) return;
+
+  lucaSending = true;
+  if (sendBtn) sendBtn.disabled = true;
+  if (!customText && inputEl) {
+    inputEl.value = '';
+    inputEl.style.height = 'auto';
+    requestAnimationFrame(function() { inputEl.style.height = '40px'; });
+  }
+  if (hintsEl) hintsEl.style.display = 'none';
+
+  lcAddMessage(text, 'user');
+  lucaHistory.push({ role: 'user', content: text });
+  if (lucaHistory.length > 14) lucaHistory = lucaHistory.slice(-14);
+  lcShowTyping();
+
+  fetch(WORKER_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ system: LUCA_SYSTEM, messages: lucaHistory })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    var reply = (data && data.text) ? data.text : 'Lo siento, no pude procesar eso. Intentá de nuevo.';
+    var elapsed = Date.now() - typingStart;
+    var delay = Math.max(0, MIN_TYPING_MS - elapsed);
+    setTimeout(function() {
+      lcHideTyping();
+      lcAddMessage(reply, 'bot');
+      lucaHistory.push({ role: 'assistant', content: reply });
+      if (lucaHistory.length > 14) lucaHistory = lucaHistory.slice(-14);
+      lucaSending = false;
+      if (sendBtn) sendBtn.disabled = false;
+      if (inputEl) inputEl.focus();
+    }, delay);
+  })
+  .catch(function() {
+    var elapsed = Date.now() - typingStart;
+    var delay = Math.max(0, MIN_TYPING_MS - elapsed);
+    setTimeout(function() {
+      lcHideTyping();
+      lcAddMessage('Hubo un error de conexión. Verificá tu internet e intentá de nuevo.', 'bot');
+      lucaSending = false;
+      if (sendBtn) sendBtn.disabled = false;
+      if (inputEl) inputEl.focus();
+    }, delay);
+  });
+}
+
+function lcHintClick(btn) {
+  if (btn && btn.textContent) lcSend(btn.textContent.replace(/^[^\s]+\s/, '').trim());
+}
+
+(function() {
+  var inputEl = getLcEl('lc-input');
+  if (!inputEl) return;
+  inputEl.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); lcSend(); }
+  });
+  inputEl.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 80) + 'px';
+  });
+})();
+
+setTimeout(function() {
+  lcAddMessage('¡Hola! Soy Luca, el asesor virtual de Pintelux. 🎨 Estoy acá para ayudarte con colores, calcular litros, recomendar productos o decirte dónde está la sucursal más cerca. ¿En qué te puedo ayudar hoy?', 'bot');
+}, 600);
+</script>
+</body>
+</html>
