@@ -3,16 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Automatización de Procesos con IA en Uruguay | Concepto Development</title>
-<meta name="description" content="Automatizá los procesos repetitivos de tu empresa con IA. Ahorrás horas, reducís errores y escalás sin contratar más personal. Agencia de automatización en Uruguay.">
+<title>Automatizaciones con IA para Empresas | Concepto Development</title>
+<meta name="description" content="Automatizamos los procesos que te roban tiempo. Conectamos tus herramientas, eliminamos tareas repetitivas y te dejamos escalar sin contratar más gente.">
 <meta name="robots" content="noindex">
 <link rel="canonical" href="https://conceptodevelopment.com/automatizaciones">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230d0d0d'/><text y='.9em' font-size='72' x='12' fill='%23f5f4f0' font-family='system-ui'>C</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+/* ── RESET + VARS (idéntico al sitio) ── */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
   --cream:#f5f4f0;--ink:#0d0d0d;--mid:#585858;--dim:#767676;
@@ -21,81 +22,74 @@
 html{scroll-behavior:smooth;}
 body{background:var(--cream);color:var(--ink);font-family:'Inter',system-ui,-apple-system,sans-serif;font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
 
-/* ── NAV ── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:400;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:0 clamp(24px,6vw,80px);height:58px;
-  background:rgba(245,244,240,.92);backdrop-filter:blur(20px);
-}
-.nl{font-family:system-ui,-apple-system,sans-serif;font-size:15px;font-weight:500;letter-spacing:-.02em;color:var(--ink);text-decoration:none;}
-.nbtn{padding:.48rem 1.2rem;border-radius:100px;background:var(--ink);color:var(--cream);font-size:13px;font-weight:400;text-decoration:none;transition:opacity .18s;white-space:nowrap;}
-.nbtn:hover{opacity:.7;}
+/* ── NAV FIJO ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:400;display:flex;justify-content:space-between;align-items:center;padding:0 clamp(24px,6vw,80px);height:58px;background:rgba(6,0,16,.85);backdrop-filter:blur(20px);}
+.nl{font-family:system-ui,-apple-system,sans-serif;font-size:15px;font-weight:500;letter-spacing:-.02em;color:#fff;text-decoration:none;}
+.nbtn{padding:.48rem 1.2rem;border-radius:100px;background:#9333ea;color:#fff;font-size:13px;font-weight:400;text-decoration:none;transition:background .2s,transform .15s;white-space:nowrap;}
+.nbtn:hover{background:#7c3aed;transform:translateY(-1px);}
 
-/* ── TIPOGRAFÍA (idéntica al sitio) ── */
-.tag{font-size:11px;font-weight:500;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;margin-bottom:1.4rem;display:block;}
-.h2{font-size:clamp(34px,5vw,76px);font-weight:600;letter-spacing:-.04em;line-height:.93;}
-.fade{color:var(--dim);}
-.sub{font-size:clamp(14px,1.1vw,16px);color:var(--mid);line-height:1.78;max-width:380px;margin-top:1.6rem;font-weight:300;}
-@media(max-width:680px){.sub{font-size:14px;max-width:100%;}.sub.mob-hide{display:none;}}
-a{color:inherit;text-decoration:none;}
-.lnk{display:inline-flex;align-items:center;gap:.32rem;margin-top:1.4rem;font-size:13px;font-weight:400;transition:gap .2s;}
-.lnk:hover{gap:.65rem;}
-.lnk::after{content:'→';}
+/* ── HERO ── */
+.hero{display:grid;grid-template-columns:1fr 1fr;min-height:100svh;overflow:hidden;position:relative;background:var(--cream);}
+@media(max-width:680px){.hero{grid-template-columns:1fr;height:100svh;min-height:100svh;background:#0a0519;}}
+
+.hero-copy{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:calc(58px + clamp(2rem,5vh,4rem)) clamp(24px,6vw,80px) clamp(2rem,5vh,4rem);position:relative;z-index:2;background:var(--cream);}
+@media(max-width:680px){
+  .hero-copy{justify-content:flex-start;padding-top:calc(58px + 1.6rem);background:transparent;}
+}
+
+/* Gradient overlay mobile */
+@media(max-width:680px){
+  .hero::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(10,5,25,.88) 0%,rgba(10,5,25,.65) 55%,transparent 100%);pointer-events:none;}
+  .hero-copy{z-index:2;}
+}
+
+/* Video desktop (columna derecha) */
+.hero-vid{position:relative;overflow:hidden;height:100svh;}
+.hero-vid video{width:100%;height:100%;object-fit:cover;display:block;}
+@media(max-width:680px){.hero-vid{display:none;}}
+
+/* Video mobile (fondo absoluto) */
+.hero-mob-vid{display:none;}
+@media(max-width:680px){
+  .hero-mob-vid{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
+}
+
+/* ── TIPOGRAFÍA — copia exacta del sitio ── */
+.tag{font-size:11px;font-weight:500;letter-spacing:.16em;color:rgba(124,58,237,.7);text-transform:uppercase;margin-bottom:1.4rem;display:block;}
+.hero-h1{font-size:clamp(34px,5vw,76px);font-weight:600;letter-spacing:-.04em;line-height:.93;color:var(--ink);}
+.hero-h1 em{font-style:normal;color:var(--dim);}
+.hero-sub{font-size:clamp(14px,1.1vw,16px);color:var(--mid);line-height:1.78;max-width:380px;margin-top:1.6rem;font-weight:300;}
+@media(max-width:680px){
+  .hero-h1{color:#fff;}
+  .hero-h1 em{color:rgba(255,255,255,.5);}
+  .hero-sub{color:rgba(255,255,255,.55);font-size:14px;max-width:100%;}
+}
+
+/* ── BOTONES ── */
 .brow{display:flex;gap:.6rem;margin-top:2rem;flex-wrap:wrap;}
 .btn{display:inline-flex;align-items:center;padding:.7rem 1.65rem;border-radius:100px;font-size:14px;font-weight:400;text-decoration:none;transition:opacity .18s;letter-spacing:-.01em;}
 .btn:hover{opacity:.62;}
-.bd{background:#0d0d0d;color:#f5f4f0 !important;}
-.bo{background:transparent;color:#0d0d0d !important;border:1px solid rgba(13,13,13,.2);}
-.btn-demo{display:inline-flex;align-items:center;gap:.45rem;margin-top:1.4rem;padding:.7rem 1.65rem;border-radius:100px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff !important;font-size:14px;font-weight:400;text-decoration:none;letter-spacing:-.01em;box-shadow:0 6px 24px rgba(124,58,237,.28);transition:opacity .18s,transform .18s;}
-.btn-demo:hover{opacity:.85;transform:translateY(-2px);}
+.bd{background:var(--ink);color:var(--cream) !important;}
+.btn-demo{display:inline-flex;align-items:center;gap:.45rem;margin-top:1.4rem;padding:.7rem 1.65rem;border-radius:100px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff !important;font-size:14px;font-weight:400;text-decoration:none;letter-spacing:-.01em;box-shadow:0 6px 24px rgba(124,58,237,.28);transition:opacity .18s,transform .18s,box-shadow .18s;}
+.btn-demo:hover{opacity:.85;transform:translateY(-2px);box-shadow:0 10px 32px rgba(124,58,237,.42);}
+.btn-demo-icon{transition:transform .2s;}
+.btn-demo:hover .btn-demo-icon{transform:translateX(3px);}
 
-/* ── SVC-SEC DESKTOP ── */
-@media(min-width:681px){
-  .svc-sec{position:relative;display:block;padding:0;height:100vh;height:100svh;overflow:hidden;}
-  .svc-sec .srow{height:100%;display:flex;align-items:center;direction:ltr !important;}
-  .svc-sec .scol{position:relative;z-index:1;width:50%;display:flex;flex-direction:column;padding:0 clamp(40px,6vw,90px);justify-content:center;align-items:flex-start;text-align:left;}
-  .svc-sec .rcol{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;overflow:hidden;}
-  .svc-sec .rcol video{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
-  /* Overlay para legibilidad */
-  #s-hero::after{content:'';position:absolute;top:0;left:0;width:55%;height:100%;background:linear-gradient(to right,rgba(245,244,240,.72) 0%,transparent 100%);z-index:0;pointer-events:none;}
-}
-
-/* ── MÓVIL (copia de #s-auto en el sitio) ── */
-#mob-vid{display:none !important;}
+.guarantee{margin-top:1rem;font-size:11.5px;color:var(--dim);font-weight:300;letter-spacing:.01em;}
+.guarantee strong{color:var(--mid);font-weight:400;}
 @media(max-width:680px){
-  .svc-sec{position:relative;height:100svh;overflow:hidden;display:flex;flex-direction:column;padding:0 7vw;z-index:20;}
-  #s-hero{justify-content:flex-start;padding-top:100px;padding-bottom:60px;}
-  #mob-vid{display:block !important;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;}
-  .svc-sec .srow{position:relative;z-index:1;display:block;}
-  #s-hero .scol{align-items:flex-start;text-align:left;display:flex;flex-direction:column;}
-  /* Overlay top */
-  #s-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:70%;background:linear-gradient(to bottom,rgba(6,4,15,.82) 0%,transparent 100%);z-index:0;pointer-events:none;}
-  #s-hero .srow{z-index:2;}
-  #s-hero .tag,#s-hero .h2,#s-hero .sub,#s-hero .btn-demo{color:#fff;}
-  #s-hero .fade{color:rgba(255,255,255,.55);}
-  #s-hero .sub{color:rgba(255,255,255,.65);}
+  .guarantee{color:rgba(255,255,255,.3);}
+  .guarantee strong{color:rgba(255,255,255,.5);}
 }
 
-/* ── SECCIONES LANDING ── */
-section.lp-sec{position:relative;padding:clamp(60px,9vh,110px) clamp(24px,6vw,80px);}
+/* ── SECCIONES ── */
+section.lp{position:relative;padding:clamp(60px,9vh,110px) clamp(24px,6vw,80px);}
 
 .lp-label{font-size:11px;font-weight:500;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;margin-bottom:1rem;display:block;}
-.lp-title{font-size:clamp(28px,3.8vw,52px);font-weight:600;letter-spacing:-.04em;line-height:.95;max-width:560px;margin-bottom:clamp(2rem,4vh,3.5rem);}
-.lp-title .fade{color:var(--dim);}
+.lp-h2{font-size:clamp(28px,3.8vw,52px);font-weight:600;letter-spacing:-.04em;line-height:.95;max-width:560px;margin-bottom:clamp(2rem,4vh,3.5rem);}
+.lp-h2 em{font-style:normal;color:var(--dim);}
 
-/* Pain section */
-.pain-section{background:var(--ink);}
-.pain-section .lp-label{color:rgba(168,85,247,.7);}
-.pain-section .lp-title{color:#fff;}
-.pain-section .lp-title .fade{color:var(--vlt-l);opacity:1;}
-.pain-list{display:flex;flex-direction:column;gap:.85rem;max-width:680px;}
-.pain-item{display:flex;align-items:flex-start;gap:.85rem;padding:1.1rem 1.25rem;border-radius:12px;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.03);}
-.pain-ico{font-size:18px;flex-shrink:0;margin-top:1px;}
-.pain-t{font-size:14px;color:rgba(255,255,255,.6);line-height:1.65;font-weight:300;}
-.pain-t strong{color:#fff;font-weight:500;}
-
-/* Cards beneficios */
+/* Cards de beneficios */
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;}
 .card{background:#fff;border-radius:18px;padding:1.75rem;border:1px solid rgba(13,13,13,.06);transition:transform .22s,box-shadow .22s,border-color .22s;}
 .card:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(124,58,237,.09);border-color:rgba(124,58,237,.2);}
@@ -103,21 +97,20 @@ section.lp-sec{position:relative;padding:clamp(60px,9vh,110px) clamp(24px,6vw,80
 .card-t{font-size:14.5px;font-weight:600;letter-spacing:-.01em;margin-bottom:.45rem;}
 .card-d{font-size:13px;color:var(--mid);line-height:1.7;font-weight:300;}
 
-/* Casos de uso */
-.usecases{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;}
-.usecase{background:#fff;border-radius:14px;padding:1.5rem;border:1px solid rgba(13,13,13,.06);transition:border-color .2s,box-shadow .2s;}
-.usecase:hover{border-color:rgba(124,58,237,.2);box-shadow:0 8px 24px rgba(124,58,237,.06);}
-.uc-tag{display:inline-block;padding:.2rem .65rem;border-radius:100px;font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;background:rgba(124,58,237,.08);color:var(--vlt);margin-bottom:.8rem;}
-.uc-t{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:.3rem;letter-spacing:-.01em;}
-.uc-d{font-size:12.5px;color:var(--mid);line-height:1.6;font-weight:300;}
+/* Urgency banner */
+.urgency-bar{background:#06040f;padding:clamp(28px,4vh,44px) clamp(24px,6vw,80px);text-align:center;}
+.urgency-text{font-size:clamp(15px,1.4vw,18px);color:rgba(255,255,255,.55);line-height:1.7;font-weight:300;}
+.urgency-text strong{color:#fff;font-weight:600;}
 
-/* Pasos */
-.lp-dark{background:#06040f;position:relative;overflow:hidden;}
-.lp-dark::before{content:'';position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(124,58,237,.18) 0%,transparent 70%);top:-150px;right:-100px;pointer-events:none;z-index:0;}
-.lp-dark .lp-inner{position:relative;z-index:1;}
-.lp-dark .lp-label{color:rgba(168,85,247,.7);}
-.lp-dark .lp-title{color:#fff;}
-.lp-dark .lp-title .fade{color:var(--vlt-l);opacity:1;}
+/* Sección oscura */
+.dark-sec{background:#06040f;position:relative;overflow:hidden;}
+.dark-sec::before{content:'';position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(124,58,237,.18) 0%,transparent 70%);top:-150px;right:-100px;pointer-events:none;z-index:0;}
+.dark-inner{position:relative;z-index:1;}
+.dark-sec .lp-label{color:rgba(168,85,247,.7);}
+.dark-sec .lp-h2{color:#fff;}
+.dark-sec .lp-h2 em{color:var(--vlt-l);opacity:1;}
+
+/* Steps */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
 @media(max-width:680px){.steps{grid-template-columns:1fr;gap:1.25rem;}}
 .step{background:rgba(255,255,255,.04);border:1px solid rgba(124,58,237,.14);border-radius:18px;padding:1.75rem;position:relative;}
@@ -126,15 +119,25 @@ section.lp-sec{position:relative;padding:clamp(60px,9vh,110px) clamp(24px,6vw,80
 .step-d{font-size:13px;color:rgba(255,255,255,.4);line-height:1.7;font-weight:300;}
 .step-ico{position:absolute;top:1.5rem;right:1.5rem;width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#a855f7);display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 4px 14px rgba(124,58,237,.35);}
 
+/* Proof stats */
+.proof{background:#06040f;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;padding:clamp(36px,5vh,56px) clamp(24px,6vw,80px);}
+.proof-stat{text-align:center;flex:1;min-width:120px;}
+.proof-n{font-size:clamp(32px,5vw,56px);font-weight:600;color:#fff;letter-spacing:-.04em;line-height:.93;display:block;}
+.proof-n span{color:var(--vlt-l);}
+.proof-l{font-size:11.5px;color:rgba(255,255,255,.3);margin-top:.3rem;font-weight:300;letter-spacing:.03em;}
+.proof-div{width:1px;height:50px;background:rgba(255,255,255,.07);flex-shrink:0;}
+@media(max-width:500px){.proof-div{display:none;}.proof{gap:1.5rem;}.proof-stat{min-width:80px;}}
+
 /* CTA final */
 .lp-cta{text-align:center;display:flex;flex-direction:column;align-items:center;}
 .ctah{font-size:clamp(38px,6vw,96px);font-weight:600;letter-spacing:-.04em;line-height:.93;}
-.ctah .fade{color:var(--dim);}
+.ctah em{font-style:normal;color:var(--dim);}
 .ctap{font-size:clamp(14px,1.1vw,16px);color:var(--mid);max-width:320px;line-height:1.78;margin-top:1.4rem;font-weight:300;}
 .lp-cta .brow{justify-content:center;}
-.urgency{margin-top:.85rem;font-size:12px;color:var(--dim);font-weight:300;}
-.urgency strong{color:var(--mid);font-weight:500;}
+.scarcity-note{margin-top:.9rem;font-size:12px;color:var(--dim);font-weight:300;}
+.scarcity-note strong{color:var(--mid);font-weight:500;}
 
+/* Footer */
 footer{padding:2rem clamp(24px,6vw,80px);display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(13,13,13,.06);background:var(--cream);}
 .fl{font-size:14px;font-weight:500;letter-spacing:-.02em;}
 .fls{display:flex;gap:1.4rem;}
@@ -143,9 +146,10 @@ footer{padding:2rem clamp(24px,6vw,80px);display:flex;justify-content:space-betw
 .fc{font-size:12px;color:var(--dim);}
 @media(max-width:680px){footer{flex-direction:column;gap:.9rem;text-align:center;padding:1.8rem 7vw;}.fls{justify-content:center;flex-wrap:wrap;}}
 
+/* Reveal */
 .rv{opacity:0;transform:translateY(26px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
 .rv.in{opacity:1;transform:none;}
-.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.32s;}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.32s;}.d4{transition-delay:.44s;}
 @media(prefers-reduced-motion:reduce){.rv{transition:opacity .3s;transform:none;}}
 </style>
 </head>
@@ -153,133 +157,133 @@ footer{padding:2rem clamp(24px,6vw,80px);display:flex;justify-content:space-betw
 
 <nav>
   <a href="https://conceptodevelopment.com" class="nl">Concepto</a>
-  <a href="https://wa.me/59897976574?text=Hola!%20Quiero%20un%20diagnóstico%20gratuito%20de%20automatizaciones." class="nbtn" target="_blank" rel="noopener">Hablemos →</a>
+  <a href="https://wa.me/59897976574?text=Hola!%20Vi%20la%20landing%20de%20automatizaciones%20y%20quiero%20saber%20m%C3%A1s." class="nbtn" target="_blank" rel="noopener">Hablemos →</a>
 </nav>
 
-<!-- ─────────────────────────────────────────────
-     HERO — copia exacta de #s-auto del sitio
-     Mobile: MaxHamaca.mp4
-     Desktop: auto-desktop.mp4
-──────────────────────────────────────────────── -->
-<section class="svc-sec" id="s-hero">
+<!-- ──────────────────────────────────────────────
+     HERO
+     Mobile video:  MaxHamaca.mp4 (mismo que #s-auto móvil)
+     Desktop video: auto-desktop.mp4 (mismo que #s-auto desktop)
+─────────────────────────────────────────────── -->
+<div class="hero">
 
-  <video id="mob-vid" autoplay muted playsinline loop preload="auto"
-    src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@7abac0c/MaxHamaca.mp4">
+  <!-- Video fondo móvil (hidden en desktop) -->
+  <video class="hero-mob-vid" autoplay muted playsinline loop preload="auto">
+    <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@7abac0c/MaxHamaca.mp4" type="video/mp4">
   </video>
 
-  <div class="srow">
-    <div class="scol">
-      <span class="tag rv">04 — Automatizaciones</span>
-      <h1 class="h2 rv d1">Menos fricción.<br><span class="fade">Más escala.</span></h1>
-      <p class="sub mob-hide rv d2">Tareas repetitivas convertidas en sistemas que corren solos.</p>
-      <a href="https://wa.me/59897976574?text=Hola!%20Quiero%20un%20diagnóstico%20gratuito%20de%20automatizaciones." class="btn-demo rv d3" target="_blank" rel="noopener">Diagnóstico gratis <span>→</span></a>
+  <!-- Columna izquierda: copy -->
+  <div class="hero-copy">
+    <span class="tag rv">Automatizaciones · Uruguay</span>
+    <h1 class="hero-h1 rv d1">Dejá de hacer<br>lo mismo. <em>Empezá<br>a escalar.</em></h1>
+    <p class="hero-sub rv d2">Automatizamos los procesos que te roban tiempo para que vos te enfoques en lo que importa — y tu negocio crezca sin crecer el equipo.</p>
+    <div class="brow rv d3">
+      <a href="https://wa.me/59897976574?text=Hola!%20Vi%20la%20landing%20de%20automatizaciones%20y%20quiero%20saber%20m%C3%A1s." class="btn-demo" target="_blank" rel="noopener">Quiero automatizar <span class="btn-demo-icon">→</span></a>
     </div>
+    <p class="guarantee rv d4">Diagnóstico gratis · <strong>Sin contrato</strong> · Primera automatización en días</p>
   </div>
 
-  <div class="rcol">
+  <!-- Columna derecha: video desktop (hidden en mobile) -->
+  <div class="hero-vid">
     <video autoplay muted playsinline loop preload="auto">
       <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@141f2e5907eba56632afcf44d53fa0b6865ad7d7/auto-desktop.mp4" type="video/mp4">
     </video>
   </div>
-</section>
 
-<!-- ── ¿TE SUENA? ── -->
-<section class="lp-sec pain-section">
-  <div class="lp-inner">
-    <span class="lp-label rv">¿Te suena familiar?</span>
-    <h2 class="lp-title rv d1">Horas que se van<br><span class="fade">en tareas evitables.</span></h2>
-    <div class="pain-list">
-      <div class="pain-item rv d1"><span class="pain-ico">😮‍💨</span><div class="pain-t"><strong>Cargás datos a mano</strong> entre planillas, sistemas y WhatsApp porque "siempre se hizo así".</div></div>
-      <div class="pain-item rv d2"><span class="pain-ico">📧</span><div class="pain-t"><strong>Mandás los mismos mails</strong> una y otra vez — confirmaciones, recordatorios, seguimientos.</div></div>
-      <div class="pain-item rv d3"><span class="pain-ico">📋</span><div class="pain-t"><strong>Tu equipo hace trabajo manual</strong> que se podría automatizar y dedicar a lo que importa.</div></div>
-      <div class="pain-item rv d3"><span class="pain-ico">📉</span><div class="pain-t"><strong>Los errores cuestan caro</strong> — un dato mal cargado, un aviso que no salió, un pedido que se cayó.</div></div>
-    </div>
-  </div>
-</section>
+</div>
+
+<!-- ── URGENCY ── -->
+<div class="urgency-bar">
+  <p class="urgency-text" id="urgency-line">Cada semana sin automatizar = <strong>8 horas perdidas.</strong></p>
+</div>
 
 <!-- ── BENEFICIOS ── -->
-<section class="lp-sec">
-  <div class="lp-inner">
-    <span class="lp-label rv">Lo que cambia</span>
-    <h2 class="lp-title rv d1">Tu negocio funcionando<br><span class="fade">en las partes correctas.</span></h2>
-    <div class="cards">
-      <div class="card rv d1">
-        <span class="card-ico">⏱</span>
-        <div class="card-t">Horas libres desde el mes 1</div>
-        <p class="card-d">Los procesos que antes te llevaban horas por semana ahora corren solos. Ese tiempo lo recuperás.</p>
-      </div>
-      <div class="card rv d2">
-        <span class="card-ico">🔗</span>
-        <div class="card-t">Se conecta con lo que usás</div>
-        <p class="card-d">WhatsApp, email, Excel, tu CRM, tu sistema de gestión. Integramos sin que tengas que cambiar nada.</p>
-      </div>
-      <div class="card rv d3">
-        <span class="card-ico">📈</span>
-        <div class="card-t">Escalás sin contratar</div>
-        <p class="card-d">El mismo equipo puede manejar el doble de volumen. Los sistemas escalan, las personas se enfocan en valor.</p>
-      </div>
-      <div class="card rv d3">
-        <span class="card-ico">✅</span>
-        <div class="card-t">Cero errores humanos</div>
-        <p class="card-d">Procesos exactos, siempre. Sin olvidar un mail, sin un dato mal cargado, sin un paso saltado.</p>
-      </div>
+<section class="lp">
+  <span class="lp-label rv">Por qué automatizar</span>
+  <h2 class="lp-h2 rv d1">Lo que cambia<br><em>desde la primera semana.</em></h2>
+  <div class="cards">
+    <div class="card rv d1">
+      <span class="card-ico">⏱️</span>
+      <div class="card-t">Ahorrás horas cada semana</div>
+      <p class="card-d">Las tareas que hacés en piloto automático pasan a correrse solas. Vos te enfocás en lo que genera valor.</p>
+    </div>
+    <div class="card rv d2">
+      <span class="card-ico">🔌</span>
+      <div class="card-t">Conecta con lo que ya usás</div>
+      <p class="card-d">WhatsApp, Gmail, Sheets, CRM, ERP. Integramos todo lo que ya tenés, sin reemplazar nada.</p>
+    </div>
+    <div class="card rv d3">
+      <span class="card-ico">📈</span>
+      <div class="card-t">Escalá sin contratar</div>
+      <p class="card-d">Manejás más volumen de clientes, pedidos y operaciones sin aumentar el equipo ni los costos.</p>
+    </div>
+    <div class="card rv d4">
+      <span class="card-ico">✅</span>
+      <div class="card-t">Cero errores humanos</div>
+      <p class="card-d">Los procesos automáticos hacen siempre lo correcto, al mismo tiempo, sin olvidarse de nada.</p>
     </div>
   </div>
 </section>
 
-<!-- ── CASOS DE USO ── -->
-<section class="lp-sec" style="padding-top:0;">
-  <div class="lp-inner">
-    <span class="lp-label rv">¿Qué se puede automatizar?</span>
-    <h2 class="lp-title rv d1">Ejemplos reales<br><span class="fade">para tu empresa.</span></h2>
-    <div class="usecases">
-      <div class="usecase rv d1"><span class="uc-tag">Ventas</span><div class="uc-t">Seguimiento de leads</div><p class="uc-d">Cada consulta recibe respuesta inmediata y seguimiento automático sin que toques nada.</p></div>
-      <div class="usecase rv d2"><span class="uc-tag">Operaciones</span><div class="uc-t">Reportes automáticos</div><p class="uc-d">Informes generados y enviados solos, sin abrir una planilla.</p></div>
-      <div class="usecase rv d3"><span class="uc-tag">Atención</span><div class="uc-t">Gestión de turnos</div><p class="uc-d">Confirmaciones, recordatorios y cancelaciones sin intervención del equipo.</p></div>
-      <div class="usecase rv d1"><span class="uc-tag">Facturación</span><div class="uc-t">Documentos y cobros</div><p class="uc-d">Generación y envío de presupuestos, facturas y recordatorios de pago.</p></div>
-      <div class="usecase rv d2"><span class="uc-tag">Marketing</span><div class="uc-t">Publicación de contenido</div><p class="uc-d">Aprobás una vez, el sistema publica en todos tus canales en el momento correcto.</p></div>
-      <div class="usecase rv d3"><span class="uc-tag">RRHH</span><div class="uc-t">Onboarding de empleados</div><p class="uc-d">Bienvenidas, accesos y documentos enviados automáticamente al sumar alguien nuevo.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ── PROCESO ── -->
-<section class="lp-sec lp-dark">
-  <div class="lp-inner">
+<!-- ── CÓMO FUNCIONA ── -->
+<section class="lp dark-sec">
+  <div class="dark-inner">
     <span class="lp-label rv">El proceso</span>
-    <h2 class="lp-title rv d1">De diagnóstico a sistema<br><span class="fade">en 2 semanas.</span></h2>
+    <h2 class="lp-h2 rv d1">Tu primera automatización<br><em>en menos de 2 semanas.</em></h2>
     <div class="steps">
       <div class="step rv d1">
-        <div class="step-ico">🗺</div>
-        <span class="step-n">01 — Mapeo</span>
-        <div class="step-t">Encontramos el cuello de botella</div>
-        <p class="step-d">Identificamos qué procesos te cuestan más tiempo y tienen mayor impacto al automatizar.</p>
+        <div class="step-ico">🗺️</div>
+        <span class="step-n">01 — Día 1 · 30 min</span>
+        <div class="step-t">Mapeo</div>
+        <p class="step-d">Analizamos tus procesos actuales, identificamos lo que más tiempo te roba y definimos por dónde empezar.</p>
       </div>
       <div class="step rv d2">
         <div class="step-ico">⚙️</div>
-        <span class="step-n">02 — Diseño</span>
-        <div class="step-t">Armamos el flujo exacto</div>
-        <p class="step-d">Diseñamos la automatización con las herramientas que ya usás, sin comprar software nuevo.</p>
+        <span class="step-n">02 — Semana 1</span>
+        <div class="step-t">Solución</div>
+        <p class="step-d">Diseñamos y construimos la automatización específica para tu negocio. Vos aprobás cada paso antes de activar.</p>
       </div>
       <div class="step rv d3">
         <div class="step-ico">🚀</div>
-        <span class="step-n">03 — Implementación</span>
-        <div class="step-t">En vivo con soporte</div>
-        <p class="step-d">Implementamos, testeamos y entregamos el sistema funcionando con soporte las primeras semanas.</p>
+        <span class="step-n">03 — Semana 2</span>
+        <div class="step-t">En vivo</div>
+        <p class="step-d">Sistema en producción. Monitoreo de las primeras semanas y ajustes incluidos sin costo extra.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── CTA FINAL ── -->
-<section class="lp-sec lp-cta">
-  <h2 class="ctah rv">Hablemos de<br><span class="fade">tu proyecto.</span></h2>
-  <p class="ctap rv d1">30 minutos. Sin compromiso. Con un plan concreto al final.</p>
-  <div class="brow rv d2">
-    <a href="https://wa.me/59897976574?text=Hola!%20Quiero%20un%20diagnóstico%20gratuito%20de%20automatizaciones." class="btn bd" target="_blank" rel="noopener">Agendar llamada →</a>
-    <a href="https://conceptodevelopment.com#s-auto" class="btn bo">Ver más →</a>
+<!-- ── PROOF STATS ── -->
+<div class="proof">
+  <div class="proof-stat rv">
+    <span class="proof-n"><span>+</span>8<span>h</span></span>
+    <div class="proof-l">Ahorradas por semana</div>
   </div>
-  <p class="urgency rv d3" id="urgency-line"></p>
+  <div class="proof-div"></div>
+  <div class="proof-stat rv d1">
+    <span class="proof-n">0</span>
+    <div class="proof-l">Errores en el proceso</div>
+  </div>
+  <div class="proof-div"></div>
+  <div class="proof-stat rv d2">
+    <span class="proof-n">72<span>h</span></span>
+    <div class="proof-l">Para estar en vivo</div>
+  </div>
+  <div class="proof-div"></div>
+  <div class="proof-stat rv d3">
+    <span class="proof-n"><span>$</span>0</span>
+    <div class="proof-l">Diagnóstico inicial</div>
+  </div>
+</div>
+
+<!-- ── CTA FINAL ── -->
+<section class="lp lp-cta">
+  <h2 class="ctah rv">¿Cuántas horas<br><em>perdiste esta semana?</em></h2>
+  <p class="ctap rv d1">Cada semana sin automatizar es tiempo que no volvés a recuperar. Resolvelo ahora.</p>
+  <div class="brow rv d2">
+    <a href="https://wa.me/59897976574?text=Hola!%20Vi%20la%20landing%20de%20automatizaciones%20y%20quiero%20saber%20m%C3%A1s." class="btn bd" target="_blank" rel="noopener">Agendar llamada →</a>
+  </div>
+  <p class="scarcity-note rv d3" id="scarcity-note"></p>
 </section>
 
 <footer>
@@ -293,9 +297,31 @@ footer{padding:2rem clamp(24px,6vw,80px);display:flex;justify-content:space-betw
 </footer>
 
 <script>
-const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});},{threshold:.08});
-document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
-(function(){const HRS=8;const now=new Date();const start=new Date(now.getFullYear(),0,1);const week=Math.floor((now-start)/(1000*60*60*24*7));const total=week*HRS;const el=document.getElementById('urgency-line');if(el)el.innerHTML=`Cada semana sin automatizar = <strong>${HRS} horas perdidas.</strong> Este año ya van <strong>${total.toLocaleString('es-UY')} hs.</strong>`;})();
+// Reveal — copia exacta del sitio
+const revealObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(!e.isIntersecting)return;const el=e.target;el.style.willChange='opacity, transform';el.classList.add('in');el.addEventListener('transitionend',()=>{el.style.willChange='auto';},{once:true});revealObs.unobserve(el);});},{threshold:0.08});
+document.querySelectorAll('.rv').forEach(el=>revealObs.observe(el));
+
+// Urgency dinámica — horas perdidas este año
+(function(){
+  const now=new Date();
+  const startOfYear=new Date(now.getFullYear(),0,1);
+  const weeksPassed=Math.floor((now-startOfYear)/(7*24*60*60*1000));
+  const horasPerdidas=weeksPassed*8;
+  const el=document.getElementById('urgency-line');
+  if(el&&horasPerdidas>0){
+    el.innerHTML=`Cada semana sin automatizar = <strong>8 horas perdidas.</strong> Este año ya van <strong>${horasPerdidas} hs.</strong>`;
+  }
+})();
+
+// Scarcity dinámica
+(function(){
+  const TOTAL=3,now=new Date(),seed=now.getFullYear()*100+(now.getMonth()+1);
+  const available=(seed%3===0)?2:1;
+  const meses=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const mes=meses[now.getMonth()];
+  const el=document.getElementById('scarcity-note');
+  if(el)el.innerHTML=`Solo tomamos <strong>${TOTAL} proyectos por mes</strong> — ${available===1?`queda <strong>1 lugar</strong> en ${mes}`:`quedan <strong>${available} lugares</strong> en ${mes}`}.`;
+})();
 </script>
 </body>
 </html>
