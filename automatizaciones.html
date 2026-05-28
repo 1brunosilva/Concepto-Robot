@@ -42,9 +42,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:400;display:flex;justify-content
 
 .hero-copy{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:calc(58px + clamp(2rem,5vh,4rem)) clamp(24px,6vw,80px) clamp(2rem,5vh,4rem);min-height:100svh;max-width:600px;}
 @media(max-width:680px){
-  .hero-copy{position:absolute;inset:0;justify-content:flex-start;padding-top:calc(58px + 1.6rem);padding-bottom:0;background:transparent;height:auto;max-width:100%;}
-  .brow{position:absolute;bottom:3.5rem;margin-top:0;}
-  .guarantee{position:absolute;bottom:1.6rem;}
+  .hero-copy{position:absolute;inset:0;justify-content:space-between;padding-top:calc(58px + 1.8rem);padding-bottom:2rem;background:transparent;max-width:100%;height:100%;}
+  .hero-top{display:flex;flex-direction:column;}
+  .brow{margin-top:0;}
+  .guarantee{margin-top:.6rem;}
 }
 
 /* Overlay mobile */
@@ -171,15 +172,19 @@ footer{padding:2rem clamp(24px,6vw,80px);display:flex;justify-content:space-betw
     <source src="https://conceptodevelopment.com/auto-mobile-new.mp4" type="video/mp4">
   </video>
 
-  <!-- Columna izquierda: copy -->
+  <!-- Copy -->
   <div class="hero-copy">
-    <span class="tag rv">Automatizaciones · Uruguay</span>
-    <h1 class="hero-h1 rv d1">Dejá de hacer<br>lo mismo. <em>Empezá<br>a escalar.</em></h1>
-    <p class="hero-sub rv d2">Automatizamos los procesos que te roban tiempo para que vos te enfoques en lo que importa — y tu negocio crezca sin crecer el equipo.</p>
-    <div class="brow rv d3">
-      <a href="https://wa.me/59897976574?text=Hola!%20Vi%20la%20landing%20de%20automatizaciones%20y%20quiero%20saber%20m%C3%A1s." class="btn-demo" target="_blank" rel="noopener">Quiero automatizar <span class="btn-demo-icon">→</span></a>
+    <div class="hero-top">
+      <span class="tag rv">Automatizaciones · Uruguay</span>
+      <h1 class="hero-h1 rv d1">Dejá de hacer<br>lo mismo. <em>Empezá<br>a escalar.</em></h1>
+      <p class="hero-sub rv d2">Automatizamos los procesos que te roban tiempo para que vos te enfoques en lo que importa — y tu negocio crezca sin crecer el equipo.</p>
     </div>
-    <p class="guarantee rv d4">Diagnóstico gratis · Primera automatización en días</p>
+    <div>
+      <div class="brow rv d3">
+        <a href="https://wa.me/59897976574?text=Hola!%20Vi%20la%20landing%20de%20automatizaciones%20y%20quiero%20saber%20m%C3%A1s." class="btn-demo" target="_blank" rel="noopener">Quiero automatizar <span class="btn-demo-icon">→</span></a>
+      </div>
+      <p class="guarantee rv d4">Diagnóstico gratis · Primera automatización en días</p>
+    </div>
   </div>
 
   <!-- Columna derecha: video desktop (hidden en mobile) -->
