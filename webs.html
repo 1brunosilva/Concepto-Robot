@@ -37,7 +37,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:400;display:flex;justify-content
 .hero-bg-mob{display:none;}
 @media(max-width:680px){
   .hero-bg-desk{display:none;}
-  .hero-bg-mob{display:block;object-position:right top;transform:translateX(18%) scale(1.2);transform-origin:right top;}
+  .hero-bg-mob{display:block;object-position:center top;}
 }
 
 /* Overlay — oscuro a la izquierda donde está el texto */
@@ -160,8 +160,10 @@ footer{padding:2rem clamp(24px,6vw,80px);display:flex;justify-content:space-betw
     <source src="https://conceptodevelopment.com/webs-desktop-ts.mp4" type="video/mp4">
   </video>
 
-  <!-- Imagen mobile full-screen -->
-  <img class="hero-bg hero-bg-mob" src="https://conceptodevelopment.com/max-suit-mobile.jpg" alt="" loading="eager">
+  <!-- Video mobile full-screen -->
+  <video class="hero-bg hero-bg-mob" autoplay muted playsinline loop preload="auto">
+    <source src="https://conceptodevelopment.com/webs-mobile-video.mp4" type="video/mp4">
+  </video>
 
   <!-- Copy encima del fondo -->
   <div class="hero-copy">
