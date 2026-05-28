@@ -39,7 +39,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:400;display:flex;justify-content
 
 /* Gradient overlay mobile para legibilidad */
 @media(max-width:680px){
-  .hero::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(10,5,25,.97) 0%,rgba(10,5,25,.95) 60%,rgba(10,5,25,.6) 80%,rgba(10,5,25,.1) 100%);pointer-events:none;}
+  .hero::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(6,0,16,.55) 0%,rgba(6,0,16,.45) 55%,rgba(6,0,16,.15) 100%);pointer-events:none;}
   .hero-copy{z-index:2;}
 }
 
@@ -48,10 +48,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:400;display:flex;justify-content
 .hero-vid video{width:100%;height:100%;object-fit:cover;display:block;}
 @media(max-width:680px){.hero-vid{display:none;}}
 
-/* Video mobile (fondo absoluto) */
+/* Imagen mobile (fondo absoluto) */
 .hero-mob-vid{display:none;}
 @media(max-width:680px){
-  .hero-mob-vid{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
+  .hero-mob-vid{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;z-index:0;}
 }
 
 /* ── TIPOGRAFÍA — copia exacta del sitio ── */
@@ -167,10 +167,8 @@ footer{padding:2rem clamp(24px,6vw,80px);display:flex;justify-content:space-betw
 ─────────────────────────────────────────────── -->
 <div class="hero">
 
-  <!-- Video fondo móvil (hidden en desktop) -->
-  <video class="hero-mob-vid" autoplay muted playsinline loop preload="auto">
-    <source src="https://conceptodevelopment.com/MaxTimesquare-mobile.mp4" type="video/mp4">
-  </video>
+  <!-- Imagen fondo móvil (hidden en desktop) -->
+  <img class="hero-mob-vid" src="https://conceptodevelopment.com/max-suit-mobile.jpg" alt="" loading="eager">
 
   <!-- Columna izquierda: copy -->
   <div class="hero-copy">
