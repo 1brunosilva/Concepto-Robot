@@ -1,0 +1,1959 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema de Copy — Concepto Development</title>
+<style>
+  :root {
+    --bg: #080810;
+    --bg2: #0e0e1a;
+    --bg3: #14142a;
+    --card: #111120;
+    --border: #1e1e38;
+    --accent: #5b5ef4;
+    --accent2: #8b5cf6;
+    --accent3: #06b6d4;
+    --red: #ef4444;
+    --green: #10b981;
+    --yellow: #f59e0b;
+    --orange: #f97316;
+    --text: #e8e8f0;
+    --text2: #9090b0;
+    --text3: #5a5a7a;
+    --glow: rgba(91,94,244,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #0a0a18 0%, #0e0e25 50%, #12102a 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 40px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(91,94,244,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: 200px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(91,94,244,0.12); border: 1px solid rgba(91,94,244,0.3);
+    color: #a5a8ff; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .header h1 {
+    font-size: 42px; font-weight: 800; letter-spacing: -0.02em;
+    line-height: 1.1; max-width: 700px;
+    background: linear-gradient(135deg, #fff 0%, #a5a8ff 60%, #8b5cf6 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 14px;
+  }
+  .header-sub {
+    color: var(--text2); font-size: 16px; line-height: 1.6; max-width: 600px;
+    margin-bottom: 28px;
+  }
+  .header-stats {
+    display: flex; gap: 32px; flex-wrap: wrap;
+  }
+  .stat {
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .stat-num {
+    font-size: 26px; font-weight: 800; letter-spacing: -0.02em;
+    color: #fff;
+  }
+  .stat-label { font-size: 12px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; }
+
+  /* NAV TABS */
+  .nav-tabs {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex; gap: 0;
+    overflow-x: auto;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .tab {
+    padding: 16px 24px;
+    border: none; background: none;
+    color: var(--text2); font-size: 14px; font-weight: 500;
+    cursor: pointer; white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s; position: relative;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active {
+    color: #a5a8ff;
+    border-bottom-color: var(--accent);
+  }
+  .tab .tab-count {
+    background: rgba(91,94,244,0.2); color: #a5a8ff;
+    font-size: 10px; font-weight: 700; padding: 2px 7px;
+    border-radius: 10px; margin-left: 8px;
+  }
+
+  /* MAIN */
+  .main { max-width: 1100px; margin: 0 auto; padding: 40px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* SECTION INTRO */
+  .section-intro {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 28px 32px;
+    margin-bottom: 32px;
+    position: relative; overflow: hidden;
+  }
+  .section-intro::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+  }
+  .section-intro h2 {
+    font-size: 22px; font-weight: 700; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-intro p { color: var(--text2); font-size: 14px; line-height: 1.7; }
+  .why-box {
+    background: rgba(91,94,244,0.07); border: 1px solid rgba(91,94,244,0.2);
+    border-radius: 10px; padding: 16px 20px; margin-top: 16px;
+  }
+  .why-box h4 { font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.1em; color: #a5a8ff; margin-bottom: 8px; }
+  .why-box p { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+  /* COPY CARDS */
+  .cards-grid { display: flex; flex-direction: column; gap: 20px; }
+  .copy-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .copy-card:hover {
+    border-color: rgba(91,94,244,0.4);
+    box-shadow: 0 0 0 1px rgba(91,94,244,0.1), 0 8px 32px rgba(0,0,0,0.3);
+  }
+  .card-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  }
+  .card-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .card-number {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800; color: #fff; flex-shrink: 0;
+  }
+  .card-title { font-size: 13px; font-weight: 600; color: var(--text2); }
+
+  /* TAGS */
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .tag {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 3px 9px; border-radius: 6px;
+  }
+  .tag-loss { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+  .tag-fomo { background: rgba(249,115,22,0.12); color: #fb923c; border: 1px solid rgba(249,115,22,0.2); }
+  .tag-identity { background: rgba(91,94,244,0.12); color: #a5a8ff; border: 1px solid rgba(91,94,244,0.2); }
+  .tag-social { background: rgba(16,185,129,0.12); color: #34d399; border: 1px solid rgba(16,185,129,0.2); }
+  .tag-contrast { background: rgba(6,182,212,0.12); color: #22d3ee; border: 1px solid rgba(6,182,212,0.2); }
+  .tag-urgency { background: rgba(245,158,11,0.12); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
+  .tag-authority { background: rgba(139,92,246,0.12); color: #c084fc; border: 1px solid rgba(139,92,246,0.2); }
+  .tag-mimetic { background: rgba(236,72,153,0.12); color: #f472b6; border: 1px solid rgba(236,72,153,0.2); }
+  .tag-anchor { background: rgba(168,85,247,0.12); color: #d8b4fe; border: 1px solid rgba(168,85,247,0.2); }
+  .tag-regret { background: rgba(99,102,241,0.12); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.2); }
+
+  /* COPY CONTENT */
+  .card-copy {
+    padding: 24px;
+    background: linear-gradient(135deg, rgba(91,94,244,0.04) 0%, transparent 60%);
+  }
+  .copy-text {
+    font-size: 20px; font-weight: 700; line-height: 1.5;
+    color: #fff; letter-spacing: -0.01em;
+    white-space: pre-line;
+  }
+  .copy-text.small { font-size: 15px; font-weight: 600; }
+
+  /* ANALYSIS */
+  .card-analysis {
+    padding: 0 24px 20px;
+    display: none;
+  }
+  .card-analysis.open { display: block; }
+  .analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 4px; }
+  @media (max-width: 640px) { .analysis-grid { grid-template-columns: 1fr; } }
+  .analysis-box {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px;
+  }
+  .analysis-box h5 {
+    font-size: 10px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.1em; margin-bottom: 6px;
+  }
+  .analysis-box.why h5 { color: #f87171; }
+  .analysis-box.visual h5 { color: #22d3ee; }
+  .analysis-box.edit h5 { color: #fbbf24; }
+  .analysis-box.tip h5 { color: #34d399; }
+  .analysis-box p { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+  /* CARD FOOTER */
+  .card-footer {
+    padding: 14px 24px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    flex-wrap: wrap;
+  }
+  .btn-copy {
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(91,94,244,0.12); border: 1px solid rgba(91,94,244,0.25);
+    color: #a5a8ff; font-size: 12px; font-weight: 600;
+    padding: 8px 16px; border-radius: 8px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-copy:hover { background: rgba(91,94,244,0.2); border-color: var(--accent); }
+  .btn-copy.copied { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.3); color: #34d399; }
+  .btn-toggle {
+    display: flex; align-items: center; gap: 7px;
+    background: none; border: 1px solid var(--border);
+    color: var(--text2); font-size: 12px; font-weight: 500;
+    padding: 8px 16px; border-radius: 8px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-toggle:hover { border-color: var(--text3); color: var(--text); }
+  .power-meter {
+    display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text3);
+  }
+  .power-dots { display: flex; gap: 3px; }
+  .power-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--border);
+  }
+  .power-dot.on { background: var(--accent); }
+  .power-dot.on.high { background: #f59e0b; }
+  .power-dot.on.max { background: #ef4444; }
+
+  /* CAROUSEL SECTION */
+  .carousel-intro-box {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+    margin: 20px 0 28px;
+  }
+  @media (max-width: 700px) { .carousel-intro-box { grid-template-columns: 1fr; } }
+  .c-info-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px 18px;
+    text-align: center;
+  }
+  .c-info-num { font-size: 36px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+  .c-info-label { font-size: 12px; color: var(--text3); }
+  .c-info-sub { font-size: 11px; color: var(--text3); margin-top: 4px; }
+
+  .carousel-container {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden; margin-bottom: 28px;
+  }
+  .carousel-title-bar {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 16px;
+    background: linear-gradient(90deg, rgba(91,94,244,0.05) 0%, transparent 100%);
+  }
+  .carousel-title-bar h3 { font-size: 18px; font-weight: 700; }
+  .carousel-title-bar p { font-size: 13px; color: var(--text2); margin-top: 2px; }
+  .carousel-badge {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff; font-size: 11px; font-weight: 700;
+    padding: 5px 12px; border-radius: 20px; white-space: nowrap;
+  }
+
+  .slides-list { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
+
+  .slide-card {
+    display: flex; gap: 16px; align-items: flex-start;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px 20px;
+    position: relative; overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .slide-card:hover { border-color: rgba(91,94,244,0.3); }
+  .slide-card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  }
+  .slide-card.s1::before { background: #ef4444; }
+  .slide-card.s2::before { background: #f97316; }
+  .slide-card.s3::before { background: #f59e0b; }
+  .slide-card.s4::before { background: #10b981; }
+  .slide-card.s5::before { background: #06b6d4; }
+  .slide-card.s6::before { background: #8b5cf6; }
+  .slide-card.s7::before { background: #ec4899; }
+
+  .slide-num {
+    min-width: 38px; height: 38px; border-radius: 10px;
+    background: var(--bg3); border: 1px solid var(--border);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 700; color: var(--text3);
+    text-transform: uppercase; letter-spacing: 0.05em;
+    gap: 1px;
+  }
+  .slide-num span { font-size: 15px; font-weight: 900; color: var(--text); }
+
+  .slide-content { flex: 1; }
+  .slide-label {
+    font-size: 10px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--text3); margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .slide-label-badge {
+    padding: 2px 8px; border-radius: 5px; font-size: 9px;
+  }
+  .slide-copy {
+    font-size: 16px; font-weight: 700; color: #fff; line-height: 1.5;
+    white-space: pre-line; margin-bottom: 10px;
+  }
+  .slide-note {
+    font-size: 12px; color: var(--text2); line-height: 1.6;
+    background: rgba(255,255,255,0.03); border-left: 2px solid var(--border);
+    padding: 8px 12px; border-radius: 0 6px 6px 0; margin-bottom: 8px;
+  }
+  .slide-visual {
+    font-size: 11px; color: #22d3ee;
+    display: flex; align-items: flex-start; gap: 6px; margin-top: 6px;
+  }
+  .slide-visual-label { font-weight: 700; text-transform: uppercase; font-size: 10px; letter-spacing: 0.08em; }
+
+  /* VIDEO SECTION */
+  .video-cards { display: flex; flex-direction: column; gap: 24px; }
+  .video-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden;
+  }
+  .video-card-header {
+    padding: 20px 24px 16px; border-bottom: 1px solid var(--border);
+    background: linear-gradient(90deg, rgba(139,92,246,0.05) 0%, transparent 100%);
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  }
+  .video-number {
+    background: linear-gradient(135deg, var(--accent2), #ec4899);
+    color: #fff; font-size: 11px; font-weight: 800;
+    padding: 4px 12px; border-radius: 20px; white-space: nowrap;
+  }
+  .video-phrases { padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+
+  .phrase-block {
+    display: flex; align-items: flex-start; gap: 16px;
+  }
+  .phrase-timing {
+    min-width: 52px; text-align: center;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 8px 4px;
+  }
+  .phrase-timing-num { font-size: 18px; font-weight: 900; color: #fff; }
+  .phrase-timing-unit { font-size: 9px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .phrase-bubble {
+    flex: 1; background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px 18px;
+    position: relative;
+  }
+  .phrase-role {
+    font-size: 10px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.1em; margin-bottom: 6px;
+  }
+  .phrase-role.hook { color: #f87171; }
+  .phrase-role.tension { color: #fbbf24; }
+  .phrase-role.close { color: #34d399; }
+
+  .phrase-text {
+    font-size: 18px; font-weight: 700; color: #fff; line-height: 1.4;
+    margin-bottom: 8px;
+  }
+  .phrase-why { font-size: 12px; color: var(--text2); line-height: 1.6; }
+
+  .video-footer {
+    padding: 16px 24px; border-top: 1px solid var(--border);
+    background: rgba(0,0,0,0.2);
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .video-footer-icon { font-size: 16px; }
+  .video-footer-text { font-size: 12px; color: var(--text2); line-height: 1.6; }
+  .video-footer-text strong { color: var(--text); }
+
+  /* PSYCHOLOGY GUIDE */
+  .psych-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  @media (max-width: 700px) { .psych-grid { grid-template-columns: 1fr; } }
+  .psych-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 20px 22px;
+    transition: border-color 0.2s;
+  }
+  .psych-card:hover { border-color: rgba(91,94,244,0.35); }
+  .psych-card-top {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+  }
+  .psych-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+  .psych-card h4 { font-size: 15px; font-weight: 700; color: #fff; }
+  .psych-card .psych-power {
+    font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 5px; margin-top: 2px;
+    display: inline-block;
+  }
+  .psych-card p { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 10px; }
+  .psych-example {
+    background: var(--bg2); border-left: 3px solid;
+    border-radius: 0 8px 8px 0; padding: 10px 14px;
+    font-size: 12px; color: var(--text2); font-style: italic; line-height: 1.5;
+  }
+
+  /* CHECKLIST */
+  .checklist {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 28px 32px; margin-top: 32px;
+  }
+  .checklist h3 { font-size: 18px; font-weight: 700; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px; }
+  .check-list { display: flex; flex-direction: column; gap: 10px; }
+  .check-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 16px;
+    cursor: pointer; transition: all 0.15s;
+    user-select: none;
+  }
+  .check-item:hover { border-color: rgba(91,94,244,0.3); }
+  .check-item.checked { border-color: rgba(16,185,129,0.3); background: rgba(16,185,129,0.04); }
+  .check-box {
+    width: 18px; height: 18px; border-radius: 5px;
+    border: 2px solid var(--border); flex-shrink: 0; margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; transition: all 0.15s;
+  }
+  .check-item.checked .check-box { background: var(--green); border-color: var(--green); color: #fff; }
+  .check-text { font-size: 13px; color: var(--text2); line-height: 1.5; }
+  .check-item.checked .check-text { color: var(--text3); text-decoration: line-through; }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 24px; right: 24px;
+    background: #1a1a2e; border: 1px solid rgba(16,185,129,0.4);
+    color: #34d399; font-size: 13px; font-weight: 600;
+    padding: 12px 20px; border-radius: 10px;
+    display: flex; align-items: center; gap: 8px;
+    transform: translateY(80px); opacity: 0;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 999;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* SCROLL BAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text3); }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .header { padding: 32px 20px 28px; }
+    .header h1 { font-size: 28px; }
+    .nav-tabs { padding: 0 20px; }
+    .main { padding: 24px 20px; }
+    .header-stats { gap: 20px; }
+    .copy-text { font-size: 16px; }
+    .card-footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">🧠 Psicología del Marketing — Sistema de Copy</div>
+  <h1>Copy que convierte.<br>Calculado al milímetro.</h1>
+  <p class="header-sub">Sistema completo de frases para redes sociales de Concepto Development. Cada pieza de copy está diseñada con principios psicológicos específicos para activar el deseo de compra en decisores de empresas grandes en Uruguay.</p>
+  <div class="header-stats">
+    <div class="stat">
+      <span class="stat-num">10</span>
+      <span class="stat-label">Frases Standalone</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">2</span>
+      <span class="stat-label">Carruseles completos</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">5</span>
+      <span class="stat-label">Sets de video</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">12+</span>
+      <span class="stat-label">Principios psicológicos</span>
+    </div>
+  </div>
+</div>
+
+<nav class="nav-tabs">
+  <button class="tab active" onclick="showTab('standalone')">Standalone <span class="tab-count">10</span></button>
+  <button class="tab" onclick="showTab('carousel')">Carruseles <span class="tab-count">2</span></button>
+  <button class="tab" onclick="showTab('video')">Video / Reels <span class="tab-count">5</span></button>
+  <button class="tab" onclick="showTab('psych')">Guía Psicológica</button>
+  <button class="tab" onclick="showTab('checklist')">Checklist de Publicación</button>
+</nav>
+
+<main class="main">
+
+  <!-- ======= STANDALONE ======= -->
+  <div class="section active" id="standalone">
+
+    <div class="section-intro">
+      <h2>📸 Frases para foto en feed</h2>
+      <p>Funcionan solas, sin contexto. El objetivo es crear una emoción en menos de 3 segundos y dividir el mundo en dos grupos. Quien lee debe verse en el grupo perdedor y querer cruzar al ganador.</p>
+      <div class="why-box">
+        <h4>Principio base: Loss Aversion</h4>
+        <p>Las pérdidas duelen 2.3x más que las ganancias generan placer (Kahneman & Tversky). Nunca digas "vas a ganar". Siempre: "vas a perder si no". El cerebro da prioridad automática a las amenazas sobre las oportunidades.</p>
+      </div>
+    </div>
+
+    <div class="cards-grid">
+
+      <!-- CARD 1 -->
+      <div class="copy-card">
+        <div class="card-header">
+          <div>
+            <div class="card-meta">
+              <div class="card-number">1</div>
+              <div>
+                <div class="card-title">Amenaza silenciosa + Present Bias</div>
+                <div class="tags">
+                  <span class="tag tag-loss">Loss Aversion</span>
+                  <span class="tag tag-urgency">Present Bias</span>
+                  <span class="tag tag-contrast">Contraste</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="power-meter">
+            <span style="font-size:10px; color:var(--text3)">IMPACTO</span>
+            <div class="power-dots">
+              <div class="power-dot on max"></div>
+              <div class="power-dot on max"></div>
+              <div class="power-dot on max"></div>
+              <div class="power-dot on max"></div>
+              <div class="power-dot on max"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-copy">
+          <div class="copy-text">Cada mes que esperás, tu competencia te saca más ventaja.
+
+Sin apuro.</div>
+        </div>
+        <div class="card-analysis">
+          <div class="analysis-grid">
+            <div class="analysis-box why">
+              <h5>🔴 Por qué funciona</h5>
+              <p>"Sin apuro" es el golpe más brutal. La amenaza no es urgente <em>para tu competencia</em> porque ellos ya ganaron la calma. Tú sos el que está corriendo. Invierte la urgencia: ellos tienen tiempo, vos no.</p>
+            </div>
+            <div class="analysis-box visual">
+              <h5>🎨 Idea visual</h5>
+              <p>Foto minimalista: dos corredores. Uno solo, el otro con un equipo de IA corriendo junto a él. Fondo negro puro. Texto blanco grande. Sin logo hasta el final.</p>
+            </div>
+            <div class="analysis-box edit">
+              <h5>✏️ Variante</h5>
+              <p><em>"Cada semana que esperás, tu competencia abre más la brecha. Sin mirarte."</em> — "Sin mirarte" es aún más humillante: ni te consideran una amenaza.</p>
+            </div>
+            <div class="analysis-box tip">
+              <h5>💡 Tip de publicación</h5>
+              <p>Foto de alta calidad con fondo oscuro. Texto como única tipografía sobre imagen, sin marco. Primera frase grande, "Sin apuro." pequeño y separado. Máximo drama visual.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn-copy" onclick="copyText(this, 'Cada mes que esperás, tu competencia te saca más ventaja.\n\nSin apuro.')">📋 Copiar frase</button>
+            <button class="btn-toggle" onclick="toggleAnalysis(this)">Ver análisis ↓</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="copy-card">
+        <div class="card-header">
+          <div>
+            <div class="card-meta">
+              <div class="card-number">2</div>
+              <div>
+                <div class="card-title">Identity Binary — El más poderoso</div>
+                <div class="tags">
+                  <span class="tag tag-identity">Identity</span>
+                  <span class="tag tag-mimetic">Mimetic Desire</span>
+                  <span class="tag tag-social">Jerarquía social</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="power-meter">
+            <span style="font-size:10px; color:var(--text3)">IMPACTO</span>
+            <div class="power-dots">
+              <div class="power-dot on max"></div>
+              <div class="power-dot on max"></div>
+              <div class="power-dot on max"></div>
+              <div class="power-dot on max"></div>
+              <div class="power-dot on max"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-copy">
+          <div class="copy-text">Hay dos tipos de empresas: las que automatizan y las que trabajan para las que automatizan.</div>
+        </div>
+        <div class="card-analysis">
+          <div class="analysis-grid">
+            <div class="analysis-box why">
+              <h5>🔴 Por qué funciona</h5>
+              <p>Mimetic Desire + Identity en estado puro. Nadie quiere ser proveedor del proveedor. La jerarquía está implícita sin decirla. El CEO que la lee se posiciona automáticamente y no quiere estar en el grupo inferior.</p>
+            </div>
+            <div class="analysis-box visual">
+              <h5>🎨 Idea visual</h5>
+              <p>Split screen vertical. Izquierda: oficina caótica, gente en computadoras haciendo trabajo manual. Derecha: una sola persona relajada mirando dashboards. Colores: izquierda desaturada, derecha vibrante.</p>
+            </div>
+            <div class="analysis-box edit">
+              <h5>✏️ Variante</h5>
+              <p><em>"Hay empresas que escalan sistemas. Y empresas que escalan horas. Los que escalan horas, trabajan para los primeros."</em></p>
+            </div>
+            <div class="analysis-box tip">
+              <h5>💡 Tip de publicación</h5>
+              <p>Esta es la frase más shareable del set. Publicar sin editar el texto de la imagen — dejar que la idea hable. Caption mínimo o sin caption. Genera debate en comentarios.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn-copy" onclick="copyText(this, 'Hay dos tipos de empresas: las que automatizan y las que trabajan para las que automatizan.')">📋 Copiar frase</button>
+            <button class="btn-toggle" onclick="toggleAnalysis(this)">Ver análisis ↓</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="copy-card">
+        <div class="card-header">
+          <div>
+            <div class="card-meta">
+              <div class="card-number">3</div>
+              <div>
+                <div class="card-title">Costo de oportunidad visible</div>
+                <div class="tags">
+                  <span class="tag tag-loss">Mental Accounting</span>
+                  <span class="tag tag-contrast">Contraste</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="power-meter">
+            <span style="font-size:10px; color:var(--text3)">IMPACTO</span>
+            <div class="power-dots">
+              <div class="power-dot on high"></div>
+              <div class="power-dot on high"></div>
+              <div class="power-dot on high"></div>
+              <div class="power-dot on high"></div>
+              <div class="power-dot"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-copy">
+          <div class="copy-text">Cada proceso manual que tiene tu empresa es plata que tu competencia ya está reinvirtiendo.</div>
+        </div>
+        <div class="card-analysis">
+          <div class="analysis-grid">
+            <div class="analysis-box why">
+              <h5>🔴 Por qué funciona</h5>
+              <p>Mental Accounting: transforma tiempo en dinero concreto que se va a otro lugar. El dolor de perder plata a un competidor es más agudo que el dolor de perder tiempo abstracto.</p>
+            </div>
+            <div class="analysis-box visual">
+              <h5>🎨 Idea visual</h5>
+              <p>Animación simple: billetes saliendo de una empresa hacia otra. O un balance sheet con "Proceso manual" = $X y al lado "Tu competencia: reinversión". Números ficticios pero creíbles.</p>
+            </div>
+            <div class="analysis-box edit">
+              <h5>✏️ Variante más agresiva</h5>
+              <p><em>"Cada hora de trabajo manual en tu empresa es una hora que tu competencia usa para escalar."</em></p>
+            </div>
+            <div class="analysis-box tip">
+              <h5>💡 Tip de publicación</h5>
+              <p>Caption: "¿Querés saber cuánto te cuesta NO automatizar? [Link en bio]" — Lleva tráfico sin ser explícitamente una venta.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn-copy" onclick="copyText(this, 'Cada proceso manual que tiene tu empresa es plata que tu competencia ya está reinvirtiendo.')">📋 Copiar frase</button>
+            <button class="btn-toggle" onclick="toggleAnalysis(this)">Ver análisis ↓</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 4 -->
+      <div class="copy-card">
+        <div class="card-header">
+          <div>
+            <div class="card-meta">
+              <div class="card-number">4</div>
+              <div>
+                <div class="card-title">Inevitabilidad + Elección forzada</div>
+                <div class="tags">
+                  <span class="tag tag-urgency">Status Quo Bias</span>
+                  <span class="tag tag-fomo">FOMO</span>
+                  <span class="tag tag-identity">Inevitabilidad</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="power-meter">
+            <span style="font-size:10px; color:var(--text3)">IMPACTO</span>
+            <div class="power-dots">
+              <div class="power-dot on max"></div>
+              <div class="power-dot on max"></div>
+              <div class="power-dot on max"></div>
+              <div class="power-dot on max"></div>
+              <div class="power-dot on high"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-copy">
+          <div class="copy-text">La pregunta no es si tu empresa va a usar IA. Es si vas a ser el primero o el último.</div>
+        </div>
+        <div class="card-analysis">
+          <div class="analysis-grid">
+            <div class="analysis-box why">
+              <h5>🔴 Por qué funciona</h5>
+              <p>Elimina el debate "¿debería o no?". La inevitabilidad reduce el Status Quo Bias ("puedo esperar"). Deja solo una elección: cuándo. Y frente a esa elección, nadie quiere ser el último.</p>
+            </div>
+            <div class="analysis-box visual">
+              <h5>🎨 Idea visual</h5>
+              <p>Podio de 3 lugares. El primero con luz brillante y champagne. El tercero en sombras. Texto superpuesto. Simple, directo. Alternativa: línea de tiempo con "Primero" y "Último" como únicos puntos.</p>
+            </div>
+            <div class="analysis-box edit">
+              <h5>✏️ Variante</h5>
+              <p><em>"Tu empresa va a implementar IA. Lo decides vos, o lo decide la presión de mercado."</em> — Más amenazante: la presión externa vs. tu control.</p>
+            </div>
+            <div class="analysis-box tip">
+              <h5>💡 Tip de publicación</h5>
+              <p>Ideal para publicar acompañando una noticia de IA en el sector empresarial. Contexto externo amplifica el efecto de inevitabilidad.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn-copy" onclick="copyText(this, 'La pregunta no es si tu empresa va a usar IA. Es si vas a ser el primero o el último.')">📋 Copiar frase</button>
+            <button class="btn-toggle" onclick="toggleAnalysis(this)">Ver análisis ↓</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 5 -->
+      <div class="copy-card">
+        <div class="card-header">
+          <div>
+            <div class="card-meta">
+              <div class="card-number">5</div>
+              <div>
+                <div class="card-title">Velocidad asimétrica + Contrast Effect</div>
+                <div class="tags">
+                  <span class="tag tag-contrast">Contraste</span>
+                  <span class="tag tag-urgency">Present Bias</span>
+                  <span class="tag tag-loss">Loss Aversion</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="power-meter">
+            <span style="font-size:10px; color:var(--text3)">IMPACTO</span>
+            <div class="power-dots">
+              <div class="power-dot on max"></div>
+              <div class="power-dot on max"></div>
+              <div class="power-dot on max"></div>
+              <div class="power-dot on max"></div>
+              <div class="power-dot on high"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-copy">
+          <div class="copy-text">Tu competencia hace en 20 minutos lo que tu equipo hace en un día.
+
+¿Cuánto tiempo más podés ignorarlo?</div>
+        </div>
+        <div class="card-analysis">
+          <div class="analysis-grid">
+            <div class="analysis-box why">
+              <h5>🔴 Por qué funciona</h5>
+              <p>Contrast Effect + Present Bias. Hace el gap concreto con números reales (20 min vs. 8 hs). La pregunta al final no tiene respuesta cómoda: cualquier número de días suena irresponsable.</p>
+            </div>
+            <div class="analysis-box visual">
+              <h5>🎨 Idea visual</h5>
+              <p>Dos relojes o cronómetros lado a lado. "Tu equipo: 8 horas" vs "Con IA: 20 minutos". Diseño minimalista, números grandes. Fondo oscuro, tipografía blanca para el primer reloj, verde/neón para el segundo.</p>
+            </div>
+            <div class="analysis-box edit">
+              <h5>✏️ Variante más personal</h5>
+              <p><em>"Mientras tu equipo termina 1 propuesta, el de ellos cerró 5. Así se pierde mercado."</em></p>
+            </div>
+            <div class="analysis-box tip">
+              <h5>💡 Tip de publicación</h5>
+              <p>A/B: testear "20 minutos" vs. "45 minutos" vs. "1 hora". Un número más creíble (no tan extremo) a veces convierte mejor que uno impactante pero poco creíble.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn-copy" onclick="copyText(this, 'Tu competencia hace en 20 minutos lo que tu equipo hace en un día.\n\n¿Cuánto tiempo más podés ignorarlo?')">📋 Copiar frase</button>
+            <button class="btn-toggle" onclick="toggleAnalysis(this)">Ver análisis ↓</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 6 -->
+      <div class="copy-card">
+        <div class="card-header">
+          <div>
+            <div class="card-meta">
+              <div class="card-number">6</div>
+              <div>
+                <div class="card-title">Framing de deuda activa</div>
+                <div class="tags">
+                  <span class="tag tag-anchor">Reframe</span>
+                  <span class="tag tag-loss">Loss Aversion</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="power-meter">
+            <span style="font-size:10px; color:var(--text3)">IMPACTO</span>
+            <div class="power-dots">
+              <div class="power-dot on max"></div>
+              <div class="power-dot on max"></div>
+              <div class="power-dot on max"></div>
+              <div class="power-dot on max"></div>
+              <div class="power-dot"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-copy">
+          <div class="copy-text">No automatizar no es quedarse igual. Es endeudarse con el futuro.</div>
+        </div>
+        <div class="card-analysis">
+          <div class="analysis-grid">
+            <div class="analysis-box why">
+              <h5>🔴 Por qué funciona</h5>
+              <p>Reframing poderoso. La inacción deja de ser una posición neutra y se convierte en deuda activa que crece. El cerebro odia las deudas más que las pérdidas directas (Prospect Theory).</p>
+            </div>
+            <div class="analysis-box visual">
+              <h5>🎨 Idea visual</h5>
+              <p>Texto minimalista puro. Fondo completamente negro. Solo las palabras, tipografía bold, enorme. "Endeudarse con el futuro" en rojo o en contraste máximo con el resto.</p>
+            </div>
+            <div class="analysis-box edit">
+              <h5>✏️ Extensión para caption</h5>
+              <p><em>"La deuda se paga con cuota fija: competidores más rápidos, procesos más lentos, talento que se va porque trabaja en empresas más modernas."</em></p>
+            </div>
+            <div class="analysis-box tip">
+              <h5>💡 Tip de publicación</h5>
+              <p>Ideal como cita en Stories o como segunda foto de un carrusel. También funciona sola sin caption si el diseño es clean y fuerte.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn-copy" onclick="copyText(this, 'No automatizar no es quedarse igual. Es endeudarse con el futuro.')">📋 Copiar frase</button>
+            <button class="btn-toggle" onclick="toggleAnalysis(this)">Ver análisis ↓</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 7 -->
+      <div class="copy-card">
+        <div class="card-header">
+          <div>
+            <div class="card-meta">
+              <div class="card-number">7</div>
+              <div>
+                <div class="card-title">La muerte lenta — Availability Heuristic</div>
+                <div class="tags">
+                  <span class="tag tag-fomo">Availability Heuristic</span>
+                  <span class="tag tag-loss">Regret Aversion</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-copy">
+          <div class="copy-text">Las empresas que no se adaptan no caen de golpe. Van perdiendo terreno, despacio, hasta que ya no pueden recuperarse.</div>
+        </div>
+        <div class="card-analysis">
+          <div class="analysis-grid">
+            <div class="analysis-box why">
+              <h5>🔴 Por qué funciona</h5>
+              <p>Hace el fracaso gradual vivido y concreto. El gradualismo asusta más que el colapso porque es silencioso, invisible hasta que ya es tarde. Activa Regret Aversion: el peor escenario es darse cuenta cuando no hay vuelta.</p>
+            </div>
+            <div class="analysis-box visual">
+              <h5>🎨 Idea visual</h5>
+              <p>Gráfico de línea que baja gradualmente con fechas. O planta marchitándose paso a paso. Lo importante: que el proceso sea lento y visible. No una caída vertical.</p>
+            </div>
+            <div class="analysis-box edit">
+              <h5>✏️ Variante con nombre</h5>
+              <p><em>"Blockbuster no cerró de un día para el otro. Tampoco lo van a hacer las empresas que ignoren la IA."</em> — Referencia concreta amplifica Availability Heuristic.</p>
+            </div>
+            <div class="analysis-box tip">
+              <h5>💡 Tip de publicación</h5>
+              <p>Acompañar con casos reales de empresas uruguayas o latinoamericanas que perdieron mercado por no adaptarse. Localizar la amenaza la hace más real.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn-copy" onclick="copyText(this, 'Las empresas que no se adaptan no caen de golpe. Van perdiendo terreno, despacio, hasta que ya no pueden recuperarse.')">📋 Copiar frase</button>
+            <button class="btn-toggle" onclick="toggleAnalysis(this)">Ver análisis ↓</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 8 -->
+      <div class="copy-card">
+        <div class="card-header">
+          <div>
+            <div class="card-meta">
+              <div class="card-number">8</div>
+              <div>
+                <div class="card-title">Paradoja del esfuerzo — Sunk Cost</div>
+                <div class="tags">
+                  <span class="tag tag-loss">Sunk Cost</span>
+                  <span class="tag tag-contrast">Contraste</span>
+                  <span class="tag tag-anchor">Reframe</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-copy">
+          <div class="copy-text">Cuanto más trabaja tu equipo sin IA, más esfuerzo necesita para mantenerse al mismo nivel de hace dos años.</div>
+        </div>
+        <div class="card-analysis">
+          <div class="analysis-grid">
+            <div class="analysis-box why">
+              <h5>🔴 Por qué funciona</h5>
+              <p>El esfuerzo que ya hacen no solo no alcanza: es cada vez menos suficiente. Sunk Cost: todo el trabajo pasado fue insuficiente. Eso duele. Activa el deseo de que el esfuerzo sirva.</p>
+            </div>
+            <div class="analysis-box visual">
+              <h5>🎨 Idea visual</h5>
+              <p>Una cinta de correr: persona corriendo cada vez más fuerte pero la cinta acelera más rápido. O escalera mecánica bajando: correr para quedarse en el mismo lugar.</p>
+            </div>
+            <div class="analysis-box edit">
+              <h5>✏️ Variante</h5>
+              <p><em>"Trabajás el doble que hace 3 años. Creciste la mitad. La diferencia se llama IA."</em></p>
+            </div>
+            <div class="analysis-box tip">
+              <h5>💡 Tip</h5>
+              <p>Muy efectivo en LinkedIn donde los decisores hablan de esfuerzo y resultados constantemente. Toca el orgullo profesional sin atacarlo directamente.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn-copy" onclick="copyText(this, 'Cuanto más trabaja tu equipo sin IA, más esfuerzo necesita para mantenerse al mismo nivel de hace dos años.')">📋 Copiar frase</button>
+            <button class="btn-toggle" onclick="toggleAnalysis(this)">Ver análisis ↓</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 9 -->
+      <div class="copy-card">
+        <div class="card-header">
+          <div>
+            <div class="card-meta">
+              <div class="card-number">9</div>
+              <div>
+                <div class="card-title">Redefine las reglas del juego — Anchoring</div>
+                <div class="tags">
+                  <span class="tag tag-anchor">Anchoring</span>
+                  <span class="tag tag-authority">Authority</span>
+                  <span class="tag tag-identity">Identity</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-copy">
+          <div class="copy-text">La ventaja competitiva antes era experiencia. Hoy es velocidad. La velocidad la da la IA.</div>
+        </div>
+        <div class="card-analysis">
+          <div class="analysis-grid">
+            <div class="analysis-box why">
+              <h5>🔴 Por qué funciona</h5>
+              <p>Anchoring + Authority. Redefine las reglas del juego. El activo que tu cliente creía tener (experiencia, años en el mercado) ya no alcanza. El tablero cambió. Esta frase invalida la ventaja existente.</p>
+            </div>
+            <div class="analysis-box visual">
+              <h5>🎨 Idea visual</h5>
+              <p>Tres columnas: "Antes / Ahora / Ganadores". Antes: trofeo de experiencia. Ahora: rayo de velocidad. Ganadores: logo IA/robot. Visual que se lee de izquierda a derecha como una historia.</p>
+            </div>
+            <div class="analysis-box edit">
+              <h5>✏️ Variante sector</h5>
+              <p><em>"En retail, ganaba el que tenía más stock. Hoy gana el que predice qué va a vender. Eso es IA."</em> — Versiones por industria son más potentes.</p>
+            </div>
+            <div class="analysis-box tip">
+              <h5>💡 Tip</h5>
+              <p>Crear variantes de esta frase por industria: logística, retail, servicios financieros, salud. Targeting sectorial en LinkedIn Ads + esta copia = conversión muy alta.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn-copy" onclick="copyText(this, 'La ventaja competitiva antes era experiencia. Hoy es velocidad. La velocidad la da la IA.')">📋 Copiar frase</button>
+            <button class="btn-toggle" onclick="toggleAnalysis(this)">Ver análisis ↓</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 10 -->
+      <div class="copy-card">
+        <div class="card-header">
+          <div>
+            <div class="card-meta">
+              <div class="card-number">10</div>
+              <div>
+                <div class="card-title">Unity Principle + Exclusividad</div>
+                <div class="tags">
+                  <span class="tag tag-identity">Unity</span>
+                  <span class="tag tag-mimetic">Mimetic Desire</span>
+                  <span class="tag tag-social">In-group</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-copy">
+          <div class="copy-text">Automatizar no te hace diferente. Te hace parte del grupo que ya definió quién gana.</div>
+        </div>
+        <div class="card-analysis">
+          <div class="analysis-grid">
+            <div class="analysis-box why">
+              <h5>🔴 Por qué funciona</h5>
+              <p>Unity Principle + Mimetic Desire. No es "sé diferente" (que suena a marketing genérico). Es "unite a los que ya ganaron". El FOMO de pertenecer a un grupo exclusivo que ya tomó decisiones inteligentes.</p>
+            </div>
+            <div class="analysis-box visual">
+              <h5>🎨 Idea visual</h5>
+              <p>Grupo de personas (o logos de empresas) en una plataforma elevada, mirando hacia arriba. Desde abajo mirando hacia ellos. Perspectiva de aspiración. Texto sobre la imagen: simple, blanco.</p>
+            </div>
+            <div class="analysis-box edit">
+              <h5>✏️ Variante más directa</h5>
+              <p><em>"Las empresas que lideran Uruguay en 5 años ya tomaron esta decisión. La mayoría todavía no."</em></p>
+            </div>
+            <div class="analysis-box tip">
+              <h5>💡 Tip</h5>
+              <p>Ideal para cierre de carruseles o Stories finales. Como standalone, acompañar con caption que mencione 2-3 clientes (anonimizados si es necesario) para activar Social Proof.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn-copy" onclick="copyText(this, 'Automatizar no te hace diferente. Te hace parte del grupo que ya definió quién gana.')">📋 Copiar frase</button>
+            <button class="btn-toggle" onclick="toggleAnalysis(this)">Ver análisis ↓</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end cards-grid -->
+  </div><!-- end standalone -->
+
+  <!-- ======= CARRUSELES ======= -->
+  <div class="section" id="carousel">
+    <div class="section-intro">
+      <h2>🎠 Carruseles psicológicamente optimizados</h2>
+      <p>Cada carrusel completa un arco emocional. El objetivo no es informar: es llevar al lector desde la incomodidad hasta la acción. Cada slide abre un loop psicológico que el siguiente cierra, pero crea uno nuevo (Efecto Zeigarnik).</p>
+    </div>
+
+    <div class="carousel-intro-box">
+      <div class="c-info-card">
+        <div class="c-info-num">6</div>
+        <div class="c-info-label">Slides óptimos</div>
+        <div class="c-info-sub">5-7 = sweet spot de completion rate</div>
+      </div>
+      <div class="c-info-card">
+        <div class="c-info-num">2.3x</div>
+        <div class="c-info-label">Más engagement</div>
+        <div class="c-info-sub">Carruseles vs. imágenes simples en IG</div>
+      </div>
+      <div class="c-info-card">
+        <div class="c-info-num">Peak-End</div>
+        <div class="c-info-label">Regla de memoria</div>
+        <div class="c-info-sub">Slide 1 y Slide 6 son los más recordados</div>
+      </div>
+    </div>
+
+    <!-- CARRUSEL A -->
+    <div class="carousel-container">
+      <div class="carousel-title-bar">
+        <div>
+          <h3>Carrusel A — "Las dos empresas"</h3>
+          <p>Principio dominante: Identity Binary + Mimetic Desire. Te posiciona como árbitro de qué tipo de empresa sos.</p>
+        </div>
+        <div class="carousel-badge">6 slides</div>
+      </div>
+      <div class="slides-list">
+
+        <div class="slide-card s1">
+          <div class="slide-num">
+            <span>1</span>
+            SLIDE
+          </div>
+          <div class="slide-content">
+            <div class="slide-label">
+              🔴 AMENAZA — Pattern Interrupt
+              <span class="slide-label-badge tag tag-loss">Para el scroll</span>
+            </div>
+            <div class="slide-copy">MIENTRAS LEÉS ESTO
+TU COMPETENCIA ESTÁ
+AUTOMATIZANDO.</div>
+            <div class="slide-note">📌 Copy de apoyo (pequeño, abajo): <em>"Y mañana tampoco va a esperar."</em></div>
+            <div class="slide-visual">
+              <span>🎨</span>
+              <div>
+                <div class="slide-visual-label">Visual sugerido:</div>
+                Fondo negro puro. Texto en blanco bold, enorme. "MIENTRAS LEÉS ESTO" en gris/pequeño. La frase principal toma toda la pantalla. Sin logo hasta el último slide.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-card s2">
+          <div class="slide-num">
+            <span>2</span>
+            SLIDE
+          </div>
+          <div class="slide-content">
+            <div class="slide-label">
+              🟠 DOLOR AMPLIFICADO — Contrast Effect
+              <span class="slide-label-badge tag tag-contrast">Números concretos</span>
+            </div>
+            <div class="slide-copy">Un empleado procesa 50 cotizaciones por día.
+
+Una empresa con IA procesa 2.000.
+
+¿Cuánto te cuesta esa diferencia por mes?</div>
+            <div class="slide-note">📌 La pregunta final activa Mental Accounting. El lector empieza a calcular su propia pérdida sin que se lo pidas.</div>
+            <div class="slide-visual">
+              <span>🎨</span>
+              <div>
+                <div class="slide-visual-label">Visual sugerido:</div>
+                Dos barras o dos columnas. Izquierda: "50" en gris/pequeño. Derecha: "2.000" en neón/enorme. La asimetría visual refuerza el mensaje.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-card s3">
+          <div class="slide-num">
+            <span>3</span>
+            SLIDE
+          </div>
+          <div class="slide-content">
+            <div class="slide-label">
+              🟡 EL ENEMIGO — Mimetic Desire
+              <span class="slide-label-badge tag tag-mimetic">Tu competencia</span>
+            </div>
+            <div class="slide-copy">Tu competencia no trabaja más.
+Trabaja mejor.
+
+Mientras tu equipo escala tiempo,
+el de ellos escala sistemas.
+
+Eso no se cierra con esfuerzo.
+Se cierra con inteligencia.</div>
+            <div class="slide-note">📌 "No trabaja más, trabaja mejor" es un golpe al orgullo del que cree que más horas = más resultados. Elimina la solución obvia (trabajar más) antes de que la piensen.</div>
+            <div class="slide-visual">
+              <span>🎨</span>
+              <div>
+                <div class="slide-visual-label">Visual sugerido:</div>
+                Split screen. Izquierda: múltiples personas agotadas, escritorios llenos. Derecha: una persona con laptop, gráficos subiendo. La asimetría habla antes que el texto.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-card s4">
+          <div class="slide-num">
+            <span>4</span>
+            SLIDE
+          </div>
+          <div class="slide-content">
+            <div class="slide-label">
+              🟢 LA VISIÓN — Future Pacing + Identity
+              <span class="slide-label-badge tag tag-identity">Aspiration</span>
+            </div>
+            <div class="slide-copy">Con IA implementada:
+
+→ Tu equipo deja de hacer tareas repetitivas
+→ Tus procesos corren solos, 24/7
+→ Escalás sin contratar
+
+Esto no es el futuro.
+Es lo que tiene tu competencia hoy.</div>
+            <div class="slide-note">📌 "No es el futuro, es hoy" colapsa la brecha temporal. El lector no puede postponer mentalmente la amenaza al mañana.</div>
+            <div class="slide-visual">
+              <span>🎨</span>
+              <div>
+                <div class="slide-visual-label">Visual sugerido:</div>
+                Dashboard con métricas todas en verde. Persona mirando satisfecha. Fondo azul/oscuro. Sensación de control y calma que contrasta con el slide anterior.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-card s5">
+          <div class="slide-num">
+            <span>5</span>
+            SLIDE
+          </div>
+          <div class="slide-content">
+            <div class="slide-label">
+              🔵 LA PRUEBA — Social Proof + Authority
+              <span class="slide-label-badge tag tag-social">Resultados reales</span>
+            </div>
+            <div class="slide-copy">Empresas que ya automatizaron con nosotros:
+
+✓ [Cliente A] redujo 80% del tiempo en cotizaciones
+✓ [Cliente B] triplicó capacidad sin sumar personal
+✓ [Cliente C] cerró 3x más ventas con el mismo equipo
+
+Los resultados no son magia.
+Son ingeniería.</div>
+            <div class="slide-note">📌 "Son ingeniería" = credibilidad técnica, no promesas vacías. Reduce la resistencia del escéptico racional. Nombres reales (o referencias verificables) son 3x más creíbles que porcentajes anónimos.</div>
+            <div class="slide-visual">
+              <span>🎨</span>
+              <div>
+                <div class="slide-visual-label">Visual sugerido:</div>
+                Logos de clientes o screenshots de resultados (pixelados si es necesario). Números grandes en color acento. Estética de "reporte de resultados", no de publicidad.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-card s6">
+          <div class="slide-num">
+            <span>6</span>
+            SLIDE
+          </div>
+          <div class="slide-content">
+            <div class="slide-label">
+              🟣 CTA — Activation Energy mínima
+              <span class="slide-label-badge tag tag-regret">Una sola acción</span>
+            </div>
+            <div class="slide-copy">Si tu empresa factura más de $X por mes
+y querés escalar sin escalar costos,
+
+esta conversación vale la pena.
+
+→ Escribinos / [Link en bio]
+
+No te prometemos magia.
+Te mostramos cómo funciona.</div>
+            <div class="slide-note">📌 El qualifier de facturación hace que quien aplique se sienta parte de un grupo exclusivo (Mimetic Desire). "No prometemos magia" actúa como Pratfall Effect: la honestidad aumenta confianza.</div>
+            <div class="slide-visual">
+              <span>🎨</span>
+              <div>
+                <div class="slide-visual-label">Visual sugerido:</div>
+                Logo de Concepto Development, fondo oscuro de marca. Una sola flecha o botón visual apuntando a la acción. Menos es más en el último slide.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- slides-list -->
+    </div><!-- carousel-container A -->
+
+    <!-- CARRUSEL B -->
+    <div class="carousel-container">
+      <div class="carousel-title-bar">
+        <div>
+          <h3>Carrusel B — "El costo de no hacer nada"</h3>
+          <p>Principio dominante: Loss Aversion + Timeline de arrepentimiento. Convierte la inacción en deuda visible.</p>
+        </div>
+        <div class="carousel-badge">6 slides</div>
+      </div>
+      <div class="slides-list">
+
+        <div class="slide-card s1">
+          <div class="slide-num"><span>1</span>SLIDE</div>
+          <div class="slide-content">
+            <div class="slide-label">🔴 AMENAZA SUAVE — Reframe inmediato</div>
+            <div class="slide-copy">No hacer nada también tiene un costo.
+
+Y se paga con intereses.</div>
+            <div class="slide-visual"><span>🎨</span><div><div class="slide-visual-label">Visual:</div>Texto minimalista puro sobre negro. "Y se paga con intereses." en rojo o en tamaño más pequeño como un subtítulo amenazante.</div></div>
+          </div>
+        </div>
+
+        <div class="slide-card s2">
+          <div class="slide-num"><span>2</span>SLIDE</div>
+          <div class="slide-content">
+            <div class="slide-label">🟠 CALCULADORA DE PÉRDIDA — Mental Accounting</div>
+            <div class="slide-copy">Calculá lo que perdés por mes:
+
+× Horas de tu equipo en tareas automatizables
+× Velocidad de respuesta vs. competidores con IA
+× Oportunidades que no cerraste por capacidad
+
+El número que te sale
+es lo que pagás por no cambiar.</div>
+            <div class="slide-note">📌 El ejercicio de calcular activa la pérdida personalmente. Ya no es abstracto: es el número específico de SU empresa.</div>
+            <div class="slide-visual"><span>🎨</span><div><div class="slide-visual-label">Visual:</div>Calculadora o tabla simple con las tres variables. Fila final: "Total mensual: $___". El espacio en blanco pide ser completado mentalmente.</div></div>
+          </div>
+        </div>
+
+        <div class="slide-card s3">
+          <div class="slide-num"><span>3</span>SLIDE</div>
+          <div class="slide-content">
+            <div class="slide-label">🟡 TIMELINE DE ARREPENTIMIENTO — Regret Aversion</div>
+            <div class="slide-copy">2022: "La IA es para grandes empresas."
+2023: "Todavía es muy cara."
+2024: "Hay que ver cómo evoluciona."
+2025: "¿Cómo llegamos tan tarde?"
+
+¿En cuál estás?</div>
+            <div class="slide-note">📌 Timeline progression activa Recognition + Regret Aversion. El lector se ve en la secuencia. Si está en 2022-2024, ya sabe a dónde va.</div>
+            <div class="slide-visual"><span>🎨</span><div><div class="slide-visual-label">Visual:</div>Timeline horizontal con los 4 años. Los 3 primeros en gris. El 2025 en rojo con icono de alarma. Diseño de línea de tiempo clara, no texto corrido.</div></div>
+          </div>
+        </div>
+
+        <div class="slide-card s4">
+          <div class="slide-num"><span>4</span>SLIDE</div>
+          <div class="slide-content">
+            <div class="slide-label">🟢 REFRAME DE INTELIGENCIA — Flattery + Identity</div>
+            <div class="slide-copy">Las empresas que nos llaman primero
+no son las más grandes.
+
+Son las más inteligentes.
+
+Y después se vuelven las más grandes.</div>
+            <div class="slide-note">📌 Reframe del tamaño al intelligence. El decisor no necesita ser el más grande para actuar, solo el más inteligente. Flattery + Identity que no requiere ser una empresa enorme.</div>
+            <div class="slide-visual"><span>🎨</span><div><div class="slide-visual-label">Visual:</div>Fondo con sensación aspiracional. Texto centrado, tipografía limpia. "Son las más inteligentes." en acento de color o tamaño mayor.</div></div>
+          </div>
+        </div>
+
+        <div class="slide-card s5">
+          <div class="slide-num"><span>5</span>SLIDE</div>
+          <div class="slide-content">
+            <div class="slide-label">🔵 SERVICIOS + PRUEBA SOCIAL</div>
+            <div class="slide-copy">Implementamos IA en:
+→ Atención al cliente
+→ Procesos de ventas
+→ Operaciones internas
+→ Marketing y contenido
+
+En empresas reales, en Uruguay,
+con resultados medibles.</div>
+            <div class="slide-note">📌 "En Uruguay" = localización. En un mercado pequeño, la prueba local vale 5x más que casos internacionales porque elimina la objeción "eso es para afuera".</div>
+          </div>
+        </div>
+
+        <div class="slide-card s6">
+          <div class="slide-num"><span>6</span>SLIDE</div>
+          <div class="slide-content">
+            <div class="slide-label">🟣 CTA — Contrast final + Aspiración de status</div>
+            <div class="slide-copy">Podés seguir esperando.
+
+O podés ser la empresa que
+tu competencia va a estudiar.
+
+→ [Contacto]</div>
+            <div class="slide-note">📌 Mimetic Desire invertido: ahora TÚ sos el envidiado. "La empresa que tu competencia va a estudiar" es el máximo aspiracional. Contrasta con la pasividad de la primera opción.</div>
+            <div class="slide-visual"><span>🎨</span><div><div class="slide-visual-label">Visual:</div>Fondo de marca. Texto grande. "Podés seguir esperando." en gris/pequeño. La segunda opción en blanco y grande, con flecha de CTA.</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- carousel B -->
+
+  </div><!-- end carousel -->
+
+  <!-- ======= VIDEO ======= -->
+  <div class="section" id="video">
+
+    <div class="section-intro">
+      <h2>🎬 Frases para Video / Reels</h2>
+      <p>Estructura óptima: 3 frases × 2-3 segundos = 6-9 segundos totales. Este formato maximiza completion rate en Instagram y TikTok mientras completa el arco emocional mínimo viable.</p>
+      <div class="why-box">
+        <h4>¿Por qué 3 frases exactamente?</h4>
+        <p>Working Memory retiene máximo 3 chunks. Frase 1 = abre el loop. Frase 2 = amplifica la tensión (Zeigarnik peak). Frase 3 = cierra con identidad o CTA. Más de 3 = dilución del impacto. Menos de 3 = loop incompleto, no convierte.</p>
+      </div>
+    </div>
+
+    <div class="video-cards">
+
+      <!-- VIDEO 1 -->
+      <div class="video-card">
+        <div class="video-card-header">
+          <div>
+            <h3 style="font-size:17px; font-weight:700;">Video 1 — Loss Aversion Puro</h3>
+            <p style="font-size:13px; color:var(--text2); margin-top:4px;">La amenaza es silenciosa. La confirmación la hace real. La inevitabilidad la cierra.</p>
+            <div class="tags" style="margin-top:8px;">
+              <span class="tag tag-loss">Loss Aversion</span>
+              <span class="tag tag-urgency">Present Bias</span>
+              <span class="tag tag-identity">Inevitabilidad</span>
+            </div>
+          </div>
+          <span class="video-number">Set 1</span>
+        </div>
+        <div class="video-phrases">
+          <div class="phrase-block">
+            <div class="phrase-timing">
+              <div class="phrase-timing-num">0–3</div>
+              <div class="phrase-timing-unit">seg</div>
+            </div>
+            <div class="phrase-bubble">
+              <div class="phrase-role hook">⚡ HOOK — Amenaza</div>
+              <div class="phrase-text">"Tu competencia no te va a avisar cuando te supere."</div>
+              <div class="phrase-why">Para el scroll. Activa Loss Aversion inmediato. No es una pregunta, es una afirmación que no tiene respuesta tranquilizadora.</div>
+            </div>
+          </div>
+          <div class="phrase-block">
+            <div class="phrase-timing">
+              <div class="phrase-timing-num">3–5</div>
+              <div class="phrase-timing-unit">seg</div>
+            </div>
+            <div class="phrase-bubble">
+              <div class="phrase-role tension">🔥 TENSIÓN — Confirmación brutal</div>
+              <div class="phrase-text">"Ya lo está haciendo."</div>
+              <div class="phrase-why">El loop de la frase 1 no se cierra con tranquilidad: se confirma con más angustia. Zeigarnik effect en acción. Solo 4 palabras = máximo impacto.</div>
+            </div>
+          </div>
+          <div class="phrase-block">
+            <div class="phrase-timing">
+              <div class="phrase-timing-num">5–9</div>
+              <div class="phrase-timing-unit">seg</div>
+            </div>
+            <div class="phrase-bubble">
+              <div class="phrase-role close">✅ CIERRE — Inevitabilidad + Identity</div>
+              <div class="phrase-text">"La IA vino a reemplazar a quienes no la utilicen."</div>
+              <div class="phrase-why">Cierra el loop con la frase original de Bruno. Inevitable, definitiva, sin escape. La identidad queda: ¿qué lado elegís?</div>
+            </div>
+          </div>
+        </div>
+        <div class="video-footer">
+          <span class="video-footer-icon">💡</span>
+          <div class="video-footer-text"><strong>Ejecución:</strong> Texto aparece frase por frase en sincronía con voz en off o simplemente sobre imágenes de oficinas. Fondo oscuro, letras blancas bold. Sin música fuerte — las palabras son el ruido. Silencio o ambient low beat.</div>
+        </div>
+      </div>
+
+      <!-- VIDEO 2 -->
+      <div class="video-card">
+        <div class="video-card-header">
+          <div>
+            <h3 style="font-size:17px; font-weight:700;">Video 2 — Identity Binary</h3>
+            <p style="font-size:13px; color:var(--text2); margin-top:4px;">Setup + División del mundo + Elección forzada. El más shareable del set.</p>
+            <div class="tags" style="margin-top:8px;">
+              <span class="tag tag-identity">Identity Binary</span>
+              <span class="tag tag-social">Social Hierarchy</span>
+            </div>
+          </div>
+          <span class="video-number">Set 2</span>
+        </div>
+        <div class="video-phrases">
+          <div class="phrase-block">
+            <div class="phrase-timing"><div class="phrase-timing-num">0–2</div><div class="phrase-timing-unit">seg</div></div>
+            <div class="phrase-bubble">
+              <div class="phrase-role hook">⚡ HOOK</div>
+              <div class="phrase-text">"Hay empresas que automatizan."</div>
+              <div class="phrase-why">Simple. Crea expectativa de "y las otras..." El cerebro ya completó la oración antes de que aparezca. Confirmation bias trabajando a favor.</div>
+            </div>
+          </div>
+          <div class="phrase-block">
+            <div class="phrase-timing"><div class="phrase-timing-num">2–5</div><div class="phrase-timing-unit">seg</div></div>
+            <div class="phrase-bubble">
+              <div class="phrase-role tension">🔥 TENSIÓN — El golpe</div>
+              <div class="phrase-text">"Y empresas que trabajan para las que automatizan."</div>
+              <div class="phrase-why">La división de jerarquía implícita es devastadora. "Para las que automatizan" convierte al espectador en subcontratista si no actúa. Nadie quiere ser proveedor del proveedor.</div>
+            </div>
+          </div>
+          <div class="phrase-block">
+            <div class="phrase-timing"><div class="phrase-timing-num">5–8</div><div class="phrase-timing-unit">seg</div></div>
+            <div class="phrase-bubble">
+              <div class="phrase-role close">✅ CIERRE — Elección forzada</div>
+              <div class="phrase-text">"¿Cuál querés ser?"</div>
+              <div class="phrase-why">Commitment & Consistency: quien elige mentalmente "la primera" ya está medio convertido. La pregunta es casi retórica pero activa la toma de decisión interna.</div>
+            </div>
+          </div>
+        </div>
+        <div class="video-footer">
+          <span class="video-footer-icon">💡</span>
+          <div class="video-footer-text"><strong>Ejecución:</strong> Frase 1 y 2 en blanco sobre negro. Frase 3 "¿Cuál querés ser?" con una pausa de 0.5s antes de aparecer. Ese silencio es intencional. CTA: logo + "Concepto Development" aparece justo después.</div>
+        </div>
+      </div>
+
+      <!-- VIDEO 3 -->
+      <div class="video-card">
+        <div class="video-card-header">
+          <div>
+            <h3 style="font-size:17px; font-weight:700;">Video 3 — Costo del tiempo</h3>
+            <p style="font-size:13px; color:var(--text2); margin-top:4px;">Pérdida → Empatía (baja la guardia) → Amenaza real. Estructura de Judo emocional.</p>
+            <div class="tags" style="margin-top:8px;">
+              <span class="tag tag-loss">Loss Aversion</span>
+              <span class="tag tag-contrast">Empatía estratégica</span>
+            </div>
+          </div>
+          <span class="video-number">Set 3</span>
+        </div>
+        <div class="video-phrases">
+          <div class="phrase-block">
+            <div class="phrase-timing"><div class="phrase-timing-num">0–3</div><div class="phrase-timing-unit">seg</div></div>
+            <div class="phrase-bubble">
+              <div class="phrase-role hook">⚡ HOOK</div>
+              <div class="phrase-text">"Cada día sin IA le cuesta plata a tu empresa."</div>
+              <div class="phrase-why">Pérdida concreta, cuantificable, diaria. Present Bias activado: no es un problema futuro, es de HOY.</div>
+            </div>
+          </div>
+          <div class="phrase-block">
+            <div class="phrase-timing"><div class="phrase-timing-num">3–5</div><div class="phrase-timing-unit">seg</div></div>
+            <div class="phrase-bubble">
+              <div class="phrase-role tension">🔥 TENSIÓN — Empatía estratégica</div>
+              <div class="phrase-text">"No porque seas ineficiente."</div>
+              <div class="phrase-why">Baja la resistencia defensiva. Si atacás directo la eficiencia del CEO, se defiende. Si lo absolvés, baja la guardia. Lo que viene después golpea más fuerte.</div>
+            </div>
+          </div>
+          <div class="phrase-block">
+            <div class="phrase-timing"><div class="phrase-timing-num">5–9</div><div class="phrase-timing-unit">seg</div></div>
+            <div class="phrase-bubble">
+              <div class="phrase-role close">✅ CIERRE — Amenaza externa</div>
+              <div class="phrase-text">"Sino porque tu competencia ya es más eficiente que vos."</div>
+              <div class="phrase-why">La guardia ya está baja. Este golpe final conecta limpio. La amenaza no viene de adentro (que podría racionalizar) sino de afuera (que no puede controlar).</div>
+            </div>
+          </div>
+        </div>
+        <div class="video-footer">
+          <span class="video-footer-icon">💡</span>
+          <div class="video-footer-text"><strong>Ejecución:</strong> Frase 2 idealmente en tono más suave/amable visualmente (fuente más delgada, color más suave). Frase 3 vuelve al bold/impactante. El contraste tipográfico refuerza el contraste emocional.</div>
+        </div>
+      </div>
+
+      <!-- VIDEO 4 -->
+      <div class="video-card">
+        <div class="video-card-header">
+          <div>
+            <h3 style="font-size:17px; font-weight:700;">Video 4 — El más brutal (alto engagement)</h3>
+            <p style="font-size:13px; color:var(--text2); margin-top:4px;">Reframe → Amenaza directa → Autonomía. Psicología de Reactance invertida.</p>
+            <div class="tags" style="margin-top:8px;">
+              <span class="tag tag-anchor">Reframe</span>
+              <span class="tag tag-loss">Amenaza directa</span>
+              <span class="tag tag-identity">Autonomía</span>
+            </div>
+          </div>
+          <span class="video-number">Set 4</span>
+        </div>
+        <div class="video-phrases">
+          <div class="phrase-block">
+            <div class="phrase-timing"><div class="phrase-timing-num">0–2</div><div class="phrase-timing-unit">seg</div></div>
+            <div class="phrase-bubble">
+              <div class="phrase-role hook">⚡ HOOK — Anti-venta</div>
+              <div class="phrase-text">"No te estoy vendiendo tecnología."</div>
+              <div class="phrase-why">Pattern interrupt. El cerebro esperaba una propuesta de ventas. Al negar la venta, baja la resistencia automáticamente. Ahora escucha diferente.</div>
+            </div>
+          </div>
+          <div class="phrase-block">
+            <div class="phrase-timing"><div class="phrase-timing-num">2–5</div><div class="phrase-timing-unit">seg</div></div>
+            <div class="phrase-bubble">
+              <div class="phrase-role tension">🔥 TENSIÓN — Amenaza directa</div>
+              <div class="phrase-text">"Te estoy diciendo que ya estás perdiendo."</div>
+              <div class="phrase-why">Como la guardia está baja por la frase 1, este golpe conecta sin rebote. Es la frase más directa del set entero. Funciona porque fue precedida por honestidad.</div>
+            </div>
+          </div>
+          <div class="phrase-block">
+            <div class="phrase-timing"><div class="phrase-timing-num">5–8</div><div class="phrase-timing-unit">seg</div></div>
+            <div class="phrase-bubble">
+              <div class="phrase-role close">✅ CIERRE — Reactance invertida</div>
+              <div class="phrase-text">"Lo que hacés después es tu decisión."</div>
+              <div class="phrase-why">Reactance Reversal: en vez de empujar, le das poder. Paradójicamente, darle la decisión genera más acción que insistir. El ego quiere demostrar que toma buenas decisiones.</div>
+            </div>
+          </div>
+        </div>
+        <div class="video-footer">
+          <span class="video-footer-icon">💡</span>
+          <div class="video-footer-text"><strong>Ejecución:</strong> Este video puede ir con MAX hablando a cámara (o voz en off estilo "confesión"). La honestidad se potencia con un presenter real. Es el mejor candidato para un formato más auténtico / menos producido.</div>
+        </div>
+      </div>
+
+      <!-- VIDEO 5 -->
+      <div class="video-card">
+        <div class="video-card-header">
+          <div>
+            <h3 style="font-size:17px; font-weight:700;">Video 5 — FOMO + Timing (Wisdom reframe)</h3>
+            <p style="font-size:13px; color:var(--text2); margin-top:4px;">Proverbio conocido reframe → Present Bias → Urgencia externa que cierra la ventana.</p>
+            <div class="tags" style="margin-top:8px;">
+              <span class="tag tag-fomo">FOMO</span>
+              <span class="tag tag-urgency">Urgency</span>
+              <span class="tag tag-anchor">Wisdom Reframe</span>
+            </div>
+          </div>
+          <span class="video-number">Set 5</span>
+        </div>
+        <div class="video-phrases">
+          <div class="phrase-block">
+            <div class="phrase-timing"><div class="phrase-timing-num">0–3</div><div class="phrase-timing-unit">seg</div></div>
+            <div class="phrase-bubble">
+              <div class="phrase-role hook">⚡ HOOK — Proverbio conocido</div>
+              <div class="phrase-text">"El mejor momento para automatizar fue hace dos años."</div>
+              <div class="phrase-why">Activa el proverbio "el mejor momento para plantar un árbol fue hace 20 años". El espectador reconoce el patrón. Eso crea micro-tensión: "¿y el segundo mejor momento?"</div>
+            </div>
+          </div>
+          <div class="phrase-block">
+            <div class="phrase-timing"><div class="phrase-timing-num">3–5</div><div class="phrase-timing-unit">seg</div></div>
+            <div class="phrase-bubble">
+              <div class="phrase-role tension">🔥 TENSIÓN — Present Bias</div>
+              <div class="phrase-text">"El segundo mejor momento es hoy."</div>
+              <div class="phrase-why">Cierra el loop del proverbio con la respuesta correcta. Present Bias máximo: HOY, no mañana. Moment activo. La ventana está abierta.</div>
+            </div>
+          </div>
+          <div class="phrase-block">
+            <div class="phrase-timing"><div class="phrase-timing-num">5–9</div><div class="phrase-timing-unit">seg</div></div>
+            <div class="phrase-bubble">
+              <div class="phrase-role close">✅ CIERRE — Urgencia externa</div>
+              <div class="phrase-text">"Mañana tu competencia también lo sabe."</div>
+              <div class="phrase-why">La ventana se cierra. El "hoy" de la frase 2 tiene fecha de vencimiento. La ventaja de moverse hoy desaparece mañana. Urgencia genuina sin countdown falso.</div>
+            </div>
+          </div>
+        </div>
+        <div class="video-footer">
+          <span class="video-footer-icon">💡</span>
+          <div class="video-footer-text"><strong>Ejecución:</strong> Ideal para video con reloj en background o contador visual. También funciona muy bien como texto animado con timing: Frase 1 aparece, pequeña pausa, Frase 2, pausa más corta, Frase 3 aparece rápido — la aceleración del ritmo refleja el cierre de la ventana.</div>
+        </div>
+      </div>
+
+    </div><!-- video-cards -->
+  </div><!-- end video -->
+
+  <!-- ======= PSYCH GUIDE ======= -->
+  <div class="section" id="psych">
+    <div class="section-intro">
+      <h2>🧠 Guía de principios psicológicos aplicados</h2>
+      <p>Referencia rápida de los 12 principios usados en este sistema. Para cada pieza de copy nueva, chequear cuántos de estos activa. Objetivo: mínimo 2 por pieza, ideal 3-4.</p>
+    </div>
+
+    <div class="psych-grid">
+      <div class="psych-card">
+        <div class="psych-card-top">
+          <div class="psych-icon" style="background:rgba(239,68,68,0.15);">💸</div>
+          <div>
+            <h4>Loss Aversion</h4>
+            <span class="psych-power" style="background:rgba(239,68,68,0.1); color:#f87171;">MÁXIMO IMPACTO</span>
+          </div>
+        </div>
+        <p>Las pérdidas duelen 2.3x más que las ganancias generan placer. Frame todo en términos de lo que pierden por NO actuar, no lo que ganan actuando.</p>
+        <div class="psych-example" style="border-color:#ef4444;">"Cada mes que esperás le estás dando ventaja a tu competencia" &gt;&gt; "Vas a ganar eficiencia"</div>
+      </div>
+
+      <div class="psych-card">
+        <div class="psych-card-top">
+          <div class="psych-icon" style="background:rgba(91,94,244,0.15);">👥</div>
+          <div>
+            <h4>Identity Binary</h4>
+            <span class="psych-power" style="background:rgba(91,94,244,0.1); color:#a5a8ff;">ALTO IMPACTO</span>
+          </div>
+        </div>
+        <p>Divide el mundo en dos grupos claramente jerarquizados. El lector se identifica automáticamente y no quiere estar en el inferior. No necesita promesa: el rechazo al grupo inferior impulsa la acción.</p>
+        <div class="psych-example" style="border-color:#5b5ef4;">"Empresas que automatizan / que trabajan para las que automatizan"</div>
+      </div>
+
+      <div class="psych-card">
+        <div class="psych-card-top">
+          <div class="psych-icon" style="background:rgba(249,115,22,0.15);">⏰</div>
+          <div>
+            <h4>Present Bias</h4>
+            <span class="psych-power" style="background:rgba(249,115,22,0.1); color:#fb923c;">ALTO IMPACTO</span>
+          </div>
+        </div>
+        <p>El cerebro sobrevalúa el presente vs. el futuro. Hacer la amenaza AHORA, no "eventualmente". Cada pieza debe tener al menos una palabra de presente inmediato.</p>
+        <div class="psych-example" style="border-color:#f97316;">"Hoy", "Ya lo está haciendo", "Mientras leés esto", "Cada día"</div>
+      </div>
+
+      <div class="psych-card">
+        <div class="psych-card-top">
+          <div class="psych-icon" style="background:rgba(236,72,153,0.15);">🔥</div>
+          <div>
+            <h4>Mimetic Desire</h4>
+            <span class="psych-power" style="background:rgba(236,72,153,0.1); color:#f472b6;">ALTO IMPACTO</span>
+          </div>
+        </div>
+        <p>El deseo es socialmente contagioso. No compres por que lo necesitás: comprá porque los que admirás ya lo tienen. En B2B: mostrar que las empresas líderes ya automatizaron.</p>
+        <div class="psych-example" style="border-color:#ec4899;">"Las empresas más inteligentes ya lo hicieron. Después se volvieron las más grandes."</div>
+      </div>
+
+      <div class="psych-card">
+        <div class="psych-card-top">
+          <div class="psych-icon" style="background:rgba(6,182,212,0.15);">⚖️</div>
+          <div>
+            <h4>Contrast Effect</h4>
+            <span class="psych-power" style="background:rgba(6,182,212,0.1); color:#22d3ee;">MEDIO-ALTO</span>
+          </div>
+        </div>
+        <p>Las cosas se perciben relativas a su contexto. Mostrar el "antes" claramente hace el "después" más poderoso. Mostrar el problema grande hace la solución sentirse proporcional.</p>
+        <div class="psych-example" style="border-color:#06b6d4;">"Tu equipo: 8 horas. Con IA: 20 minutos." Los números solos sin contraste no impactan igual.</div>
+      </div>
+
+      <div class="psych-card">
+        <div class="psych-card-top">
+          <div class="psych-icon" style="background:rgba(99,102,241,0.15);">😰</div>
+          <div>
+            <h4>Regret Aversion</h4>
+            <span class="psych-power" style="background:rgba(99,102,241,0.1); color:#a5b4fc;">ALTO IMPACTO</span>
+          </div>
+        </div>
+        <p>El miedo a arrepentirse en el futuro es más poderoso que el deseo de beneficio. Visualizar el "¿Cómo llegamos tan tarde?" activa el deseo de evitar ese arrepentimiento actuando ahora.</p>
+        <div class="psych-example" style="border-color:#6366f1;">"2025: ¿Cómo llegamos tan tarde?" — El lector ve su futuro yo arrepentido.</div>
+      </div>
+
+      <div class="psych-card">
+        <div class="psych-card-top">
+          <div class="psych-icon" style="background:rgba(168,85,247,0.15);">⚓</div>
+          <div>
+            <h4>Anchoring + Reframe</h4>
+            <span class="psych-power" style="background:rgba(168,85,247,0.1); color:#d8b4fe;">MEDIO</span>
+          </div>
+        </div>
+        <p>El primer número o concepto que se presenta ancla toda evaluación posterior. Reframe activo: cambiar la categoría mental en la que el producto compite.</p>
+        <div class="psych-example" style="border-color:#a855f7;">"No automatizar no es quedarse igual. Es endeudarse." — Reframe: inacción = deuda activa.</div>
+      </div>
+
+      <div class="psych-card">
+        <div class="psych-card-top">
+          <div class="psych-icon" style="background:rgba(16,185,129,0.15);">👁️</div>
+          <div>
+            <h4>Availability Heuristic</h4>
+            <span class="psych-power" style="background:rgba(16,185,129,0.1); color:#34d399;">MEDIO</span>
+          </div>
+        </div>
+        <p>Juzgamos probabilidad por qué tan fácil es imaginar el ejemplo. Hacer el éxito de los competidores y el propio fracaso vividos y concretos en la mente del lector.</p>
+        <div class="psych-example" style="border-color:#10b981;">Casos concretos con números ("50 vs 2.000") > generalidades ("más eficiente").</div>
+      </div>
+
+      <div class="psych-card">
+        <div class="psych-card-top">
+          <div class="psych-icon" style="background:rgba(245,158,11,0.15);">⭕</div>
+          <div>
+            <h4>Zeigarnik Effect</h4>
+            <span class="psych-power" style="background:rgba(245,158,11,0.1); color:#fbbf24;">CARRUSEL</span>
+          </div>
+        </div>
+        <p>Las tareas incompletas se recuerdan mejor que las completas. Cada slide o frase debe abrir un loop que el siguiente cierra, pero creando uno nuevo. El lector avanza para cerrar el loop.</p>
+        <div class="psych-example" style="border-color:#f59e0b;">Slide 1 termina con pregunta implícita → Slide 2 amplifica → Slide 3 crea nuevo loop → etc.</div>
+      </div>
+
+      <div class="psych-card">
+        <div class="psych-card-top">
+          <div class="psych-icon" style="background:rgba(239,68,68,0.15);">🧾</div>
+          <div>
+            <h4>Mental Accounting</h4>
+            <span class="psych-power" style="background:rgba(239,68,68,0.1); color:#f87171;">MEDIO</span>
+          </div>
+        </div>
+        <p>Las personas tratan el dinero diferente según su origen/destino. Transformar tiempo en dinero concreto que va a un destino específico (la competencia) hace la pérdida más tangible.</p>
+        <div class="psych-example" style="border-color:#ef4444;">"Cada proceso manual es plata que tu competencia está reinvirtiendo."</div>
+      </div>
+
+      <div class="psych-card">
+        <div class="psych-card-top">
+          <div class="psych-icon" style="background:rgba(139,92,246,0.15);">🏆</div>
+          <div>
+            <h4>Social Proof + Authority</h4>
+            <span class="psych-power" style="background:rgba(139,92,246,0.1); color:#c084fc;">CONVERSIÓN</span>
+          </div>
+        </div>
+        <p>Crítico para slides 5 en carruseles y landing pages. En Uruguay, prueba local vale 5x más que casos internacionales. Números específicos &gt; porcentajes genéricos.</p>
+        <div class="psych-example" style="border-color:#8b5cf6;">"En empresas reales, en Uruguay, con resultados medibles." — La localización elimina la objeción "eso es para afuera".</div>
+      </div>
+
+      <div class="psych-card">
+        <div class="psych-card-top">
+          <div class="psych-icon" style="background:rgba(6,182,212,0.15);">🔄</div>
+          <div>
+            <h4>Reactance Reversal</h4>
+            <span class="psych-power" style="background:rgba(6,182,212,0.1); color:#22d3ee;">VIDEO</span>
+          </div>
+        </div>
+        <p>Cuando se percibe presión de venta, el cerebro resiste. Dar autonomía explícita ("es tu decisión") reduce la resistencia y paradójicamente genera más acción que el push directo.</p>
+        <div class="psych-example" style="border-color:#06b6d4;">"Lo que hacés después es tu decisión." — Después del golpe, soltar el control convierte mejor que presionar.</div>
+      </div>
+    </div>
+
+  </div><!-- end psych -->
+
+  <!-- ======= CHECKLIST ======= -->
+  <div class="section" id="checklist">
+    <div class="section-intro">
+      <h2>✅ Checklist de publicación</h2>
+      <p>Usar antes de publicar cada pieza. Hacé click en cada ítem para marcarlo. El objetivo es que cada publicación active al menos 3 principios psicológicos.</p>
+    </div>
+
+    <div class="checklist">
+      <h3>📸 Para cada foto de feed</h3>
+      <div class="check-list">
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">¿La frase activa <strong>pérdida</strong>, no ganancia? (Loss Aversion)</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">¿Tiene al menos una palabra de tiempo presente? ("hoy", "ya", "ahora", "mientras")</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">¿El diseño visual tiene contraste máximo? (fondo oscuro, texto blanco bold)</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">¿El texto es legible al 100% sin zoom en mobile?</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">¿El caption lleva tráfico o genera conversación? (no solo repite la imagen)</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">¿Hay un CTA claro aunque sea mínimo? (DM / link en bio / comentá)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="checklist" style="margin-top:20px;">
+      <h3>🎠 Para cada carrusel</h3>
+      <div class="check-list">
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">¿El Slide 1 para el scroll? (Pattern interrupt, amenaza clara)</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">¿Cada slide deja un loop abierto que el siguiente cierra? (Zeigarnik)</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">¿El arco emocional completo: Amenaza → Dolor → Enemigo → Visión → Prueba → CTA?</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">¿Hay prueba social con números específicos (no genéricos)?</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">¿El último slide tiene UNA sola acción posible? (Hick's Law)</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">¿El CTA tiene friction mínima? ("esta conversación vale la pena" &gt; "comprá ahora")</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">¿Hay al menos una mención a Uruguay o contexto local?</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="checklist" style="margin-top:20px;">
+      <h3>🎬 Para cada video/Reel</h3>
+      <div class="check-list">
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">¿Tiene exactamente 3 frases? (o 2 si son muy poderosas)</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">¿Dura entre 6-9 segundos? (completion rate óptimo)</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">¿La Frase 1 para el scroll en los primeros 2 segundos?</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">¿La Frase 3 cierra con identidad o autonomía? (no con venta directa)</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">¿El texto es legible sin sonido? (90% de views son sin audio)</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">¿Hay subtítulos si hay voz en off?</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end checklist -->
+
+</main>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Copiado al portapapeles</div>
+
+<script>
+  function showTab(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+
+  function toggleAnalysis(btn) {
+    const card = btn.closest('.copy-card');
+    const analysis = card.querySelector('.card-analysis');
+    const isOpen = analysis.classList.contains('open');
+    analysis.classList.toggle('open');
+    btn.textContent = isOpen ? 'Ver análisis ↓' : 'Ocultar análisis ↑';
+  }
+
+  function copyText(btn, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.classList.add('copied');
+      btn.textContent = '✓ Copiado';
+      showToast();
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.textContent = '📋 Copiar frase';
+      }, 2000);
+    });
+  }
+
+  function showToast() {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2200);
+  }
+
+  function toggleCheck(item) {
+    item.classList.toggle('checked');
+    const box = item.querySelector('.check-box');
+    box.textContent = item.classList.contains('checked') ? '✓' : '';
+  }
+</script>
+
+</body>
+</html>
