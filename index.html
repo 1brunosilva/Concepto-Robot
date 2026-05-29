@@ -1100,8 +1100,8 @@ function closeFaqOverlay(){
 (function initScarcityBar(){
   const TOTAL_SLOTS=3;
   const now=new Date();
-  const monthSeed=now.getFullYear()*100+(now.getMonth()+1);
-  const available=(monthSeed%3===0)?2:1;
+  const day=now.getDate();
+  const available=day<=10?3:day<=20?2:1;
   const bar=document.getElementById('scarcity-bar');
   const textEl=document.getElementById('sb-text-content');
   const monthNames=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
@@ -1110,11 +1110,11 @@ function closeFaqOverlay(){
   if(available===1){
     bar.classList.add('urgent');
     textEl.innerHTML=mob
-      ?`<strong>${TOTAL_SLOTS} proyectos/mes</strong><span class="sb-sep">·</span><span class="sb-highlight">1 lugar — ${mesActual}</span>`
+      ?`<strong>${TOTAL_SLOTS} proyectos/mes</strong><span class="sb-sep">·</span><span class="sb-highlight">1 lugar disponible en ${mesActual}</span>`
       :`Solo tomamos <strong>${TOTAL_SLOTS} proyectos por mes</strong><span class="sb-sep">·</span><span class="sb-highlight">Queda 1 lugar en ${mesActual}</span><span class="sb-sep sb-extra">·</span><span class="sb-extra" style="color:rgba(255,255,255,.45)">¿Es el tuyo?</span>`;
   } else {
     textEl.innerHTML=mob
-      ?`<strong>${TOTAL_SLOTS} proyectos/mes</strong><span class="sb-sep">·</span><span class="sb-highlight">${available} lugares — ${mesActual}</span>`
+      ?`<strong>${TOTAL_SLOTS} proyectos/mes</strong><span class="sb-sep">·</span><span class="sb-highlight">${available} lugares disponibles en ${mesActual}</span>`
       :`Solo tomamos <strong>${TOTAL_SLOTS} proyectos por mes</strong><span class="sb-sep">·</span><span class="sb-highlight">${available} lugares disponibles en ${mesActual}</span>`;
   }
   setTimeout(()=>{bar.classList.add('visible');document.body.classList.add('has-scarcity');},2600);
