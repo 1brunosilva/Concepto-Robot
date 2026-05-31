@@ -1,0 +1,2955 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Concepto HQ">
+<title>Concepto HQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg0:#07070a; --bg1:#0f0f13; --bg2:#141418; --bg3:#1c1c22; --bg4:#26262e;
+  --border:#1e1e26; --border2:#2a2a35;
+  --txt1:#e8e8f2; --txt2:#9898b0; --txt3:#55556a;
+  --vlt:#7c3aed; --vlt2:#a855f7; --vlt-glow:rgba(124,58,237,.25);
+  --green:#22c55e; --red:#ef4444; --orange:#f97316; --blue:#3b82f6; --yellow:#eab308;
+  --radius:14px; --radius-sm:8px; --radius-full:100px;
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --nav-h:68px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg0);color:var(--txt1);font-family:'Inter',system-ui,sans-serif;font-size:15px;overflow:hidden}
+#app{display:flex;flex-direction:column;height:100%;position:relative}
+/* SCROLL */
+#main{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:16px 16px calc(var(--nav-h) + var(--safe-b) + 16px)}
+/* PAGES */
+.page{display:none}.page.active{display:block}
+/* HEADER */
+#header{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 0;padding-top:calc(16px + env(safe-area-inset-top,0px))}
+#header-brand{display:flex;align-items:center;gap:10px}
+#header-logo-mark{width:30px;height:30px;background:linear-gradient(135deg,var(--vlt),var(--vlt2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:#fff;letter-spacing:-1px;font-family:'DM Mono',monospace}
+#header-title{font-size:17px;font-weight:800;letter-spacing:-.5px;color:var(--txt1)}
+#header-title span{color:var(--vlt2)}
+#header-right{display:flex;gap:8px;align-items:center}
+.hdr-btn{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:6px 10px;font-size:13px;color:var(--txt2);cursor:pointer;font-family:inherit}
+/* BOTTOM NAV */
+#nav{position:fixed;bottom:0;left:0;right:0;height:calc(var(--nav-h) + var(--safe-b));background:rgba(7,7,10,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;align-items:flex-start;padding-top:6px;z-index:50}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;border:none;background:none;color:var(--txt3);cursor:pointer;font-size:10px;font-family:'DM Mono',monospace;letter-spacing:.5px;text-transform:uppercase;transition:color .15s}
+.nav-btn svg{width:22px;height:22px;transition:transform .15s}
+.nav-btn.active{color:var(--vlt2)}
+.nav-btn.active svg{transform:scale(1.1)}
+/* CARDS */
+.card{background:var(--bg1);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+.card-sm{background:var(--bg1);border:1px solid var(--border);border-radius:var(--radius);padding:12px}
+/* SUB-NAV CHIPS */
+.subnav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:12px;margin-bottom:4px}
+.subnav::-webkit-scrollbar{display:none}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:var(--radius-full);font-size:12px;font-weight:600;border:1px solid var(--border2);background:var(--bg2);color:var(--txt2);cursor:pointer;white-space:nowrap;transition:all .15s;font-family:'DM Mono',monospace}
+.chip.active{background:var(--vlt);border-color:var(--vlt);color:#fff}
+/* STAT */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.stat-grid.cols3{grid-template-columns:1fr 1fr 1fr}
+.stat{background:var(--bg1);border:1px solid var(--border);border-radius:var(--radius);padding:14px}
+.stat-label{font-size:11px;color:var(--txt3);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.stat-value{font-size:24px;font-weight:800;letter-spacing:-1px;color:var(--txt1)}
+.stat-sub{font-size:12px;color:var(--txt3);margin-top:2px}
+/* SECTION LABEL */
+.sec-label{font-size:10px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1.5px;color:var(--txt3);display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border)}
+/* PAGE TITLE */
+.page-title{font-size:28px;font-weight:900;letter-spacing:-1.2px;margin-bottom:16px}
+/* INPUTS */
+input,select,textarea{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--txt1);font-family:'Inter',system-ui;font-size:14px;padding:10px 12px;outline:none;width:100%;transition:border-color .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--vlt)}
+select option{background:var(--bg3)}
+textarea{resize:vertical;min-height:80px;line-height:1.5}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:11px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.5px;color:var(--txt3);margin-bottom:6px}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 18px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;border:none;cursor:pointer;font-family:'Inter',system-ui;transition:all .15s;white-space:nowrap}
+.btn-primary{background:linear-gradient(135deg,var(--vlt),var(--vlt2));color:#fff;box-shadow:0 4px 20px var(--vlt-glow)}
+.btn-primary:active{transform:scale(.97)}
+.btn-ghost{background:var(--bg3);color:var(--txt2);border:1px solid var(--border2)}
+.btn-ghost:active{background:var(--bg4)}
+.btn-red{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.btn-green{background:rgba(34,197,94,.15);color:var(--green);border:1px solid rgba(34,197,94,.2)}
+.btn-full{width:100%}
+.btn-sm{padding:7px 12px;font-size:12px}
+/* TAGS */
+.tag{display:inline-flex;align-items:center;padding:3px 9px;border-radius:100px;font-size:11px;font-weight:600;font-family:'DM Mono',monospace}
+.tag-vlt{background:rgba(124,58,237,.15);color:var(--vlt2)}
+.tag-green{background:rgba(34,197,94,.12);color:var(--green)}
+.tag-red{background:rgba(239,68,68,.12);color:var(--red)}
+.tag-orange{background:rgba(249,115,22,.12);color:var(--orange)}
+.tag-blue{background:rgba(59,130,246,.12);color:var(--blue)}
+.tag-gray{background:var(--bg3);color:var(--txt3)}
+/* LIST ITEMS */
+.list-item{display:flex;align-items:flex-start;gap:10px;padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px}
+.list-item:last-child{margin-bottom:0}
+/* PIPELINE KANBAN */
+.kanban{display:flex;gap:10px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none}
+.kanban::-webkit-scrollbar{display:none}
+.kanban-col{min-width:230px;background:var(--bg1);border:1px solid var(--border);border-radius:var(--radius);padding:12px;flex-shrink:0}
+.kanban-col-title{font-size:11px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;color:var(--txt3);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.kanban-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:12px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.kanban-card:hover{border-color:var(--border2)}
+.kanban-card:last-child{margin-bottom:0}
+/* AI CHAT */
+#ai-chat-messages{min-height:300px;max-height:55vh;overflow-y:auto;padding:12px 0;display:flex;flex-direction:column;gap:10px;scrollbar-width:none}
+#ai-chat-messages::-webkit-scrollbar{display:none}
+.msg-user{align-self:flex-end;background:linear-gradient(135deg,var(--vlt),var(--vlt2));color:#fff;padding:10px 14px;border-radius:14px 14px 4px 14px;max-width:85%;font-size:14px;line-height:1.5}
+.msg-ai{align-self:flex-start;background:var(--bg2);border:1px solid var(--border);padding:10px 14px;border-radius:14px 14px 14px 4px;max-width:95%;font-size:14px;line-height:1.6;white-space:pre-wrap}
+.msg-system{align-self:center;font-size:11px;color:var(--txt3);font-family:'DM Mono',monospace;text-align:center;padding:4px 0}
+.ai-mode-bar{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:10px 0}
+.ai-mode-bar::-webkit-scrollbar{display:none}
+.ai-mode-btn{padding:6px 14px;border-radius:var(--radius-full);font-size:12px;font-weight:600;border:1px solid var(--border2);background:var(--bg2);color:var(--txt2);cursor:pointer;white-space:nowrap;font-family:'DM Mono',monospace;transition:all .15s}
+.ai-mode-btn.active{background:var(--vlt);border-color:var(--vlt);color:#fff}
+.ai-input-row{display:flex;gap:8px;margin-top:10px}
+.ai-input-row input{flex:1}
+/* FOCUS / POMODORO */
+.pomo-display{font-size:64px;font-weight:900;letter-spacing:-3px;font-family:'DM Mono',monospace;text-align:center;color:var(--txt1);margin:20px 0 8px}
+.pomo-phase{text-align:center;font-size:13px;font-family:'DM Mono',monospace;color:var(--txt3);text-transform:uppercase;letter-spacing:1px;margin-bottom:24px}
+/* CHART */
+.chart-bar-wrap{display:flex;align-items:flex-end;gap:3px;height:60px;padding-top:4px}
+.chart-bar{flex:1;background:var(--vlt);border-radius:3px 3px 0 0;min-height:2px;opacity:.7;transition:height .3s}
+.chart-bar.today{opacity:1;background:var(--vlt2)}
+/* PROPOSAL */
+.proposal-card{background:var(--bg1);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;cursor:pointer}
+.proposal-status{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-family:'DM Mono',monospace;padding:3px 9px;border-radius:100px}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:200;display:none;align-items:flex-end;background:rgba(0,0,0,.7);backdrop-filter:blur(4px)}
+.modal-overlay.open{display:flex}
+.modal-sheet{background:var(--bg1);border:1px solid var(--border);border-radius:24px 24px 0 0;padding:20px 16px;padding-bottom:calc(24px + var(--safe-b));width:100%;max-width:600px;margin:0 auto;max-height:90vh;overflow-y:auto;animation:slideUp .2s ease}
+.modal-handle{width:36px;height:4px;background:var(--bg4);border-radius:2px;margin:0 auto 16px}
+.modal-title{font-size:20px;font-weight:800;letter-spacing:-.5px;margin-bottom:16px}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+/* ALERT CARD */
+.alert-card{border-radius:var(--radius-sm);padding:12px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px}
+.alert-red{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2)}
+.alert-orange{background:rgba(249,115,22,.08);border:1px solid rgba(249,115,22,.2)}
+.alert-yellow{background:rgba(234,179,8,.08);border:1px solid rgba(234,179,8,.2)}
+.alert-vlt{background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.2)}
+/* CONTENT ENGINE */
+.script-output{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:14px;font-size:14px;line-height:1.7;min-height:120px;white-space:pre-wrap;color:var(--txt2)}
+/* ENERGY */
+.energy-btn{width:44px;height:44px;border-radius:12px;background:var(--bg3);border:1px solid var(--border2);display:inline-flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;transition:all .15s}
+.energy-btn.sel{background:var(--vlt);border-color:var(--vlt)}
+/* PROGRESS BAR */
+.progress-wrap{background:var(--bg3);border-radius:100px;height:6px;overflow:hidden;margin-top:8px}
+.progress-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--vlt),var(--vlt2));transition:width .4s}
+/* QUICK ACTIONS */
+.qa-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.qa-btn{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:all .15s}
+.qa-btn:active{background:var(--bg3);transform:scale(.96)}
+.qa-btn .qa-icon{font-size:22px}
+.qa-btn .qa-label{font-size:10px;font-family:'DM Mono',monospace;color:var(--txt3);text-align:center;line-height:1.2}
+/* EMPTY */
+.empty{text-align:center;padding:40px 20px;color:var(--txt3);font-size:14px}
+.empty-icon{font-size:36px;margin-bottom:8px}
+/* NOTIFICATION */
+#notif{position:fixed;top:calc(20px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%) translateY(-100px);background:var(--bg2);border:1px solid var(--vlt);border-radius:var(--radius-sm);padding:10px 18px;font-size:13px;color:var(--txt1);z-index:300;transition:transform .3s;white-space:nowrap}
+#notif.show{transform:translateX(-50%) translateY(0)}
+/* BRIEF SECTIONS */
+.brief-line{font-size:14px;line-height:1.8;color:var(--txt2);display:flex;gap:10px;align-items:flex-start}
+.brief-line .brief-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+/* COPY BANK */
+.copy-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;margin-bottom:8px;position:relative}
+.copy-item .copy-text{font-size:13px;color:var(--txt2);line-height:1.5;margin-bottom:8px}
+.copy-item-actions{display:flex;gap:6px;align-items:center}
+/* ROI CALC */
+.roi-result{background:linear-gradient(135deg,rgba(124,58,237,.1),rgba(168,85,247,.1));border:1px solid rgba(124,58,237,.3);border-radius:var(--radius);padding:16px}
+/* MILESTONE */
+.milestone-item{display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg2);border-radius:var(--radius-sm);margin-bottom:6px}
+.milestone-check{width:20px;height:20px;border-radius:6px;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .15s}
+.milestone-check.done{background:var(--green);border-color:var(--green);color:#fff}
+/* SNIPPET */
+.snippet-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.snippet-card:hover{border-color:var(--vlt)}
+/* GRID 2 */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+/* FORECAST */
+.forecast-bar{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1}
+.forecast-bar-fill{width:100%;background:linear-gradient(180deg,var(--vlt2),var(--vlt));border-radius:4px 4px 0 0;transition:height .4s}
+.forecast-label{font-size:10px;font-family:'DM Mono',monospace;color:var(--txt3)}
+.forecast-val{font-size:11px;font-weight:700;color:var(--txt2)}
+/* MARKETING */
+.mkt-piece{background:var(--bg1);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:12px}
+.mkt-thumb{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;background:var(--bg2)}
+.mkt-thumb-placeholder{width:100%;aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;background:var(--bg2);font-size:36px}
+.mkt-body{padding:12px}
+.mkt-id{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--vlt2);font-family:'DM Mono',monospace}
+.mkt-title{font-size:15px;font-weight:700;letter-spacing:-.3px;margin:3px 0 5px}
+.mkt-copy{font-size:12px;color:var(--txt2);line-height:1.5;margin-bottom:10px}
+.mkt-footer{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.mkt-status{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;font-family:'DM Mono',monospace;padding:3px 9px;border-radius:100px;cursor:pointer;transition:all .15s}
+.mkt-st-pendiente{background:rgba(88,88,88,.15);color:var(--txt3);border:1px solid var(--border2)}
+.mkt-st-produccion{background:rgba(234,179,8,.1);color:var(--yellow);border:1px solid rgba(234,179,8,.2)}
+.mkt-st-lista{background:rgba(124,58,237,.12);color:var(--vlt2);border:1px solid rgba(124,58,237,.2)}
+.mkt-st-publicada{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.2)}
+.mkt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.script-block{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:10px}
+.script-block-title{font-size:11px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.1em;color:var(--vlt2);margin-bottom:8px}
+.script-block-body{font-size:13px;color:var(--txt2);line-height:1.7;white-space:pre-wrap}
+.workflow-step{display:flex;align-items:flex-start;gap:12px;padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px}
+.workflow-num{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--vlt),var(--vlt2));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0;font-family:'DM Mono',monospace}
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- NOTIFICATION TOAST -->
+  <div id="notif"></div>
+
+  <!-- HEADER -->
+  <div id="header">
+    <div id="header-brand">
+      <div id="header-logo-mark">HQ</div>
+      <div>
+        <div id="header-title">Concepto <span>HQ</span></div>
+      </div>
+    </div>
+    <div id="header-right">
+      <div id="header-date" style="font-size:12px;color:var(--txt3);font-family:'DM Mono',monospace"></div>
+      <div id="sync-dot" title="Sincronizando..." style="width:8px;height:8px;border-radius:50%;background:var(--txt3);transition:background .3s;flex-shrink:0"></div>
+      <button class="hdr-btn" onclick="openModal('modal-settings')" style="padding:6px 8px;font-size:16px;background:none;border:none">⚙️</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div id="main">
+
+    <!-- ═══════════════ COMANDO ═══════════════ -->
+    <div id="page-comando" class="page active">
+      <div id="morning-brief" class="card" style="border-color:var(--vlt);background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(168,85,247,.04))">
+        <div class="sec-label">Brief del día</div>
+        <div id="brief-content" style="font-size:14px;line-height:1.8;color:var(--txt2)">Cargando...</div>
+      </div>
+      <!-- Energy check-in -->
+      <div class="card" id="energy-card">
+        <div class="sec-label">Energía hoy</div>
+        <div style="display:flex;gap:8px;align-items:center" id="energy-btns">
+          <button class="energy-btn" onclick="setEnergy(1)" data-e="1">😴</button>
+          <button class="energy-btn" onclick="setEnergy(2)" data-e="2">😐</button>
+          <button class="energy-btn" onclick="setEnergy(3)" data-e="3">🙂</button>
+          <button class="energy-btn" onclick="setEnergy(4)" data-e="4">😊</button>
+          <button class="energy-btn" onclick="setEnergy(5)" data-e="5">🔥</button>
+          <span id="energy-saved" style="font-size:12px;color:var(--txt3);font-family:'DM Mono',monospace;margin-left:4px"></span>
+        </div>
+      </div>
+      <!-- KPI Stats -->
+      <div class="stat-grid">
+        <div class="stat" onclick="setPage('finance')" style="cursor:pointer">
+          <div class="stat-label">MRR</div>
+          <div class="stat-value" id="kpi-mrr" style="color:var(--green)">$0</div>
+          <div class="stat-sub" id="kpi-mrr-sub">recurrente</div>
+        </div>
+        <div class="stat" onclick="setPage('pipeline')" style="cursor:pointer">
+          <div class="stat-label">Pipeline</div>
+          <div class="stat-value" id="kpi-pipeline" style="color:var(--blue)">$0</div>
+          <div class="stat-sub" id="kpi-pipeline-sub">en prospectos</div>
+        </div>
+        <div class="stat" onclick="setPage('tasks')" style="cursor:pointer">
+          <div class="stat-label">Tareas hoy</div>
+          <div class="stat-value" id="kpi-tasks" style="color:var(--orange)">0</div>
+          <div class="stat-sub" id="kpi-tasks-sub">pendientes</div>
+        </div>
+        <div class="stat" onclick="setPage('timer')" style="cursor:pointer">
+          <div class="stat-label">Trabajado</div>
+          <div class="stat-value" id="kpi-timer" style="font-size:18px;font-family:'DM Mono',monospace">0h</div>
+          <div class="stat-sub">esta semana</div>
+        </div>
+      </div>
+      <!-- Alerts -->
+      <div id="alerts-section"></div>
+      <!-- Quick Actions -->
+      <div class="sec-label" style="margin-bottom:10px">Acciones rápidas</div>
+      <div class="qa-grid">
+        <div class="qa-btn" onclick="quickAction('task')"><div class="qa-icon">✅</div><div class="qa-label">Nueva tarea</div></div>
+        <div class="qa-btn" onclick="quickAction('prospect')"><div class="qa-icon">🎯</div><div class="qa-label">Prospecto</div></div>
+        <div class="qa-btn" onclick="quickAction('ai-proposal')"><div class="qa-icon">🤖</div><div class="qa-label">Propuesta AI</div></div>
+        <div class="qa-btn" onclick="quickAction('script')"><div class="qa-icon">🎬</div><div class="qa-label">Script MAX</div></div>
+        <div class="qa-btn" onclick="quickAction('note')"><div class="qa-icon">📝</div><div class="qa-label">Anotar idea</div></div>
+        <div class="qa-btn" onclick="quickAction('income')"><div class="qa-icon">💰</div><div class="qa-label">Ingreso</div></div>
+        <div class="qa-btn" onclick="quickAction('focus')"><div class="qa-icon">🎯</div><div class="qa-label">Modo Focus</div></div>
+        <div class="qa-btn" onclick="quickAction('copy')"><div class="qa-icon">✍️</div><div class="qa-label">Copy AI</div></div>
+      </div>
+      <!-- Today -->
+      <div class="sec-label">Agenda de hoy</div>
+      <div id="today-list">
+        <div class="empty"><div class="empty-icon">📅</div>Sin tareas para hoy</div>
+      </div>
+      <!-- Follow-up radar -->
+      <div id="radar-section"></div>
+    </div>
+
+    <!-- ═══════════════ MAX AI ═══════════════ -->
+    <div id="page-ai" class="page">
+      <div class="page-title">MAX AI</div>
+      <!-- Mode bar -->
+      <div class="ai-mode-bar">
+        <button class="ai-mode-btn active" onclick="setAiMode('general',this)">🤖 General</button>
+        <button class="ai-mode-btn" onclick="setAiMode('marketing',this)">📢 Marketing</button>
+        <button class="ai-mode-btn" onclick="setAiMode('cliente',this)">👥 Cliente</button>
+        <button class="ai-mode-btn" onclick="setAiMode('propuesta',this)">📄 Propuesta</button>
+        <button class="ai-mode-btn" onclick="setAiMode('brief',this)">🎬 Brief</button>
+        <button class="ai-mode-btn" onclick="setAiMode('copy',this)">✍️ Copy</button>
+        <button class="ai-mode-btn" onclick="setAiMode('roi',this)">📊 ROI</button>
+      </div>
+      <!-- Context info -->
+      <div class="card" id="ai-context-info" style="padding:10px 14px;margin-bottom:8px">
+        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--txt3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">Contexto activo</div>
+        <div id="ai-context-desc" style="font-size:13px;color:var(--txt2)">Asistente general con todos tus datos de negocio</div>
+        <div id="ai-client-selector" style="display:none;margin-top:8px">
+          <select id="ai-client-select" onchange="updateAiContext()">
+            <option value="">— Seleccionar cliente/prospecto —</option>
+          </select>
+        </div>
+      </div>
+      <!-- Chat -->
+      <div class="card" style="padding:12px">
+        <div id="ai-chat-messages">
+          <div class="msg-system">Contexto cargado · Escribe tu consulta abajo</div>
+          <div class="msg-ai">Hola Bruno 👋 Soy tu asistente con contexto completo de Concepto Development. Puedo ayudarte con estrategia, propuestas, scripts para MAX, copy, análisis de clientes o cualquier tema de tu agencia.
+
+Cambiá el modo arriba para un contexto más específico, o escribime directamente.</div>
+        </div>
+        <div class="ai-input-row">
+          <input type="text" id="ai-input" placeholder="Escribi tu consulta..." onkeydown="if(event.key==='Enter')sendAiMessage()">
+          <button class="btn btn-primary btn-sm" onclick="sendAiMessage()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+          </button>
+        </div>
+        <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" onclick="copyAiPrompt()">📋 Copiar prompt completo</button>
+          <button class="btn btn-ghost btn-sm" onclick="openInClaude()">↗ Abrir en Claude</button>
+          <button class="btn btn-ghost btn-sm" onclick="clearChat()">🗑 Limpiar</button>
+        </div>
+      </div>
+      <!-- Quick prompts -->
+      <div class="sec-label">Prompts rápidos</div>
+      <div id="quick-prompts-list"></div>
+      <button class="btn btn-ghost btn-full" onclick="openModal('modal-add-prompt')">+ Guardar prompt nuevo</button>
+    </div>
+
+    <!-- ═══════════════ PIPELINE ═══════════════ -->
+    <div id="page-pipeline" class="page">
+      <div class="page-title">Pipeline</div>
+      <div class="stat-grid cols3" style="margin-bottom:14px">
+        <div class="stat card-sm"><div class="stat-label">Prospectos</div><div id="pip-total" class="stat-value" style="font-size:20px">0</div></div>
+        <div class="stat card-sm"><div class="stat-label">Valor total</div><div id="pip-value" class="stat-value" style="font-size:18px;color:var(--blue)">$0</div></div>
+        <div class="stat card-sm"><div class="stat-label">En nego.</div><div id="pip-nego" class="stat-value" style="font-size:20px;color:var(--orange)">0</div></div>
+      </div>
+      <button class="btn btn-primary btn-full" style="margin-bottom:12px" onclick="openModal('modal-pipeline')">+ Nuevo prospecto</button>
+      <div class="kanban" id="kanban"></div>
+    </div>
+
+    <!-- ═══════════════ CLIENTES ═══════════════ -->
+    <div id="page-clients" class="page">
+      <div class="page-title">Clientes</div>
+      <div class="stat-grid cols3" style="margin-bottom:14px">
+        <div class="stat card-sm"><div class="stat-label">Activos</div><div id="cl-count" class="stat-value" style="font-size:20px;color:var(--green)">0</div></div>
+        <div class="stat card-sm"><div class="stat-label">MRR</div><div id="cl-mrr" class="stat-value" style="font-size:18px;color:var(--vlt2)">$0</div></div>
+        <div class="stat card-sm"><div class="stat-label">Por cobrar</div><div id="cl-pending" class="stat-value" style="font-size:18px;color:var(--red)">$0</div></div>
+      </div>
+      <button class="btn btn-primary btn-full" style="margin-bottom:14px" onclick="openModal('modal-client')">+ Nuevo cliente</button>
+      <div id="clients-list"></div>
+    </div>
+
+    <!-- ═══════════════ TAREAS ═══════════════ -->
+    <div id="page-tasks" class="page">
+      <div class="page-title">Tareas</div>
+      <div class="card" style="margin-bottom:12px">
+        <div style="display:flex;gap:8px">
+          <input type="text" id="task-input" placeholder="Nueva tarea..." style="flex:1" onkeydown="if(event.key==='Enter')addTask()">
+          <select id="task-priority" style="width:80px">
+            <option value="alta">🔴</option>
+            <option value="media" selected>🟡</option>
+            <option value="baja">⚪</option>
+          </select>
+        </div>
+        <div class="grid2" style="margin-top:10px;gap:8px">
+          <div class="field" style="margin:0"><label>Fecha límite</label><input type="date" id="task-due"></div>
+          <div class="field" style="margin:0"><label>Cliente</label><select id="task-client"><option value="">Sin cliente</option></select></div>
+        </div>
+        <button class="btn btn-primary btn-full" style="margin-top:10px" onclick="addTask()">+ Agregar</button>
+      </div>
+      <div class="subnav">
+        <div class="chip active" onclick="setTaskFilter('pending',this)">Pendientes</div>
+        <div class="chip" onclick="setTaskFilter('today',this)">Hoy</div>
+        <div class="chip" onclick="setTaskFilter('byclient',this)">Por cliente</div>
+        <div class="chip" onclick="setTaskFilter('done',this)">Completadas</div>
+        <div class="chip" onclick="setTaskFilter('all',this)">Todas</div>
+      </div>
+      <div id="tasks-list"></div>
+    </div>
+
+    <!-- ═══════════════ FOCUS ═══════════════ -->
+    <div id="page-focus" class="page">
+      <div class="page-title">Focus</div>
+      <div class="card" style="text-align:center">
+        <div class="pomo-display" id="pomo-display">25:00</div>
+        <div class="pomo-phase" id="pomo-phase">TRABAJO</div>
+        <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px">
+          <button class="btn btn-ghost btn-sm" onclick="setPomoType(25,'TRABAJO')">25 min</button>
+          <button class="btn btn-ghost btn-sm" onclick="setPomoType(5,'DESCANSO')">5 min</button>
+          <button class="btn btn-ghost btn-sm" onclick="setPomoType(15,'DESCANSO LARGO')">15 min</button>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:center">
+          <button id="pomo-btn" class="btn btn-primary" style="min-width:130px" onclick="togglePomo()">▶ Iniciar</button>
+          <button class="btn btn-ghost" onclick="resetPomo()">Reset</button>
+        </div>
+      </div>
+      <div class="card" style="margin-top:12px">
+        <div class="sec-label">Meta de esta sesión</div>
+        <textarea id="focus-goal" placeholder="¿Qué vas a lograr en esta sesión?" style="min-height:60px"></textarea>
+      </div>
+      <div class="sec-label" style="margin-top:4px">Sesiones de hoy</div>
+      <div id="pomo-sessions"></div>
+    </div>
+
+    <!-- ═══════════════ TIMER ═══════════════ -->
+    <div id="page-timer" class="page">
+      <div class="page-title">Tiempo</div>
+      <div class="card" style="text-align:center;padding:28px 16px">
+        <div id="timer-display" style="font-size:56px;font-weight:900;letter-spacing:-2px;font-family:'DM Mono',monospace">00:00:00</div>
+        <div id="timer-status" style="font-size:12px;color:var(--txt3);font-family:'DM Mono',monospace;margin:8px 0 20px;text-transform:uppercase;letter-spacing:1px">Pausado</div>
+        <div style="display:flex;gap:10px;justify-content:center">
+          <button id="timer-btn" class="btn btn-primary" style="min-width:130px" onclick="timerToggle()">▶ Iniciar</button>
+          <button class="btn btn-ghost" onclick="timerReset()">Reset</button>
+        </div>
+      </div>
+      <div class="card" style="margin-top:12px">
+        <div class="sec-label">Carga manual</div>
+        <div class="grid2" style="gap:8px">
+          <div class="field" style="margin:0"><label>Fecha</label><input type="date" id="manual-date"></div>
+          <div></div>
+          <div class="field" style="margin:0"><label>Horas</label><input type="number" id="manual-h" value="1" min="0"></div>
+          <div class="field" style="margin:0"><label>Minutos</label><input type="number" id="manual-m" value="0" min="0" max="59"></div>
+        </div>
+        <button class="btn btn-ghost btn-full" style="margin-top:10px" onclick="addManualTime()">Agregar</button>
+      </div>
+      <div class="sec-label" style="margin-top:4px">Últimos 14 días</div>
+      <div id="timer-history"></div>
+    </div>
+
+    <!-- ═══════════════ FINANZAS ═══════════════ -->
+    <div id="page-finance" class="page">
+      <div class="page-title">Finanzas</div>
+      <div class="stat-grid" style="margin-bottom:12px">
+        <div class="stat"><div class="stat-label">Cobrado</div><div id="fin-income" class="stat-value" style="color:var(--green);font-size:20px">$0</div></div>
+        <div class="stat"><div class="stat-label">Gastos</div><div id="fin-exp" class="stat-value" style="color:var(--red);font-size:20px">$0</div></div>
+        <div class="stat"><div class="stat-label">Neto</div><div id="fin-net" class="stat-value" style="font-size:20px">$0</div></div>
+        <div class="stat"><div class="stat-label">Margen</div><div id="fin-margin" class="stat-value" style="color:var(--blue);font-size:20px">0%</div></div>
+      </div>
+      <!-- MRR Chart -->
+      <div class="card" style="margin-bottom:12px">
+        <div class="sec-label">MRR por cliente</div>
+        <div id="mrr-chart"></div>
+      </div>
+      <!-- Forecast -->
+      <div class="card" style="margin-bottom:12px">
+        <div class="sec-label">Proyección 3 meses</div>
+        <div id="forecast-chart" style="display:flex;gap:8px;align-items:flex-end;height:80px;padding-top:4px"></div>
+        <div id="forecast-labels" style="display:flex;gap:8px;margin-top:6px"></div>
+      </div>
+      <div class="subnav">
+        <div class="chip active" onclick="setFinTab('income',this)">💰 Ingresos</div>
+        <div class="chip" onclick="setFinTab('expenses',this)">💸 Gastos</div>
+      </div>
+      <button class="btn btn-primary btn-full" style="margin-bottom:12px" onclick="openModal('modal-finance')">+ Agregar</button>
+      <div id="fin-list"></div>
+    </div>
+
+    <!-- ═══════════════ CONTENIDO ═══════════════ -->
+    <div id="page-contenido" class="page">
+      <div class="page-title">Contenido</div>
+      <div class="subnav">
+        <div class="chip active" onclick="setContenidoTab('scripts',this)">🎬 Scripts MAX</div>
+        <div class="chip" onclick="setContenidoTab('copy',this)">✍️ Copy Bank</div>
+        <div class="chip" onclick="setContenidoTab('calendar',this)">📅 Calendario</div>
+        <div class="chip" onclick="setContenidoTab('prompts',this)">🤖 Prompts</div>
+      </div>
+      <!-- Scripts tab -->
+      <div id="cont-scripts">
+        <div class="card">
+          <div class="sec-label">Generador de scripts MAX</div>
+          <div class="field"><label>Tema / Producto</label><input type="text" id="script-topic" placeholder="ej: chatbot para hotelería"></div>
+          <div class="field"><label>Registro</label>
+            <select id="script-register">
+              <option value="impacto">🔥 Impacto (directo, provocador)</option>
+              <option value="premium">💎 Premium (sofisticado, confiable)</option>
+            </select>
+          </div>
+          <div class="field"><label>Formato</label>
+            <select id="script-format">
+              <option value="reel">Reel (30-60s)</option>
+              <option value="presentacion">Presentación (60-90s)</option>
+              <option value="demo">Demo de producto</option>
+              <option value="testimonial">Testimonial</option>
+            </select>
+          </div>
+          <button class="btn btn-primary btn-full" onclick="generateScript()">⚡ Generar script</button>
+        </div>
+        <div id="script-output-card" style="display:none" class="card">
+          <div class="sec-label">Script generado</div>
+          <div id="script-output" class="script-output"></div>
+          <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+            <button class="btn btn-ghost btn-sm" onclick="copyScript()">📋 Copiar</button>
+            <button class="btn btn-ghost btn-sm" onclick="saveScript()">💾 Guardar</button>
+            <button class="btn btn-ghost btn-sm" onclick="openScriptInClaude()">↗ Mejorar con Claude</button>
+          </div>
+        </div>
+        <div class="sec-label" style="margin-top:4px">Scripts guardados</div>
+        <div id="saved-scripts"></div>
+      </div>
+      <!-- Copy Bank tab -->
+      <div id="cont-copy" style="display:none">
+        <div class="card">
+          <div class="sec-label">Nuevo copy</div>
+          <div class="field"><label>Tipo</label>
+            <select id="copy-type">
+              <option value="hook">🎣 Hook</option>
+              <option value="headline">📰 Headline</option>
+              <option value="cta">🎯 CTA</option>
+              <option value="bio">👤 Bio</option>
+              <option value="email">✉️ Email</option>
+              <option value="objection">🛡 Respuesta objeción</option>
+            </select>
+          </div>
+          <div class="field"><label>Texto</label><textarea id="copy-text" placeholder="Escribe o pega el copy..."></textarea></div>
+          <div class="field"><label>Etiqueta (opcional)</label><input type="text" id="copy-tag" placeholder="ej: chatbot, hotel, closeo"></div>
+          <button class="btn btn-primary btn-full" onclick="saveCopy()">+ Guardar</button>
+        </div>
+        <div class="sec-label" style="margin-top:4px">Banco de copy</div>
+        <div id="copy-bank-list"></div>
+      </div>
+      <!-- Calendar tab -->
+      <div id="cont-calendar" style="display:none">
+        <div class="card">
+          <div class="sec-label">Nuevo contenido</div>
+          <div class="field"><label>Fecha</label><input type="date" id="cont-date"></div>
+          <div class="field"><label>Plataforma</label>
+            <select id="cont-platform">
+              <option>Instagram</option><option>TikTok</option><option>LinkedIn</option><option>YouTube</option><option>WhatsApp</option>
+            </select>
+          </div>
+          <div class="field"><label>Formato</label>
+            <select id="cont-format">
+              <option>Reel</option><option>Post</option><option>Story</option><option>Video largo</option><option>Carrusel</option>
+            </select>
+          </div>
+          <div class="field"><label>Idea / Tema</label><textarea id="cont-idea" placeholder="¿De qué trata?" style="min-height:60px"></textarea></div>
+          <button class="btn btn-primary btn-full" onclick="saveContentItem()">+ Agendar</button>
+        </div>
+        <div class="sec-label" style="margin-top:4px">Contenido agendado</div>
+        <div id="content-calendar-list"></div>
+      </div>
+      <!-- Prompts tab -->
+      <div id="cont-prompts" style="display:none">
+        <div class="card">
+          <div class="sec-label">Nuevo prompt</div>
+          <div class="field"><label>Nombre</label><input type="text" id="prompt-name" placeholder="ej: Brief Higgsfield estándar"></div>
+          <div class="field"><label>Herramienta</label>
+            <select id="prompt-tool">
+              <option>Claude</option><option>Higgsfield</option><option>n8n</option><option>ManyChat</option><option>Otro</option>
+            </select>
+          </div>
+          <div class="field"><label>Prompt</label><textarea id="prompt-text" placeholder="El prompt completo..." style="min-height:100px"></textarea></div>
+          <button class="btn btn-primary btn-full" onclick="savePrompt()">+ Guardar</button>
+        </div>
+        <div class="sec-label" style="margin-top:4px">Prompts guardados</div>
+        <div id="prompts-list-cont"></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ PROPUESTAS ═══════════════ -->
+    <div id="page-propuestas" class="page">
+      <div class="page-title">Propuestas</div>
+      <div class="stat-grid cols3" style="margin-bottom:14px">
+        <div class="stat card-sm"><div class="stat-label">Enviadas</div><div id="prop-sent" class="stat-value" style="font-size:20px">0</div></div>
+        <div class="stat card-sm"><div class="stat-label">Aceptadas</div><div id="prop-accepted" class="stat-value" style="font-size:20px;color:var(--green)">0</div></div>
+        <div class="stat card-sm"><div class="stat-label">Cierre %</div><div id="prop-rate" class="stat-value" style="font-size:20px;color:var(--vlt2)">0%</div></div>
+      </div>
+      <button class="btn btn-primary btn-full" style="margin-bottom:14px" onclick="openModal('modal-proposal')">+ Nueva propuesta</button>
+      <div id="proposals-list"></div>
+    </div>
+
+    <!-- ═══════════════ RECURSOS ═══════════════ -->
+    <div id="page-recursos" class="page">
+      <div class="page-title">Recursos</div>
+      <div class="subnav">
+        <div class="chip active" onclick="setResFilter('all',this)">Todos</div>
+        <div class="chip" onclick="setResFilter('herramienta',this)">🔧 Herramienta</div>
+        <div class="chip" onclick="setResFilter('link',this)">🔗 Link</div>
+        <div class="chip" onclick="setResFilter('credencial',this)">🔑 Acceso</div>
+        <div class="chip" onclick="setResFilter('snippet',this)">📋 Snippet</div>
+      </div>
+      <button class="btn btn-primary btn-full" style="margin-bottom:12px" onclick="openModal('modal-resource')">+ Agregar recurso</button>
+      <div id="res-list"></div>
+    </div>
+
+    <!-- ═══════════════ IDEAS ═══════════════ -->
+    <div id="page-ideas" class="page">
+      <div class="page-title">Ideas</div>
+      <div class="card" style="margin-bottom:12px">
+        <textarea id="idea-text" placeholder="Anotá la idea..." style="min-height:70px;margin-bottom:10px"></textarea>
+        <div style="display:flex;gap:8px">
+          <select id="idea-tag" style="flex:1">
+            <option value="general">General</option>
+            <option value="cliente">Cliente</option>
+            <option value="producto">Producto</option>
+            <option value="marketing">Marketing</option>
+            <option value="técnico">Técnico</option>
+            <option value="personal">Personal</option>
+            <option value="max">MAX</option>
+          </select>
+          <button class="btn btn-primary" onclick="addIdea()">+ Agregar</button>
+        </div>
+      </div>
+      <div class="subnav" id="ideas-filter-chips">
+        <div class="chip active" onclick="setIdeasFilter('all',this)">Todas</div>
+        <div class="chip" onclick="setIdeasFilter('marketing',this)">Marketing</div>
+        <div class="chip" onclick="setIdeasFilter('max',this)">MAX</div>
+        <div class="chip" onclick="setIdeasFilter('producto',this)">Producto</div>
+        <div class="chip" onclick="setIdeasFilter('técnico',this)">Técnico</div>
+      </div>
+      <div id="ideas-list"></div>
+    </div>
+
+    <!-- ═══════════════ OBJETIVOS ═══════════════ -->
+    <div id="page-goals" class="page">
+      <div class="page-title">Objetivos</div>
+      <button class="btn btn-primary btn-full" style="margin-bottom:14px" onclick="openModal('modal-goal')">+ Nuevo objetivo</button>
+      <div id="goals-list"></div>
+    </div>
+
+    <!-- ═══════════════ NOTAS ═══════════════ -->
+    <div id="page-notes" class="page">
+      <div class="page-title">Diario</div>
+      <div class="card" style="margin-bottom:12px">
+        <div class="field"><label>Fecha</label><input type="date" id="note-date" onchange="loadNote()"></div>
+        <textarea id="note-text" placeholder="¿Qué hiciste? ¿En qué avanzaste? ¿Qué aprendiste?" style="min-height:160px"></textarea>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button class="btn btn-primary btn-full" onclick="saveNote()">Guardar</button>
+          <button class="btn btn-ghost" onclick="deleteNote()" style="min-width:70px">Borrar</button>
+        </div>
+        <div id="note-saved" style="text-align:center;color:var(--green);font-size:12px;margin-top:6px;display:none">✓ Guardado</div>
+      </div>
+      <div class="sec-label">Entradas anteriores</div>
+      <div id="notes-list"></div>
+    </div>
+
+    <!-- ═══════════════ CALCULADORAS ═══════════════ -->
+    <div id="page-calc" class="page">
+      <div class="page-title">Calculadoras</div>
+      <div class="subnav">
+        <div class="chip active" onclick="setCalcTab('roi',this)">💰 ROI Cliente</div>
+        <div class="chip" onclick="setCalcTab('profit',this)">📊 Rentabilidad</div>
+        <div class="chip" onclick="setCalcTab('calc',this)">🧮 Calculadora</div>
+      </div>
+      <!-- ROI Calculator -->
+      <div id="calc-roi">
+        <div class="card">
+          <div class="sec-label">Calculadora ROI para clientes</div>
+          <div class="field"><label>Empleados en atención al cliente</label><input type="number" id="roi-employees" value="2" oninput="calcROI()"></div>
+          <div class="field"><label>Costo mensual por empleado ($)</label><input type="number" id="roi-salary" value="1000" oninput="calcROI()"></div>
+          <div class="field"><label>% de tiempo en tareas automatizables</label><input type="number" id="roi-pct" value="40" oninput="calcROI()"></div>
+          <div class="field"><label>Inversión mensual en el servicio ($)</label><input type="number" id="roi-invest" value="250" oninput="calcROI()"></div>
+        </div>
+        <div class="roi-result" id="roi-result">
+          <div class="grid2" style="gap:12px">
+            <div><div class="stat-label">Ahorro mensual</div><div id="roi-saving" class="stat-value" style="font-size:22px;color:var(--green)">$0</div></div>
+            <div><div class="stat-label">ROI mensual</div><div id="roi-pct-out" class="stat-value" style="font-size:22px;color:var(--vlt2)">0%</div></div>
+            <div><div class="stat-label">Break-even</div><div id="roi-breakeven" class="stat-value" style="font-size:18px">0 días</div></div>
+            <div><div class="stat-label">Ahorro anual</div><div id="roi-annual" class="stat-value" style="font-size:18px;color:var(--green)">$0</div></div>
+          </div>
+          <button class="btn btn-ghost btn-full btn-sm" style="margin-top:12px" onclick="copyROIReport()">📋 Copiar para propuesta</button>
+        </div>
+      </div>
+      <!-- Profitability -->
+      <div id="calc-profit" style="display:none">
+        <div class="card">
+          <div class="sec-label">Rentabilidad de la agencia</div>
+          <div class="field"><label>Setup por cliente ($)</label><input type="number" id="r-setup" value="800" oninput="calcProfit()"></div>
+          <div class="field"><label>Retainer mensual ($)</label><input type="number" id="r-monthly" value="250" oninput="calcProfit()"></div>
+          <div class="field"><label>Costos por cliente/mes ($)</label><input type="number" id="r-cost" value="75" oninput="calcProfit()"></div>
+          <div class="field"><label>Objetivo de clientes</label><input type="number" id="r-clients" value="5" oninput="calcProfit()"></div>
+        </div>
+        <div class="stat-grid" style="margin-top:0">
+          <div class="stat"><div class="stat-label">MRR proyectado</div><div id="r-mrr" class="stat-value" style="color:var(--green);font-size:22px">$0</div></div>
+          <div class="stat"><div class="stat-label">Ganancia neta/mes</div><div id="r-profit" class="stat-value" style="font-size:22px">$0</div></div>
+          <div class="stat"><div class="stat-label">Margen</div><div id="r-margin" class="stat-value" style="color:var(--blue);font-size:22px">0%</div></div>
+          <div class="stat"><div class="stat-label">Break-even clientes</div><div id="r-be" class="stat-value" style="color:var(--txt2);font-size:22px">0</div></div>
+        </div>
+        <div class="stat" style="margin-top:10px"><div class="stat-label">MRR real (clientes activos)</div><div id="r-real" class="stat-value" style="color:var(--vlt2)">$0</div></div>
+      </div>
+      <!-- Calculator -->
+      <div id="calc-standard" style="display:none">
+        <div class="card">
+          <div style="background:var(--bg2);border-radius:var(--radius-sm);padding:14px;margin-bottom:12px;text-align:right">
+            <div id="calc-expr" style="font-size:12px;color:var(--txt3);font-family:'DM Mono',monospace;min-height:16px"></div>
+            <div id="calc-display" style="font-size:36px;font-weight:800;font-family:'DM Mono',monospace;letter-spacing:-1px">0</div>
+          </div>
+          <div id="calc-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ CONFIGURACIÓN ═══════════════ -->
+    <div id="page-settings" class="page">
+      <div class="page-title">Configuración</div>
+      <div class="card" style="margin-bottom:12px">
+        <div class="sec-label">Claude AI</div>
+        <div class="field"><label>URL del proxy local (opcional)</label><input type="text" id="cfg-proxy" placeholder="http://localhost:3001/chat"></div>
+        <p style="font-size:12px;color:var(--txt3);line-height:1.5;margin-bottom:10px">Si configurás un proxy local, el chat de MAX AI usará Claude en tiempo real. Sin proxy, generará prompts para copiar y abrir en claude.ai</p>
+        <button class="btn btn-ghost btn-full" onclick="saveSettings()">Guardar configuración</button>
+      </div>
+      <div class="card" style="margin-bottom:12px">
+        <div class="sec-label">Importar datos</div>
+        <p style="font-size:13px;color:var(--txt2);margin-bottom:8px">Pegá el JSON de Concepto OS o seleccioná un archivo de backup.</p>
+        <textarea id="import-json" placeholder="Pegá aquí el JSON de Concepto OS..." style="min-height:80px;margin-bottom:8px;font-size:12px;font-family:'DM Mono',monospace"></textarea>
+        <div style="display:flex;gap:8px;margin-bottom:8px">
+          <button class="btn btn-primary btn-full" onclick="importFromJSON()">⬇ Importar JSON</button>
+          <label class="btn btn-ghost" style="flex:1;text-align:center;cursor:pointer">
+            📂 Archivo
+            <input type="file" accept=".json" onchange="importFromFile(event)" style="display:none">
+          </label>
+        </div>
+        <button class="btn btn-ghost btn-full" onclick="importFromOS()" style="font-size:12px;color:var(--txt3)">Intentar desde mismo origen</button>
+      </div>
+      <div class="card" style="margin-bottom:12px">
+        <div class="sec-label">Datos</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost btn-full" onclick="exportData()">⬆ Exportar backup</button>
+          <button class="btn btn-red btn-full" onclick="clearAllData()">🗑 Borrar todo</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="sec-label">App</div>
+        <p style="font-size:12px;color:var(--txt3)">Concepto HQ v1.0 · Built for Bruno · Concepto Development Uruguay</p>
+      </div>
+    </div>
+
+    <!-- ═══════════════ MARKETING ═══════════════ -->
+    <div id="page-marketing" class="page">
+      <div class="page-title">Marketing</div>
+
+      <!-- Stats -->
+      <div class="stat-grid cols3" style="margin-bottom:14px">
+        <div class="stat card-sm"><div class="stat-label">En producción</div><div id="mkt-stat-prod" class="stat-value" style="font-size:20px;color:var(--yellow)">0</div></div>
+        <div class="stat card-sm"><div class="stat-label">Listas</div><div id="mkt-stat-listas" class="stat-value" style="font-size:20px;color:var(--vlt2)">0</div></div>
+        <div class="stat card-sm"><div class="stat-label">Publicadas</div><div id="mkt-stat-pub" class="stat-value" style="font-size:20px;color:var(--green)">0</div></div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="subnav">
+        <div class="chip active" onclick="setMktTab('anuncios',this)">🖼 Anuncios</div>
+        <div class="chip" onclick="setMktTab('videos',this)">🎬 Videos</div>
+        <div class="chip" onclick="setMktTab('scripts',this)">📄 Scripts</div>
+        <div class="chip" onclick="setMktTab('workflow',this)">⚙️ Workflow</div>
+      </div>
+
+      <!-- ANUNCIOS TAB -->
+      <div id="mkt-anuncios">
+        <div class="sec-label">Piezas de imagen — Feed / Stories</div>
+        <div id="mkt-pieces-grid"></div>
+      </div>
+
+      <!-- VIDEOS TAB -->
+      <div id="mkt-videos" style="display:none">
+        <div class="sec-label">Videos — Reels / LinkedIn</div>
+        <div id="mkt-videos-grid"></div>
+      </div>
+
+      <!-- SCRIPTS TAB -->
+      <div id="mkt-scripts" style="display:none">
+        <div class="alert-card alert-vlt" style="margin-bottom:14px">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--vlt2);margin-bottom:3px">Scripts aprobados por Bruno</div>
+            <div style="font-size:12px;color:var(--txt2)">V1 es prioridad absoluta. V2 y V3 son los siguientes. Estos se montan en Remotion con kinetic typography.</div>
+          </div>
+        </div>
+
+        <div class="script-block">
+          <div class="script-block-title">V1 · Loss Aversion Puro — 🔥 BRILLANTE · Prioridad absoluta</div>
+          <div class="script-block-body">Hay dos tipos de empresas en Uruguay.
+
+Las que ya usan IA para atender clientes.
+Y las que todavía no saben que las están perdiendo.
+
+Tu competencia no esperó.
+¿Vos sí?
+
+MAX — Concepto Development</div>
+          <button class="btn btn-ghost btn-sm" style="margin-top:10px" onclick="copyText('Hay dos tipos de empresas en Uruguay.\n\nLas que ya usan IA para atender clientes.\nY las que todavía no saben que las están perdiendo.\n\nTu competencia no esperó.\n¿Vos sí?\n\nMAX — Concepto Development')">📋 Copiar script</button>
+        </div>
+
+        <div class="script-block">
+          <div class="script-block-title">V2 · Costo del Tiempo — Judo emocional</div>
+          <div class="script-block-body">¿Cuánto vale una hora de tu tiempo?
+
+Multiplicala por las horas que tu equipo pasa respondiendo las mismas preguntas.
+Todos los días.
+
+Eso no es atención al cliente.
+Es una hemorragia silenciosa.
+
+MAX lo corta. Desde el primer día.</div>
+          <button class="btn btn-ghost btn-sm" style="margin-top:10px" onclick="copyText('¿Cuánto vale una hora de tu tiempo?\n\nMultiplicala por las horas que tu equipo pasa respondiendo las mismas preguntas.\nTodos los días.\n\nEso no es atención al cliente.\nEs una hemorragia silenciosa.\n\nMAX lo corta. Desde el primer día.')">📋 Copiar script</button>
+        </div>
+
+        <div class="script-block">
+          <div class="script-block-title">V3 · FOMO + Timing — Wisdom reframe</div>
+          <div class="script-block-body">El mejor momento para implementar IA en tu empresa fue hace seis meses.
+
+El segundo mejor momento es hoy.
+
+Cada semana que esperás, tu competencia gana terreno que va a ser muy difícil recuperar.
+
+No se trata de ser tech.
+Se trata de no quedarte atrás.</div>
+          <button class="btn btn-ghost btn-sm" style="margin-top:10px" onclick="copyText('El mejor momento para implementar IA en tu empresa fue hace seis meses.\n\nEl segundo mejor momento es hoy.\n\nCada semana que esperás, tu competencia gana terreno que va a ser muy difícil recuperar.\n\nNo se trata de ser tech.\nSe trata de no quedarte atrás.')">📋 Copiar script</button>
+        </div>
+      </div>
+
+      <!-- WORKFLOW TAB -->
+      <div id="mkt-workflow" style="display:none">
+        <div class="alert-card alert-vlt" style="margin-bottom:14px">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--vlt2);margin-bottom:3px">Regla fundamental</div>
+            <div style="font-size:12px;color:var(--txt2)">Para cada pieza: generar una escena nueva en Higgsfield. Nunca pegar fotos encima de fondos. La escena generada ES el fondo.</div>
+          </div>
+        </div>
+        <div class="workflow-step">
+          <div class="workflow-num">1</div>
+          <div>
+            <div style="font-size:14px;font-weight:700;margin-bottom:3px">Concepto + Frame Design</div>
+            <div style="font-size:12px;color:var(--txt2);line-height:1.5">¿Qué quiero decir? ¿Qué principio psicológico aplico? ¿Qué layout uso (A–F)? ¿Cuál es la palabra NIVEL 1?</div>
+          </div>
+        </div>
+        <div class="workflow-step">
+          <div class="workflow-num">2</div>
+          <div>
+            <div style="font-size:14px;font-weight:700;margin-bottom:3px">Escena Higgsfield</div>
+            <div style="font-size:12px;color:var(--txt2);line-height:1.5">Modelo <span style="color:var(--vlt2)">nano_banana_pro</span> · MAX integrado en la escena, NO recortado · MAX corrido al lado donde NO va el texto · Foto de referencia: traje negro</div>
+          </div>
+        </div>
+        <div class="workflow-step">
+          <div class="workflow-num">3</div>
+          <div>
+            <div style="font-size:14px;font-weight:700;margin-bottom:3px">Remotion — TipoReel</div>
+            <div style="font-size:12px;color:var(--txt2);line-height:1.5">Escena como fondo full-bleed · Gradiente oscuro para legibilidad · Texto kinético palabra por palabra · Keyword highlight en <span style="color:#7c3aed">#7c3aed</span> · Hook en 1.5s</div>
+          </div>
+        </div>
+        <div class="workflow-step">
+          <div class="workflow-num">4</div>
+          <div>
+            <div style="font-size:14px;font-weight:700;margin-bottom:3px">Virality Check + Publicar</div>
+            <div style="font-size:12px;color:var(--txt2);line-height:1.5">Correr virality predictor de Higgsfield antes de publicar · Registrar métricas · Plataformas: Instagram feed, Reels, LinkedIn</div>
+          </div>
+        </div>
+
+        <div class="sec-label" style="margin-top:4px">Layouts a rotar</div>
+        <div class="card-sm" style="margin-bottom:8px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div style="font-size:12px;color:var(--txt2)"><span style="color:var(--vlt2);font-weight:700">A</span> · Visual grande, texto esquina</div>
+            <div style="font-size:12px;color:var(--txt2)"><span style="color:var(--vlt2);font-weight:700">B</span> · Visual pequeño, texto dominante</div>
+            <div style="font-size:12px;color:var(--txt2)"><span style="color:var(--vlt2);font-weight:700">C</span> · Equilibrio dinámico</div>
+            <div style="font-size:12px;color:var(--txt2)"><span style="color:var(--vlt2);font-weight:700">D</span> · Layout invertido</div>
+            <div style="font-size:12px;color:var(--txt2)"><span style="color:var(--vlt2);font-weight:700">E</span> · Editorial / magazine</div>
+            <div style="font-size:12px;color:var(--txt2)"><span style="color:var(--vlt2);font-weight:700">F</span> · Fondo en movimiento + texto</div>
+          </div>
+        </div>
+        <div class="alert-card alert-orange">
+          <div style="font-size:12px;color:var(--txt2)">Nunca repetir el mismo layout dos veces seguidas. Si la anterior fue visual grande + fondo negro → la siguiente va texto dominante + fondo distinto.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+
+  <!-- BOTTOM NAV -->
+  <nav id="nav">
+    <button class="nav-btn active" id="nav-comando" onclick="setPage('comando')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+      Comando
+    </button>
+    <button class="nav-btn" id="nav-ai" onclick="setPage('ai')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73A2 2 0 0 1 10 4a2 2 0 0 1 2-2zm-2 12a1.5 1.5 0 0 0-1.5 1.5A1.5 1.5 0 0 0 10 17a1.5 1.5 0 0 0 1.5-1.5A1.5 1.5 0 0 0 10 14zm4 0a1.5 1.5 0 0 0-1.5 1.5A1.5 1.5 0 0 0 14 17a1.5 1.5 0 0 0 1.5-1.5A1.5 1.5 0 0 0 14 14z"/></svg>
+      MAX AI
+    </button>
+    <button class="nav-btn" id="nav-negocio" onclick="toggleNegocio()">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-2.18c.07-.44.18-.86.18-1.3C18 2.12 15.88 0 13.3 0c-1.3 0-2.49.52-3.36 1.36L8 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/></svg>
+      Negocio
+    </button>
+    <button class="nav-btn" id="nav-trabajo" onclick="toggleTrabajo()">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+      Trabajo
+    </button>
+    <button class="nav-btn" id="nav-more" onclick="openMoreMenu()">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+      Más
+    </button>
+  </nav>
+
+  <!-- SUB-NAV OVERLAY: NEGOCIO -->
+  <div id="negocio-menu" class="modal-overlay" onclick="closeSubMenu('negocio')">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <button class="qa-btn" style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font-size:24px" onclick="goToPage('pipeline')">🎯<div style="font-size:12px;font-family:'DM Mono',monospace;color:var(--txt2)">Pipeline</div></button>
+        <button class="qa-btn" style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font-size:24px" onclick="goToPage('clients')">👥<div style="font-size:12px;font-family:'DM Mono',monospace;color:var(--txt2)">Clientes</div></button>
+        <button class="qa-btn" style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font-size:24px" onclick="goToPage('finance')">💰<div style="font-size:12px;font-family:'DM Mono',monospace;color:var(--txt2)">Finanzas</div></button>
+        <button class="qa-btn" style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font-size:24px" onclick="goToPage('propuestas')">📄<div style="font-size:12px;font-family:'DM Mono',monospace;color:var(--txt2)">Propuestas</div></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUB-NAV OVERLAY: TRABAJO -->
+  <div id="trabajo-menu" class="modal-overlay" onclick="closeSubMenu('trabajo')">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <button class="qa-btn" style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font-size:24px" onclick="goToPage('tasks')">✅<div style="font-size:12px;font-family:'DM Mono',monospace;color:var(--txt2)">Tareas</div></button>
+        <button class="qa-btn" style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font-size:24px" onclick="goToPage('focus')">🎯<div style="font-size:12px;font-family:'DM Mono',monospace;color:var(--txt2)">Focus</div></button>
+        <button class="qa-btn" style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font-size:24px" onclick="goToPage('timer')">⏱<div style="font-size:12px;font-family:'DM Mono',monospace;color:var(--txt2)">Timer</div></button>
+        <button class="qa-btn" style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font-size:24px" onclick="goToPage('goals')">🎯<div style="font-size:12px;font-family:'DM Mono',monospace;color:var(--txt2)">Objetivos</div></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MORE MENU -->
+  <div id="more-menu" class="modal-overlay" onclick="closeMoreMenu()">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <button class="qa-btn" style="background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(168,85,247,.08));border:1px solid rgba(124,58,237,.3);border-radius:12px;padding:14px;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font-size:22px" onclick="goToPage('marketing')">📣<div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--vlt2)">Marketing</div></button>
+        <button class="qa-btn" style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font-size:22px" onclick="goToPage('contenido')">🎬<div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--txt2)">Contenido</div></button>
+        <button class="qa-btn" style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font-size:22px" onclick="goToPage('recursos')">🔧<div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--txt2)">Recursos</div></button>
+        <button class="qa-btn" style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font-size:22px" onclick="goToPage('ideas')">💡<div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--txt2)">Ideas</div></button>
+        <button class="qa-btn" style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font-size:22px" onclick="goToPage('notes')">📓<div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--txt2)">Diario</div></button>
+        <button class="qa-btn" style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font-size:22px" onclick="goToPage('calc')">🧮<div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--txt2)">Calculadoras</div></button>
+        <button class="qa-btn" style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font-size:22px" onclick="goToPage('settings')">⚙️<div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--txt2)">Config</div></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CLIENT -->
+  <div id="modal-client" class="modal-overlay">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title" id="modal-client-title">Nuevo cliente</div>
+      <input type="hidden" id="cl-edit-id">
+      <div class="field"><label>Nombre / Empresa *</label><input type="text" id="cl-name"></div>
+      <div class="field"><label>Proyecto / Servicio</label><input type="text" id="cl-project"></div>
+      <div class="field"><label>Sector</label><input type="text" id="cl-sector" placeholder="ej: hotelería, distribución..."></div>
+      <div class="grid2" style="gap:8px">
+        <div class="field" style="margin:0"><label>Tarifa ($)</label><input type="number" id="cl-fee"></div>
+        <div class="field" style="margin:0"><label>Moneda</label><select id="cl-currency"><option>USD</option><option>UYU</option><option>EUR</option></select></div>
+      </div>
+      <div class="field" style="margin-top:12px"><label>Estado</label>
+        <select id="cl-status">
+          <option value="activo">Activo</option>
+          <option value="pendiente">Pago pendiente</option>
+          <option value="pausado">Pausado</option>
+          <option value="inactivo">Inactivo</option>
+        </select>
+      </div>
+      <div class="field"><label>Contacto (nombre/teléfono)</label><input type="text" id="cl-contact"></div>
+      <div class="field"><label>Notas</label><textarea id="cl-notes" style="min-height:60px"></textarea></div>
+      <div style="display:flex;gap:8px;margin-top:4px">
+        <button class="btn btn-ghost" style="flex:1" onclick="closeModal('modal-client')">Cancelar</button>
+        <button class="btn btn-primary" style="flex:2" onclick="saveClient()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PIPELINE -->
+  <div id="modal-pipeline" class="modal-overlay">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title" id="modal-pipeline-title">Nuevo prospecto</div>
+      <input type="hidden" id="pip-edit-id">
+      <div class="field"><label>Empresa / Nombre *</label><input type="text" id="pip-name"></div>
+      <div class="field"><label>Servicio de interés</label><input type="text" id="pip-service" placeholder="ej: Chatbot IA, Web, Automatización"></div>
+      <div class="field"><label>Sector</label><input type="text" id="pip-sector" placeholder="ej: hotelería, distribución"></div>
+      <div class="grid2" style="gap:8px">
+        <div class="field" style="margin:0"><label>Valor estimado ($)</label><input type="number" id="pip-value"></div>
+        <div class="field" style="margin:0"><label>Etapa</label>
+          <select id="pip-stage">
+            <option value="prospecto">Prospecto</option>
+            <option value="contactado">Contactado</option>
+            <option value="propuesta">Propuesta</option>
+            <option value="negociacion">Negociación</option>
+            <option value="cerrado">Cerrado ✅</option>
+            <option value="perdido">Perdido ❌</option>
+          </select>
+        </div>
+      </div>
+      <div class="field" style="margin-top:12px"><label>Contacto</label><input type="text" id="pip-contact" placeholder="Nombre, teléfono o email"></div>
+      <div class="field"><label>Notas</label><textarea id="pip-notes" style="min-height:60px"></textarea></div>
+      <div style="display:flex;gap:8px;margin-top:4px">
+        <button class="btn btn-ghost" style="flex:1" onclick="closeModal('modal-pipeline')">Cancelar</button>
+        <button class="btn btn-primary" style="flex:2" onclick="savePipeline()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: FINANCE -->
+  <div id="modal-finance" class="modal-overlay">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Nuevo movimiento</div>
+      <div class="subnav" style="margin-bottom:12px">
+        <div class="chip active" id="fin-type-inc" onclick="setFinType('income')">💰 Ingreso</div>
+        <div class="chip" id="fin-type-exp" onclick="setFinType('expense')">💸 Gasto</div>
+      </div>
+      <input type="hidden" id="fin-type-val" value="income">
+      <div class="field"><label>Descripción</label><input type="text" id="fin-desc" placeholder="ej: Retainer ShockBag"></div>
+      <div class="grid2" style="gap:8px">
+        <div class="field" style="margin:0"><label>Monto ($)</label><input type="number" id="fin-amount"></div>
+        <div class="field" style="margin:0"><label>Fecha</label><input type="date" id="fin-date"></div>
+      </div>
+      <div class="field" style="margin-top:12px"><label>Categoría</label><input type="text" id="fin-category" placeholder="ej: cliente, herramienta, subscripción"></div>
+      <div style="display:flex;gap:8px;margin-top:4px">
+        <button class="btn btn-ghost" style="flex:1" onclick="closeModal('modal-finance')">Cancelar</button>
+        <button class="btn btn-primary" style="flex:2" onclick="saveFinance()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: RESOURCE -->
+  <div id="modal-resource" class="modal-overlay">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Nuevo recurso</div>
+      <div class="field"><label>Nombre *</label><input type="text" id="res-name"></div>
+      <div class="field"><label>Tipo</label>
+        <select id="res-type">
+          <option value="herramienta">🔧 Herramienta</option>
+          <option value="link">🔗 Link</option>
+          <option value="credencial">🔑 Credencial / Acceso</option>
+          <option value="snippet">📋 Snippet de texto</option>
+          <option value="video">🎬 Video</option>
+        </select>
+      </div>
+      <div class="field"><label>URL / Valor</label><input type="text" id="res-url" placeholder="https://... o el valor"></div>
+      <div class="field"><label>Notas</label><textarea id="res-notes" style="min-height:60px"></textarea></div>
+      <div style="display:flex;gap:8px;margin-top:4px">
+        <button class="btn btn-ghost" style="flex:1" onclick="closeModal('modal-resource')">Cancelar</button>
+        <button class="btn btn-primary" style="flex:2" onclick="saveResource()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: GOAL -->
+  <div id="modal-goal" class="modal-overlay">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Nuevo objetivo</div>
+      <div class="field"><label>Objetivo *</label><input type="text" id="goal-text" placeholder="ej: Conseguir 2 clientes nuevos"></div>
+      <div class="field"><label>Tipo</label>
+        <select id="goal-type">
+          <option value="semanal">Semanal</option>
+          <option value="mensual">Mensual</option>
+          <option value="trimestral">Trimestral</option>
+          <option value="anual">Anual</option>
+        </select>
+      </div>
+      <div class="grid2" style="gap:8px">
+        <div class="field" style="margin:0"><label>Progreso actual</label><input type="number" id="goal-current" value="0" min="0"></div>
+        <div class="field" style="margin:0"><label>Meta</label><input type="number" id="goal-target" value="100" min="1"></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button class="btn btn-ghost" style="flex:1" onclick="closeModal('modal-goal')">Cancelar</button>
+        <button class="btn btn-primary" style="flex:2" onclick="saveGoal()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PROPOSAL -->
+  <div id="modal-proposal" class="modal-overlay">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Nueva propuesta</div>
+      <div class="field"><label>Cliente / Prospecto *</label><input type="text" id="prop-client" placeholder="Nombre de la empresa"></div>
+      <div class="field"><label>Servicios incluidos</label><textarea id="prop-services" placeholder="ej: Agente IA + Web landing" style="min-height:60px"></textarea></div>
+      <div class="grid2" style="gap:8px">
+        <div class="field" style="margin:0"><label>Monto setup ($)</label><input type="number" id="prop-setup"></div>
+        <div class="field" style="margin:0"><label>Retainer mensual ($)</label><input type="number" id="prop-monthly"></div>
+      </div>
+      <div class="field" style="margin-top:12px"><label>Estado</label>
+        <select id="prop-status">
+          <option value="borrador">Borrador</option>
+          <option value="enviada">Enviada</option>
+          <option value="vista">Vista</option>
+          <option value="aceptada">Aceptada ✅</option>
+          <option value="rechazada">Rechazada ❌</option>
+        </select>
+      </div>
+      <div class="field"><label>Notas</label><textarea id="prop-notes" style="min-height:60px"></textarea></div>
+      <div style="display:flex;gap:8px;margin-top:4px">
+        <button class="btn btn-ghost" style="flex:1" onclick="closeModal('modal-proposal')">Cancelar</button>
+        <button class="btn btn-primary" style="flex:2" onclick="saveProposal()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD PROMPT -->
+  <div id="modal-add-prompt" class="modal-overlay">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Guardar prompt</div>
+      <div class="field"><label>Nombre</label><input type="text" id="qp-name" placeholder="ej: Análisis de cliente"></div>
+      <div class="field"><label>Prompt</label><textarea id="qp-text" style="min-height:100px" placeholder="El prompt completo..."></textarea></div>
+      <div style="display:flex;gap:8px;margin-top:4px">
+        <button class="btn btn-ghost" style="flex:1" onclick="closeModal('modal-add-prompt')">Cancelar</button>
+        <button class="btn btn-primary" style="flex:2" onclick="saveQuickPrompt()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: SETTINGS -->
+  <div id="modal-settings" class="modal-overlay">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title">⚙️ Configuración rápida</div>
+      <div class="field"><label>Proxy Claude (localhost)</label><input type="text" id="cfg-proxy-quick" placeholder="http://localhost:3001/chat"></div>
+      <button class="btn btn-primary btn-full" style="margin-bottom:8px" onclick="saveSettingsQuick()">Guardar</button>
+      <div class="sec-label" style="margin-top:12px">Importar datos de OS</div>
+      <textarea id="import-json-quick" placeholder="Pegá el JSON de Concepto OS..." style="min-height:70px;margin-bottom:8px;font-size:12px;font-family:'DM Mono',monospace"></textarea>
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <button class="btn btn-primary btn-full" onclick="importFromJSON('quick')">⬇ Importar JSON</button>
+        <label class="btn btn-ghost" style="flex:1;text-align:center;cursor:pointer">📂 Archivo<input type="file" accept=".json" onchange="importFromFile(event)" style="display:none"></label>
+      </div>
+      <div style="margin-top:8px;font-size:11px;color:var(--txt3);font-family:'DM Mono',monospace;text-align:center">Concepto HQ v1.0</div>
+    </div>
+  </div>
+
+</div><!-- /app -->
+
+<script>
+// ══════════════════════════════════════════════════
+// CONCEPTO HQ — JavaScript Engine
+// ══════════════════════════════════════════════════
+const KEY = 'concepto-hq-v1';
+const OS_KEY = 'concepto-os-v3';
+const SB_URL = 'https://zngbeqbvmbxeweldmyaf.supabase.co';
+const SB_KEY = 'sb_publishable_nNQhjFQGR4n8FuSLCjOA0Q_2FsgmXUA';
+const SB_ROW = 'bruno';
+
+let D = {
+  timer:{running:false,startedAt:null,todaySeconds:0,lastDate:'',logs:[]},
+  tasks:[], notes:[], clients:[], pipeline:[],
+  finances:{income:[],expenses:[]},
+  resources:[], ideas:[], goals:[],
+  proposals:[], contentItems:[], quickPrompts:[],
+  energy:[], focus:{sessions:[]},
+  settings:{proxy:'',userName:'Bruno'}
+};
+
+let currentPage = 'comando';
+let currentAiMode = 'general';
+let currentFinTab = 'income';
+let currentResFilter = 'all';
+let currentIdeasFilter = 'all';
+let currentTaskFilter = 'pending';
+let currentCalcTab = 'roi';
+let currentContTab = 'scripts';
+let pomoInterval = null; let pomoSecs = 25*60; let pomoRunning = false; let pomoPhaseType = 'TRABAJO';
+let timerInterval = null;
+let lastScript = '';
+
+// ── PERSISTENCE ────────────────────────────────────
+function load() {
+  try { const s=localStorage.getItem(KEY); if(s) D=Object.assign({},D,JSON.parse(s)); } catch{}
+  if(!D.finances) D.finances={income:[],expenses:[]};
+  if(!D.proposals) D.proposals=[];
+  if(!D.contentItems) D.contentItems=[];
+  if(!D.quickPrompts) D.quickPrompts=[];
+  if(!D.energy) D.energy=[];
+  if(!D.focus) D.focus={sessions:[]};
+  if(!D.settings) D.settings={proxy:'',userName:'Bruno'};
+  if(!D.mktStatus) D.mktStatus={};
+  checkDayReset();
+}
+let _syncTimer = null;
+function save() {
+  try{localStorage.setItem(KEY,JSON.stringify(D));}catch{}
+  clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(syncToSupabase, 1500);
+}
+function setSyncStatus(s) {
+  const el=document.getElementById('sync-dot');
+  if(!el) return;
+  el.style.background = s==='ok'?'var(--green)':s==='syncing'?'var(--orange)':'var(--red)';
+  el.title = s==='ok'?'Sincronizado ✓':s==='syncing'?'Sincronizando...':'Sin conexión';
+}
+async function syncToSupabase() {
+  setSyncStatus('syncing');
+  try {
+    const r=await fetch(`${SB_URL}/rest/v1/hq_data`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Prefer':'resolution=merge-duplicates'},
+      body:JSON.stringify({id:SB_ROW,payload:D,updated_at:new Date().toISOString()})
+    });
+    setSyncStatus(r.ok?'ok':'error');
+  } catch{ setSyncStatus('error'); }
+}
+async function loadFromSupabase() {
+  try {
+    const r=await fetch(`${SB_URL}/rest/v1/hq_data?id=eq.${SB_ROW}&select=payload`,{
+      headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}
+    });
+    const rows=await r.json();
+    if(rows&&rows[0]&&rows[0].payload) {
+      const remote=rows[0].payload;
+      const proxy=D.settings?.proxy||'';
+      D=Object.assign({},D,remote);
+      if(proxy) D.settings.proxy=proxy;
+      if(!D.finances) D.finances={income:[],expenses:[]};
+      if(!D.proposals) D.proposals=[];
+      if(!D.contentItems) D.contentItems=[];
+      if(!D.quickPrompts) D.quickPrompts=[];
+      if(!D.energy) D.energy=[];
+      if(!D.focus) D.focus={sessions:[]};
+      if(!D.settings) D.settings={proxy:'',userName:'Bruno'};
+      localStorage.setItem(KEY,JSON.stringify(D));
+      setSyncStatus('ok');
+      return true;
+    }
+  } catch{ setSyncStatus('error'); }
+  return false;
+}
+function uid() { return Math.random().toString(36).slice(2,9); }
+function todayStr() { return new Date().toISOString().split('T')[0]; }
+function fmtDate(d) {
+  if(!d) return '';
+  return new Date(d+'T12:00:00').toLocaleDateString('es-UY',{day:'2-digit',month:'short'});
+}
+function daysBetween(a,b) {
+  return Math.floor((new Date(b)-new Date(a))/(1000*60*60*24));
+}
+function checkDayReset() {
+  const t=todayStr();
+  if(D.timer.lastDate && D.timer.lastDate!==t && D.timer.running) {
+    D.timer.logs.push({date:D.timer.lastDate,seconds:D.timer.todaySeconds});
+    D.timer.todaySeconds=0; D.timer.running=false; D.timer.startedAt=null;
+  }
+  D.timer.lastDate=t;
+}
+
+// ── NOTIFICATION ───────────────────────────────────
+function notify(msg, duration=2500) {
+  const el=document.getElementById('notif');
+  el.textContent=msg; el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'), duration);
+}
+
+// ── NAVIGATION ─────────────────────────────────────
+const PAGES = ['comando','ai','pipeline','clients','tasks','focus','timer','finance',
+               'contenido','propuestas','recursos','ideas','goals','notes','calc','settings','marketing'];
+const NAV_MAP = {comando:'nav-comando',ai:'nav-ai',pipeline:'nav-negocio',clients:'nav-negocio',
+                 finance:'nav-negocio',propuestas:'nav-negocio',tasks:'nav-trabajo',
+                 focus:'nav-trabajo',timer:'nav-trabajo',goals:'nav-trabajo',marketing:'nav-more'};
+
+function setPage(p) {
+  currentPage=p;
+  PAGES.forEach(id=>{
+    const el=document.getElementById('page-'+id);
+    if(el) el.classList.toggle('active', id===p);
+  });
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  const nb=NAV_MAP[p]||'nav-more';
+  const nbEl=document.getElementById(nb);
+  if(nbEl) nbEl.classList.add('active');
+  document.getElementById('main').scrollTop=0;
+  renderPage(p);
+}
+function goToPage(p) {
+  closeAllMenus();
+  setPage(p);
+}
+function renderPage(p) {
+  if(p==='comando') renderComando();
+  else if(p==='pipeline') renderPipeline();
+  else if(p==='clients') renderClients();
+  else if(p==='tasks') renderTasks();
+  else if(p==='finance') renderFinance();
+  else if(p==='timer') renderTimerHistory();
+  else if(p==='ideas') renderIdeas();
+  else if(p==='goals') renderGoals();
+  else if(p==='notes') initNotes();
+  else if(p==='calc') { calcROI(); calcProfit(); initCalc(); }
+  else if(p==='contenido') renderContenido();
+  else if(p==='propuestas') renderProposals();
+  else if(p==='recursos') renderResources();
+  else if(p==='focus') renderFocusSessions();
+  else if(p==='settings') loadSettings();
+  else if(p==='marketing') renderMarketing();
+}
+function toggleNegocio() {
+  const m=document.getElementById('negocio-menu');
+  m.classList.toggle('open');
+}
+function toggleTrabajo() {
+  const m=document.getElementById('trabajo-menu');
+  m.classList.toggle('open');
+}
+function closeSubMenu(name) {
+  document.getElementById(name+'-menu').classList.remove('open');
+}
+function openMoreMenu() { document.getElementById('more-menu').classList.add('open'); }
+function closeMoreMenu() { document.getElementById('more-menu').classList.remove('open'); }
+function closeAllMenus() {
+  ['negocio-menu','trabajo-menu','more-menu'].forEach(id=>{
+    document.getElementById(id).classList.remove('open');
+  });
+}
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// ── QUICK ACTIONS ──────────────────────────────────
+function quickAction(type) {
+  if(type==='task') goToPage('tasks');
+  else if(type==='prospect') { goToPage('pipeline'); setTimeout(()=>openModal('modal-pipeline'),200); }
+  else if(type==='ai-proposal') { setAiMode('propuesta', document.querySelector('.ai-mode-btn:nth-child(4)')); goToPage('ai'); }
+  else if(type==='script') goToPage('contenido');
+  else if(type==='note') goToPage('notes');
+  else if(type==='income') { goToPage('finance'); setTimeout(()=>openModal('modal-finance'),200); }
+  else if(type==='focus') goToPage('focus');
+  else if(type==='copy') { setAiMode('copy', null); goToPage('ai'); }
+}
+
+// ── HEADER DATE ────────────────────────────────────
+function initHeader() {
+  const now=new Date();
+  const opts={weekday:'short',day:'numeric',month:'short'};
+  document.getElementById('header-date').textContent = now.toLocaleDateString('es-UY',opts);
+  if(D.settings.proxy) document.getElementById('cfg-proxy').value=D.settings.proxy;
+  if(D.settings.proxy) document.getElementById('cfg-proxy-quick').value=D.settings.proxy;
+}
+function initClientSelectors() {
+  ['task-client'].forEach(id=>{
+    const s=document.getElementById(id);
+    if(!s) return;
+    while(s.options.length>1) s.remove(1);
+    D.clients.forEach(c=>{ const o=document.createElement('option'); o.value=c.id; o.textContent=c.name; s.append(o); });
+  });
+  const sel=document.getElementById('ai-client-select');
+  if(sel) {
+    while(sel.options.length>1) sel.remove(1);
+    D.clients.forEach(c=>{ const o=document.createElement('option'); o.value=c.id; o.textContent=c.name+' (cliente)'; sel.append(o); });
+    D.pipeline.forEach(p=>{ const o=document.createElement('option'); o.value='pip_'+p.id; o.textContent=p.name+' (prospecto)'; sel.append(o); });
+  }
+}
+
+// ── ENERGY CHECK-IN ───────────────────────────────
+function setEnergy(n) {
+  document.querySelectorAll('.energy-btn').forEach(b=>{
+    b.classList.toggle('sel', parseInt(b.dataset.e)===n);
+  });
+  const today=todayStr();
+  let entry=D.energy.find(e=>e.date===today);
+  if(entry) entry.level=n;
+  else D.energy.push({date:today,level:n});
+  document.getElementById('energy-saved').textContent = ['','😴 Bajo','😐 Normal','🙂 Bien','😊 Muy bien','🔥 Excelente'][n];
+  save();
+}
+function loadEnergyToday() {
+  const today=todayStr();
+  const entry=D.energy.find(e=>e.date===today);
+  if(entry) setEnergy(entry.level);
+}
+
+// ── MORNING BRIEF ─────────────────────────────────
+function buildBrief() {
+  const today=new Date();
+  const days=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  const months=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const dayName=days[today.getDay()];
+  const dayNum=today.getDate();
+  const monthName=months[today.getMonth()];
+  const hour=today.getHours();
+  const greeting = hour<12?'Buenos días':hour<18?'Buenas tardes':'Buenas noches';
+
+  const tasks=D.tasks.filter(t=>!t.done);
+  const overdueTasks=tasks.filter(t=>t.due && t.due<todayStr());
+  const todayTasks=tasks.filter(t=>t.due===todayStr());
+  const clients=D.clients.filter(c=>c.status==='activo');
+  const mrr=clients.reduce((s,c)=>s+(Number(c.fee)||0),0);
+  const pipeline=D.pipeline.filter(p=>p.stage!=='cerrado'&&p.stage!=='perdido');
+  const pipelineVal=pipeline.reduce((s,p)=>s+(Number(p.value)||0),0);
+  const staleLeads=pipeline.filter(p=>{
+    if(!p.updatedAt) return false;
+    return daysBetween(p.updatedAt,todayStr())>=7;
+  });
+
+  let lines = [`<strong>Buenos días, Bruno.</strong> Es ${dayName} ${dayNum} de ${monthName}.`,''];
+  if(mrr>0) lines.push(`💰 MRR activo: <strong>$${mrr.toLocaleString()}</strong> con ${clients.length} cliente${clients.length!==1?'s':''}.`);
+  if(pipelineVal>0) lines.push(`🎯 Pipeline: <strong>$${pipelineVal.toLocaleString()}</strong> en juego (${pipeline.length} prospectos).`);
+  if(overdueTasks.length>0) lines.push(`⚠️ <span style="color:var(--red)">${overdueTasks.length} tarea${overdueTasks.length!==1?'s':''} vencida${overdueTasks.length!==1?'s':''}</span> sin completar.`);
+  if(todayTasks.length>0) lines.push(`📋 ${todayTasks.length} tarea${todayTasks.length!==1?'s':''} para hoy: <em>${todayTasks.slice(0,2).map(t=>t.text).join(', ')}${todayTasks.length>2?'...':''}</em>`);
+  if(staleLeads.length>0) lines.push(`📡 ${staleLeads.length} prospecto${staleLeads.length!==1?'s':''} sin actividad en +7 días: <em>${staleLeads.slice(0,2).map(p=>p.name).join(', ')}</em>`);
+  if(tasks.length===0 && pipeline.length===0) lines.push(`✨ Todo limpio. Buen día para avanzar en algo nuevo.`);
+
+  // Day-specific tip
+  const tips={
+    1:'💡 Los lunes son para planear la semana. ¿Tenés tus objetivos claros?',
+    2:'⚡ Martes = ejecución. Bloqueá tiempo para trabajo profundo.',
+    3:'🔄 Mitad de semana. ¿Cómo va el pipeline? Buen día para hacer seguimiento.',
+    4:'📞 Jueves: cerrá conversaciones abiertas antes del fin de semana.',
+    5:'🎯 Viernes: ¿qué una cosa, si la completás, hace que la semana valió la pena?',
+    6:'🌿 Sábado: si trabajás, que sea en algo creativo o estratégico.',
+    0:'💭 Domingo: reflexión, no ejecución.'
+  };
+  if(tips[today.getDay()]) lines.push('',tips[today.getDay()]);
+
+  document.getElementById('brief-content').innerHTML = lines.join('<br>');
+}
+
+// ── ALERTS ────────────────────────────────────────
+function renderAlerts() {
+  const today=todayStr();
+  const alerts=[];
+  const overdue=D.tasks.filter(t=>!t.done&&t.due&&t.due<today);
+  if(overdue.length) alerts.push({type:'red',icon:'⚠️',text:`${overdue.length} tarea${overdue.length!==1?'s':''} vencida${overdue.length!==1?'s':''}: <em>${overdue.slice(0,2).map(t=>t.text).join(', ')}</em>`,action:'tasks'});
+  const stalePips=D.pipeline.filter(p=>p.stage!=='cerrado'&&p.stage!=='perdido'&&p.updatedAt&&daysBetween(p.updatedAt,today)>=7);
+  if(stalePips.length) alerts.push({type:'orange',icon:'📡',text:`${stalePips.length} prospecto${stalePips.length!==1?'s':''} sin contacto +7 días: <em>${stalePips.slice(0,2).map(p=>p.name).join(', ')}</em>`,action:'pipeline'});
+  const pendingPayments=D.clients.filter(c=>c.status==='pendiente');
+  if(pendingPayments.length) alerts.push({type:'yellow',icon:'💸',text:`${pendingPayments.length} cliente${pendingPayments.length!==1?'s':''} con pago pendiente: <em>${pendingPayments.map(c=>c.name).join(', ')}</em>`,action:'clients'});
+
+  const el=document.getElementById('alerts-section');
+  if(!alerts.length) { el.innerHTML=''; return; }
+  el.innerHTML = `<div class="sec-label" style="margin-bottom:8px">Alertas</div>` +
+    alerts.map(a=>`<div class="alert-card alert-${a.type}" onclick="setPage('${a.action}')" style="cursor:pointer">
+      <span style="font-size:18px">${a.icon}</span>
+      <span style="font-size:13px;color:var(--txt2);line-height:1.5">${a.text}</span>
+    </div>`).join('');
+}
+
+// ── TODAY'S AGENDA ─────────────────────────────────
+function renderTodayAgenda() {
+  const today=todayStr();
+  const todayTasks=D.tasks.filter(t=>!t.done&&(t.due===today||(!t.due)));
+  const overdueTasks=D.tasks.filter(t=>!t.done&&t.due&&t.due<today);
+  const allTasks=[...overdueTasks,...todayTasks].slice(0,8);
+  const el=document.getElementById('today-list');
+  if(!allTasks.length) { el.innerHTML='<div class="empty"><div class="empty-icon">📅</div>Sin tareas pendientes — buen trabajo!</div>'; return; }
+  const pColor={alta:'var(--red)',media:'var(--orange)',baja:'var(--txt3)'};
+  el.innerHTML=allTasks.map(t=>`
+    <div class="list-item" style="cursor:pointer" onclick="toggleTask('${t.id}')">
+      <span style="color:${pColor[t.priority]||'var(--txt3)'};font-size:12px;margin-top:2px">●</span>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:500">${t.text}</div>
+        ${t.due && t.due<today?`<div style="font-size:11px;color:var(--red);font-family:'DM Mono',monospace">Vencida ${fmtDate(t.due)}</div>`:
+          t.due===today?`<div style="font-size:11px;color:var(--orange);font-family:'DM Mono',monospace">Hoy</div>`:''}
+      </div>
+      ${t.clientId?`<span class="tag tag-gray">${D.clients.find(c=>c.id===t.clientId)?.name||''}</span>`:''}
+    </div>`).join('');
+}
+
+// ── FOLLOW-UP RADAR ───────────────────────────────
+function renderRadar() {
+  const today=todayStr();
+  const stale=D.pipeline
+    .filter(p=>p.stage!=='cerrado'&&p.stage!=='perdido'&&p.updatedAt&&daysBetween(p.updatedAt,today)>=5)
+    .sort((a,b)=>daysBetween(b.updatedAt,today)-daysBetween(a.updatedAt,today))
+    .slice(0,5);
+  const el=document.getElementById('radar-section');
+  if(!stale.length) { el.innerHTML=''; return; }
+  el.innerHTML=`<div class="sec-label" style="margin-top:4px;margin-bottom:8px">Radar de seguimiento</div>`+
+    stale.map(p=>{
+      const days=daysBetween(p.updatedAt,today);
+      const color=days>=14?'var(--red)':days>=7?'var(--orange)':'var(--yellow)';
+      return `<div class="list-item" onclick="openModal('modal-pipeline');fillPipeline('${p.id}')" style="cursor:pointer;border-color:rgba(239,68,68,0.15)">
+        <span style="font-size:20px">📡</span>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:600">${p.name}</div>
+          <div style="font-size:12px;color:var(--txt3)">${p.service||''} · ${p.stage}</div>
+        </div>
+        <span style="font-size:12px;color:${color};font-family:'DM Mono',monospace;font-weight:700">${days}d</span>
+      </div>`;
+    }).join('');
+}
+
+// ── COMANDO RENDER ────────────────────────────────
+function renderComando() {
+  buildBrief();
+  renderAlerts();
+  renderTodayAgenda();
+  renderRadar();
+  loadEnergyToday();
+  // KPIs
+  const clients=D.clients.filter(c=>c.status==='activo');
+  const mrr=clients.reduce((s,c)=>s+(Number(c.fee)||0),0);
+  const pipeline=D.pipeline.filter(p=>p.stage!=='cerrado'&&p.stage!=='perdido');
+  const pipelineVal=pipeline.reduce((s,p)=>s+(Number(p.value)||0),0);
+  const pendingTasks=D.tasks.filter(t=>!t.done);
+  document.getElementById('kpi-mrr').textContent='$'+mrr.toLocaleString();
+  document.getElementById('kpi-mrr-sub').textContent=clients.length+' cliente'+(clients.length!==1?'s':'')+' activo'+(clients.length!==1?'s':'');
+  document.getElementById('kpi-pipeline').textContent='$'+pipelineVal.toLocaleString();
+  document.getElementById('kpi-pipeline-sub').textContent=pipeline.length+' prospectos';
+  document.getElementById('kpi-tasks').textContent=pendingTasks.length;
+  document.getElementById('kpi-tasks-sub').textContent=pendingTasks.filter(t=>t.due===todayStr()).length+' para hoy';
+  // Timer this week
+  const weekSecs=getWeekSeconds();
+  document.getElementById('kpi-timer').textContent=Math.floor(weekSecs/3600)+'h '+(Math.floor((weekSecs%3600)/60))+'m';
+}
+function getWeekSeconds() {
+  const now=new Date(); const monday=new Date(now);
+  monday.setDate(now.getDate()-((now.getDay()+6)%7));
+  const mondayStr=monday.toISOString().split('T')[0];
+  const weekLogs=D.timer.logs.filter(l=>l.date>=mondayStr);
+  let secs=weekLogs.reduce((s,l)=>s+(l.seconds||0),0);
+  if(D.timer.lastDate>=mondayStr) secs+=D.timer.todaySeconds;
+  return secs;
+}
+
+// ── PIPELINE ──────────────────────────────────────
+const STAGES=[
+  {key:'prospecto',label:'Prospecto',color:'var(--txt3)'},
+  {key:'contactado',label:'Contactado',color:'var(--blue)'},
+  {key:'propuesta',label:'Propuesta',color:'var(--orange)'},
+  {key:'negociacion',label:'Negociación',color:'var(--yellow)'},
+  {key:'cerrado',label:'Cerrado ✅',color:'var(--green)'},
+  {key:'perdido',label:'Perdido ❌',color:'var(--red)'}
+];
+function renderPipeline() {
+  const pipeline=D.pipeline;
+  const active=pipeline.filter(p=>p.stage!=='cerrado'&&p.stage!=='perdido');
+  document.getElementById('pip-total').textContent=active.length;
+  document.getElementById('pip-value').textContent='$'+active.reduce((s,p)=>s+(Number(p.value)||0),0).toLocaleString();
+  document.getElementById('pip-nego').textContent=active.filter(p=>p.stage==='negociacion').length;
+  const today=todayStr();
+  const kanban=document.getElementById('kanban');
+  kanban.innerHTML=STAGES.map(s=>{
+    const items=pipeline.filter(p=>p.stage===s.key);
+    return `<div class="kanban-col">
+      <div class="kanban-col-title" style="color:${s.color}">${s.label}<span>${items.length}</span></div>
+      ${items.length?items.map(p=>{
+        const days=p.updatedAt?daysBetween(p.updatedAt,today):null;
+        const stale=days>=7;
+        return `<div class="kanban-card" onclick="fillPipeline('${p.id}');openModal('modal-pipeline')">
+          <div style="font-size:14px;font-weight:700;margin-bottom:4px">${p.name}</div>
+          ${p.service?`<div style="font-size:12px;color:var(--txt3)">${p.service}</div>`:''}
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+            ${p.value?`<span class="tag tag-green" style="font-size:10px">$${Number(p.value).toLocaleString()}</span>`:'<span></span>'}
+            ${stale?`<span style="font-size:10px;color:var(--orange);font-family:'DM Mono',monospace">${days}d sin contacto</span>`:''}
+          </div>
+        </div>`;
+      }).join(''):`<div style="font-size:12px;color:var(--txt3);text-align:center;padding:12px 0">Vacío</div>`}
+    </div>`;
+  }).join('');
+}
+function fillPipeline(id) {
+  const p=D.pipeline.find(x=>x.id===id);
+  if(!p) return;
+  document.getElementById('pip-edit-id').value=id;
+  document.getElementById('pip-name').value=p.name||'';
+  document.getElementById('pip-service').value=p.service||'';
+  document.getElementById('pip-sector').value=p.sector||'';
+  document.getElementById('pip-value').value=p.value||'';
+  document.getElementById('pip-stage').value=p.stage||'prospecto';
+  document.getElementById('pip-contact').value=p.contact||'';
+  document.getElementById('pip-notes').value=p.notes||'';
+  document.getElementById('modal-pipeline-title').textContent='Editar prospecto';
+}
+function savePipeline() {
+  const id=document.getElementById('pip-edit-id').value||uid();
+  const idx=D.pipeline.findIndex(p=>p.id===id);
+  const obj={id,name:document.getElementById('pip-name').value.trim(),
+    service:document.getElementById('pip-service').value,
+    sector:document.getElementById('pip-sector').value,
+    value:document.getElementById('pip-value').value,
+    stage:document.getElementById('pip-stage').value,
+    contact:document.getElementById('pip-contact').value,
+    notes:document.getElementById('pip-notes').value,
+    updatedAt:todayStr()};
+  if(!obj.name) return notify('Ponele un nombre al prospecto');
+  if(idx>=0) D.pipeline[idx]=obj; else D.pipeline.unshift(obj);
+  save(); closeModal('modal-pipeline'); renderPipeline();
+  initClientSelectors(); notify('✅ Prospecto guardado');
+  document.getElementById('pip-edit-id').value='';
+  document.getElementById('modal-pipeline-title').textContent='Nuevo prospecto';
+  ['pip-name','pip-service','pip-sector','pip-value','pip-contact','pip-notes'].forEach(id=>document.getElementById(id).value='');
+}
+
+// ── CLIENTS ───────────────────────────────────────
+function renderClients() {
+  const clients=D.clients;
+  const active=clients.filter(c=>c.status==='activo');
+  const mrr=active.reduce((s,c)=>s+(Number(c.fee)||0),0);
+  const pending=clients.filter(c=>c.status==='pendiente').reduce((s,c)=>s+(Number(c.fee)||0),0);
+  document.getElementById('cl-count').textContent=active.length;
+  document.getElementById('cl-mrr').textContent='$'+mrr.toLocaleString();
+  document.getElementById('cl-pending').textContent='$'+pending.toLocaleString();
+  const el=document.getElementById('clients-list');
+  if(!clients.length) { el.innerHTML='<div class="empty"><div class="empty-icon">👥</div>Sin clientes todavía</div>'; return; }
+  const statusColor={activo:'var(--green)',pendiente:'var(--red)',pausado:'var(--orange)',inactivo:'var(--txt3)'};
+  el.innerHTML=clients.map(c=>`
+    <div class="card" style="cursor:pointer;margin-bottom:10px" onclick="fillClient('${c.id}');openModal('modal-client')">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+        <div>
+          <div style="font-size:16px;font-weight:800">${c.name}</div>
+          ${c.project?`<div style="font-size:12px;color:var(--txt3)">${c.project}</div>`:''}
+        </div>
+        <div style="text-align:right">
+          <div style="font-weight:800;font-size:16px;color:var(--green)">$${Number(c.fee||0).toLocaleString()}<span style="font-size:11px;color:var(--txt3)">/${c.currency||'USD'}</span></div>
+          <span style="font-size:11px;font-family:'DM Mono',monospace;color:${statusColor[c.status]||'var(--txt3)'}">${c.status}</span>
+        </div>
+      </div>
+      ${c.contact?`<div style="font-size:12px;color:var(--txt3)">📞 ${c.contact}</div>`:''}
+      ${c.sector?`<div style="font-size:12px;color:var(--txt3);margin-top:4px">🏢 ${c.sector}</div>`:''}
+      <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
+        <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();aiForClient('${c.id}')">🤖 AI</button>
+        <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();deleteClient('${c.id}')">🗑</button>
+      </div>
+    </div>`).join('');
+}
+function aiForClient(id) {
+  const c=D.clients.find(x=>x.id===id);
+  if(!c) return;
+  document.getElementById('ai-client-select').value=id;
+  setAiMode('cliente', null);
+  goToPage('ai');
+}
+function fillClient(id) {
+  const c=D.clients.find(x=>x.id===id);
+  if(!c) return;
+  document.getElementById('cl-edit-id').value=id;
+  document.getElementById('cl-name').value=c.name||'';
+  document.getElementById('cl-project').value=c.project||'';
+  document.getElementById('cl-sector').value=c.sector||'';
+  document.getElementById('cl-fee').value=c.fee||'';
+  document.getElementById('cl-currency').value=c.currency||'USD';
+  document.getElementById('cl-status').value=c.status||'activo';
+  document.getElementById('cl-contact').value=c.contact||'';
+  document.getElementById('cl-notes').value=c.notes||'';
+  document.getElementById('modal-client-title').textContent='Editar cliente';
+}
+function saveClient() {
+  const id=document.getElementById('cl-edit-id').value||uid();
+  const idx=D.clients.findIndex(c=>c.id===id);
+  const obj={id,name:document.getElementById('cl-name').value.trim(),
+    project:document.getElementById('cl-project').value,
+    sector:document.getElementById('cl-sector').value,
+    fee:document.getElementById('cl-fee').value,
+    currency:document.getElementById('cl-currency').value,
+    status:document.getElementById('cl-status').value,
+    contact:document.getElementById('cl-contact').value,
+    notes:document.getElementById('cl-notes').value};
+  if(!obj.name) return notify('El nombre es obligatorio');
+  if(idx>=0) D.clients[idx]=obj; else D.clients.push(obj);
+  save(); closeModal('modal-client'); renderClients();
+  initClientSelectors(); notify('✅ Cliente guardado');
+  document.getElementById('cl-edit-id').value='';
+  document.getElementById('modal-client-title').textContent='Nuevo cliente';
+  ['cl-name','cl-project','cl-sector','cl-fee','cl-contact','cl-notes'].forEach(id=>document.getElementById(id).value='');
+}
+function deleteClient(id) {
+  if(!confirm('¿Eliminar este cliente?')) return;
+  D.clients=D.clients.filter(c=>c.id!==id);
+  save(); renderClients(); initClientSelectors();
+}
+
+// ── TASKS ─────────────────────────────────────────
+function addTask() {
+  const text=document.getElementById('task-input').value.trim();
+  if(!text) return;
+  D.tasks.push({id:uid(),text,priority:document.getElementById('task-priority').value,
+    due:document.getElementById('task-due').value,
+    clientId:document.getElementById('task-client').value,
+    done:false,createdAt:todayStr()});
+  document.getElementById('task-input').value='';
+  document.getElementById('task-due').value='';
+  save(); renderTasks();
+}
+function toggleTask(id) {
+  const t=D.tasks.find(x=>x.id===id);
+  if(t) { t.done=!t.done; save(); renderTasks(); renderComando(); }
+}
+function deleteTask(id) {
+  D.tasks=D.tasks.filter(t=>t.id!==id);
+  save(); renderTasks();
+}
+function setTaskFilter(f, el) {
+  currentTaskFilter=f;
+  document.querySelectorAll('#page-tasks .chip').forEach(c=>c.classList.remove('active'));
+  if(el) el.classList.add('active');
+  renderTasks();
+}
+function renderTasks() {
+  const today=todayStr();
+  let tasks=[...D.tasks];
+  if(currentTaskFilter==='pending') tasks=tasks.filter(t=>!t.done);
+  else if(currentTaskFilter==='done') tasks=tasks.filter(t=>t.done);
+  else if(currentTaskFilter==='today') tasks=tasks.filter(t=>!t.done&&(t.due===today||t.due<today));
+  else if(currentTaskFilter==='byclient') {
+    tasks=tasks.filter(t=>!t.done);
+    // Group by client
+    const el=document.getElementById('tasks-list');
+    const groups={};
+    tasks.forEach(t=>{
+      const k=t.clientId||'_none';
+      if(!groups[k]) groups[k]=[];
+      groups[k].push(t);
+    });
+    el.innerHTML=Object.entries(groups).map(([k,ts])=>{
+      const cl=k==='_none'?null:D.clients.find(c=>c.id===k);
+      return `<div class="sec-label" style="margin-top:12px">${cl?cl.name:'Sin cliente'}</div>`+
+        ts.map(t=>taskItem(t,today)).join('');
+    }).join('');
+    return;
+  }
+  tasks.sort((a,b)=>{
+    if(a.done!==b.done) return a.done?1:-1;
+    const po={alta:0,media:1,baja:2};
+    return (po[a.priority]||1)-(po[b.priority]||1);
+  });
+  const el=document.getElementById('tasks-list');
+  if(!tasks.length) { el.innerHTML='<div class="empty"><div class="empty-icon">✅</div>Sin tareas</div>'; return; }
+  el.innerHTML=tasks.map(t=>taskItem(t,today)).join('');
+}
+function taskItem(t,today) {
+  const over=!t.done&&t.due&&t.due<today;
+  const isToday=!t.done&&t.due===today;
+  const pColor={alta:'var(--red)',media:'var(--orange)',baja:'var(--txt3)'};
+  const cl=t.clientId?D.clients.find(c=>c.id===t.clientId):null;
+  return `<div class="list-item" style="opacity:${t.done?0.45:1};${over?'border-color:rgba(239,68,68,.3)':''}">
+    <div style="width:20px;height:20px;border-radius:6px;border:2px solid ${t.done?'var(--vlt)':'var(--border2)'};background:${t.done?'var(--vlt)':'transparent'};display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-top:1px" onclick="toggleTask('${t.id}')">
+      ${t.done?'<svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>':''}
+    </div>
+    <div style="flex:1">
+      <div style="font-size:14px;font-weight:500;text-decoration:${t.done?'line-through':''}">${t.text}</div>
+      <div style="display:flex;gap:6px;margin-top:4px;flex-wrap:wrap">
+        <span style="font-size:10px;color:${pColor[t.priority]};font-family:'DM Mono',monospace">${t.priority}</span>
+        ${over?`<span style="font-size:10px;color:var(--red);font-family:'DM Mono',monospace">Vencida ${fmtDate(t.due)}</span>`:''}
+        ${isToday?`<span style="font-size:10px;color:var(--orange);font-family:'DM Mono',monospace">Hoy</span>`:''}
+        ${t.due&&!over&&!isToday?`<span style="font-size:10px;color:var(--txt3);font-family:'DM Mono',monospace">${fmtDate(t.due)}</span>`:''}
+        ${cl?`<span class="tag tag-gray">${cl.name}</span>`:''}
+      </div>
+    </div>
+    <button style="background:none;border:none;color:var(--txt3);cursor:pointer;padding:4px;font-size:14px" onclick="deleteTask('${t.id}')">×</button>
+  </div>`;
+}
+
+// ── FINANCE ───────────────────────────────────────
+function setFinType(type) {
+  document.getElementById('fin-type-val').value=type;
+  document.getElementById('fin-type-inc').classList.toggle('active',type==='income');
+  document.getElementById('fin-type-exp').classList.toggle('active',type==='expense');
+}
+function setFinTab(tab, el) {
+  currentFinTab=tab;
+  document.querySelectorAll('#page-finance .chip').forEach(c=>c.classList.remove('active'));
+  if(el) el.classList.add('active');
+  renderFinList();
+}
+function saveFinance() {
+  const type=document.getElementById('fin-type-val').value;
+  const item={id:uid(),desc:document.getElementById('fin-desc').value,
+    amount:parseFloat(document.getElementById('fin-amount').value)||0,
+    date:document.getElementById('fin-date').value||todayStr(),
+    category:document.getElementById('fin-category').value};
+  if(!item.desc||!item.amount) return notify('Completá descripción y monto');
+  if(type==='income') D.finances.income.push(item);
+  else D.finances.expenses.push(item);
+  save(); closeModal('modal-finance'); renderFinance();
+  ['fin-desc','fin-amount','fin-category'].forEach(id=>document.getElementById(id).value='');
+  notify('✅ Guardado');
+}
+function renderFinance() {
+  const income=D.finances.income.reduce((s,i)=>s+i.amount,0);
+  const exp=D.finances.expenses.reduce((s,i)=>s+i.amount,0);
+  const net=income-exp;
+  const margin=income>0?Math.round((net/income)*100):0;
+  document.getElementById('fin-income').textContent='$'+income.toLocaleString();
+  document.getElementById('fin-exp').textContent='$'+exp.toLocaleString();
+  document.getElementById('fin-net').textContent='$'+net.toLocaleString();
+  document.getElementById('fin-net').style.color=net>=0?'var(--green)':'var(--red)';
+  document.getElementById('fin-margin').textContent=margin+'%';
+  renderMRRChart(); renderForecast(); renderFinList();
+}
+function renderMRRChart() {
+  const clients=D.clients.filter(c=>c.status==='activo');
+  const el=document.getElementById('mrr-chart');
+  if(!clients.length) { el.innerHTML='<div style="font-size:12px;color:var(--txt3)">Sin clientes activos</div>'; return; }
+  const max=Math.max(...clients.map(c=>Number(c.fee)||0));
+  el.innerHTML=clients.map(c=>{
+    const fee=Number(c.fee)||0;
+    const w=max>0?Math.round((fee/max)*100):0;
+    return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <div style="font-size:13px;color:var(--txt2);width:100px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}</div>
+      <div style="flex:1;background:var(--bg3);border-radius:100px;height:6px">
+        <div style="width:${w}%;background:linear-gradient(90deg,var(--vlt),var(--vlt2));height:100%;border-radius:100px"></div>
+      </div>
+      <div style="font-size:13px;font-weight:700;color:var(--green);width:60px;text-align:right">$${fee.toLocaleString()}</div>
+    </div>`;
+  }).join('');
+}
+function renderForecast() {
+  const mrr=D.clients.filter(c=>c.status==='activo').reduce((s,c)=>s+(Number(c.fee)||0),0);
+  const pipeline=D.pipeline.filter(p=>p.stage==='negociacion'||p.stage==='propuesta');
+  const pipelineVal=pipeline.reduce((s,p)=>s+(Number(p.value)||0),0);
+  const now=new Date();
+  const months=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const forecast=[
+    {label:months[now.getMonth()], val:mrr},
+    {label:months[(now.getMonth()+1)%12], val:mrr+pipelineVal*0.3},
+    {label:months[(now.getMonth()+2)%12], val:mrr+pipelineVal*0.6}
+  ];
+  const maxVal=Math.max(...forecast.map(f=>f.val),1);
+  const chartEl=document.getElementById('forecast-chart');
+  const labelEl=document.getElementById('forecast-labels');
+  chartEl.innerHTML=forecast.map(f=>{
+    const h=Math.max(Math.round((f.val/maxVal)*70),4);
+    return `<div class="forecast-bar">
+      <div class="forecast-val">$${Math.round(f.val).toLocaleString()}</div>
+      <div class="forecast-bar-fill" style="height:${h}px"></div>
+    </div>`;
+  }).join('');
+  labelEl.innerHTML=forecast.map(f=>`<div class="forecast-bar"><div class="forecast-label">${f.label}</div></div>`).join('');
+}
+function renderFinList() {
+  const items=(currentFinTab==='income'?D.finances.income:D.finances.expenses)
+    .sort((a,b)=>b.date.localeCompare(a.date));
+  const el=document.getElementById('fin-list');
+  if(!items.length) { el.innerHTML='<div class="empty"><div class="empty-icon">💰</div>Sin registros</div>'; return; }
+  el.innerHTML=items.map(i=>`
+    <div class="list-item">
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:600">${i.desc}</div>
+        <div style="font-size:12px;color:var(--txt3)">${fmtDate(i.date)}${i.category?' · '+i.category:''}</div>
+      </div>
+      <div style="font-weight:800;color:${currentFinTab==='income'?'var(--green)':'var(--red)'}">$${i.amount.toLocaleString()}</div>
+      <button style="background:none;border:none;color:var(--txt3);cursor:pointer;padding:4px;margin-left:6px" onclick="deleteFinItem('${i.id}','${currentFinTab}')">×</button>
+    </div>`).join('');
+}
+function deleteFinItem(id,type) {
+  if(type==='income') D.finances.income=D.finances.income.filter(i=>i.id!==id);
+  else D.finances.expenses=D.finances.expenses.filter(i=>i.id!==id);
+  save(); renderFinance();
+}
+
+// ── NOTES ─────────────────────────────────────────
+function initNotes() {
+  const el=document.getElementById('note-date');
+  if(!el.value) el.value=todayStr();
+  loadNote(); renderNotesList();
+}
+function loadNote() {
+  const date=document.getElementById('note-date').value;
+  const note=D.notes.find(n=>n.date===date);
+  document.getElementById('note-text').value=note?note.text:'';
+}
+function saveNote() {
+  const date=document.getElementById('note-date').value;
+  const text=document.getElementById('note-text').value.trim();
+  if(!text) return;
+  const idx=D.notes.findIndex(n=>n.date===date);
+  if(idx>=0) D.notes[idx].text=text;
+  else D.notes.push({date,text});
+  save(); renderNotesList();
+  const s=document.getElementById('note-saved');
+  s.style.display='block'; setTimeout(()=>s.style.display='none',2000);
+}
+function deleteNote() {
+  const date=document.getElementById('note-date').value;
+  D.notes=D.notes.filter(n=>n.date!==date);
+  document.getElementById('note-text').value='';
+  save(); renderNotesList();
+}
+function renderNotesList() {
+  const el=document.getElementById('notes-list');
+  const notes=[...D.notes].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,20);
+  if(!notes.length) { el.innerHTML='<div class="empty"><div class="empty-icon">📓</div>Sin notas todavía</div>'; return; }
+  el.innerHTML=notes.map(n=>`<div class="card" style="cursor:pointer;margin-bottom:8px" onclick="document.getElementById('note-date').value='${n.date}';loadNote()">
+    <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--txt3);margin-bottom:4px">${fmtDate(n.date)}</div>
+    <div style="font-size:13px;color:var(--txt2);line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">${n.text}</div>
+  </div>`).join('');
+}
+
+// ── IDEAS ─────────────────────────────────────────
+function addIdea() {
+  const text=document.getElementById('idea-text').value.trim();
+  if(!text) return;
+  D.ideas.push({id:uid(),text,tag:document.getElementById('idea-tag').value,date:todayStr()});
+  document.getElementById('idea-text').value='';
+  save(); renderIdeas();
+}
+function setIdeasFilter(f,el) {
+  currentIdeasFilter=f;
+  document.querySelectorAll('#ideas-filter-chips .chip').forEach(c=>c.classList.remove('active'));
+  if(el) el.classList.add('active');
+  renderIdeas();
+}
+function renderIdeas() {
+  let ideas=[...D.ideas].sort((a,b)=>b.date.localeCompare(a.date));
+  if(currentIdeasFilter!=='all') ideas=ideas.filter(i=>i.tag===currentIdeasFilter);
+  const el=document.getElementById('ideas-list');
+  if(!ideas.length) { el.innerHTML='<div class="empty"><div class="empty-icon">💡</div>Sin ideas en esta categoría</div>'; return; }
+  const tagColors={general:'tag-gray',cliente:'tag-blue',producto:'tag-vlt',marketing:'tag-orange',técnico:'tag-green',personal:'tag-gray',max:'tag-vlt'};
+  el.innerHTML=ideas.map(i=>`<div class="list-item">
+    <div style="flex:1">
+      <div style="font-size:14px;line-height:1.5">${i.text}</div>
+      <div style="display:flex;gap:6px;margin-top:6px">
+        <span class="tag ${tagColors[i.tag]||'tag-gray'}">${i.tag}</span>
+        <span style="font-size:11px;color:var(--txt3);font-family:'DM Mono',monospace">${fmtDate(i.date)}</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:4px">
+      <button style="background:none;border:none;color:var(--txt3);cursor:pointer;padding:4px;font-size:14px" onclick="ideaToAI('${i.id}')">🤖</button>
+      <button style="background:none;border:none;color:var(--txt3);cursor:pointer;padding:4px;font-size:14px" onclick="deleteIdea('${i.id}')">×</button>
+    </div>
+  </div>`).join('');
+}
+function ideaToAI(id) {
+  const idea=D.ideas.find(i=>i.id===id);
+  if(!idea) return;
+  document.getElementById('ai-input').value='Tengo esta idea: "'+idea.text+'" — ¿cómo la desarrollarías para Concepto Development?';
+  goToPage('ai');
+}
+function deleteIdea(id) { D.ideas=D.ideas.filter(i=>i.id!==id); save(); renderIdeas(); }
+
+// ── GOALS ─────────────────────────────────────────
+function saveGoal() {
+  const obj={id:uid(),text:document.getElementById('goal-text').value.trim(),
+    type:document.getElementById('goal-type').value,
+    current:Number(document.getElementById('goal-current').value)||0,
+    target:Number(document.getElementById('goal-target').value)||100,
+    done:false};
+  if(!obj.text) return notify('Escribí el objetivo');
+  D.goals.push(obj); save(); closeModal('modal-goal'); renderGoals();
+  document.getElementById('goal-text').value='';
+}
+function renderGoals() {
+  const el=document.getElementById('goals-list');
+  if(!D.goals.length) { el.innerHTML='<div class="empty"><div class="empty-icon">🎯</div>Sin objetivos definidos</div>'; return; }
+  const typeOrder={semanal:0,mensual:1,trimestral:2,anual:3};
+  const goals=[...D.goals].sort((a,b)=>(typeOrder[a.type]||0)-(typeOrder[b.type]||0));
+  el.innerHTML=goals.map(g=>{
+    const pct=Math.min(100,Math.round((g.current/g.target)*100));
+    return `<div class="card" style="margin-bottom:10px;${g.done?'opacity:.5':''}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+        <div style="flex:1">
+          <div style="font-size:15px;font-weight:700;text-decoration:${g.done?'line-through':''}">${g.text}</div>
+          <span class="tag tag-gray" style="margin-top:4px">${g.type}</span>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:14px;font-weight:800;color:var(--vlt2)">${pct}%</div>
+          <div style="font-size:11px;color:var(--txt3)">${g.current}/${g.target}</div>
+        </div>
+      </div>
+      <div class="progress-wrap"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div style="display:flex;gap:6px;margin-top:10px">
+        <input type="number" value="${g.current}" min="0" max="${g.target}" style="width:80px" onchange="updateGoalProgress('${g.id}',this.value)">
+        <button class="btn btn-ghost btn-sm" onclick="toggleGoalDone('${g.id}')">${g.done?'↩ Reabrir':'✅ Completar'}</button>
+        <button class="btn btn-ghost btn-sm" onclick="deleteGoal('${g.id}')">🗑</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function updateGoalProgress(id,val) {
+  const g=D.goals.find(x=>x.id===id);
+  if(g) { g.current=Number(val); save(); renderGoals(); }
+}
+function toggleGoalDone(id) {
+  const g=D.goals.find(x=>x.id===id);
+  if(g) { g.done=!g.done; save(); renderGoals(); }
+}
+function deleteGoal(id) { D.goals=D.goals.filter(g=>g.id!==id); save(); renderGoals(); }
+
+// ── TIMER ─────────────────────────────────────────
+function timerToggle() {
+  if(D.timer.running) {
+    const elapsed=Math.floor((Date.now()-D.timer.startedAt)/1000);
+    D.timer.todaySeconds+=elapsed; D.timer.running=false; D.timer.startedAt=null;
+    clearInterval(timerInterval); timerInterval=null;
+    document.getElementById('timer-btn').textContent='▶ Iniciar';
+    document.getElementById('timer-status').textContent='Pausado';
+  } else {
+    D.timer.running=true; D.timer.startedAt=Date.now();
+    document.getElementById('timer-btn').textContent='⏸ Pausar';
+    document.getElementById('timer-status').textContent='Corriendo...';
+    timerInterval=setInterval(updateTimerDisplay,1000);
+  }
+  save();
+}
+function timerReset() {
+  if(D.timer.running) { clearInterval(timerInterval); timerInterval=null; }
+  if(D.timer.todaySeconds>0) D.timer.logs.push({date:todayStr(),seconds:D.timer.todaySeconds});
+  D.timer.running=false; D.timer.startedAt=null; D.timer.todaySeconds=0;
+  document.getElementById('timer-btn').textContent='▶ Iniciar';
+  document.getElementById('timer-status').textContent='Pausado';
+  document.getElementById('timer-display').textContent='00:00:00';
+  save(); renderTimerHistory();
+}
+function updateTimerDisplay() {
+  let secs=D.timer.todaySeconds;
+  if(D.timer.running && D.timer.startedAt) secs+=Math.floor((Date.now()-D.timer.startedAt)/1000);
+  const h=String(Math.floor(secs/3600)).padStart(2,'0');
+  const m=String(Math.floor((secs%3600)/60)).padStart(2,'0');
+  const s=String(secs%60).padStart(2,'0');
+  const td=document.getElementById('timer-display');
+  if(td) td.textContent=`${h}:${m}:${s}`;
+  const hkpi=document.getElementById('kpi-timer');
+  if(hkpi && currentPage==='comando') {
+    const ws=getWeekSeconds()+Math.floor((Date.now()-D.timer.startedAt)/1000);
+    hkpi.textContent=Math.floor(ws/3600)+'h';
+  }
+}
+function addManualTime() {
+  const date=document.getElementById('manual-date').value||todayStr();
+  const h=parseInt(document.getElementById('manual-h').value)||0;
+  const m=parseInt(document.getElementById('manual-m').value)||0;
+  const secs=h*3600+m*60;
+  if(!secs) return;
+  const existing=D.timer.logs.find(l=>l.date===date);
+  if(existing) existing.seconds+=secs;
+  else D.timer.logs.push({date,seconds:secs});
+  save(); renderTimerHistory(); notify('⏱ Tiempo agregado');
+}
+function renderTimerHistory() {
+  const el=document.getElementById('timer-history');
+  if(!el) return;
+  const logs=[...D.timer.logs].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,14);
+  if(!logs.length) { el.innerHTML='<div class="empty">Sin registros de tiempo</div>'; return; }
+  el.innerHTML=logs.map(l=>{
+    const h=Math.floor(l.seconds/3600); const m=Math.floor((l.seconds%3600)/60);
+    return `<div class="list-item">
+      <div style="flex:1;font-size:14px">${fmtDate(l.date)}</div>
+      <div style="font-weight:700;font-family:'DM Mono',monospace;color:var(--blue)">${h}h ${m}m</div>
+    </div>`;
+  }).join('');
+}
+
+// ── FOCUS (POMODORO) ──────────────────────────────
+function setPomoType(mins, phase) {
+  if(pomoRunning) return;
+  pomoSecs=mins*60; pomoPhaseType=phase;
+  document.getElementById('pomo-display').textContent=String(Math.floor(pomoSecs/60)).padStart(2,'0')+':00';
+  document.getElementById('pomo-phase').textContent=phase;
+}
+function togglePomo() {
+  if(pomoRunning) {
+    clearInterval(pomoInterval); pomoRunning=false;
+    document.getElementById('pomo-btn').textContent='▶ Iniciar';
+  } else {
+    pomoRunning=true;
+    document.getElementById('pomo-btn').textContent='⏸ Pausar';
+    pomoInterval=setInterval(()=>{
+      pomoSecs--;
+      const m=String(Math.floor(pomoSecs/60)).padStart(2,'0');
+      const s=String(pomoSecs%60).padStart(2,'0');
+      document.getElementById('pomo-display').textContent=m+':'+s;
+      if(pomoSecs<=0) {
+        clearInterval(pomoInterval); pomoRunning=false;
+        document.getElementById('pomo-btn').textContent='▶ Iniciar';
+        const goal=document.getElementById('focus-goal').value;
+        D.focus.sessions.push({date:todayStr(),time:new Date().toLocaleTimeString('es-UY',{hour:'2-digit',minute:'2-digit'}),phase:pomoPhaseType,goal});
+        save(); renderFocusSessions();
+        notify('🎯 ¡Sesión completada!');
+        if(pomoPhaseType==='TRABAJO') setPomoType(5,'DESCANSO');
+      }
+    },1000);
+  }
+}
+function resetPomo() {
+  clearInterval(pomoInterval); pomoRunning=false;
+  setPomoType(25,'TRABAJO');
+  document.getElementById('pomo-btn').textContent='▶ Iniciar';
+}
+function renderFocusSessions() {
+  const el=document.getElementById('pomo-sessions');
+  const today=D.focus.sessions.filter(s=>s.date===todayStr());
+  if(!today.length) { el.innerHTML='<div class="empty">Sin sesiones hoy</div>'; return; }
+  el.innerHTML=today.reverse().map(s=>`<div class="list-item">
+    <span style="font-size:18px">${s.phase==='TRABAJO'?'🎯':'☕'}</span>
+    <div style="flex:1"><div style="font-size:13px;font-weight:600">${s.phase}</div>${s.goal?`<div style="font-size:12px;color:var(--txt3)">${s.goal}</div>`:''}</div>
+    <span style="font-size:12px;font-family:'DM Mono',monospace;color:var(--txt3)">${s.time}</span>
+  </div>`).join('');
+}
+
+// ── CALCULATOR ────────────────────────────────────
+function setCalcTab(tab, el) {
+  currentCalcTab=tab;
+  document.querySelectorAll('#page-calc .chip').forEach(c=>c.classList.remove('active'));
+  if(el) el.classList.add('active');
+  document.getElementById('calc-roi').style.display=tab==='roi'?'block':'none';
+  document.getElementById('calc-profit').style.display=tab==='profit'?'block':'none';
+  document.getElementById('calc-standard').style.display=tab==='calc'?'block':'none';
+}
+function calcROI() {
+  const emp=parseInt(document.getElementById('roi-employees').value)||0;
+  const sal=parseFloat(document.getElementById('roi-salary').value)||0;
+  const pct=parseFloat(document.getElementById('roi-pct').value)||0;
+  const inv=parseFloat(document.getElementById('roi-invest').value)||0;
+  const saving=emp*sal*(pct/100);
+  const net=saving-inv;
+  const roi=inv>0?Math.round((net/inv)*100):0;
+  const be=net>0?Math.round((inv/net)*30):0;
+  document.getElementById('roi-saving').textContent='$'+Math.round(saving).toLocaleString();
+  document.getElementById('roi-pct-out').textContent=roi+'%';
+  document.getElementById('roi-breakeven').textContent=be>0?be+' días':'Inmediato';
+  document.getElementById('roi-annual').textContent='$'+Math.round(saving*12).toLocaleString();
+}
+function copyROIReport() {
+  const emp=document.getElementById('roi-employees').value;
+  const sal=document.getElementById('roi-salary').value;
+  const pct=document.getElementById('roi-pct').value;
+  const inv=document.getElementById('roi-invest').value;
+  const saving=parseInt(emp)*parseFloat(sal)*(parseFloat(pct)/100);
+  const text=`ANÁLISIS ROI — AUTOMATIZACIÓN IA\n\nContexto:\n- ${emp} empleado(s) en atención al cliente\n- Costo mensual por empleado: $${sal}\n- % de tareas automatizables: ${pct}%\n\nResultados:\n- Ahorro mensual: $${Math.round(saving).toLocaleString()}\n- Inversión mensual: $${inv}\n- ROI mensual: ${Math.round(((saving-inv)/inv)*100)}%\n- Ahorro anual: $${Math.round(saving*12).toLocaleString()}\n\nEsta automatización se paga sola en el primer mes.`;
+  navigator.clipboard.writeText(text).then(()=>notify('📋 Copiado para propuesta'));
+}
+function calcProfit() {
+  const setup=parseFloat(document.getElementById('r-setup').value)||0;
+  const monthly=parseFloat(document.getElementById('r-monthly').value)||0;
+  const cost=parseFloat(document.getElementById('r-cost').value)||0;
+  const nClients=parseInt(document.getElementById('r-clients').value)||0;
+  const mrr=monthly*nClients;
+  const costs=cost*nClients;
+  const profit=mrr-costs;
+  const margin=mrr>0?Math.round((profit/mrr)*100):0;
+  const be=monthly>cost?Math.ceil(costs/((monthly-cost)||1)):999;
+  document.getElementById('r-mrr').textContent='$'+mrr.toLocaleString();
+  document.getElementById('r-profit').textContent='$'+profit.toLocaleString();
+  document.getElementById('r-margin').textContent=margin+'%';
+  document.getElementById('r-be').textContent=be+'cl.';
+  const realMRR=D.clients.filter(c=>c.status==='activo').reduce((s,c)=>s+(Number(c.fee)||0),0);
+  document.getElementById('r-real').textContent='$'+realMRR.toLocaleString();
+}
+let calcExpr='', calcVal='0';
+function initCalc() {
+  const grid=document.getElementById('calc-grid');
+  if(grid.innerHTML) return;
+  const btns=['C','±','%','÷','7','8','9','×','4','5','6','−','1','2','3','+','0','.','⌫','='];
+  grid.innerHTML=btns.map(b=>`<button class="btn btn-ghost" style="padding:14px 0;font-size:17px;font-family:'DM Mono',monospace;${b==='='?'background:var(--vlt);color:#fff;':''}" onclick="calcPress('${b}')">${b}</button>`).join('');
+}
+function calcPress(b) {
+  const d=document.getElementById('calc-display');
+  const e=document.getElementById('calc-expr');
+  if(b==='C'){calcVal='0';calcExpr='';d.textContent='0';e.textContent='';return;}
+  if(b==='⌫'){calcVal=calcVal.length>1?calcVal.slice(0,-1):'0';d.textContent=calcVal;return;}
+  if(b==='='){
+    try{
+      const res=Function('"use strict";return ('+calcExpr.replace('×','*').replace('÷','/').replace('−','-')+')')();
+      calcVal=parseFloat(res.toFixed(10)).toString();
+      e.textContent=calcExpr+'=';calcExpr='';d.textContent=calcVal;
+    }catch{d.textContent='Error';}
+    return;
+  }
+  if(b==='±'){calcVal=(parseFloat(calcVal)*-1).toString();d.textContent=calcVal;return;}
+  if(b==='%'){calcVal=(parseFloat(calcVal)/100).toString();d.textContent=calcVal;return;}
+  if(['÷','×','−','+'].includes(b)){calcExpr+=calcVal+b;calcVal='0';e.textContent=calcExpr;return;}
+  if(b==='.'&&calcVal.includes('.')) return;
+  calcVal=calcVal==='0'&&b!=='.'?b:calcVal+b;
+  d.textContent=calcVal;
+}
+
+// ── RESOURCES ─────────────────────────────────────
+function setResFilter(f,el) {
+  currentResFilter=f;
+  document.querySelectorAll('#page-recursos .chip').forEach(c=>c.classList.remove('active'));
+  if(el) el.classList.add('active');
+  renderResources();
+}
+function saveResource() {
+  const obj={id:uid(),name:document.getElementById('res-name').value.trim(),
+    type:document.getElementById('res-type').value,
+    url:document.getElementById('res-url').value,
+    notes:document.getElementById('res-notes').value};
+  if(!obj.name) return notify('Ponele un nombre');
+  D.resources.push(obj); save(); closeModal('modal-resource'); renderResources();
+  ['res-name','res-url','res-notes'].forEach(id=>document.getElementById(id).value='');
+  notify('✅ Guardado');
+}
+function renderResources() {
+  let res=[...D.resources];
+  if(currentResFilter!=='all') res=res.filter(r=>r.type===currentResFilter);
+  const el=document.getElementById('res-list');
+  if(!res.length) { el.innerHTML='<div class="empty"><div class="empty-icon">🔧</div>Sin recursos</div>'; return; }
+  const icons={herramienta:'🔧',link:'🔗',credencial:'🔑',snippet:'📋',video:'🎬'};
+  el.innerHTML=res.map(r=>`<div class="list-item">
+    <span style="font-size:20px">${icons[r.type]||'📌'}</span>
+    <div style="flex:1">
+      <div style="font-size:14px;font-weight:600">${r.name}</div>
+      ${r.url?`<div style="font-size:12px;color:var(--txt3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.url}</div>`:''}
+      ${r.notes?`<div style="font-size:12px;color:var(--txt3);margin-top:2px">${r.notes}</div>`:''}
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px">
+      ${r.url?`<button class="btn btn-ghost btn-sm" onclick="copyText('${r.url}')">📋</button>`:''}
+      <button class="btn btn-ghost btn-sm" onclick="deleteResource('${r.id}')">×</button>
+    </div>
+  </div>`).join('');
+}
+function deleteResource(id) { D.resources=D.resources.filter(r=>r.id!==id); save(); renderResources(); }
+
+// ── CONTENIDO ─────────────────────────────────────
+function setContenidoTab(tab,el) {
+  currentContTab=tab;
+  document.querySelectorAll('#page-contenido .chip').forEach(c=>c.classList.remove('active'));
+  if(el) el.classList.add('active');
+  document.getElementById('cont-scripts').style.display=tab==='scripts'?'block':'none';
+  document.getElementById('cont-copy').style.display=tab==='copy'?'block':'none';
+  document.getElementById('cont-calendar').style.display=tab==='calendar'?'block':'none';
+  document.getElementById('cont-prompts').style.display=tab==='prompts'?'block':'none';
+  renderContenido();
+}
+function renderContenido() {
+  if(currentContTab==='scripts') renderSavedScripts();
+  else if(currentContTab==='copy') renderCopyBank();
+  else if(currentContTab==='calendar') renderContentCalendar();
+  else if(currentContTab==='prompts') renderPromptsList();
+}
+const SCRIPT_TEMPLATES = {
+  impacto_reel: `[APERTURA - 0s]
+⚡ {tema_impacto}
+[Pausa. MAX mira a cámara]
+
+[PROBLEMA - 3s]
+Tu equipo pierde {X} horas al mes en tareas repetitivas.
+Eso es dinero que se va por el caño.
+
+[SOLUCIÓN - 8s]
+Con un agente de IA de Concepto Development,
+eso se automatiza. Solo.
+Sin contratar más personal.
+
+[PRUEBA - 15s]
+[Mostrar demo / resultado real]
+Resultado: {resultado_concreto}
+
+[CTA - 25s]
+¿Querés saber cómo funciona para tu negocio?
+Escribime hoy — primera consulta gratis.
+[Logo MAX + @conceptodevelopment]`,
+  premium_reel: `[APERTURA - 0s]
+Las empresas que sobreviven los próximos 5 años
+son las que ya están usando IA hoy.
+
+[CONTEXTO - 5s]
+No hablamos de ciencia ficción.
+Hablamos de automatizar lo que ya hacés — pero sin errores,
+sin horarios, sin costo variable.
+
+[SOLUCIÓN - 12s]
+En Concepto Development implementamos agentes de IA
+a medida de tu negocio.
+Atención al cliente, ventas, seguimiento.
+Todo en piloto automático.
+
+[RESULTADOS - 20s]
+Nuestros clientes procesan el doble de consultas
+con el mismo equipo.
+
+[CTA - 28s]
+¿Listo para el siguiente nivel?
+Agenda una llamada sin compromiso.
+conceptodevelopment.com`,
+  impacto_presentacion: `[HOOK - 0s]
+Te voy a mostrar algo que va a cambiar
+cómo pensás en tu negocio.
+
+[DATO - 5s]
+El {X}% de las empresas en Uruguay
+todavía maneja {proceso} de forma manual.
+¿Cuánto te cuesta eso al año?
+
+[DEMO - 15s]
+[MOSTRAR: agente respondiendo en tiempo real]
+Esto es {nombre_cliente}.
+Antes tardaba 2 horas en responder consultas.
+Ahora: 2 segundos.
+
+[PROPUESTA - 40s]
+Concepto Development no vende tecnología.
+Vende tiempo.
+Y tiempo, Bruno, es lo único que no se recupera.
+
+[CTA - 55s]
+Primera consulta gratis.
+Sin letra chica.`,
+  premium_presentacion: `[APERTURA VISUAL - 0s]
+[MAX en ambiente premium, sin logos agresivos]
+
+Imaginate tener un empleado
+que nunca llega tarde,
+nunca se enferma,
+y responde perfecto el 100% de las veces.
+
+[REALIDAD - 15s]
+Eso no es el futuro.
+Es lo que implementamos hoy
+en empresas como la tuya.
+
+[SERVICIO - 30s]
+Agentes de IA personalizados.
+Entrenados con tu información.
+Integrados con tus sistemas.
+
+[CREDIBILIDAD - 50s]
+Trabajamos con empresas establecidas
+que quieren resultados, no promesas.
+
+[CIERRE - 70s]
+Concepto Development.
+IA que trabaja para vos.
+conceptodevelopment.com`,
+};
+function generateScript() {
+  const topic=document.getElementById('script-topic').value.trim();
+  const register=document.getElementById('script-register').value;
+  const format=document.getElementById('script-format').value;
+  if(!topic) { notify('Ingresá un tema'); return; }
+  const key=`${register}_${format.replace(' ','_')}`;
+  let template=SCRIPT_TEMPLATES[key]||SCRIPT_TEMPLATES.impacto_reel;
+  template=template.replace(/{tema_impacto}/g,topic.toUpperCase())
+    .replace(/{X}/g,'X').replace(/{resultado_concreto}/g,'X% más eficiencia')
+    .replace(/{proceso}/g,topic).replace(/{nombre_cliente}/g,'el cliente')
+    .replace(/{X}%/g,'70%');
+  lastScript=template;
+  document.getElementById('script-output').textContent=template;
+  document.getElementById('script-output-card').style.display='block';
+}
+function copyScript() {
+  navigator.clipboard.writeText(lastScript).then(()=>notify('📋 Script copiado'));
+}
+function saveScript() {
+  if(!lastScript) return;
+  const topic=document.getElementById('script-topic').value||'Script';
+  D.contentItems.push({id:uid(),type:'script',name:topic,text:lastScript,date:todayStr()});
+  save(); renderSavedScripts(); notify('💾 Script guardado');
+}
+function openScriptInClaude() {
+  const prompt=buildSystemPrompt('marketing')+'\n\nTengo este script para MAX que necesito mejorar:\n\n'+lastScript+'\n\nMejoralo para el tema: '+document.getElementById('script-topic').value;
+  navigator.clipboard.writeText(prompt).then(()=>{
+    window.open('https://claude.ai/new','_blank');
+    notify('📋 Prompt copiado — pegalo en Claude');
+  });
+}
+function renderSavedScripts() {
+  const el=document.getElementById('saved-scripts');
+  const scripts=D.contentItems.filter(i=>i.type==='script').sort((a,b)=>b.date.localeCompare(a.date));
+  if(!scripts.length) { el.innerHTML='<div class="empty">Sin scripts guardados</div>'; return; }
+  el.innerHTML=scripts.map(s=>`<div class="list-item">
+    <span style="font-size:20px">🎬</span>
+    <div style="flex:1">
+      <div style="font-size:14px;font-weight:600">${s.name}</div>
+      <div style="font-size:12px;color:var(--txt3)">${fmtDate(s.date)}</div>
+    </div>
+    <div style="display:flex;gap:4px">
+      <button class="btn btn-ghost btn-sm" onclick="loadScript('${s.id}')">Ver</button>
+      <button class="btn btn-ghost btn-sm" onclick="deleteContentItem('${s.id}')">×</button>
+    </div>
+  </div>`).join('');
+}
+function loadScript(id) {
+  const s=D.contentItems.find(i=>i.id===id);
+  if(!s) return;
+  lastScript=s.text;
+  document.getElementById('script-output').textContent=s.text;
+  document.getElementById('script-output-card').style.display='block';
+  document.getElementById('script-topic').value=s.name;
+}
+function saveCopy() {
+  const text=document.getElementById('copy-text').value.trim();
+  if(!text) return notify('Escribí el copy');
+  D.contentItems.push({id:uid(),type:document.getElementById('copy-type').value,
+    text,tag:document.getElementById('copy-tag').value,date:todayStr()});
+  save(); renderCopyBank();
+  document.getElementById('copy-text').value=''; document.getElementById('copy-tag').value='';
+  notify('✅ Copy guardado');
+}
+function renderCopyBank() {
+  const el=document.getElementById('copy-bank-list');
+  const items=D.contentItems.filter(i=>i.type!=='script'&&i.type!=='calendar').sort((a,b)=>b.date.localeCompare(a.date));
+  if(!items.length) { el.innerHTML='<div class="empty"><div class="empty-icon">✍️</div>Banco de copy vacío</div>'; return; }
+  const icons={hook:'🎣',headline:'📰',cta:'🎯',bio:'👤',email:'✉️',objection:'🛡'};
+  el.innerHTML=items.map(i=>`<div class="copy-item">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+      <span class="tag tag-vlt" style="font-size:10px">${icons[i.type]||'✍️'} ${i.type}</span>
+      ${i.tag?`<span class="tag tag-gray" style="font-size:10px">${i.tag}</span>`:''}
+    </div>
+    <div class="copy-text">${i.text}</div>
+    <div class="copy-item-actions">
+      <button class="btn btn-ghost btn-sm" onclick="copyText('${encodeURIComponent(i.text)}',true)">📋 Copiar</button>
+      <button class="btn btn-ghost btn-sm" onclick="deleteContentItem('${i.id}')">🗑 Borrar</button>
+    </div>
+  </div>`).join('');
+}
+function saveContentItem() {
+  const obj={id:uid(),type:'calendar',platform:document.getElementById('cont-platform').value,
+    format:document.getElementById('cont-format').value,
+    text:document.getElementById('cont-idea').value.trim(),
+    date:document.getElementById('cont-date').value||todayStr()};
+  if(!obj.text) return notify('Escribí la idea');
+  D.contentItems.push(obj); save(); renderContentCalendar();
+  document.getElementById('cont-idea').value=''; notify('✅ Agendado');
+}
+function renderContentCalendar() {
+  const el=document.getElementById('content-calendar-list');
+  const items=D.contentItems.filter(i=>i.type==='calendar').sort((a,b)=>a.date.localeCompare(b.date));
+  if(!items.length) { el.innerHTML='<div class="empty"><div class="empty-icon">📅</div>Sin contenido agendado</div>'; return; }
+  el.innerHTML=items.map(i=>`<div class="list-item">
+    <span style="font-size:20px">📅</span>
+    <div style="flex:1">
+      <div style="font-size:14px;font-weight:600">${i.platform} — ${i.format}</div>
+      <div style="font-size:13px;color:var(--txt2)">${i.text}</div>
+      <div style="font-size:11px;color:var(--txt3);font-family:'DM Mono',monospace;margin-top:4px">${fmtDate(i.date)}</div>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="deleteContentItem('${i.id}')">×</button>
+  </div>`).join('');
+}
+function savePrompt() {
+  const obj={id:uid(),name:document.getElementById('prompt-name').value.trim(),
+    tool:document.getElementById('prompt-tool').value,
+    text:document.getElementById('prompt-text').value.trim()};
+  if(!obj.name||!obj.text) return notify('Completá nombre y prompt');
+  D.contentItems.push({...obj,type:'prompt'}); save(); renderPromptsList();
+  document.getElementById('prompt-name').value=''; document.getElementById('prompt-text').value='';
+  notify('✅ Prompt guardado');
+}
+function renderPromptsList() {
+  const el=document.getElementById('prompts-list-cont');
+  const items=D.contentItems.filter(i=>i.type==='prompt');
+  if(!items.length) { el.innerHTML='<div class="empty"><div class="empty-icon">🤖</div>Sin prompts guardados</div>'; return; }
+  el.innerHTML=items.map(i=>`<div class="card" style="margin-bottom:8px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+      <div style="font-size:14px;font-weight:700">${i.name}</div>
+      <span class="tag tag-vlt" style="font-size:10px">${i.tool}</span>
+    </div>
+    <div style="font-size:12px;color:var(--txt3);line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical">${i.text}</div>
+    <div style="display:flex;gap:6px;margin-top:8px">
+      <button class="btn btn-ghost btn-sm" onclick="copyText('${encodeURIComponent(i.text)}',true)">📋 Copiar</button>
+      <button class="btn btn-ghost btn-sm" onclick="deleteContentItem('${i.id}')">🗑</button>
+    </div>
+  </div>`).join('');
+}
+function deleteContentItem(id) { D.contentItems=D.contentItems.filter(i=>i.id!==id); save(); renderContenido(); }
+
+// ── PROPOSALS ─────────────────────────────────────
+function saveProposal() {
+  const obj={id:uid(),client:document.getElementById('prop-client').value.trim(),
+    services:document.getElementById('prop-services').value,
+    setup:document.getElementById('prop-setup').value,
+    monthly:document.getElementById('prop-monthly').value,
+    status:document.getElementById('prop-status').value,
+    notes:document.getElementById('prop-notes').value,
+    date:todayStr()};
+  if(!obj.client) return notify('Escribí el cliente');
+  D.proposals.push(obj); save(); closeModal('modal-proposal'); renderProposals();
+  ['prop-client','prop-services','prop-setup','prop-monthly','prop-notes'].forEach(id=>document.getElementById(id).value='');
+  notify('✅ Propuesta guardada');
+}
+function renderProposals() {
+  const props=D.proposals;
+  const sent=props.filter(p=>p.status!=='borrador');
+  const accepted=props.filter(p=>p.status==='aceptada');
+  document.getElementById('prop-sent').textContent=sent.length;
+  document.getElementById('prop-accepted').textContent=accepted.length;
+  document.getElementById('prop-rate').textContent=sent.length?Math.round((accepted.length/sent.length)*100)+'%':'0%';
+  const el=document.getElementById('proposals-list');
+  if(!props.length) { el.innerHTML='<div class="empty"><div class="empty-icon">📄</div>Sin propuestas</div>'; return; }
+  const statusColor={borrador:'tag-gray',enviada:'tag-blue',vista:'tag-orange',aceptada:'tag-green',rechazada:'tag-red'};
+  el.innerHTML=[...props].sort((a,b)=>b.date.localeCompare(a.date)).map(p=>`
+    <div class="proposal-card" onclick="openProposalAI('${p.id}')">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+        <div>
+          <div style="font-size:16px;font-weight:800">${p.client}</div>
+          ${p.services?`<div style="font-size:12px;color:var(--txt3);margin-top:2px">${p.services}</div>`:''}
+        </div>
+        <span class="tag ${statusColor[p.status]||'tag-gray'}">${p.status}</span>
+      </div>
+      <div style="display:flex;gap:12px;font-size:13px;margin-bottom:8px">
+        ${p.setup?`<span style="color:var(--txt2)">Setup: <strong>$${Number(p.setup).toLocaleString()}</strong></span>`:''}
+        ${p.monthly?`<span style="color:var(--txt2)">Retainer: <strong>$${Number(p.monthly).toLocaleString()}/mes</strong></span>`:''}
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openProposalAI('${p.id}')">🤖 AI Follow-up</button>
+        <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();changeProposalStatus('${p.id}')">Cambiar estado</button>
+        <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();deleteProposal('${p.id}')">🗑</button>
+      </div>
+    </div>`).join('');
+}
+function openProposalAI(id) {
+  const p=D.proposals.find(x=>x.id===id);
+  if(!p) return;
+  const prompt=`Tengo una propuesta enviada a ${p.client} para: ${p.services}. Setup $${p.setup}, retainer $${p.monthly}/mes. Estado actual: ${p.status}. Fecha: ${p.date}. ¿Cómo hago el seguimiento ideal? ¿Qué mensaje les mando?`;
+  document.getElementById('ai-input').value=prompt;
+  goToPage('ai');
+}
+function changeProposalStatus(id) {
+  const p=D.proposals.find(x=>x.id===id);
+  if(!p) return;
+  const statuses=['borrador','enviada','vista','aceptada','rechazada'];
+  const idx=statuses.indexOf(p.status);
+  p.status=statuses[(idx+1)%statuses.length];
+  save(); renderProposals();
+}
+function deleteProposal(id) {
+  if(!confirm('¿Eliminar esta propuesta?')) return;
+  D.proposals=D.proposals.filter(p=>p.id!==id); save(); renderProposals();
+}
+
+// ── AI CHAT ───────────────────────────────────────
+function setAiMode(mode, el) {
+  currentAiMode=mode;
+  document.querySelectorAll('.ai-mode-btn').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  else {
+    document.querySelectorAll('.ai-mode-btn').forEach(b=>{
+      if(b.textContent.toLowerCase().includes(mode.toLowerCase())) b.classList.add('active');
+    });
+  }
+  const descs={
+    general:'Asistente general con todos tus datos de negocio (clientes, pipeline, tareas, finanzas)',
+    marketing:'Especialista en marketing con MAX, ICP uruguayo, brand voice y psicología de ventas',
+    cliente:'Analista de cliente específico — seleccioná uno para cargar su contexto completo',
+    propuesta:'Generador de propuestas adaptadas al cliente, servicio y contexto del negocio',
+    brief:'Generador de briefs visuales para Higgsfield, incluyendo tokens de marca Concepto',
+    copy:'Copywriter con ICP, frameworks (AIDA/PAS) y estilo de Concepto Development',
+    roi:'Análisis de ROI y argumentos de valor para clientes potenciales'
+  };
+  document.getElementById('ai-context-desc').textContent=descs[mode]||descs.general;
+  document.getElementById('ai-client-selector').style.display=mode==='cliente'||mode==='propuesta'?'block':'none';
+}
+function updateAiContext() {
+  // just re-render context description
+}
+function buildSystemPrompt(mode, clientId) {
+  const today=todayStr();
+  const clients=D.clients.filter(c=>c.status==='activo');
+  const pipeline=D.pipeline;
+  const tasks=D.tasks.filter(t=>!t.done);
+  const mrr=clients.reduce((s,c)=>s+(Number(c.fee)||0),0);
+  const pipelineVal=pipeline.filter(p=>p.stage!=='cerrado'&&p.stage!=='perdido').reduce((s,p)=>s+(Number(p.value)||0),0);
+
+  let sys=`Sos el asistente estratégico de Bruno, founder de Concepto Development, agencia de IA en Uruguay.
+
+▸ CONTEXTO DEL NEGOCIO (${today}):
+- MRR activo: $${mrr.toLocaleString()}
+- Clientes activos: ${clients.map(c=>`${c.name} (${c.project||c.sector||'proyecto'}, $${c.fee}/${c.currency||'USD'})`).join(', ')||'ninguno cargado aún'}
+- Pipeline: ${pipeline.filter(p=>p.stage!=='cerrado'&&p.stage!=='perdido').length} prospectos activos, $${pipelineVal.toLocaleString()} en juego
+- Prospectos más avanzados: ${pipeline.filter(p=>p.stage==='negociacion'||p.stage==='propuesta').map(p=>p.name).join(', ')||'ninguno en negociación'}
+- Tareas pendientes: ${tasks.length} (${tasks.filter(t=>t.due&&t.due<today).length} vencidas)
+
+▸ SOBRE CONCEPTO DEVELOPMENT:
+- Agencia de IA liderada por Bruno, trabaja solo con IA y automatizaciones
+- Robot mascota: MAX (dos registros: IMPACTO=directo/provocador, PREMIUM=sofisticado/confiable)
+- Servicios: Agentes IA, Webs/Landings alta conversión, Chatbots entrenados, Automatizaciones n8n/ManyChat, Contenido con MAX
+- GitHub: 1brunosilva/Concepto-Robot — web: conceptodevelopment.com
+
+▸ ICP (cliente ideal):
+- Director/dueño empresa establecida en Uruguay, 40-60 años
+- Sectores: hotelería, distribuidoras, barracas, bodegas, arquitectura, servicios profesionales
+- Desconfía de promesas exageradas, quiere resultados concretos
+
+▸ INSTRUCCIONES:
+- Responde siempre en español rioplatense
+- Sé directo y estratégico, sin rodeos
+- Aporta SIEMPRE más allá de lo que se pregunta
+- Si ves algo para mejorar o una perspectiva que Bruno no consideró, decilo`;
+
+  if(mode==='marketing') {
+    sys+=`\n\n▸ MARCA Y CONTENIDO MAX:
+- Paleta: negro (#0d0d0d), violeta (#7c3aed/#a855f7), crema (#f5f4f0)
+- Tipografía: Inter (700-900, letter-spacing negativo), DM Mono (labels)
+- IMPACTO: copy corto, provocador, genera curiosidad/urgencia. Ej: "Tu negocio está perdiendo clientes mientras dormís."
+- PREMIUM: sofisticado, genera confianza/credibilidad. Ej: "Las empresas que lideran el mercado en 2026 ya están usando IA."
+- Principios hero: elemento visual dominante (70% pantalla), texto en espacio negativo, 100vh
+- Psicología de ventas: escasez, prueba social, autoridad, reciprocidad`;
+  }
+  if(mode==='brief') {
+    sys+=`\n\n▸ BRIEFS HIGGSFIELD:
+- Seedance 2.0 para video con movimiento
+- GPT Image 2 para imágenes/diseño/texto
+- Nano Banana 2/Pro para character/reference image
+- Marketing Studio para ads con avatars/productos
+- Flujo: brief aprobado → imagen primero → si ok → video
+- No generar variantes para explorar — llegar con el prompt pensado
+- CDN: https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/FILENAME
+- MAX aparece: en espacio abierto, con fondo oscuro, luz de acento violeta o blanca
+- Para clientes: fotografía real del producto/espacio/persona del cliente`;
+  }
+  if(mode==='copy') {
+    sys+=`\n\n▸ COPY SYSTEM:
+- Frameworks: AIDA, PAS, BAB, 4Ps
+- Hooks que convierten: pregunta retórica, dato sorprendente, afirmación controversial, confesión
+- Headlines: directo al beneficio, sin jerga técnica, máximo 8 palabras
+- CTAs: acción + beneficio + urgencia. Ej: "Hablemos esta semana — primeros 10 clientes con 30 días gratis"
+- Objeciones comunes: "es caro", "no tengo tiempo para implementarlo", "¿y si no funciona?", "ya probé otras cosas"`;
+  }
+  if((mode==='cliente'||mode==='propuesta') && clientId) {
+    const cl = clientId.startsWith('pip_')
+      ? D.pipeline.find(p=>p.id===clientId.replace('pip_',''))
+      : D.clients.find(c=>c.id===clientId);
+    if(cl) {
+      sys+=`\n\n▸ CONTEXTO CLIENTE ESPECÍFICO:
+- Nombre: ${cl.name}
+- ${cl.project?'Proyecto: '+cl.project:''}
+- ${cl.sector?'Sector: '+cl.sector:''}
+- ${cl.fee?'Tarifa/valor: $'+cl.fee+' '+(cl.currency||'USD'):''}
+- Estado: ${cl.status||cl.stage||'desconocido'}
+- ${cl.contact?'Contacto: '+cl.contact:''}
+- ${cl.notes?'Notas: '+cl.notes:''}`;
+    }
+  }
+  if(mode==='roi') {
+    sys+=`\n\n▸ ANÁLISIS DE ROI:
+- Para chatbots: calcular ahorro en tiempo de atención al cliente
+- Para automatizaciones: calcular eliminación de tareas manuales repetitivas
+- Para webs: calcular conversión adicional esperada
+- Siempre expresar en $ concretos, no porcentajes abstractos
+- Break-even típico de chatbot: primer mes
+- Argumento clave: "no es un gasto, es una inversión que se paga sola"`;
+  }
+  return sys;
+}
+
+let chatHistory = [];
+function sendAiMessage() {
+  const input=document.getElementById('ai-input');
+  const msg=input.value.trim();
+  if(!msg) return;
+  input.value='';
+  const clientId=document.getElementById('ai-client-select').value;
+  const sysPrompt=buildSystemPrompt(currentAiMode, clientId);
+  appendMsg('user',msg);
+  chatHistory.push({role:'user',content:msg});
+  tryAICall(sysPrompt,msg);
+}
+function appendMsg(role,text) {
+  const msgs=document.getElementById('ai-chat-messages');
+  const div=document.createElement('div');
+  div.className=role==='user'?'msg-user':'msg-ai';
+  div.textContent=text;
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+async function tryAICall(sysPrompt, userMsg) {
+  const proxy=D.settings.proxy;
+  if(proxy) {
+    const msgs=document.getElementById('ai-chat-messages');
+    const bubble=document.createElement('div');
+    bubble.className='msg-ai';
+    bubble.textContent='▋';
+    msgs.appendChild(bubble);
+    msgs.scrollTop=msgs.scrollHeight;
+    try {
+      const resp=await fetch(proxy,{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({system:sysPrompt,messages:chatHistory})});
+      const reader=resp.body.getReader();
+      const dec=new TextDecoder();
+      let fullText='';
+      let buf='';
+      while(true) {
+        const {done,value}=await reader.read();
+        if(done) break;
+        buf+=dec.decode(value,{stream:true});
+        const lines=buf.split('\n');
+        buf=lines.pop();
+        for(const line of lines) {
+          if(!line.startsWith('data: ')) continue;
+          const raw=line.slice(6).trim();
+          if(!raw||raw==='[DONE]') continue;
+          try {
+            const ev=JSON.parse(raw);
+            if(ev.type==='content_block_delta'&&ev.delta?.text) {
+              fullText+=ev.delta.text;
+              bubble.textContent=fullText+'▋';
+              msgs.scrollTop=msgs.scrollHeight;
+            }
+          } catch{}
+        }
+      }
+      bubble.textContent=fullText||'Sin respuesta';
+      if(fullText) chatHistory.push({role:'assistant',content:fullText});
+    } catch(e) {
+      bubble.remove();
+      fallbackCopy(sysPrompt, userMsg);
+    }
+  } else {
+    fallbackCopy(sysPrompt, userMsg);
+  }
+}
+function fallbackCopy(sysPrompt, userMsg) {
+  const fullPrompt=sysPrompt+'\n\n---\n\nConsulta de Bruno:\n'+userMsg;
+  navigator.clipboard.writeText(fullPrompt).then(()=>{
+    appendMsg('ai','Prompt copiado al portapapeles con contexto completo de tu negocio. Abrí Claude y pegalo con Cmd+V para obtener la respuesta con todo el contexto cargado.\n\n💡 Para activar el chat en tiempo real, configurá un proxy local en ⚙️ Configuración.');
+    window.open('https://claude.ai/new','_blank');
+  }).catch(()=>{
+    appendMsg('ai','Prompt listo. Para usar el AI en tiempo real, configurá el proxy en ⚙️ Configuración.\n\nPodés también usar el botón "Copiar prompt completo" para copiar el contexto y pegarlo en claude.ai manualmente.');
+  });
+}
+function copyAiPrompt() {
+  const clientId=document.getElementById('ai-client-select').value;
+  const input=document.getElementById('ai-input').value;
+  const sys=buildSystemPrompt(currentAiMode,clientId);
+  const full=sys+(input?'\n\n---\n\nConsulta: '+input:'');
+  navigator.clipboard.writeText(full).then(()=>notify('📋 Prompt completo copiado'));
+}
+function openInClaude() {
+  const clientId=document.getElementById('ai-client-select').value;
+  const input=document.getElementById('ai-input').value;
+  const sys=buildSystemPrompt(currentAiMode,clientId);
+  const full=sys+(input?'\n\n---\n\nConsulta: '+input:'');
+  navigator.clipboard.writeText(full).then(()=>{
+    window.open('https://claude.ai/new','_blank');
+    notify('📋 Copiado — pegalo en Claude con Cmd+V');
+  });
+}
+function clearChat() {
+  chatHistory=[];
+  const msgs=document.getElementById('ai-chat-messages');
+  msgs.innerHTML='<div class="msg-system">Chat limpiado · Contexto listo</div><div class="msg-ai">Hola Bruno 👋 Chat reiniciado. Contexto de negocio cargado.</div>';
+}
+function renderQuickPrompts() {
+  const el=document.getElementById('quick-prompts-list');
+  const defaults=[
+    {id:'d1',name:'Analizar mi pipeline',text:'Analizá mi pipeline actual y decime: ¿cuáles son los prospectos con más probabilidad de cerrar? ¿Cómo los priorizo? ¿Qué acciones específicas tomo esta semana?'},
+    {id:'d2',name:'Estrategia de contenido semana',text:'Generame un plan de contenido para esta semana: 3 posts para Instagram, 1 reel de MAX, y 2 stories. Que sea coherente con el ICP y los servicios actuales.'},
+    {id:'d3',name:'Mensaje de seguimiento prospecto',text:'Escribime un mensaje de WhatsApp para hacer seguimiento a un prospecto que vio la propuesta pero no respondió. Que sea directo, sin presión, y que genere una respuesta.'},
+    {id:'d4',name:'Ideas de nuevos servicios',text:'¿Qué nuevos servicios podría agregar a Concepto Development que complementen lo que ya ofrezco y sean fáciles de vender al mismo ICP?'},
+    {id:'d5',name:'Objeción: es caro',text:'Un prospecto me dice "es muy caro para lo que ofrecés". ¿Cómo le respondo sin bajar el precio y revalorizando el servicio?'},
+  ];
+  const allPrompts=[...defaults,...D.quickPrompts];
+  el.innerHTML=allPrompts.map(p=>`<div class="snippet-card" onclick="useQuickPrompt('${encodeURIComponent(p.text)}')">
+    <div style="font-size:14px;font-weight:600;margin-bottom:4px">${p.name}</div>
+    <div style="font-size:12px;color:var(--txt3);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">${p.text}</div>
+  </div>`).join('');
+}
+function useQuickPrompt(encoded) {
+  document.getElementById('ai-input').value=decodeURIComponent(encoded);
+}
+function saveQuickPrompt() {
+  const name=document.getElementById('qp-name').value.trim();
+  const text=document.getElementById('qp-text').value.trim();
+  if(!name||!text) return notify('Completá nombre y prompt');
+  D.quickPrompts.push({id:uid(),name,text}); save();
+  closeModal('modal-add-prompt'); renderQuickPrompts();
+  document.getElementById('qp-name').value=''; document.getElementById('qp-text').value='';
+  notify('✅ Prompt guardado');
+}
+
+// ── MARKETING ─────────────────────────────────────
+const CDN = 'https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/max-automatico/';
+
+const MKT_PIECES = [
+  { id:'A1', tipo:'imagen', prioridad:true, titulo:'Amenaza Silenciosa', copy:'Cada mes que esperás, tu competencia te saca más ventaja. Sin apuro.', formato:'4:5 · Feed', plataformas:'Instagram · LinkedIn', thumb: CDN+'NEW-A1-AmenazaSilenciosa.png', defaultStatus:'lista' },
+  { id:'A3', tipo:'imagen', prioridad:true, titulo:'Costo de Oportunidad', copy:'¿Cuánto te cuesta cada mes que no automatizás?', formato:'4:5 · Feed', plataformas:'Instagram · LinkedIn', thumb: null, defaultStatus:'pendiente' },
+  { id:'A5', tipo:'imagen', prioridad:true, titulo:'Velocidad Asimétrica', copy:'Tu empresa a 60 km/h. Tu competencia con IA: 300. La brecha crece cada día.', formato:'4:5 · Feed', plataformas:'Instagram · LinkedIn', thumb: null, defaultStatus:'pendiente' },
+  { id:'A9', tipo:'imagen', prioridad:true, titulo:'La Pregunta Incómoda', copy:'¿Por qué tu competencia está creciendo más rápido que vos?', formato:'4:5 · Feed', plataformas:'Instagram · LinkedIn', thumb: null, defaultStatus:'pendiente' },
+  { id:'A4', tipo:'imagen', prioridad:false, titulo:'Inevitabilidad', copy:'No es si vas a usar IA. Es cuándo. Y cuánto perdiste esperando.', formato:'4:5 · Feed', plataformas:'Instagram', thumb: null, defaultStatus:'pendiente' },
+  { id:'A6', tipo:'imagen', prioridad:false, titulo:'La Decisión', copy:'La tecnología no es el problema. La decisión sí.', formato:'4:5 · Feed', plataformas:'Instagram', thumb: null, defaultStatus:'pendiente' },
+  { id:'A7', tipo:'imagen', prioridad:false, titulo:'Redefine la Ventaja', copy:'Antes la ventaja era el precio. Hoy es la velocidad de respuesta.', formato:'4:5 · Feed', plataformas:'Instagram', thumb: null, defaultStatus:'pendiente' },
+  { id:'A8', tipo:'imagen', prioridad:false, titulo:'Unity / Exclusividad', copy:'Solo trabajamos con 3 empresas por mes. La tuya puede ser una.', formato:'4:5 · Feed', plataformas:'Instagram', thumb: null, defaultStatus:'pendiente' },
+];
+
+const MKT_VIDEOS = [
+  { id:'V1', tipo:'video', prioridad:true, titulo:'Loss Aversion Puro', copy:'Hay dos tipos de empresas. Las que ya usan IA. Las que todavía no saben que las están perdiendo.', formato:'9:16 · Reel · 15s', plataformas:'Instagram · TikTok · LinkedIn', thumb: null, defaultStatus:'pendiente' },
+  { id:'V2', tipo:'video', prioridad:false, titulo:'Costo del Tiempo', copy:'¿Cuánto vale una hora de tu tiempo? Multiplicala por las horas que tu equipo pierde en lo automatable.', formato:'9:16 · Reel · 20s', plataformas:'Instagram · TikTok', thumb: null, defaultStatus:'pendiente' },
+  { id:'V3', tipo:'video', prioridad:false, titulo:'FOMO + Timing', copy:'El mejor momento fue hace 6 meses. El segundo mejor es hoy.', formato:'9:16 · Reel · 15s', plataformas:'Instagram · TikTok · LinkedIn', thumb: null, defaultStatus:'pendiente' },
+];
+
+const STATUS_ORDER = ['pendiente','produccion','lista','publicada'];
+const STATUS_LABELS = { pendiente:'Pendiente', produccion:'En producción', lista:'Lista ✓', publicada:'Publicada ✅' };
+const STATUS_CLASS  = { pendiente:'mkt-st-pendiente', produccion:'mkt-st-produccion', lista:'mkt-st-lista', publicada:'mkt-st-publicada' };
+
+function getMktStatus(id) {
+  if(!D.mktStatus) D.mktStatus={};
+  const piece = [...MKT_PIECES,...MKT_VIDEOS].find(p=>p.id===id);
+  return D.mktStatus[id] || (piece?piece.defaultStatus:'pendiente');
+}
+function cycleMktStatus(id) {
+  const cur = getMktStatus(id);
+  const idx = STATUS_ORDER.indexOf(cur);
+  const next = STATUS_ORDER[(idx+1)%STATUS_ORDER.length];
+  if(!D.mktStatus) D.mktStatus={};
+  D.mktStatus[id]=next;
+  save();
+  renderMktStats();
+  // Re-render just the status badge
+  const el = document.getElementById('mkt-status-'+id);
+  if(el){ el.className='mkt-status '+STATUS_CLASS[next]; el.textContent=STATUS_LABELS[next]; }
+}
+function renderMktStats() {
+  const all = [...MKT_PIECES,...MKT_VIDEOS];
+  let prod=0,listas=0,pub=0;
+  all.forEach(p=>{ const s=getMktStatus(p.id); if(s==='produccion')prod++; if(s==='lista')listas++; if(s==='publicada')pub++; });
+  document.getElementById('mkt-stat-prod').textContent=prod;
+  document.getElementById('mkt-stat-listas').textContent=listas;
+  document.getElementById('mkt-stat-pub').textContent=pub;
+}
+function renderMktPiece(p) {
+  const s = getMktStatus(p.id);
+  const thumb = p.thumb
+    ? `<img class="mkt-thumb" src="${p.thumb}" loading="lazy" onclick="openMktLight('${p.thumb}')" style="cursor:zoom-in">`
+    : `<div class="mkt-thumb-placeholder">🎨</div>`;
+  const prio = p.prioridad ? `<span class="tag tag-vlt" style="font-size:10px">PRIORIDAD</span>` : '';
+  return `<div class="mkt-piece">
+    ${thumb}
+    <div class="mkt-body">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
+        <span class="mkt-id">${p.id}</span>${prio}
+      </div>
+      <div class="mkt-title">${p.titulo}</div>
+      <div class="mkt-copy">${p.copy}</div>
+      <div style="font-size:11px;color:var(--txt3);font-family:'DM Mono',monospace;margin-bottom:10px">${p.formato} · ${p.plataformas}</div>
+      <div class="mkt-footer">
+        <span class="mkt-status ${STATUS_CLASS[s]}" id="mkt-status-${p.id}" onclick="cycleMktStatus('${p.id}')">${STATUS_LABELS[s]}</span>
+        ${p.thumb?`<button class="btn btn-ghost btn-sm" onclick="window.open('${p.thumb}','_blank')" style="font-size:11px">↗ Ver</button>`:'<button class="btn btn-ghost btn-sm" style="font-size:11px;opacity:.5" disabled>Sin imagen</button>'}
+      </div>
+    </div>
+  </div>`;
+}
+function renderMarketing() {
+  if(!D.mktStatus) D.mktStatus={};
+  renderMktStats();
+  document.getElementById('mkt-pieces-grid').innerHTML = MKT_PIECES.map(renderMktPiece).join('');
+  document.getElementById('mkt-videos-grid').innerHTML = MKT_VIDEOS.map(renderMktPiece).join('');
+}
+function setMktTab(tab, el) {
+  document.querySelectorAll('#page-marketing .chip').forEach(c=>c.classList.remove('active'));
+  if(el) el.classList.add('active');
+  ['anuncios','videos','scripts','workflow'].forEach(t=>{
+    const div=document.getElementById('mkt-'+t);
+    if(div) div.style.display = t===tab?'block':'none';
+  });
+}
+function openMktLight(src) {
+  // Simple lightbox using existing modal style
+  let lb = document.getElementById('mkt-lightbox');
+  if(!lb) {
+    lb=document.createElement('div');
+    lb.id='mkt-lightbox';
+    lb.style.cssText='position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;cursor:zoom-out';
+    lb.onclick=()=>lb.remove();
+    document.body.appendChild(lb);
+  }
+  lb.innerHTML=`<img src="${src}" style="max-width:90vw;max-height:90vh;object-fit:contain;border-radius:8px">`;
+  document.body.appendChild(lb);
+}
+
+// ── SETTINGS ──────────────────────────────────────
+function loadSettings() {
+  document.getElementById('cfg-proxy').value=D.settings.proxy||'';
+}
+function saveSettings() {
+  D.settings.proxy=document.getElementById('cfg-proxy').value.trim();
+  save(); notify('✅ Configuración guardada');
+}
+function saveSettingsQuick() {
+  D.settings.proxy=document.getElementById('cfg-proxy-quick').value.trim();
+  save(); closeModal('modal-settings'); notify('✅ Guardado');
+}
+function importFromJSON(src) {
+  const raw = src==='quick'
+    ? document.getElementById('import-json-quick').value.trim()
+    : document.getElementById('import-json').value.trim();
+  if(!raw) { notify('Pegá el JSON primero'); return; }
+  try {
+    const os = JSON.parse(raw);
+    mergeOSData(os);
+  } catch(e) { notify('JSON inválido: '+e.message); }
+}
+function importFromFile(evt) {
+  const file = evt.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const os = JSON.parse(e.target.result);
+      mergeOSData(os);
+    } catch(err) { notify('Archivo inválido'); }
+  };
+  reader.readAsText(file);
+}
+function mergeOSData(os) {
+  if(os.tasks&&os.tasks.length) D.tasks=[...D.tasks,...os.tasks.filter(t=>!D.tasks.find(x=>x.id===t.id))];
+  if(os.clients&&os.clients.length) D.clients=[...D.clients,...os.clients.filter(c=>!D.clients.find(x=>x.id===c.id))];
+  if(os.pipeline&&os.pipeline.length) D.pipeline=[...D.pipeline,...os.pipeline.filter(p=>!D.pipeline.find(x=>x.id===p.id))];
+  if(os.notes&&os.notes.length) D.notes=[...D.notes,...os.notes.filter(n=>!D.notes.find(x=>x.date===n.date))];
+  if(os.ideas&&os.ideas.length) D.ideas=[...D.ideas,...os.ideas.filter(i=>!D.ideas.find(x=>x.id===i.id))];
+  if(os.goals&&os.goals.length) D.goals=[...D.goals,...os.goals.filter(g=>!D.goals.find(x=>x.id===g.id))];
+  if(os.resources&&os.resources.length) D.resources=[...D.resources,...os.resources.filter(r=>!D.resources.find(x=>x.id===r.id))];
+  if(os.finances?.income) D.finances.income=[...D.finances.income,...os.finances.income.filter(i=>!D.finances.income.find(x=>x.id===i.id))];
+  if(os.finances?.expenses) D.finances.expenses=[...D.finances.expenses,...os.finances.expenses.filter(i=>!D.finances.expenses.find(x=>x.id===i.id))];
+  save(); closeModal('modal-settings'); closeModal('modal-settings');
+  renderPage(currentPage); initClientSelectors();
+  notify(`✅ Importado: ${os.clients?.length||0} clientes, ${os.tasks?.length||0} tareas, ${os.pipeline?.length||0} prospectos`);
+}
+function importFromOS() {
+  try {
+    const osData=localStorage.getItem(OS_KEY);
+    if(!osData) { notify('No se encontró Concepto OS'); return; }
+    const os=JSON.parse(osData);
+    if(os.tasks&&os.tasks.length) D.tasks=[...D.tasks,...os.tasks.filter(t=>!D.tasks.find(x=>x.id===t.id))];
+    if(os.clients&&os.clients.length) D.clients=[...D.clients,...os.clients.filter(c=>!D.clients.find(x=>x.id===c.id))];
+    if(os.pipeline&&os.pipeline.length) D.pipeline=[...D.pipeline,...os.pipeline.filter(p=>!D.pipeline.find(x=>x.id===p.id))];
+    if(os.notes&&os.notes.length) D.notes=[...D.notes,...os.notes.filter(n=>!D.notes.find(x=>x.date===n.date))];
+    if(os.ideas&&os.ideas.length) D.ideas=[...D.ideas,...os.ideas.filter(i=>!D.ideas.find(x=>x.id===i.id))];
+    if(os.goals&&os.goals.length) D.goals=[...D.goals,...os.goals.filter(g=>!D.goals.find(x=>x.id===g.id))];
+    if(os.resources&&os.resources.length) D.resources=[...D.resources,...os.resources.filter(r=>!D.resources.find(x=>x.id===r.id))];
+    if(os.finances&&os.finances.income) D.finances.income=[...D.finances.income,...(os.finances.income||[]).filter(i=>!D.finances.income.find(x=>x.id===i.id))];
+    if(os.finances&&os.finances.expenses) D.finances.expenses=[...D.finances.expenses,...(os.finances.expenses||[]).filter(i=>!D.finances.expenses.find(x=>x.id===i.id))];
+    if(os.timer) D.timer={...os.timer,logs:[...(D.timer.logs||[]),...(os.timer.logs||[]).filter(l=>!D.timer.logs.find(x=>x.date===l.date))]};
+    save(); closeModal('modal-settings'); renderPage(currentPage);
+    initClientSelectors(); notify('✅ Datos importados desde Concepto OS!');
+  } catch(e) { notify('Error al importar: '+e.message); }
+}
+function exportData() {
+  const blob=new Blob([JSON.stringify(D,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='concepto-hq-backup-'+todayStr()+'.json'; a.click();
+}
+function clearAllData() {
+  if(!confirm('¿Borrar TODOS los datos? Esto no se puede deshacer.')) return;
+  localStorage.removeItem(KEY); location.reload();
+}
+
+// ── UTILS ─────────────────────────────────────────
+function copyText(val, encoded=false) {
+  const text=encoded?decodeURIComponent(val):val;
+  navigator.clipboard.writeText(text).then(()=>notify('📋 Copiado'));
+}
+
+// ── TIMER AUTO-RESUME ─────────────────────────────
+function resumeTimer() {
+  if(D.timer.running && D.timer.startedAt) {
+    document.getElementById('timer-btn').textContent='⏸ Pausar';
+    document.getElementById('timer-status').textContent='Corriendo...';
+    timerInterval=setInterval(updateTimerDisplay,1000);
+    updateTimerDisplay();
+  }
+}
+
+// ── INIT ──────────────────────────────────────────
+async function init() {
+  load();
+  initHeader();
+  initClientSelectors();
+  renderQuickPrompts();
+  document.getElementById('note-date').value=todayStr();
+  document.getElementById('manual-date').value=todayStr();
+  document.getElementById('fin-date').value=todayStr();
+  document.getElementById('cont-date').value=todayStr();
+  resumeTimer();
+  document.getElementById('calc-roi').style.display='block';
+  document.getElementById('calc-profit').style.display='none';
+  document.getElementById('calc-standard').style.display='none';
+  renderComando();
+  initCalc(); calcROI(); calcProfit();
+  // Load from Supabase and re-render with cloud data
+  const loaded = await loadFromSupabase();
+  if(loaded) { initClientSelectors(); renderComando(); }
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
