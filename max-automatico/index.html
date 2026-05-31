@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAX — Sistema de Anuncios Automático</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0d0d0d;
+    color: #f5f4f0;
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 40px;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #1e1e1e;
+  }
+  .badge {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #7c3aed;
+    font-family: 'DM Mono', monospace;
+  }
+  h1 {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+  }
+  .subtitle {
+    font-size: 14px;
+    color: #767676;
+    margin-top: 4px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+  }
+  .card {
+    background: #111;
+    border: 1px solid #1e1e1e;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: #7c3aed44; }
+  .card-img {
+    width: 100%;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+    display: block;
+    cursor: zoom-in;
+  }
+  .card-img.scene {
+    aspect-ratio: 1/1;
+    object-fit: cover;
+  }
+  .card-body {
+    padding: 16px 20px 20px;
+  }
+  .card-id {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #7c3aed;
+    font-family: 'DM Mono', monospace;
+  }
+  .card-title {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-top: 4px;
+  }
+  .card-copy {
+    font-size: 13px;
+    color: #767676;
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+  .card-meta {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 100px;
+    border: 1px solid #2a2a2a;
+    color: #585858;
+  }
+  .tag.ok { border-color: #7c3aed44; color: #a855f7; }
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #585858;
+    font-family: 'DM Mono', monospace;
+    margin: 48px 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #1e1e1e;
+  }
+  /* Lightbox */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="badge">Concepto Development · MAX</div>
+    <h1>Sistema de Anuncios<br>Automático</h1>
+    <p class="subtitle">Cada pieza: concepto → escena Higgsfield → composición Remotion</p>
+  </div>
+</header>
+
+<div class="section-label">A1 · Amenaza Silenciosa — En producción</div>
+
+<div class="grid">
+
+  <div class="card">
+    <img class="card-img" src="A1-scene-higgsfield.png" onclick="openLight(this.src)" alt="Escena Higgsfield A1" />
+    <div class="card-body">
+      <div class="card-id">A1 · Escena Higgsfield</div>
+      <div class="card-title">Oficina Corporativa Nocturna</div>
+      <div class="card-copy">Imagen base generada para A1. MAX en ambiente de lujo corporativo. Próxima versión: MAX corrido a la derecha del frame para dejar espacio de texto a la izquierda.</div>
+      <div class="card-meta">
+        <span class="tag">nano_banana_pro</span>
+        <span class="tag">4:5</span>
+        <span class="tag ok">✓ Generado</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <img class="card-img" src="NEW-A1-AmenazaSilenciosa.png" onclick="openLight(this.src)" alt="Render final A1" />
+    <div class="card-body">
+      <div class="card-id">A1 · Composición Final</div>
+      <div class="card-title">Amenaza Silenciosa</div>
+      <div class="card-copy">"Cada mes que esperás, tu <strong style="color:#a855f7">competencia</strong> te saca más ventaja. Sin apuro." — Proceso correcto validado: escena como fondo full-bleed, sin sticker.</div>
+      <div class="card-meta">
+        <span class="tag">TipoReel</span>
+        <span class="tag">Remotion</span>
+        <span class="tag">4:5 · 1080×1350</span>
+        <span class="tag ok">✓ Render OK</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="section-label">Próximos en cola</div>
+
+<div class="grid">
+  <div class="card">
+    <div class="card-body" style="padding: 24px;">
+      <div class="card-id">A3 · Pendiente</div>
+      <div class="card-title" style="color:#585858">Costo de Oportunidad</div>
+      <div class="card-copy">Concepto: ¿Cuánto cuesta cada mes que no automatizás? Copy de copy-system A3. Escena: MAX en sala de reuniones con pantalla de datos.</div>
+      <div class="card-meta">
+        <span class="tag">Brief listo</span>
+        <span class="tag">Escena pendiente</span>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body" style="padding: 24px;">
+      <div class="card-id">V1 · Pendiente</div>
+      <div class="card-title" style="color:#585858">Loss Aversion Puro</div>
+      <div class="card-copy">Video 15s. Script aprobado en copy-system. Higgsfield genera visual base → Remotion monta texto cinético.</div>
+      <div class="card-meta">
+        <span class="tag">Script aprobado</span>
+        <span class="tag">Video · 9:16</span>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body" style="padding: 24px;">
+      <div class="card-id">A5 · Pendiente</div>
+      <div class="card-title" style="color:#585858">Velocidad Asimétrica</div>
+      <div class="card-copy">Copy de copy-system A5 (PRIORIDAD). Escena: MAX en acción, sensación de velocidad vs. competencia estática.</div>
+      <div class="card-meta">
+        <span class="tag">Brief listo</span>
+        <span class="tag">Escena pendiente</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="lightbox" id="lb" onclick="closeLight()">
+  <img id="lb-img" src="" alt="" />
+</div>
+
+<script>
+function openLight(src) {
+  document.getElementById('lb-img').src = src;
+  document.getElementById('lb').classList.add('open');
+}
+function closeLight() {
+  document.getElementById('lb').classList.remove('open');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLight(); });
+</script>
+
+</body>
+</html>
