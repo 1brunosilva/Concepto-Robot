@@ -12,14 +12,11 @@
     :root {
       --ink:   #0d0d0d;
       --cream: #f5f4f0;
-      --mid:   #585858;
-      --dim:   #767676;
       --vlt:   #7c3aed;
       --vlt-l: #a855f7;
     }
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -35,12 +32,13 @@
     .hero {
       position: relative;
       height: 100svh;
-      min-height: 640px;
+      min-height: 600px;
       overflow: hidden;
       display: flex;
       align-items: center;
     }
 
+    /* Video cubre todo el hero — MAX visible a la derecha */
     .hero__video {
       position: absolute;
       inset: 0;
@@ -50,17 +48,17 @@
       object-position: right center;
     }
 
-    /* Horizontal gradient: text lives on the dark left, MAX shows on the right */
+    /* Gradiente: texto legible a la izquierda, MAX visible a la derecha */
     .hero__overlay {
       position: absolute;
       inset: 0;
       background: linear-gradient(
         90deg,
-        #0d0d0d 0%,
-        #0d0d0d 38%,
-        rgba(13,13,13,0.88) 50%,
-        rgba(13,13,13,0.40) 68%,
-        transparent 100%
+        rgba(13,13,13,1)   0%,
+        rgba(13,13,13,1)   35%,
+        rgba(13,13,13,0.7) 55%,
+        rgba(13,13,13,0.2) 80%,
+        transparent        100%
       );
     }
 
@@ -68,7 +66,7 @@
       position: relative;
       z-index: 2;
       padding: 0 7vw;
-      max-width: 580px;
+      max-width: 700px;
     }
 
     .hero__eyebrow {
@@ -77,7 +75,7 @@
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--vlt-l);
-      margin-bottom: 32px;
+      margin-bottom: 28px;
       display: flex;
       align-items: center;
       gap: 14px;
@@ -85,20 +83,19 @@
 
     .hero__eyebrow::after {
       content: '';
-      display: block;
-      width: 36px;
+      width: 32px;
       height: 1px;
       background: var(--vlt-l);
-      opacity: 0.6;
+      opacity: 0.5;
     }
 
     .hero__headline {
-      font-size: clamp(36px, 4.8vw, 60px);
+      font-size: clamp(28px, 3vw, 46px);
       font-weight: 800;
-      line-height: 0.93;
+      line-height: 0.95;
       letter-spacing: -0.04em;
       color: var(--cream);
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
 
     .hero__headline em {
@@ -108,11 +105,10 @@
 
     .hero__subline {
       font-size: 15px;
-      font-weight: 400;
-      line-height: 1.65;
-      color: #8a8a8a;
-      margin-bottom: 44px;
-      max-width: 400px;
+      line-height: 1.6;
+      color: #7a7a7a;
+      margin-bottom: 40px;
+      max-width: 380px;
     }
 
     .cta-btn {
@@ -121,15 +117,14 @@
       gap: 10px;
       background: linear-gradient(135deg, #7c3aed, #a855f7);
       color: #fff;
-      font-family: 'Inter', sans-serif;
       font-size: 15px;
       font-weight: 600;
-      padding: 16px 32px;
+      padding: 15px 30px;
       border-radius: 100px;
       text-decoration: none;
       letter-spacing: -0.01em;
       box-shadow: 0 6px 24px rgba(124,58,237,.28);
-      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      transition: box-shadow 0.2s, transform 0.2s;
     }
 
     .cta-btn:hover {
@@ -137,103 +132,95 @@
       transform: translateY(-2px);
     }
 
-    .cta-btn svg { flex-shrink: 0; }
-
     .hero__nota {
-      margin-top: 18px;
+      margin-top: 16px;
       font-family: 'DM Mono', monospace;
       font-size: 10px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #3a3a3a;
+      color: #333;
     }
 
-    /* ─── SECTION BASE ──────────────────────────────────── */
+    /* ─── SECCIONES ─────────────────────────────────────── */
 
-    .section-wrap {
-      padding: 100px 7vw;
-    }
+    .section-wrap { padding: 96px 7vw; }
 
     .section-label {
       font-family: 'DM Mono', monospace;
       font-size: 11px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: #3d3d3d;
+      color: #3a3a3a;
       display: flex;
       align-items: center;
       gap: 16px;
-      margin-bottom: 52px;
+      margin-bottom: 48px;
     }
 
     .section-label::after {
       content: '';
       flex: 1;
       height: 1px;
-      background: #1c1c1c;
+      background: #1a1a1a;
     }
 
-    /* ─── STEPS ─────────────────────────────────────────── */
+    .section-label.center::before {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #1a1a1a;
+    }
 
-    .s-steps { background: #07001a; }
-
-    .steps-heading {
-      font-size: clamp(26px, 3vw, 40px);
+    .section-heading {
+      font-size: clamp(24px, 2.6vw, 38px);
       font-weight: 800;
       letter-spacing: -0.04em;
       line-height: 0.93;
-      margin-bottom: 72px;
-      max-width: 440px;
+      margin-bottom: 60px;
     }
+
+    /* ─── PASOS ─────────────────────────────────────────── */
+
+    .s-steps { background: #07001a; }
 
     .steps-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 56px 48px;
+      gap: 48px;
     }
 
-    .step { display: flex; flex-direction: column; gap: 14px; }
+    .step { display: flex; flex-direction: column; gap: 12px; }
 
     .step__num {
       font-family: 'DM Mono', monospace;
       font-size: 11px;
       letter-spacing: 0.14em;
       color: var(--vlt-l);
-      opacity: 0.7;
+      opacity: 0.6;
     }
 
-    .step__divider {
-      width: 32px;
+    .step__bar {
+      width: 28px;
       height: 1px;
       background: #2a1060;
     }
 
     .step__title {
-      font-size: 19px;
+      font-size: 18px;
       font-weight: 700;
       letter-spacing: -0.03em;
       line-height: 1.1;
-      color: var(--cream);
     }
 
     .step__desc {
       font-size: 14px;
       line-height: 1.7;
-      color: #666;
+      color: #5a5a5a;
     }
 
-    /* ─── PARA QUIÉN ────────────────────────────────────── */
+    /* ─── SECTORES ───────────────────────────────────────── */
 
     .s-quien { background: var(--ink); }
-
-    .quien-heading {
-      font-size: clamp(26px, 3vw, 40px);
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      line-height: 0.93;
-      margin-bottom: 56px;
-      max-width: 460px;
-    }
 
     .sectors-grid {
       display: grid;
@@ -241,146 +228,130 @@
       gap: 1px;
       background: #161616;
       border: 1px solid #161616;
-      border-radius: 18px;
+      border-radius: 16px;
       overflow: hidden;
-      max-width: 740px;
+      max-width: 720px;
     }
 
     .sector {
       background: #0d0d0d;
-      padding: 40px 44px;
-      transition: background 0.2s ease;
-      cursor: default;
+      padding: 36px 40px;
     }
 
-    .sector:hover { background: #0f0f0f; }
-
-    .sector__glyph {
-      display: inline-flex;
+    .sector__icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: rgba(124,58,237,.1);
+      display: flex;
       align-items: center;
       justify-content: center;
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: rgba(124,58,237,.12);
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
-    .sector__glyph svg { display: block; }
-
     .sector__name {
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 700;
       letter-spacing: -0.03em;
-      color: var(--cream);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .sector__desc {
       font-size: 13px;
       line-height: 1.65;
-      color: #555;
+      color: #4a4a4a;
     }
 
-    /* ─── CTA FINAL ─────────────────────────────────────── */
+    /* ─── CTA FINAL ──────────────────────────────────────── */
 
     .s-cta {
       background: #06040f;
       text-align: center;
     }
 
-    .s-cta .section-label::before {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: #1c1c1c;
-    }
+    .s-cta .section-label { justify-content: center; }
 
     .cta-heading {
-      font-size: clamp(30px, 4vw, 52px);
+      font-size: clamp(28px, 3.5vw, 50px);
       font-weight: 800;
       letter-spacing: -0.04em;
       line-height: 0.93;
-      max-width: 560px;
-      margin: 0 auto 24px;
+      max-width: 520px;
+      margin: 0 auto 20px;
     }
 
     .cta-sub {
       font-size: 15px;
-      color: #555;
-      line-height: 1.65;
-      max-width: 380px;
-      margin: 0 auto 48px;
+      color: #4a4a4a;
+      line-height: 1.6;
+      max-width: 360px;
+      margin: 0 auto 44px;
     }
 
     .cta-nota {
-      margin-top: 20px;
+      margin-top: 18px;
       font-family: 'DM Mono', monospace;
       font-size: 10px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #2e2e2e;
+      color: #2a2a2a;
     }
 
-    /* ─── FOOTER ─────────────────────────────────────────── */
+    /* ─── FOOTER ──────────────────────────────────────────── */
 
     footer {
-      padding: 28px 7vw;
+      padding: 24px 7vw;
       border-top: 1px solid #141414;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
-    .footer-brand {
+    .footer-txt {
       font-family: 'DM Mono', monospace;
       font-size: 11px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: #2a2a2a;
+      color: #252525;
     }
 
     /* ─── MOBILE ─────────────────────────────────────────── */
 
     @media (max-width: 768px) {
 
-      /* Hero: video top half, text bottom half */
       .hero {
+        align-items: flex-end;
         height: auto;
         min-height: 100svh;
-        align-items: flex-end;
       }
 
       .hero__video {
-        object-position: center 20%;
+        object-position: 70% center;
       }
 
-      /* Vertical gradient: video shows top, text readable bottom */
+      /* Mobile: video visible arriba, texto abajo */
       .hero__overlay {
         background: linear-gradient(
           180deg,
-          transparent 0%,
-          rgba(13,13,13,0.4) 30%,
-          rgba(13,13,13,0.92) 55%,
-          #0d0d0d 75%
+          transparent      0%,
+          rgba(13,13,13,.3) 30%,
+          rgba(13,13,13,.9) 52%,
+          rgba(13,13,13,1)  68%
         );
       }
 
       .hero__content {
-        padding: 0 20px 60px;
+        padding: 0 20px 56px;
         max-width: 100%;
-        padding-top: 0;
       }
 
-      .hero__eyebrow { margin-bottom: 24px; }
+      .hero__headline { font-size: clamp(28px, 7vw, 40px); }
 
-      .hero__headline { margin-bottom: 20px; }
-
-      .section-wrap { padding: 72px 20px; }
+      .section-wrap { padding: 64px 20px; }
 
       .steps-grid {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 36px;
       }
 
       .sectors-grid {
@@ -388,29 +359,23 @@
         max-width: 100%;
       }
 
-      .sector { padding: 32px 28px; }
+      .sector { padding: 28px 24px; }
 
       footer {
-        padding: 24px 20px;
         flex-direction: column;
-        gap: 8px;
+        gap: 6px;
         text-align: center;
+        padding: 20px;
       }
-    }
-
-    @media (max-width: 380px) {
-      .hero__headline { font-size: 34px; }
-      .cta-btn { width: 100%; justify-content: center; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ══════════════ HERO ══════════════ -->
+  <!-- ═══ HERO ═══ -->
   <section class="hero" id="inicio">
-
     <video class="hero__video" autoplay muted loop playsinline>
-      <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@main/hf_20260522_161954_32b95a03.mp4" type="video/mp4">
+      <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@7abac0c/hf_20260522_161954_32b95a03-858f-47bb-a407-2ff2cd34468b.mp4" type="video/mp4">
     </video>
     <div class="hero__overlay"></div>
 
@@ -418,151 +383,134 @@
       <p class="hero__eyebrow">Concepto Development</p>
 
       <h1 class="hero__headline">
-        Tu empresa tiene procesos que MAX puede hacer.<br>
+        Tu empresa tiene procesos que MAX puede hacer.
         En 30 minutos te decimos <em>cuáles.</em>
       </h1>
 
       <p class="hero__subline">
-        Sin compromiso. Sin venta de entrada.<br>
+        Sin compromiso. Sin venta de entrada.
         Solo el mapa de automatización de tu negocio.
       </p>
 
       <a href="#calendly" class="cta-btn">
         Agendar diagnóstico gratuito
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
-          <path d="M2.5 7.5h10M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M2 7h10M7.5 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </a>
 
       <p class="hero__nota">30 minutos &middot; Gratis &middot; Sin compromiso</p>
     </div>
-
   </section>
 
-  <!-- ══════════════ QUÉ PASA EN 30 MINUTOS ══════════════ -->
+  <!-- ═══ QUÉ PASA EN 30 MINUTOS ═══ -->
   <section class="s-steps">
     <div class="section-wrap">
-
       <p class="section-label">El diagnóstico</p>
-
-      <h2 class="steps-heading">Qué pasa en esos 30 minutos</h2>
+      <h2 class="section-heading">Qué pasa en esos 30 minutos</h2>
 
       <div class="steps-grid">
-
         <div class="step">
           <span class="step__num">01</span>
-          <div class="step__divider"></div>
+          <div class="step__bar"></div>
           <h3 class="step__title">Te escuchamos</h3>
-          <p class="step__desc">Nos contás cómo funciona tu negocio hoy. Sin formularios previos, sin presentaciones. Una conversación real sobre tus operaciones.</p>
+          <p class="step__desc">Nos contás cómo funciona tu negocio hoy. Sin formularios previos, sin presentaciones. Una conversación real.</p>
         </div>
-
         <div class="step">
           <span class="step__num">02</span>
-          <div class="step__divider"></div>
+          <div class="step__bar"></div>
           <h3 class="step__title">Identificamos los puntos</h3>
           <p class="step__desc">Detectamos qué tareas consumen tiempo y plata sin agregar valor: atención repetitiva, seguimientos, reportes, consultas fuera de horario.</p>
         </div>
-
         <div class="step">
           <span class="step__num">03</span>
-          <div class="step__divider"></div>
+          <div class="step__bar"></div>
           <h3 class="step__title">Te entregamos el mapa</h3>
           <p class="step__desc">Salís con el diagnóstico claro: qué se puede automatizar, en qué orden, y qué impacto real tendría en tu operación.</p>
         </div>
-
       </div>
     </div>
   </section>
 
-  <!-- ══════════════ PARA QUIÉN ES ══════════════ -->
+  <!-- ═══ PARA QUIÉN ES ═══ -->
   <section class="s-quien">
     <div class="section-wrap">
-
       <p class="section-label">Sectores</p>
-
-      <h2 class="quien-heading">Para quien construyó algo que funciona</h2>
+      <h2 class="section-heading" style="max-width:440px;">Para quien construyó algo que funciona</h2>
 
       <div class="sectors-grid">
-
         <div class="sector">
-          <div class="sector__glyph">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <rect x="2" y="7" width="14" height="9" rx="1" stroke="#a855f7" stroke-width="1.4"/>
-              <path d="M6 7V5a3 3 0 016 0v2" stroke="#a855f7" stroke-width="1.4"/>
-              <path d="M9 11v1" stroke="#a855f7" stroke-width="1.4" stroke-linecap="round"/>
+          <div class="sector__icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <rect x="1" y="6" width="14" height="8" rx="1" stroke="#a855f7" stroke-width="1.3"/>
+              <path d="M5 6V4.5a3 3 0 016 0V6" stroke="#a855f7" stroke-width="1.3"/>
+              <path d="M8 10v1" stroke="#a855f7" stroke-width="1.3" stroke-linecap="round"/>
             </svg>
           </div>
           <h3 class="sector__name">Hotelería</h3>
-          <p class="sector__desc">Consultas, reservas, seguimientos de huéspedes y atención fuera de horario sin ampliar el equipo.</p>
+          <p class="sector__desc">Consultas, reservas, seguimiento de huéspedes y atención fuera de horario sin ampliar el equipo.</p>
         </div>
-
         <div class="sector">
-          <div class="sector__glyph">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <rect x="1.5" y="5.5" width="11" height="8" rx="1" stroke="#a855f7" stroke-width="1.4"/>
-              <path d="M12.5 7.5h2a1 1 0 011 1v3a1 1 0 01-1 1h-2" stroke="#a855f7" stroke-width="1.4"/>
-              <circle cx="5" cy="15" r="1.2" stroke="#a855f7" stroke-width="1.2"/>
-              <circle cx="10" cy="15" r="1.2" stroke="#a855f7" stroke-width="1.2"/>
+          <div class="sector__icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <rect x="1" y="5" width="10" height="7" rx="1" stroke="#a855f7" stroke-width="1.3"/>
+              <path d="M11 7h2a1 1 0 011 1v2a1 1 0 01-1 1h-2" stroke="#a855f7" stroke-width="1.3"/>
+              <circle cx="4" cy="13.5" r="1" stroke="#a855f7" stroke-width="1.2"/>
+              <circle cx="9" cy="13.5" r="1" stroke="#a855f7" stroke-width="1.2"/>
             </svg>
           </div>
           <h3 class="sector__name">Distribuidoras</h3>
           <p class="sector__desc">Pedidos, seguimiento de clientes, gestión de catálogo y atención a vendedores en campo.</p>
         </div>
-
         <div class="sector">
-          <div class="sector__glyph">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M3 14V8l6-4 6 4v6H3z" stroke="#a855f7" stroke-width="1.4" stroke-linejoin="round"/>
-              <rect x="6.5" y="10" width="5" height="4" rx="0.5" stroke="#a855f7" stroke-width="1.2"/>
+          <div class="sector__icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M2 13V7l6-4 6 4v6H2z" stroke="#a855f7" stroke-width="1.3" stroke-linejoin="round"/>
+              <rect x="5.5" y="9" width="5" height="4" rx="0.5" stroke="#a855f7" stroke-width="1.2"/>
             </svg>
           </div>
           <h3 class="sector__name">Barracas</h3>
           <p class="sector__desc">Consultas de stock, presupuestos automáticos y seguimiento posventa sin perder tiempo del mostrador.</p>
         </div>
-
         <div class="sector">
-          <div class="sector__glyph">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M9 2v3M6 3.5C4 4.5 3 7 3 9a6 6 0 0012 0c0-2-1-4.5-3-5.5" stroke="#a855f7" stroke-width="1.4" stroke-linecap="round"/>
-              <path d="M9 12a2 2 0 000-4 2 2 0 000 4z" stroke="#a855f7" stroke-width="1.2"/>
+          <div class="sector__icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M8 2v2.5" stroke="#a855f7" stroke-width="1.3" stroke-linecap="round"/>
+              <path d="M5.5 3.2C3.5 4.2 2.5 6.2 2.5 8A5.5 5.5 0 0013.5 8c0-1.8-.9-3.8-2.9-4.8" stroke="#a855f7" stroke-width="1.3" stroke-linecap="round"/>
+              <circle cx="8" cy="9.5" r="1.8" stroke="#a855f7" stroke-width="1.2"/>
             </svg>
           </div>
           <h3 class="sector__name">Bodegas</h3>
-          <p class="sector__desc">Venta directa al consumidor, experiencias personalizadas y atención a distribuidores en simultáneo.</p>
+          <p class="sector__desc">Venta directa, experiencias personalizadas y atención a distribuidores en simultáneo.</p>
         </div>
-
       </div>
     </div>
   </section>
 
-  <!-- ══════════════ CTA FINAL ══════════════ -->
+  <!-- ═══ CTA FINAL ═══ -->
   <section class="s-cta" id="calendly">
     <div class="section-wrap">
-
-      <p class="section-label">Empezá acá</p>
+      <p class="section-label center">Empezá acá</p>
 
       <h2 class="cta-heading">30 minutos que vale la pena.</h2>
 
-      <p class="cta-sub">
-        Sin vendedores, sin pitch. Te mostramos exactamente qué puede hacer la IA en tu empresa hoy.
-      </p>
+      <p class="cta-sub">Sin vendedores, sin pitch. Te mostramos exactamente qué puede hacer la IA en tu empresa hoy.</p>
 
-      <a href="#calendly" class="cta-btn" style="font-size:16px;padding:18px 40px;">
+      <a href="#calendly" class="cta-btn" style="font-size:16px;padding:17px 38px;">
         Agendar diagnóstico gratuito
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
-          <path d="M2.5 7.5h10M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M2 7h10M7.5 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </a>
 
       <p class="cta-nota">30 minutos &middot; Gratis &middot; Sin compromiso</p>
-
     </div>
   </section>
 
-  <!-- ══════════════ FOOTER ══════════════ -->
+  <!-- ═══ FOOTER ═══ -->
   <footer>
-    <span class="footer-brand">Concepto Development</span>
-    <span class="footer-brand">Uruguay &middot; 2026</span>
+    <span class="footer-txt">Concepto Development</span>
+    <span class="footer-txt">Uruguay &middot; 2026</span>
   </footer>
 
 </body>
