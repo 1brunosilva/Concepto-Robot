@@ -8,6 +8,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Calendly popup widget -->
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+  <script>
+    // ⚠️ CAMBIAR ESTA URL: reemplazar con tu link de Calendly
+    var CALENDLY_URL = 'https://calendly.com/TU_USUARIO_AQUI/diagnostico-gratuito';
+    function abrirCalendly(e) {
+      e.preventDefault();
+      Calendly.initPopupWidget({ url: CALENDLY_URL });
+    }
+  </script>
   <style>
     :root {
       --ink:   #0d0d0d;
@@ -224,13 +235,12 @@
 
     .sectors-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 1px;
       background: #161616;
       border: 1px solid #161616;
       border-radius: 16px;
       overflow: hidden;
-      max-width: 720px;
     }
 
     .sector {
@@ -355,11 +365,13 @@
       }
 
       .sectors-grid {
-        grid-template-columns: 1fr;
-        max-width: 100%;
+        grid-template-columns: repeat(2, 1fr);
       }
 
-      .sector { padding: 28px 24px; }
+      .sector { padding: 24px 20px; }
+
+      .sector__name { font-size: 14px; }
+      .sector__desc { font-size: 12px; }
 
       footer {
         flex-direction: column;
@@ -392,7 +404,7 @@
         Solo el mapa de automatización de tu negocio.
       </p>
 
-      <a href="#calendly" class="cta-btn">
+      <a href="#" onclick="abrirCalendly(event)" class="cta-btn">
         Agendar diagnóstico gratuito
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path d="M2 7h10M7.5 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -482,6 +494,25 @@
           </div>
           <h3 class="sector__name">Bodegas</h3>
           <p class="sector__desc">Venta directa, experiencias personalizadas y atención a distribuidores en simultáneo.</p>
+        </div>
+        <div class="sector">
+          <div class="sector__icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M8 2L2 7h1v6h4v-4h2v4h4V7h1L8 2z" stroke="#a855f7" stroke-width="1.3" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="sector__name">Arquitectura</h3>
+          <p class="sector__desc">Atención a clientes, seguimiento de proyectos, presupuestos y gestión de obras sin emails interminables.</p>
+        </div>
+        <div class="sector">
+          <div class="sector__icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <circle cx="8" cy="5" r="3" stroke="#a855f7" stroke-width="1.3"/>
+              <path d="M2 13.5c0-2.5 2.7-4.5 6-4.5s6 2 6 4.5" stroke="#a855f7" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="sector__name">Servicios profesionales</h3>
+          <p class="sector__desc">Estudios contables, jurídicos y consultoras: agenda, derivación de consultas y seguimiento de clientes automatizado.</p>
         </div>
       </div>
     </div>
