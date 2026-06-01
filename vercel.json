@@ -19,6 +19,10 @@
     {
       "source": "/pintelux",
       "destination": "/clientes/pintelux/propuesta-chatbot.html"
+    },
+    {
+      "source": "/diagnostico",
+      "destination": "/diagnostico.html"
     }
   ]
 }
