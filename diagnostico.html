@@ -49,7 +49,7 @@
       align-items: center;
     }
 
-    /* Video cubre todo el hero — MAX visible a la derecha */
+    /* Video desktop — MAX visible a la derecha */
     .hero__video {
       position: absolute;
       inset: 0;
@@ -57,6 +57,11 @@
       height: 100%;
       object-fit: cover;
       object-position: right center;
+    }
+
+    /* Imagen portrait mobile — oculta en desktop */
+    .hero__img-mobile {
+      display: none;
     }
 
     /* Gradiente: texto legible a la izquierda, MAX visible a la derecha */
@@ -335,8 +340,20 @@
         min-height: 100svh;
       }
 
+      /* Ocultar video en mobile */
       .hero__video {
-        object-position: 65% top;
+        display: none;
+      }
+
+      /* Mostrar imagen portrait en mobile */
+      .hero__img-mobile {
+        display: block;
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
       }
 
       /* Mobile: MAX visible arriba, texto en zona limpia abajo */
@@ -386,9 +403,12 @@
 
   <!-- ═══ HERO ═══ -->
   <section class="hero" id="inicio">
+    <!-- Video landscape — solo desktop -->
     <video class="hero__video" autoplay muted loop playsinline>
       <source src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@02d58c6/hf_20260601_192520_19d8864c-2b5c-48e5-80d9-0a31e8bcabfb.mp4" type="video/mp4">
     </video>
+    <!-- Imagen portrait — solo mobile -->
+    <img class="hero__img-mobile" src="https://cdn.jsdelivr.net/gh/1brunosilva/Concepto-Robot@e41d98411efe/diagnostico-mobile-hero.png" alt="MAX" loading="eager">
     <div class="hero__overlay"></div>
 
     <div class="hero__content">
