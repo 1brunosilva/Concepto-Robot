@@ -13,7 +13,7 @@
   <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
   <script>
     // ⚠️ CAMBIAR ESTA URL: reemplazar con tu link de Calendly
-    var CALENDLY_URL = 'https://calendly.com/TU_USUARIO_AQUI/diagnostico-gratuito';
+    var CALENDLY_URL = 'https://calendly.com/conceptodevelopment/30min';
     function abrirCalendly(e) {
       e.preventDefault();
       Calendly.initPopupWidget({ url: CALENDLY_URL });
@@ -336,17 +336,17 @@
       }
 
       .hero__video {
-        object-position: 70% center;
+        object-position: 65% top;
       }
 
-      /* Mobile: video visible arriba, texto abajo */
+      /* Mobile: MAX visible arriba, texto en zona limpia abajo */
       .hero__overlay {
         background: linear-gradient(
           180deg,
-          transparent      0%,
-          rgba(13,13,13,.3) 30%,
-          rgba(13,13,13,.9) 52%,
-          rgba(13,13,13,1)  68%
+          rgba(13,13,13,.1) 0%,
+          rgba(13,13,13,.2) 25%,
+          rgba(13,13,13,.7) 45%,
+          rgba(13,13,13,1)  62%
         );
       }
 
