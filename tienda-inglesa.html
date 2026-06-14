@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Tienda Inglesa — Una idea para Atención al Cliente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --azul:#0047ba;        /* azul Tienda Inglesa (CSS oficial) */
+    --navy:#001a4b;
+    --rojo:#f6323e;
+    --amarillo:#f1c21b;
+    --celeste:#00afdf;
+    --paper:#fdfcf9;
+    --ink:#10213f;
+    --mid:#5b6880;
+    --line:#dfe4ee;
+    --wa:#e7f6ec;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{background:#eef1f6;}
+  body{
+    font-family:'Archivo',-apple-system,sans-serif;
+    color:var(--ink);line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .sheet{
+    max-width:880px;margin:0 auto;background:var(--paper);
+    box-shadow:0 30px 80px rgba(0,26,75,.12);
+    position:relative;overflow:hidden;
+  }
+  /* textura sutil de fondo */
+  .sheet::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background:
+      radial-gradient(900px 400px at 110% -10%, rgba(0,71,186,.06), transparent 60%),
+      radial-gradient(600px 300px at -10% 30%, rgba(241,194,27,.07), transparent 60%);}
+  .pad{position:relative;padding:0 64px;}
+
+  /* ── header ── */
+  .top{display:flex;justify-content:space-between;align-items:center;
+    padding:30px 64px;border-bottom:1px solid var(--line);position:relative;}
+  .top::after{content:"";position:absolute;left:0;right:0;top:0;height:6px;
+    background:linear-gradient(90deg,var(--azul) 0 60%,var(--rojo) 60% 80%,var(--amarillo) 80% 100%);}
+  .wordmark{font-family:'Fraunces',serif;font-weight:900;font-size:21px;color:var(--azul);letter-spacing:-.01em;}
+  .wordmark span{color:var(--rojo);}
+  .since{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--mid);font-weight:600;}
+
+  /* ── hero ── */
+  .hero{padding:72px 64px 56px;position:relative;}
+  .eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--azul);
+    font-weight:700;margin-bottom:22px;display:flex;align-items:center;gap:14px;}
+  .eyebrow::after{content:"";width:64px;height:2px;background:var(--amarillo);}
+  h1{font-family:'Fraunces',serif;font-weight:900;font-size:54px;line-height:1.02;
+    letter-spacing:-.015em;color:var(--navy);max-width:13em;}
+  h1 em{font-style:italic;color:var(--azul);}
+  .hl{background:linear-gradient(transparent 58%, rgba(241,194,27,.55) 58% 92%, transparent 92%);}
+  .hero p{margin-top:26px;font-size:18px;color:var(--mid);max-width:560px;}
+
+  /* ── los tres números ── */
+  .numbers{display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);}
+  .num{padding:34px 28px;border-right:1px solid var(--line);}
+  .num:last-child{border-right:none;background:linear-gradient(180deg,rgba(246,50,62,.05),transparent);}
+  .num .v{font-family:'Fraunces',serif;font-weight:900;font-size:58px;line-height:1;
+    letter-spacing:-.02em;color:var(--navy);}
+  .num:last-child .v{color:var(--rojo);}
+  .num .v small{font-size:22px;font-weight:600;color:var(--mid);}
+  .num .t{margin-top:10px;font-size:14px;color:var(--mid);font-weight:500;}
+  .gapline{padding:22px 64px;font-size:16.5px;color:var(--ink);background:#fff;
+    border-bottom:1px solid var(--line);}
+  .gapline b{color:var(--rojo);}
+
+  /* ── secciones ── */
+  section{padding:60px 64px 0;position:relative;}
+  .label{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--azul);
+    font-weight:700;margin-bottom:24px;display:flex;align-items:center;gap:14px;}
+  .label::after{content:"";flex:1;height:1px;background:var(--line);}
+  h2{font-family:'Fraunces',serif;font-weight:600;font-size:30px;color:var(--navy);
+    letter-spacing:-.01em;margin-bottom:14px;max-width:18em;}
+
+  /* ── escena: domingo de noche ── */
+  .scene{display:grid;grid-template-columns:1fr 380px;gap:48px;align-items:start;}
+  .scene .txt p{font-size:16.5px;color:var(--mid);margin-bottom:16px;max-width:30em;}
+  .scene .txt p b{color:var(--ink);}
+  .quotebox{border-left:3px solid var(--amarillo);padding:6px 0 6px 20px;margin-top:24px;
+    font-family:'Fraunces',serif;font-size:19px;font-style:italic;color:var(--navy);}
+  .quotebox small{display:block;font-family:'Archivo';font-style:normal;font-size:12px;
+    color:var(--mid);margin-top:8px;letter-spacing:.08em;text-transform:uppercase;}
+
+  /* chat */
+  .phone{background:#fff;border:1px solid var(--line);border-radius:22px;
+    box-shadow:0 18px 50px rgba(0,26,75,.10);overflow:hidden;transform:rotate(.6deg);}
+  .ph-head{background:var(--azul);color:#fff;padding:14px 18px;display:flex;gap:11px;align-items:center;}
+  .avatar{width:34px;height:34px;border-radius:50%;background:#fff;color:var(--azul);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;
+    font-family:'Fraunces',serif;}
+  .ph-head .nm{font-weight:600;font-size:14px;}
+  .ph-head .st{font-size:11px;opacity:.85;display:flex;align-items:center;gap:5px;}
+  .ph-head .st::before{content:"";width:7px;height:7px;border-radius:50%;background:#5ee08a;}
+  .ph-body{padding:16px 14px 18px;background:#f6f8fc;max-height:300px;overflow-y:auto;}
+  .stamp{text-align:center;font-size:10.5px;color:var(--mid);letter-spacing:.1em;
+    text-transform:uppercase;margin-bottom:12px;font-weight:600;}
+  .m{max-width:85%;padding:10px 13px;border-radius:14px;font-size:13.5px;margin-bottom:8px;line-height:1.45;}
+  .mu{background:#fff;border:1px solid var(--line);border-bottom-right-radius:4px;margin-left:auto;}
+  .mb{background:var(--azul);color:#fff;border-bottom-left-radius:4px;}
+  .mb b{color:var(--amarillo);}
+  .instant{margin-top:10px;text-align:center;font-size:11px;color:var(--azul);font-weight:700;
+    letter-spacing:.06em;text-transform:uppercase;}
+
+  /* chat interactivo */
+  .ph-msgs{min-height:120px;}
+  .typing{display:inline-flex;gap:4px;padding:12px 14px;background:var(--azul);border-radius:14px;
+    border-bottom-left-radius:4px;margin-bottom:8px;}
+  .typing span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.75);
+    animation:blink 1.2s infinite;}
+  .typing span:nth-child(2){animation-delay:.2s;}
+  .typing span:nth-child(3){animation-delay:.4s;}
+  @keyframes blink{0%,60%,100%{opacity:.25;}30%{opacity:1;}}
+  .m.enter,.typing.enter{animation:pop .26s ease;}
+  @keyframes pop{from{opacity:0;transform:translateY(7px);}to{opacity:1;transform:none;}}
+  .preview-tag{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);
+    text-align:center;padding:9px 14px 7px;background:#f6f8fc;font-weight:700;}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;padding:0 14px 11px;background:#f6f8fc;}
+  .chip{font-size:11.5px;font-weight:600;color:var(--azul);background:#fff;border:1px solid var(--line);
+    border-radius:100px;padding:7px 12px;cursor:pointer;transition:.15s;line-height:1.2;}
+  .chip:hover{background:var(--azul);color:#fff;border-color:var(--azul);}
+  .ph-input{display:flex;gap:8px;padding:10px 12px;background:#fff;border-top:1px solid var(--line);}
+  .ph-input input{flex:1;min-width:0;border:1px solid var(--line);border-radius:100px;padding:9px 14px;
+    font-family:'Archivo';font-size:13px;color:var(--ink);outline:none;}
+  .ph-input input:focus{border-color:var(--azul);}
+  .ph-input button{background:var(--azul);color:#fff;border:none;border-radius:50%;width:38px;height:38px;
+    cursor:pointer;font-size:17px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    line-height:1;}
+  .ph-input button:hover{background:var(--navy);}
+
+  /* ── qué cambia ── */
+  .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border:1px solid var(--line);
+    border-radius:16px;overflow:hidden;background:#fff;}
+  .cell{padding:26px 24px;border-right:1px solid var(--line);}
+  .cell:last-child{border-right:none;}
+  .cell .ic{font-family:'Fraunces',serif;font-weight:900;font-size:15px;color:#fff;
+    background:var(--azul);width:30px;height:30px;border-radius:9px;display:flex;
+    align-items:center;justify-content:center;margin-bottom:14px;}
+  .cell:nth-child(2) .ic{background:var(--rojo);}
+  .cell:nth-child(3) .ic{background:var(--amarillo);color:var(--navy);}
+  .cell h3{font-size:15.5px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+  .cell p{font-size:13.5px;color:var(--mid);}
+
+  /* ── herencia ── */
+  .heritage{margin-top:0;padding:26px 64px;display:flex;gap:40px;align-items:center;}
+  .heritage .yr{font-family:'Fraunces',serif;font-weight:900;font-size:40px;color:var(--azul);
+    line-height:1;white-space:nowrap;}
+  .heritage p{font-size:15px;color:var(--mid);max-width:34em;}
+  .heritage p b{color:var(--navy);}
+
+  /* ── CTA ── */
+  .cta{margin:48px 64px 0;background:var(--navy);border-radius:20px;padding:40px 44px;
+    color:#fff;position:relative;overflow:hidden;}
+  .cta::before{content:"";position:absolute;right:-60px;top:-60px;width:240px;height:240px;
+    border-radius:50%;background:radial-gradient(circle,rgba(0,71,186,.55),transparent 70%);}
+  .cta::after{content:"";position:absolute;left:0;bottom:0;right:0;height:5px;
+    background:linear-gradient(90deg,var(--azul),var(--celeste) 50%,var(--amarillo));}
+  .cta h2{color:#fff;font-size:32px;margin-bottom:10px;font-weight:900;}
+  .cta h2 em{color:var(--amarillo);font-style:italic;}
+  .cta p{font-size:15.5px;opacity:.85;max-width:36em;position:relative;}
+  .cta .row{display:flex;align-items:center;gap:18px;margin-top:26px;flex-wrap:wrap;position:relative;}
+  .pill{background:var(--amarillo);color:var(--navy);font-weight:700;padding:14px 30px;
+    border-radius:100px;font-size:15px;white-space:nowrap;}
+  .cta .note{font-size:13px;opacity:.65;}
+
+  footer{padding:28px 64px 34px;display:flex;justify-content:space-between;align-items:center;
+    font-size:12.5px;color:var(--mid);}
+  footer .who b{color:var(--navy);}
+
+  @media print{
+    html{background:#fff;} .sheet{box-shadow:none;max-width:none;}
+    body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  }
+  @media(max-width:720px){
+    .pad,section,.top,.hero,.gapline,.heritage,footer{padding-left:24px;padding-right:24px;}
+    .cta{margin-left:24px;margin-right:24px;padding:30px 26px;}
+    h1{font-size:38px;}
+    .numbers,.three{grid-template-columns:1fr;}
+    .num,.cell{border-right:none;border-bottom:1px solid var(--line);}
+    .scene{grid-template-columns:1fr;}
+    .heritage{flex-direction:column;align-items:flex-start;gap:12px;}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="top">
+    <div class="wordmark">Tienda Inglesa <span>×</span> Concepto</div>
+    <div class="since">Una idea para Atención al Cliente</div>
+  </div>
+
+  <div class="hero">
+    <div class="eyebrow">Preparado especialmente para Tienda Inglesa</div>
+    <h1>Sus clientes compran <em>todos los días.</em><br>
+    Que también puedan <span class="hl">preguntar</span> todos los días.</h1>
+    <p>Las 19 sucursales abren los siete días de la semana y la web vende las 24 horas.
+    La atención al cliente, todavía no. Esta página muestra cómo cerrar esa brecha —
+    sin sumar gente y sin cambiar nada de lo que hoy funciona.</p>
+  </div>
+
+  <div class="numbers">
+    <div class="num"><div class="v">101 <small>hs/sem</small></div><div class="t">están abiertas las sucursales — domingos incluidos</div></div>
+    <div class="num"><div class="v">168 <small>hs/sem</small></div><div class="t">vende la web y la app, sin pausa</div></div>
+    <div class="num"><div class="v">60 <small>hs/sem</small></div><div class="t">responde el 0800 3030 — lunes a viernes, 8 a 20</div></div>
+  </div>
+  <div class="gapline">Sábados de tarde, domingos enteros y todas las noches: <b>Tienda Inglesa vende, pero las consultas esperan al lunes.</b> ¿Dónde está mi pedido? ¿Hay stock en mi sucursal? ¿Cuántos puntos tengo? Cada una es un cliente en pausa. <span style="color:var(--mid)">Y no es un problema de equipo: ningún equipo humano puede cubrir 168 horas. Es un problema de herramientas.</span></div>
+
+  <section>
+    <div class="label">Domingo, 21:47 — así se vería</div>
+    <div class="scene">
+      <div class="txt">
+        <h2>Un asistente con los datos de Tienda Inglesa, que responde al instante.</h2>
+        <p>En WhatsApp y en la web. Conoce <b>los pedidos, el stock por sucursal, los horarios,
+        las devoluciones y los puntos</b> — porque trabaja conectado a la información real de la empresa,
+        no con respuestas enlatadas.</p>
+        <p>Y sabe cuál es su límite: cuando una consulta necesita criterio humano,
+        <b>la deriva al equipo con todo el contexto ya resumido.</b> El equipo de atención no atiende menos —
+        atiende mejor, y solo lo que vale su tiempo.</p>
+        <div class="quotebox">
+          “El enfoque al cliente es nuestra razón de ser.”
+          <small>— Valores de Tienda Inglesa, sitio institucional</small>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="ph-head">
+          <div class="avatar">TI</div>
+          <div><div class="nm">Tienda Inglesa</div><div class="st">responde al instante</div></div>
+        </div>
+        <div class="ph-body">
+          <div class="stamp">Domingo · 21:47</div>
+          <div class="ph-msgs" id="msgs">
+            <div class="m mb enter">¡Hola! Soy el asistente de Tienda Inglesa. Estoy las 24 horas 🙂 ¿En qué te ayudo?</div>
+          </div>
+        </div>
+        <div class="preview-tag">Probalo — vista previa con respuestas de ejemplo</div>
+        <div class="chips" id="chips"></div>
+        <div class="ph-input">
+          <input id="q" type="text" placeholder="Escribí tu consulta…" autocomplete="off">
+          <button id="send" aria-label="Enviar">→</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="label">Qué cambia para su equipo</div>
+    <div class="three">
+      <div class="cell"><div class="ic">7</div><h3>Atención los 7 días</h3><p>El mismo horario que las sucursales — y la web. La marca responde siempre que vende.</p></div>
+      <div class="cell"><div class="ic">–</div><h3>Menos consultas repetidas</h3><p>Lo que hoy llena el 0800 y el correo se resuelve solo, al instante. El lunes deja de empezar con la cola del fin de semana.</p></div>
+      <div class="cell"><div class="ic">+</div><h3>El equipo, donde más vale</h3><p>Las personas atienden los casos que de verdad necesitan una persona — con el contexto ya servido.</p></div>
+    </div>
+  </section>
+
+  <div class="heritage" style="margin-top:48px;border-top:1px solid var(--line);">
+    <div class="yr">1950 · 1963</div>
+    <p>La primera escalera mecánica del país. El primer supermercado de autoservicio.
+    <b>Ser primeros es la tradición de Tienda Inglesa.</b> Hoy, ningún supermercado de Uruguay
+    atiende así a sus clientes. El primero va a marcar la referencia.</p>
+  </div>
+
+  <div class="cta">
+    <h2>Véalo funcionando. <em>20 minutos.</em></h2>
+    <p>Le mostramos el asistente respondiendo consultas reales de Tienda Inglesa — pedidos, stock,
+    puntos — en una demo en vivo. Sin compromiso, sin tocar sus sistemas, sin que su equipo tenga que preparar nada.</p>
+    <div class="row">
+      <div class="pill">Coordinar la reunión →</div>
+      <div class="note">Usted elige el día. Nosotros llevamos todo.</div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="who">Preparado para <b>Tienda Inglesa · Gerencia de Atención al Cliente</b></div>
+    <div><b style="color:var(--navy)">Bruno Silva</b> · Concepto Development · WhatsApp +598 97 976 574</div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var msgs=document.getElementById('msgs');
+  var chipsEl=document.getElementById('chips');
+  var input=document.getElementById('q');
+  var send=document.getElementById('send');
+  var body=msgs.parentNode;
+  var closerShown=false, busy=false;
+
+  // Respuestas de ejemplo — basadas en datos reales de Tienda Inglesa (Click and Go,
+  // puntos, horarios verificados). En producción esto se conecta a sus sistemas.
+  var KB=[
+    {q:"¿Dónde está mi pedido?", k:["pedido","envio","envío","llega","entrega","delivery","compra"],
+     a:"Tu pedido <b>#48213</b> sale mañana entre las <b>10 y 13 hs</b> a tu dirección en Pocitos. Apenas el repartidor salga, te aviso por acá 👍"},
+    {q:"¿Hay stock del café Águila 500g en Pocitos?", k:["stock","hay","tienen","queda","disponible","café","cafe"],
+     a:"Sí — quedan <b>6 unidades</b> del café Águila 500 g en Pocitos. La sucursal abre <b>7:30</b>. ¿Te lo reservo con <b>Click and Go</b> para retirar sin fila?"},
+    {q:"¿Cuántos puntos tengo?", k:["punto","puntos","fidelidad","tarjeta"],
+     a:"Tenés <b>2.480 puntos</b> acumulados — te alcanzan para descuento en tu próxima compra. ¿Querés que te diga en qué los podés usar?"},
+    {q:"¿Qué horario tiene la sucursal Central?", k:["horario","abre","abren","cierra","hora","domingo","sucursal"],
+     a:"La sucursal <b>Central abre todos los días de 7:00 a 22:00</b>, domingos incluidos. ¿Querés el horario de otra sucursal?"},
+    {q:"Quiero devolver un producto", k:["devol","devolver","cambio","cambiar","reclamo","falla"],
+     a:"Sin problema 🙂 Tenés <b>30 días</b> con el ticket. ¿Lo compraste en local o por la web? Según eso te paso los pasos exactos."},
+    {q:"¿Cómo funciona Click and Go?", k:["click","go","retiro","retirar","pickup","retir"],
+     a:"Comprás online, elegís sucursal y horario, y retirás <b>sin hacer cola</b>. Suele estar listo en pocas horas. ¿Te muestro cómo armar un pedido?"}
+  ];
+  var FALLBACK="Esa la respondo conectado a los datos reales de Tienda Inglesa. En la demo en vivo te muestro exactamente cómo la resuelve 🙂 ¿Querés probar otra de las de abajo?";
+
+  function add(cls, html){
+    var d=document.createElement('div');
+    d.className='m '+cls+' enter';
+    d.innerHTML=html;
+    msgs.appendChild(d);
+    body.scrollTop=body.scrollHeight;
+    return d;
+  }
+  function answerFor(text){
+    var t=text.toLowerCase();
+    for(var i=0;i<KB.length;i++){
+      for(var j=0;j<KB[i].k.length;j++){ if(t.indexOf(KB[i].k[j])>-1) return KB[i].a; }
+    }
+    return FALLBACK;
+  }
+  function ask(text){
+    if(busy) return; busy=true;
+    add('mu', text);
+    var typing=document.createElement('div');
+    typing.className='typing enter';
+    typing.innerHTML='<span></span><span></span><span></span>';
+    msgs.appendChild(typing);
+    body.scrollTop=body.scrollHeight;
+    setTimeout(function(){
+      typing.remove();
+      add('mb', answerFor(text));
+      if(!closerShown){
+        closerShown=true;
+        var c=document.createElement('div');
+        c.className='instant';
+        c.textContent='Resuelto al instante · sin esperar al lunes';
+        msgs.appendChild(c);
+        body.scrollTop=body.scrollHeight;
+      }
+      busy=false;
+    }, 950);
+  }
+  KB.forEach(function(item){
+    var b=document.createElement('button');
+    b.className='chip'; b.type='button'; b.textContent=item.q;
+    b.onclick=function(){ ask(item.q); };
+    chipsEl.appendChild(b);
+  });
+  function submit(){ var v=input.value.trim(); if(!v) return; ask(v); input.value=''; }
+  send.onclick=submit;
+  input.addEventListener('keydown', function(e){ if(e.key==='Enter') submit(); });
+})();
+</script>
+</body>
+</html>
