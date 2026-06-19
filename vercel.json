@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/stats",
-      "destination": "https://brunoconcepto.app.n8n.cloud/webhook/shockbag-stats"
+      "destination": "https://n8nconcepto-u74817.vm.elestio.app/webhook/shockbag-stats"
     },
     {
       "source": "/chatbots",
