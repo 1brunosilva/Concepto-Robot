@@ -8,7 +8,7 @@
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   :root{
-    --bg:#0b0b0f; --card:#15161e; --card2:#1b1c26; --line:#2a2c3a;
+    --bg:#0b0b0f; --card:#15161e; --line:#2a2c3a;
     --tx:#f4f4f7; --mut:#9a9bb0;
     --blue:#5b9dff; --green:#46d39a; --violet:#b07bff; --orange:#ff9a62; --red:#ff6b6b;
   }
@@ -20,6 +20,7 @@
   .grid{display:grid;gap:16px}
   .cards{grid-template-columns:repeat(auto-fit,minmax(190px,1fr));margin-bottom:18px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 22px 20px}
+  .card.hot{border-color:rgba(70,211,154,.45);background:linear-gradient(180deg,rgba(70,211,154,.08),rgba(70,211,154,0))}
   .card .lbl{font-size:14px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
   .card .val{font-size:clamp(40px,6vw,54px);font-weight:800;line-height:1.05;margin-top:10px;letter-spacing:-.02em}
   .card .sub{font-size:15px;color:var(--mut);margin-top:8px}
@@ -47,8 +48,8 @@
 
   <div class="grid full">
     <div class="box">
-      <h2>Consultas por día</h2>
-      <div class="hint" id="dayHint">Mensajes recibidos y derivados a asesor</div>
+      <h2>Actividad por día</h2>
+      <div class="hint" id="dayHint">Consultas recibidas y pedidos de link de compra</div>
       <canvas id="cDay" height="90"></canvas>
     </div>
   </div>
@@ -68,11 +69,10 @@
 </div>
 
 <div id="errbox"></div>
-
 <footer id="ft"></footer>
 
 <script>
-var C={blue:'#5b9dff',green:'#46d39a',violet:'#b07bff',orange:'#ff9a62',mut:'#9a9bb0',line:'#2a2c3a'};
+var C={blue:'#5b9dff',green:'#46d39a',violet:'#b07bff',orange:'#ff9a62',tx:'#f4f4f7',mut:'#9a9bb0',line:'#2a2c3a'};
 Chart.defaults.color=C.mut;
 Chart.defaults.font.size=14;
 var ax={ticks:{color:C.mut,font:{size:13}},grid:{color:C.line}};
@@ -89,32 +89,34 @@ function render(d){
     new Date(d.updatedAt).toLocaleString('es-UY',{timeZone:'America/Montevideo',
     weekday:'long',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+' (hora UY)';
 
-  // ---- Scorecards ----
   var trendUp=d.weekTrendPct>=0;
   var trendChip='<span class="chip '+(trendUp?'up':'down')+'">'+(trendUp?'▲ +':'▼ ')+d.weekTrendPct+'% vs semana previa</span>';
+  var buySub = d.linkCompra>0
+    ? d.uniqueBuyers+' personas · '+d.linkRate+'% de las charlas'
+    : 'se empieza a medir desde hoy';
+
   var cards=[
-    {lbl:'Consultas hoy', val:nf(d.today.consultas), color:C.blue, sub:d.today.derivados+' derivados hoy'},
-    {lbl:'Esta semana', val:nf(d.last7), color:C.violet, sub:trendChip, raw:true},
-    {lbl:'Usuarios únicos', val:nf(d.uniqueUsers), color:C.green, sub:'personas distintas que escribieron'},
-    {lbl:'Derivados a asesor', val:nf(d.totalDerivados), color:C.orange, sub:d.derivationRate+'% de las consultas (leads)'},
+    {lbl:'Pidieron link de compra', val:nf(d.linkCompra), color:C.green, sub:buySub, hot:true},
+    {lbl:'Consultas hoy', val:nf(d.today.consultas), color:C.blue, sub:d.today.links+' pidieron link hoy'},
+    {lbl:'Esta semana', val:nf(d.last7), color:C.violet, sub:trendChip},
+    {lbl:'Usuarios únicos', val:nf(d.uniqueUsers), color:C.orange, sub:'personas distintas que escribieron'},
     {lbl:'Consultas totales', val:nf(d.totalConsultas), color:'#fff', sub:'promedio '+d.avgPerDay+'/día'}
   ];
   document.getElementById('cards').innerHTML=cards.map(function(c){
-    return '<div class="card"><div class="lbl">'+c.lbl+'</div>'
+    return '<div class="card'+(c.hot?' hot':'')+'"><div class="lbl">'+c.lbl+'</div>'
       +'<div class="val" style="color:'+c.color+'">'+c.val+'</div>'
-      +'<div class="sub">'+(c.raw?c.sub:c.sub)+'</div></div>';
+      +'<div class="sub">'+c.sub+'</div></div>';
   }).join('');
 
   charts.forEach(function(c){c.destroy();});charts=[];
 
-  // ---- Consultas por día ----
   charts.push(new Chart(document.getElementById('cDay'),{
     type:'line',
     data:{labels:d.perDay.map(function(x){return x.date.slice(5);}),
       datasets:[
         {label:'Consultas',data:d.perDay.map(function(x){return x.consultas;}),
          borderColor:C.blue,backgroundColor:C.blue+'26',fill:true,tension:.35,borderWidth:3,pointRadius:0,pointHoverRadius:5},
-        {label:'Derivados',data:d.perDay.map(function(x){return x.derivados;}),
+        {label:'Pidieron link',data:d.perDay.map(function(x){return x.links;}),
          borderColor:C.green,backgroundColor:'transparent',tension:.35,borderWidth:3,pointRadius:0,pointHoverRadius:5}
       ]},
     options:{responsive:true,maintainAspectRatio:true,
@@ -124,9 +126,8 @@ function render(d){
   var bd=d.busiestDay;
   document.getElementById('dayHint').textContent= bd
     ? 'Día más activo: '+bd.date.slice(5)+' con '+bd.consultas+' consultas'
-    : 'Mensajes recibidos y derivados a asesor';
+    : 'Consultas recibidas y pedidos de link de compra';
 
-  // ---- Por hora ----
   var peak=d.peakHours||[];
   charts.push(new Chart(document.getElementById('cHour'),{
     type:'bar',
@@ -139,7 +140,6 @@ function render(d){
   }));
   document.getElementById('hourHint').textContent='Horas pico (UY): '+peak.map(hh).join(' · ');
 
-  // ---- Qué pregunta la gente ----
   var q=(d.topQuestions||[]).slice(0,12);
   charts.push(new Chart(document.getElementById('cQ'),{
     type:'bar',
@@ -150,7 +150,7 @@ function render(d){
       scales:{x:Object.assign({beginAtZero:true},ax),y:{ticks:{color:C.tx,font:{size:14}},grid:{display:false}}}}
   }));
 
-  document.getElementById('ft').innerHTML='Se excluyen las cuentas de prueba (brune.ssj, bruneesilva). Datos en hora de Uruguay · se actualiza solo cada 5 min.';
+  document.getElementById('ft').innerHTML='“Pidieron link de compra” se registra desde el 19/06/2026 (lo anterior no se medía). Se excluyen cuentas de prueba (brune.ssj, bruneesilva). Hora de Uruguay · se actualiza solo cada 5 min.';
 }
 
 function load(){
