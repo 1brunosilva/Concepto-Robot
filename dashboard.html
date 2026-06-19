@@ -91,12 +91,10 @@ function render(d){
 
   var trendUp=d.weekTrendPct>=0;
   var trendChip='<span class="chip '+(trendUp?'up':'down')+'">'+(trendUp?'▲ +':'▼ ')+d.weekTrendPct+'% vs semana previa</span>';
-  var buySub = d.linkCompra>0
-    ? d.uniqueBuyers+' personas · '+d.linkRate+'% de las charlas'
-    : 'se empieza a medir desde hoy';
+  var buySub = d.linkCompra+' links enviados · '+d.linkRate+'% de las charlas';
 
   var cards=[
-    {lbl:'Pidieron link de compra', val:nf(d.linkCompra), color:C.green, sub:buySub, hot:true},
+    {lbl:'Pidieron link de compra', val:nf(d.uniqueBuyers), color:C.green, sub:buySub, hot:true},
     {lbl:'Consultas hoy', val:nf(d.today.consultas), color:C.blue, sub:d.today.links+' pidieron link hoy'},
     {lbl:'Esta semana', val:nf(d.last7), color:C.violet, sub:trendChip},
     {lbl:'Usuarios únicos', val:nf(d.uniqueUsers), color:C.orange, sub:'personas distintas que escribieron'},
@@ -150,7 +148,7 @@ function render(d){
       scales:{x:Object.assign({beginAtZero:true},ax),y:{ticks:{color:C.tx,font:{size:14}},grid:{display:false}}}}
   }));
 
-  document.getElementById('ft').innerHTML='“Pidieron link de compra” se registra desde el 19/06/2026 (lo anterior no se medía). Se excluyen cuentas de prueba (brune.ssj, bruneesilva). Hora de Uruguay · se actualiza solo cada 5 min.';
+  document.getElementById('ft').innerHTML='“Pidieron link de compra” = personas distintas a las que HAL mandó el link. Incluye el histórico recuperado de los logs (17–19/06) y sigue sumando en vivo. Se excluyen cuentas de prueba. Hora de Uruguay · se actualiza solo cada 5 min.';
 }
 
 function load(){
