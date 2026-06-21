@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Concepto Development — Lo que hacemos por tu negocio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0b; --bg2:#111014; --bg3:#17151c;
+    --txt:#f4f2f7; --txt2:#b8b3c4; --txt3:#7d7790;
+    --vio:#a855f7; --vio2:#7c3aed; --vioDim:rgba(168,85,247,.14);
+    --green:#34d399; --greenDim:rgba(52,211,153,.12);
+    --border:#262430; --border2:#322f3d;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg); color:var(--txt);
+    font-family:'Inter',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased; line-height:1.5;
+    overflow-x:hidden;
+  }
+  .mono{font-family:'DM Mono',ui-monospace,monospace}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px}
+  a{color:inherit; text-decoration:none}
+
+  /* ===== glow backdrop ===== */
+  .glow{position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden}
+  .glow::before{content:""; position:absolute; top:-300px; left:50%; transform:translateX(-50%);
+    width:1100px; height:700px; background:radial-gradient(closest-side, rgba(124,58,237,.28), transparent 70%); filter:blur(20px)}
+  .glow::after{content:""; position:absolute; bottom:-200px; right:-200px;
+    width:700px; height:700px; background:radial-gradient(closest-side, rgba(168,85,247,.10), transparent 70%)}
+
+  /* ===== top bar ===== */
+  header.top{position:sticky; top:0; z-index:50; backdrop-filter:blur(14px);
+    background:rgba(10,10,11,.72); border-bottom:1px solid var(--border)}
+  .top .wrap{display:flex; align-items:center; justify-content:space-between; height:68px}
+  .brand{display:flex; align-items:center; gap:11px; font-weight:800; font-size:19px; letter-spacing:-.02em}
+  .brand .dot{width:30px; height:30px; border-radius:9px; background:linear-gradient(135deg,var(--vio),var(--vio2));
+    display:grid; place-items:center; font-size:16px; box-shadow:0 0 22px rgba(124,58,237,.55)}
+  .top .cta{font-size:15px; font-weight:700; padding:11px 20px; border-radius:999px;
+    background:linear-gradient(135deg,var(--vio),var(--vio2)); box-shadow:0 6px 22px rgba(124,58,237,.4)}
+
+  section{position:relative; z-index:1}
+
+  /* ===== hero ===== */
+  .hero{padding:74px 0 30px; text-align:center}
+  .eyebrow{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--txt2);
+    border:1px solid var(--border2); border-radius:999px; padding:8px 18px; margin-bottom:30px}
+  .eyebrow .live{width:9px; height:9px; border-radius:50%; background:var(--green); box-shadow:0 0 10px var(--green)}
+  h1{font-size:clamp(40px, 6.2vw, 76px); font-weight:900; letter-spacing:-.03em; line-height:1.02}
+  h1 .hl{background:linear-gradient(120deg,var(--vio),#d8b4fe); -webkit-background-clip:text; background-clip:text; color:transparent}
+  .sub{font-size:clamp(18px,2.2vw,23px); color:var(--txt2); max-width:760px; margin:26px auto 0; line-height:1.55}
+  .stats{display:flex; gap:38px; justify-content:center; flex-wrap:wrap; margin-top:42px}
+  .stat .n{font-size:40px; font-weight:900; letter-spacing:-.02em}
+  .stat .n.vio{color:var(--vio)} .stat .n.grn{color:var(--green)}
+  .stat .l{font-size:14px; color:var(--txt3); margin-top:4px}
+
+  /* ===== section heads ===== */
+  .shead{text-align:center; margin:0 auto 44px; max-width:720px}
+  .shead .kick{font-size:14px; font-weight:600; color:var(--vio); letter-spacing:.04em; text-transform:uppercase}
+  .shead h2{font-size:clamp(28px,3.6vw,42px); font-weight:800; letter-spacing:-.02em; margin-top:12px}
+  .shead p{color:var(--txt2); font-size:18px; margin-top:14px}
+
+  /* ===== 5 productos ===== */
+  .products{padding:46px 0}
+  .pgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(330px,1fr)); gap:20px}
+  .pcard{background:linear-gradient(180deg,var(--bg2),var(--bg)); border:1px solid var(--border);
+    border-radius:22px; padding:30px; position:relative; overflow:hidden; transition:.25s}
+  .pcard:hover{border-color:var(--vio2); transform:translateY(-4px); box-shadow:0 20px 50px rgba(0,0,0,.5)}
+  .pcard .ico{font-size:34px; margin-bottom:18px}
+  .pcard h3{font-size:23px; font-weight:800; letter-spacing:-.01em}
+  .pcard .promise{color:var(--txt2); font-size:16px; margin-top:12px; line-height:1.55}
+  .pcard ul{list-style:none; margin:18px 0 0}
+  .pcard li{font-size:15px; color:var(--txt2); padding:7px 0 7px 26px; position:relative}
+  .pcard li::before{content:"→"; position:absolute; left:0; color:var(--vio); font-weight:700}
+  .proof{margin-top:20px; font-size:14px; color:var(--green); background:var(--greenDim);
+    border:1px solid rgba(52,211,153,.25); border-radius:12px; padding:11px 14px; display:flex; gap:9px; align-items:flex-start}
+  .proof b{color:#6ee7b7}
+
+  /* ===== catálogo completo ===== */
+  .catalog{padding:56px 0 30px}
+  .controls{display:flex; gap:14px; flex-wrap:wrap; justify-content:center; align-items:center; margin-bottom:40px}
+  .search{flex:1; min-width:260px; max-width:440px; position:relative}
+  .search input{width:100%; background:var(--bg2); border:1px solid var(--border2); color:var(--txt);
+    border-radius:999px; padding:14px 20px 14px 46px; font-size:16px; font-family:inherit; outline:none}
+  .search input:focus{border-color:var(--vio2)}
+  .search svg{position:absolute; left:17px; top:50%; transform:translateY(-50%); opacity:.5}
+  .toggle{display:flex; align-items:center; gap:10px; font-size:15px; color:var(--txt2); cursor:pointer; user-select:none;
+    background:var(--bg2); border:1px solid var(--border2); padding:12px 18px; border-radius:999px}
+  .toggle input{accent-color:var(--vio)}
+
+  .module{margin-bottom:18px; border:1px solid var(--border); border-radius:20px; background:var(--bg2); overflow:hidden}
+  .mhead{display:flex; align-items:center; gap:16px; padding:24px 26px; cursor:pointer}
+  .mhead .mico{font-size:26px; width:50px; height:50px; border-radius:13px; background:var(--vioDim);
+    display:grid; place-items:center; flex-shrink:0}
+  .mhead .mtitle{flex:1}
+  .mhead h3{font-size:21px; font-weight:800; letter-spacing:-.01em}
+  .mhead .mtag{font-size:14px; color:var(--txt3); margin-top:3px}
+  .mhead .mcount{font-size:13px; color:var(--txt3); white-space:nowrap}
+  .mhead .chev{transition:.3s; opacity:.55; font-size:14px}
+  .module.open .chev{transform:rotate(180deg)}
+  .mbody{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:10px;
+    padding:0 26px 26px}
+  .svc{display:flex; align-items:center; gap:11px; padding:14px 16px; background:var(--bg3);
+    border:1px solid var(--border); border-radius:13px; font-size:15.5px; transition:.18s}
+  .svc:hover{border-color:var(--border2)}
+  .svc.live{border-color:rgba(52,211,153,.28)}
+  .svc .sdot{width:9px; height:9px; border-radius:50%; background:var(--txt3); flex-shrink:0}
+  .svc.live .sdot{background:var(--green); box-shadow:0 0 9px var(--green)}
+  .svc .stxt{flex:1; color:var(--txt)}
+  .svc .badge{font-size:11.5px; font-weight:600; color:var(--green); background:var(--greenDim);
+    border:1px solid rgba(52,211,153,.3); padding:3px 9px; border-radius:999px; white-space:nowrap}
+  .nores{text-align:center; color:var(--txt3); padding:40px; display:none}
+
+  /* ===== cierre ===== */
+  .close{padding:70px 0 90px}
+  .closebox{background:linear-gradient(135deg, rgba(124,58,237,.16), rgba(168,85,247,.06));
+    border:1px solid var(--vio2); border-radius:26px; padding:54px 40px; text-align:center}
+  .closebox h2{font-size:clamp(28px,4vw,44px); font-weight:900; letter-spacing:-.02em; line-height:1.1}
+  .closebox p{color:var(--txt2); font-size:19px; max-width:620px; margin:20px auto 0; line-height:1.55}
+  .closebox .ctarow{display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:34px}
+  .btn{font-size:17px; font-weight:700; padding:16px 30px; border-radius:999px}
+  .btn.p{background:linear-gradient(135deg,var(--vio),var(--vio2)); box-shadow:0 8px 26px rgba(124,58,237,.45)}
+  .btn.s{background:var(--bg2); border:1px solid var(--border2); color:var(--txt)}
+  footer{border-top:1px solid var(--border); padding:30px 0; text-align:center; color:var(--txt3); font-size:14px}
+
+  @media(max-width:640px){
+    .top .cta{display:none}
+    .hero{padding:50px 0 20px}
+    .stats{gap:26px}
+    .mbody{grid-template-columns:1fr}
+    .mhead{padding:18px}
+  }
+</style>
+</head>
+<body>
+<div class="glow"></div>
+
+<header class="top"><div class="wrap">
+  <div class="brand"><span class="dot">◆</span> Concepto<span style="color:var(--vio)">.</span></div>
+  <a href="#contacto" class="cta">Quiero resolver un problema</a>
+</div></header>
+
+<!-- HERO -->
+<section class="hero"><div class="wrap">
+  <span class="eyebrow"><span class="live"></span> <span id="liveline">cargando…</span></span>
+  <h1>Todo lo que <span class="hl">Concepto</span> puede<br>hacer por tu negocio.</h1>
+  <p class="sub">No te vendemos "inteligencia artificial". Resolvemos <b style="color:var(--txt)">un</b> problema concreto y te lo dejamos funcionando, vigilado y en español. Acá está el menú completo — desde lo que ya corre hoy hasta lo que prendemos para vos.</p>
+  <div class="stats">
+    <div class="stat"><div class="n grn" id="s-live">—</div><div class="l">funcionando con caso real</div></div>
+    <div class="stat"><div class="n vio" id="s-total">—</div><div class="l">servicios en el menú</div></div>
+    <div class="stat"><div class="n" id="s-mod">—</div><div class="l">áreas de tu negocio</div></div>
+  </div>
+</div></section>
+
+<!-- 5 PRODUCTOS -->
+<section class="products"><div class="wrap">
+  <div class="shead">
+    <div class="kick">Por dónde empezar</div>
+    <h2>5 soluciones, no 100 decisiones</h2>
+    <p>Un director no compra una lista — compra la solución a un dolor. Elegí el que te duele hoy.</p>
+  </div>
+  <div class="pgrid" id="pgrid"></div>
+</div></section>
+
+<!-- CATÁLOGO COMPLETO -->
+<section class="catalog"><div class="wrap">
+  <div class="shead">
+    <div class="kick">El menú completo</div>
+    <h2>Y todo lo que hay detrás</h2>
+    <p>Cada solución se apoya en decenas de servicios. Esto es la profundidad — lo que ya hacemos y lo que construimos a pedido.</p>
+  </div>
+  <div class="controls">
+    <div class="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="text" placeholder="Buscar un servicio… (ej: WhatsApp, reportes, video)">
+    </div>
+    <label class="toggle"><input type="checkbox" id="onlylive"> Solo lo que ya funciona</label>
+  </div>
+  <div id="modules"></div>
+  <div class="nores" id="nores">No encontramos nada con esa palabra. Probá otra.</div>
+</div></section>
+
+<!-- CIERRE -->
+<section class="close" id="contacto"><div class="wrap">
+  <div class="closebox">
+    <h2>Elegí un problema.<br>El resto lo manejamos nosotros.</h2>
+    <p>Lo resolvemos con una de las soluciones de arriba, te lo dejamos funcionando, y recién ahí sumamos el siguiente. Nada de comprar todo de una.</p>
+    <div class="ctarow">
+      <a href="https://wa.me/59897976574?text=Hola%20Bruno%2C%20vi%20el%20men%C3%BA%20de%20Concepto%20y%20quiero%20resolver%20un%20problema%20de%20mi%20negocio." class="btn p">Hablemos por WhatsApp</a>
+      <a href="mailto:conceptodevelopment@gmail.com" class="btn s">Escribinos un mail</a>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">Concepto Development · Automatización e IA para empresas de Uruguay · conceptodevelopment.com</div></footer>
+
+<script>
+/* ====== DATOS — editar acá: live:true = sello "En vivo" (tiene caso real) ====== */
+const PRODUCTS = [
+  {ico:"🤖", t:"Un bot que atiende y vende 24/7",
+   promise:"Que ningún cliente se quede sin respuesta — ni a las 3am, ni un domingo.",
+   pts:["Contesta al instante en Instagram, Facebook, WhatsApp y Mercado Libre","Califica al interesado y te pasa solo los que valen","Vos dormís; el bot ya encaminó la venta"],
+   proof:"El bot de <b>ShockBag</b> atendió 123 consultas y derivó 16 a venta, solo."},
+  {ico:"🛠️", t:"Apps y sistemas a medida",
+   promise:"La herramienta exacta que tu negocio necesita — no un software genérico al que adaptarte.",
+   pts:["Gestión para tu equipo: tareas, stock, presupuestos, clientes","Andan en el celular, con usuarios y datos en vivo","Con monitoreo: si algo falla, me entero yo antes que vos"],
+   proof:"La <b>Escuela Naval</b> usa a diario una app que les hicimos. Barraca Uno y Concepto Puertas, su sistema a medida."},
+  {ico:"🎯", t:"Motor de Leads — clientes en automático",
+   promise:"Todas las mañanas, una lista fresca de empresas para contactar y el mensaje ya escrito.",
+   pts:["Busca solo, todos los días, empresas de tu rubro en Uruguay","Te arma los 5 para contactar hoy con el guion listo","Botón de WhatsApp directo a cada lead"],
+   proof:"Corriendo dentro de <b>Concepto</b> ahora mismo: búsqueda diaria + tablero + guion por lead."},
+  {ico:"🎬", t:"Contenido y video de productora",
+   promise:"Tu marca publicando todo el tiempo, sin que toques nada — con videos de nivel agencia.",
+   pts:["6 piezas por semana con su texto, listas para publicar","Videos premium hechos en código, siempre distintos","Se publican solos en Instagram, en orden"],
+   proof:"La campaña de Instagram de Concepto se generó y <b>se publicó en vivo, entera</b>, en automático."},
+  {ico:"🛡️", t:"Monitoreo y panel de control 24/7",
+   promise:"Tu sistema vigilado — te aviso antes de que algo se rompa, no después.",
+   pts:["Vigías de servidor, bots, webs y tokens","Alertas por mail solo cuando hace falta, sin spam","Un panel con el semáforo de todo tu negocio"],
+   proof:"Vigía del servidor activo, alertas de tokens y de errores, todo dentro de <b>Concepto HQ</b>."},
+];
+
+const MODULES = [
+  {ico:"🎯", t:"Motor de Leads", tag:"Clientes en automático", s:[
+    ["Búsqueda diaria de empresas de tu rubro",1],["Enriquecer cada lead (web, teléfono, tamaño)",1],
+    ["Puntaje automático 0–100 del lead",1],["Los 5 para contactar hoy + guion",1],
+    ["Auto-borrador de mensaje personalizado",1],["Reporte semanal del pipeline",1],
+    ["Detectar empresas que pautan con web pobre",0],["Monitorear ofertas de empleo del rubro",0],
+    ["Avisar cuando una empresa crece o contrata",0],["Seguimiento a 3/7/14 días sin respuesta",0],
+    ["Avisar cuando un lead abre tu mail",0],["Reviews malas de competidores → oportunidad",0],
+  ]},
+  {ico:"💬", t:"Chatbots multicanal", tag:"Atiende y vende 24/7", s:[
+    ["Respuesta IA a comentarios en redes",1],["Auto-respuesta en IG con calificación",1],
+    ["Responder compradores en Mercado Libre",1],["Resumen diario de las conversaciones",1],
+    ["Bot para comercio (precio chico vs pedido grande)",0],["Bot de captación en IG/FB DM",0],
+    ["Bot de WhatsApp Business",0],["Etiquetar cada charla por intención",0],
+    ["Plantilla de chatbot clonable por cliente",0],
+  ]},
+  {ico:"🎬", t:"Fábrica de Contenido", tag:"Tu contenido hecho solo", s:[
+    ["6 piezas semanales con copy listo",1],["Auto-caption + primer comentario + hashtags",1],
+    ["Brief de video listo para producción",1],["Aprobar contenido desde HQ → publica solo",1],
+    ["Publicar lote en Instagram en orden",1],["Programar posts con buffer entre ellos",1],
+    ["Variantes A/B de cada copy",0],["Hooks virales según tendencias",0],
+    ["Banco de ideas desde noticias del rubro",0],["Calendario de contenido auto-poblado",0],
+    ["Reciclar tus mejores posts viejos",0],["Guion de Reel desde una frase tuya",0],
+    ["Detectar qué post funcionó y pedir más",0],["Adaptar el tono por cliente",0],
+  ]},
+  {ico:"🏠", t:"Tu panel en piloto automático", tag:"Concepto HQ", s:[
+    ["Leads nuevos → tarjeta en tu tablero",1],["Backup diario de tu base de datos",1],
+    ["Métricas de cada cliente actualizadas solas",1],["Avisar si una credencial está por vencer",1],
+    ["Crear tarea automática al entrar un cliente",0],["Objetivo diario/semanal recordado",0],
+    ["Mover tareas vencidas y avisarte",0],["Registrar cada cosa construida",0],
+    ["Alertar si un cliente lleva días sin actividad",0],["Factura / recordatorio de cobro",0],
+    ["Panel de salud del sistema",0],["Log central de todo lo del día",0],
+  ]},
+  {ico:"⏰", t:"Vigías y Recordatorios", tag:"Monitoreo 24/7", s:[
+    ["Avisar tokens de Meta/IG por vencer",1],["Avisar cuando un proceso falla",1],
+    ["Vigía de recursos del servidor",1],["Recordatorio de las reuniones del día",1],
+    ["Avisar si la web de un cliente se cae",0],["Avisar dominio/SSL por vencer",0],
+    ["Recordar follow-ups comerciales",0],["Alertar gasto raro de Meta Ads",0],
+    ["Avisar si se acaban los créditos de IA",0],["Avisar cuando un cliente paga o deja de pagar",0],
+    ["Vigía de menciones de tu marca",0],["Recordar renovar suscripciones",0],
+    ["Avisar si una base de datos se llena",0],["Alertar si un bot dejó de responder",0],
+  ]},
+  {ico:"📊", t:"Briefs y Resúmenes", tag:"Reportes automáticos", s:[
+    ["Brief de la mañana",1],["Resumen de la noche",1],["Reporte de performance de contenido",1],
+    ["Resumen semanal por cliente",0],["Resumen del inbox filtrado",0],
+    ["Resumen de DMs sin responder",0],["Reporte de Meta Ads por cliente",0],
+    ["Digest de noticias del rubro",0],["Resumen de qué hicieron tus competidores",0],
+    ["Estado del negocio mensual",0],["Lo más urgente de hoy, en una frase",0],
+  ]},
+  {ico:"🤝", t:"Clientes — onboarding y retención", tag:"Que no se te caiga ninguno", s:[
+    ["Onboarding automático del cliente nuevo",0],["Mail de bienvenida + pasos",0],
+    ["Check-in automático cada X semanas",0],["Encuesta de satisfacción post-entrega",0],
+    ["Recordatorio de renovación / upsell",0],["Cargar leads al sistema del cliente",0],
+    ["Alertar al cliente (con tu OK) de algo importante",0],
+  ]},
+  {ico:"⚙️", t:"El cerebro del sistema", tag:"MAX, tu orquestador", s:[
+    ["Healthcheck diario con semáforo",1],["MAX: decide qué disparar y cuándo",0],
+    ["Backup de todos los procesos a la nube",0],["Auto-documentar cada proceso nuevo",0],
+    ["Router central de pedidos",0],["Tablero para prender/apagar funciones",0],
+    ["Rate-limit propio (no quemar recursos)",0],["Botón de pánico: apagar todo de una",0],
+  ]},
+  {ico:"📱", t:"Apps y Webs a medida", tag:"Trabajo entregable", s:[
+    ["App de gestión / PWA a medida",1],["Landing o sitio premium por código",1],
+    ["Bóveda de credenciales + panel interno",1],["ERP liviano para comercio",0],
+    ["App interna para el equipo",0],["Monitoreo de errores en la app (Sentry)",0],
+  ]},
+  {ico:"🎞️", t:"Video premium por código", tag:"Nivel productora, con tu marca", s:[
+    ["Video vertical premium con motion y glow",1],["Las 5 fórmulas de video ganadoras",1],
+    ["Música y efectos horneados en el render",1],["Video de propuesta personalizado por cliente",0],
+  ]},
+];
+
+/* ====== RENDER ====== */
+const $ = s => document.querySelector(s);
+let totalLive=0, total=0;
+MODULES.forEach(m=>m.s.forEach(([,l])=>{ total++; if(l) totalLive++; }));
+
+// hero stats
+$("#s-live").textContent = totalLive;
+$("#s-total").textContent = total + "+";
+$("#s-mod").textContent = MODULES.length;
+$("#liveline").innerHTML = totalLive + " servicios funcionando hoy con caso real";
+
+// productos
+$("#pgrid").innerHTML = PRODUCTS.map(p=>`
+  <div class="pcard">
+    <div class="ico">${p.ico}</div>
+    <h3>${p.t}</h3>
+    <p class="promise">${p.promise}</p>
+    <ul>${p.pts.map(x=>`<li>${x}</li>`).join("")}</ul>
+    <div class="proof">✅ <span><b>Prueba real:</b> ${p.proof}</span></div>
+  </div>`).join("");
+
+// módulos
+function svcHTML(name,live){
+  return `<div class="svc ${live?'live':''}" data-name="${name.toLowerCase()}">
+    <span class="sdot"></span><span class="stxt">${name}</span>
+    ${live?'<span class="badge">● En vivo</span>':''}</div>`;
+}
+function renderModules(){
+  const cont = $("#modules"); cont.innerHTML="";
+  MODULES.forEach((m,i)=>{
+    const liveN = m.s.filter(([,l])=>l).length;
+    const el = document.createElement("div");
+    el.className = "module" + (i===0?" open":"");
+    el.innerHTML = `
+      <div class="mhead">
+        <div class="mico">${m.ico}</div>
+        <div class="mtitle"><h3>${m.t}</h3><div class="mtag">${m.tag}</div></div>
+        <div class="mcount">${liveN} en vivo · ${m.s.length} servicios</div>
+        <div class="chev">▼</div>
+      </div>
+      <div class="mbody" ${i===0?'':'style="display:none"'}>${m.s.map(([n,l])=>svcHTML(n,l)).join("")}</div>`;
+    el.querySelector(".mhead").addEventListener("click",()=>{
+      const open = el.classList.toggle("open");
+      el.querySelector(".mbody").style.display = open ? "grid" : "none";
+    });
+    cont.appendChild(el);
+  });
+}
+renderModules();
+
+// búsqueda + filtro
+function applyFilter(){
+  const q = $("#q").value.trim().toLowerCase();
+  const onlyLive = $("#onlylive").checked;
+  let anyShown = false;
+  document.querySelectorAll(".module").forEach(mod=>{
+    let shown = 0;
+    mod.querySelectorAll(".svc").forEach(svc=>{
+      const matchQ = !q || svc.dataset.name.includes(q);
+      const matchL = !onlyLive || svc.classList.contains("live");
+      const show = matchQ && matchL;
+      svc.style.display = show ? "flex" : "none";
+      if(show) shown++;
+    });
+    const open = (q||onlyLive) ? shown>0 : mod.classList.contains("open");
+    mod.style.display = shown>0 ? "block" : "none";
+    if(q||onlyLive){ mod.querySelector(".mbody").style.display = shown>0?"grid":"none"; mod.classList.toggle("open",shown>0); }
+    if(shown>0) anyShown=true;
+  });
+  $("#nores").style.display = anyShown ? "none" : "block";
+}
+$("#q").addEventListener("input",applyFilter);
+$("#onlylive").addEventListener("change",applyFilter);
+</script>
+</body>
+</html>
