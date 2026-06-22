@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Share card · Concepto</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg0:#07070a; --bg1:#0f0f13; --bg2:#141418; --bg3:#1c1c22;
+  --border:#1e1e26; --border2:#2a2a35;
+  --txt1:#e8e8f2; --txt2:#9898b0; --txt3:#55556a;
+  --acc:#7c3aed; --acc2:#a855f7;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#000;display:flex;justify-content:center;align-items:flex-start;padding:20px;font-family:'Inter',sans-serif}
+/* 1080x1350 @ 0.5 scale = 540x675 on screen; export at 2x for full res */
+.card{
+  width:540px;height:675px;background:var(--bg0);position:relative;overflow:hidden;
+  border-radius:0;color:var(--txt1);
+}
+.card::before{content:'';position:absolute;inset:0;background:radial-gradient(620px 360px at 50% -8%,rgba(124,58,237,.32),transparent 70%)}
+.inner{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;padding:34px 32px 30px}
+
+.top{display:flex;align-items:center;gap:9px;margin-bottom:auto}
+.mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:#fff;font-family:'DM Mono',monospace}
+.bn{font-size:16px;font-weight:800;letter-spacing:-.4px}
+.bn span{color:var(--acc2)}
+
+.eyebrow{display:inline-flex;align-items:center;gap:7px;align-self:flex-start;font-size:11px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1.6px;color:var(--acc2);background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.25);padding:6px 13px;border-radius:100px;margin-bottom:16px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--acc2);box-shadow:0 0 8px var(--acc2)}
+h1{font-size:42px;font-weight:900;letter-spacing:-2px;line-height:1.02;margin-bottom:14px}
+h1 span{background:linear-gradient(120deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.sub{font-size:16px;color:var(--txt2);line-height:1.4;max-width:430px;margin-bottom:20px}
+
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:24px;max-width:470px}
+.chip{font-size:12.5px;font-weight:600;padding:8px 13px;border-radius:100px;border:1px solid var(--border2);background:var(--bg2);color:var(--txt2)}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+
+.mock{background:var(--bg1);border:1px solid var(--border2);border-radius:18px 18px 0 0;border-bottom:none;padding:14px 14px 0;margin-top:auto;box-shadow:0 -20px 50px rgba(0,0,0,.4)}
+.mock-head{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.mh-mark{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:11px}
+.mh-t{font-size:12px;font-weight:800}.mh-t span{color:var(--acc2)}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:10px}
+.kpi.full{grid-column:1/-1;background:linear-gradient(135deg,rgba(124,58,237,.14),var(--bg2));border-color:rgba(124,58,237,.28)}
+.kl{font-size:9px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.5px;color:var(--txt3);margin-bottom:3px}
+.kv{font-size:19px;font-weight:800;letter-spacing:-.7px}.kv small{font-size:11px;color:var(--txt2);font-weight:600}
+
+.foot{position:absolute;bottom:0;left:0;right:0;z-index:2;background:linear-gradient(0deg,var(--bg0) 60%,transparent);padding:22px 32px 26px;text-align:center}
+.url{display:inline-flex;align-items:center;gap:8px;font-size:18px;font-weight:800;letter-spacing:-.3px}
+.url .ar{color:var(--acc2)}
+.free{font-size:12px;color:var(--txt3);font-family:'DM Mono',monospace;margin-top:5px;letter-spacing:.5px}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="inner">
+    <div class="top"><div class="mark">C</div><div class="bn">Concepto <span>Development</span></div></div>
+
+    <div class="eyebrow"><span class="dot"></span> Herramienta gratis</div>
+    <h1>Elegí tu rubro.<br>Mirá tu negocio en<br><span>piloto automático.</span></h1>
+    <p class="sub">Todo negocio tiene tareas que le comen horas. Mirá cómo se verían en automático.</p>
+
+    <div class="chips">
+      <span class="chip on">🏠 Inmobiliaria</span>
+      <span class="chip">🧱 Barraca</span>
+      <span class="chip">📊 Estudio</span>
+      <span class="chip">🛍️ Comercio</span>
+      <span class="chip">🍽️ Gastronomía</span>
+      <span class="chip">🩺 Salud</span>
+      <span class="chip">🔧 Servicios</span>
+      <span class="chip">✨ y más…</span>
+    </div>
+
+    <div class="mock">
+      <div class="mock-head"><div class="mh-mark">🏠</div><div class="mh-t">Inmobiliaria <span>HQ</span></div></div>
+      <div class="kpis">
+        <div class="kpi full"><div class="kl">Match nuevo hoy</div><div class="kv">4 <small>clientes que encajan</small></div></div>
+        <div class="kpi"><div class="kl">Propiedades</div><div class="kv">47</div></div>
+        <div class="kpi"><div class="kl">Consultas hoy</div><div class="kv">23</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="url">conceptodevelopment.com<span class="ar">/ideas</span></div>
+    <div class="free">Entrá y jugá · es gratis</div>
+  </div>
+</div>
+</body>
+</html>
