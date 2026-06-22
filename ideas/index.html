@@ -388,6 +388,87 @@ const RUBROS = [
     ]
   },
   {
+    id:'constructora', nombre:'Constructora / Arquitectura', em:'🏗️', acc:'#06b6d4', acc2:'#22d3ee', mark:'🏗️',
+    title:'Obra',
+    kpis:[
+      {l:'Avances enviados hoy', v:'3', s:'reportes a clientes'},
+      {l:'Obras activas', v:'5'},
+      {l:'Pagos a proveedores', v:'8'}
+    ],
+    notif:{ic:'📐', t:'Avance de obra → reporte enviado', s:'El cliente recibe fotos y estado sin que le escribas a mano.'},
+    data:{label:'Obras', icon:'🏗️', rows:[
+      {t:'Casa · Carrasco', m:'Estructura · 60%', tag:{x:'En obra',c:'t-acc'}},
+      {t:'Edificio · Cordón', m:'Terminaciones · 85%', tag:{x:'Avanzada',c:'t-green'}},
+      {t:'Reforma · Pocitos', m:'Demolición · 15%', tag:{x:'Inicio',c:'t-orange'}},
+      {t:'Local · Centro', m:'Esperando materiales', tag:{x:'En pausa',c:'t-gray'}}
+    ]},
+    auto:{
+      h:'Avance de obra → reporte automático al cliente',
+      sub:'El cliente vive tranquilo sin tener que perseguirte.',
+      steps:['📸 Cargás las fotos del avance de la semana','📊 El sistema arma el reporte con etapa y %','💰 Suma gastos y estado de pagos','💬 Reporte enviado al cliente por WhatsApp'],
+      wa:'Hola Fernando! 🏗️ Avance semanal de tu casa en Carrasco: terminamos la estructura (60%). Te adjunto las fotos 📸 La próxima etapa son las instalaciones. ¿Alguna duda?'
+    },
+    ideas:[
+      {ic:'📊',t:'Reporte de obra automático',a:'El cliente te llama cada dos días para saber cómo va la obra.',d:'Recibe un reporte claro con fotos y avance, automático, sin que muevas un dedo.'},
+      {ic:'💰',t:'Control de proveedores y pagos',a:'Llevás los pagos a proveedores en papeles y en la cabeza.',d:'Un panel con qué le debés a cada uno y qué vence, todo en orden.'},
+      {ic:'📋',t:'Seguimiento de presupuestos',a:'Mandás presupuestos grandes y no sabés en cuál quedó cada cliente.',d:'El sistema hace el follow-up y te avisa cuándo retomar cada uno.'}
+    ]
+  },
+  {
+    id:'peluqueria', nombre:'Peluquería / Barbería / Spa', em:'💈', acc:'#ec4899', acc2:'#f472b6', mark:'💈',
+    title:'Salón',
+    kpis:[
+      {l:'Listos para volver', v:'18', s:'"ya es hora de tu corte"'},
+      {l:'Turnos hoy', v:'14'},
+      {l:'Ausencias evitadas', v:'6'}
+    ],
+    notif:{ic:'✂️', t:'18 clientes listos para volver', s:'Pasó el tiempo de su último corte — momento de invitarlos.'},
+    data:{label:'Agenda', icon:'🗓️', rows:[
+      {t:'Martín · Corte + barba', m:'Hoy 16:00', tag:{x:'Confirmado',c:'t-green'}},
+      {t:'Cami · Color', m:'Hoy 17:30', tag:{x:'Sin confirmar',c:'t-orange'}},
+      {t:'Joaco · Corte', m:'Mañana 11:00', tag:{x:'Nuevo',c:'t-acc'}},
+      {t:'Turno libre', m:'Hoy 18:30', tag:{x:'Disponible',c:'t-gray'}}
+    ]},
+    auto:{
+      h:'"Ya es hora de tu corte" → reserva sola',
+      sub:'El cliente vuelve sin que tengas que acordarte de él.',
+      steps:['✂️ Pasaron 4 semanas del último corte de Martín','🔔 El sistema lo detecta automáticamente','💬 Le ofrece reservar de nuevo','🗓️ Martín elige horario y queda agendado'],
+      wa:'Hola Martín! 💈 Ya pasó un mes de tu último corte, ¿lo dejamos prolijo otra vez? Tengo lugar hoy 16:00 o mañana 11:00. Respondé y te lo agendo ✂️'
+    },
+    ideas:[
+      {ic:'🔁',t:'Recompra por tiempo',a:'Esperás que el cliente se acuerde de volver — y muchos no vuelven.',d:'El sistema lo invita justo cuando "ya es hora" y te llena la agenda.'},
+      {ic:'📲',t:'Recordatorio anti-ausencia',a:'Reservan y no aparecen — perdés el lugar y la plata.',d:'Confirmación automática que reduce las ausencias al mínimo.'},
+      {ic:'⭐',t:'Reseñas y referidos',a:'Tenés clientes fieles pero pocos te recomiendan online.',d:'Después de cada visita pide reseña e invita a traer un amigo.'}
+    ]
+  },
+  {
+    id:'ecommerce', nombre:'E-commerce / Tienda online', em:'🛒', acc:'#6366f1', acc2:'#818cf8', mark:'🛒',
+    title:'Tienda',
+    kpis:[
+      {l:'Carritos a recuperar', v:'12', s:'ventas casi perdidas'},
+      {l:'Pedidos hoy', v:'34'},
+      {l:'Recuperado este mes', v:'$ 38.500'}
+    ],
+    notif:{ic:'🛒', t:'12 carritos abandonados hoy', s:'El sistema ya les escribió para cerrar la venta.'},
+    data:{label:'Pedidos', icon:'📦', rows:[
+      {t:'Pedido #5821', m:'En camino', tag:{x:'Despachado',c:'t-green'}},
+      {t:'Carrito · Sofía', m:'Dejó 2 productos', tag:{x:'Recuperando',c:'t-orange'}},
+      {t:'Pedido #5822', m:'Pago confirmado', tag:{x:'A preparar',c:'t-acc'}},
+      {t:'Consulta · talle', m:'Cliente esperando', tag:{x:'Bot respondió',c:'t-gray'}}
+    ]},
+    auto:{
+      h:'Carrito abandonado → venta recuperada',
+      sub:'La venta que se iba a perder, vuelve sola.',
+      steps:['🛒 Sofía agrega productos y no termina la compra','⏰ El sistema espera y detecta el carrito','🎁 Le manda un recordatorio (con descuento si querés)','💳 Sofía vuelve y completa la compra'],
+      wa:'Hola Sofía! 🛍️ Vimos que dejaste 2 productos en el carrito. ¿Te ayudamos a terminar la compra? Si la cerrás hoy, el envío te lo dejamos gratis 🚚'
+    },
+    ideas:[
+      {ic:'🛒',t:'Recupero de carritos',a:'Mucha gente agrega al carrito y no compra — esas ventas se pierden.',d:'El sistema les escribe solo y recupera una buena parte de esas compras.'},
+      {ic:'🤖',t:'Soporte y consultas 24/7',a:'Preguntas de talle, stock y envío a toda hora que no llegás a responder.',d:'Un bot responde al instante y no perdés la venta por demora.'},
+      {ic:'🔁',t:'Post-venta y recompra',a:'El cliente compra una vez y no volvés a contactarlo.',d:'Seguimiento del envío + invitación a recomprar en el momento justo.'}
+    ]
+  },
+  {
     id:'otro', nombre:'No encuentro mi rubro', em:'✨', acc:'#7c3aed', acc2:'#a855f7', mark:'✨',
     title:'Tu negocio',
     kpis:[
