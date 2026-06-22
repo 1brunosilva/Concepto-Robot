@@ -91,7 +91,7 @@ function render(d){
 
   var trendUp=d.weekTrendPct>=0;
   var trendChip='<span class="chip '+(trendUp?'up':'down')+'">'+(trendUp?'▲ +':'▼ ')+d.weekTrendPct+'% vs semana previa</span>';
-  var buySub = d.linkCompra+' links enviados · '+d.linkRate+'% de las charlas';
+  var buySub = d.linkRate+'% de los que escribieron pidió comprar · 1 cada '+Math.round(d.uniqueUsers/d.uniqueBuyers)+' personas';
 
   var cards=[
     {lbl:'Pidieron link de compra', val:nf(d.uniqueBuyers), color:C.green, sub:buySub, hot:true},
