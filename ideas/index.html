@@ -167,6 +167,11 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(900px 
 .match-c-m{font-size:10px;color:var(--txt2);line-height:1.35;margin:2px 0 1px}
 .match-c-meta{font-size:9px;color:var(--txt3);font-family:'DM Mono',monospace}
 
+/* BLOCK: outreach (match generalizado) */
+.outreach-trigger{display:flex;gap:10px;align-items:center;background:linear-gradient(135deg,rgba(124,58,237,.14),var(--bg2));border:1px solid var(--border2);border-radius:12px;padding:11px 12px;margin-bottom:2px}
+.ot-ic{width:34px;height:34px;border-radius:9px;background:var(--acc);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;box-shadow:0 3px 12px var(--acc-glow)}
+.ot-x{font-size:12.5px;font-weight:600;line-height:1.35}
+
 /* BLOCK: bars */
 .bars{display:flex;align-items:flex-end;gap:7px;height:96px;padding:18px 6px 20px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;margin-bottom:8px}
 .bar{flex:1;background:linear-gradient(180deg,var(--acc2),var(--acc));border-radius:5px 5px 0 0;position:relative;min-height:6px}
@@ -358,269 +363,355 @@ const RUBROS = [
   {
     id:'barraca', nombre:'Barraca / Construcción', em:'🧱', acc:'#f97316', acc2:'#fb923c', mark:'🧱',
     title:'Barraca',
-    kpis:[
-      {l:'Bajo stock (acción)', v:'7', s:'artículos a reponer'},
-      {l:'Artículos en stock', v:'1.240'},
-      {l:'Pedidos hoy', v:'38'}
+    tabs:[
+      {id:'cotizar', ic:'💲', lb:'Cotizar', blocks:[
+        {type:'chat',
+          label:'Cotiza solo · el cliente manda la lista por WhatsApp',
+          msgs:[
+            {side:'in', x:'Hola! Necesito 20 bolsas de portland 50kg y 50 bloques 20x20'},
+            {side:'out', x:'¡Hola! 👋 Dame un segundo que te armo el presupuesto…'},
+            {side:'out', x:'Listo: 20 Portland 50kg + 50 Bloques 20×20 = $ 14.250. Hay stock en Sucursal Centro para retirar hoy 📦'},
+            {side:'in', x:'Perfecto, reservámelo'},
+            {side:'out', x:'¡Hecho! ✅ Te lo dejo reservado en Centro hasta mañana.'}
+          ],
+          saved:{h:'Presupuesto generado automáticamente', items:[
+            {l:'Portland 50kg ×20', v:'$ 9.000'},
+            {l:'Bloque 20×20 ×50', v:'$ 5.250'},
+            {l:'Total', v:'$ 14.250'},
+            {l:'Retiro', v:'Suc. Centro'}
+          ]}
+        }
+      ]},
+      {id:'stock', ic:'📦', lb:'Stock', blocks:[
+        {type:'list', label:'Stock por sucursal en vivo', rows:[
+          {t:'Portland 50kg', m:'Suc. Centro · 320u', tag:{x:'OK',c:'t-green'}},
+          {t:'Hierro 8mm', m:'Suc. Norte · 12u', tag:{x:'Bajo',c:'t-orange'}},
+          {t:'Bloque 20×20', m:'Depósito · 0u', tag:{x:'Agotado',c:'t-red'}},
+          {t:'Arena (m³)', m:'Suc. Centro · 45', tag:{x:'OK',c:'t-green'}}
+        ]},
+        {type:'notif', ic:'🔁', t:'Hierro 8mm bajo mínimo', s:'Orden de reposición sugerida antes de que te quedes sin.'}
+      ]},
+      {id:'chat', ic:'💬', lb:'Chat', blocks:[
+        {type:'chat',
+          label:'Atiende 24/7 · WhatsApp, Instagram y web',
+          msgs:[
+            {side:'in', ch:'📷 Instagram', x:'Buenas, tenés arena fina?'},
+            {side:'out', x:'¡Hola! 👋 Sí, arena fina y gruesa. ¿Cuántos m³ necesitás?'},
+            {side:'in', x:'2 m³. Hacen envío a Carrasco?'},
+            {side:'out', x:'Sí, llegamos a Carrasco 🚚 2 m³ de fina + envío = $ 3.900. ¿Te lo agendo para mañana?'}
+          ]
+        }
+      ]}
     ],
-    notif:{ic:'📦', t:'Hierro 8mm bajo mínimo', s:'Orden de reposición sugerida antes de que te quedes sin.'},
-    data:{label:'Stock', icon:'📦', rows:[
-      {t:'Portland 50kg', m:'Suc. Centro · 320u', tag:{x:'OK',c:'t-green'}},
-      {t:'Hierro 8mm', m:'Suc. Norte · 12u', tag:{x:'Bajo',c:'t-orange'}},
-      {t:'Bloque 20x20', m:'Depósito · 0u', tag:{x:'Agotado',c:'t-red'}},
-      {t:'Arena (m³)', m:'Suc. Centro · 45', tag:{x:'OK',c:'t-green'}}
-    ]},
-    auto:{
-      h:'Cotización por WhatsApp → presupuesto al toque',
-      sub:'El cliente manda la lista, el sistema responde con el precio.',
-      steps:['📝 Cliente manda: "20 bolsas portland + 50 bloques"','💲 El sistema busca precios y stock por sucursal','📄 Arma el presupuesto automáticamente','💬 Respuesta enviada en segundos'],
-      wa:'¡Hola! Tu presupuesto: 20 bolsas Portland 50kg + 50 bloques 20x20 = $ 14.250. Disponible en Sucursal Centro para retirar hoy. ¿Te lo reservo? 📦'
-    },
     ideas:[
-      {ic:'📦',t:'Stock por sucursal en vivo',a:'No sabés qué hay en cada sucursal sin llamar a preguntar.',d:'Panel único con stock de todas tus sucursales actualizado al instante.'},
-      {ic:'💲',t:'Cotización automática',a:'Cada presupuesto te lleva 15-20 minutos a mano.',d:'El cliente manda la lista por WhatsApp y recibe el precio al toque.'},
-      {ic:'🔁',t:'Aviso de reposición',a:'Te enterás que falta material cuando ya te quedaste sin.',d:'El sistema te avisa antes de llegar al mínimo y sugiere la orden de compra.'}
+      {ic:'💲',t:'Cotización automática',a:'Cada presupuesto te lleva 15-20 minutos a mano y, si tardás, el cliente compra en otro lado.',d:'El cliente manda la lista por WhatsApp y recibe el precio, el stock y la reserva al toque.'},
+      {ic:'📦',t:'Stock por sucursal + reposición',a:'No sabés qué hay en cada sucursal y te enterás que falta material cuando ya te quedaste sin.',d:'Panel único con el stock de todas tus sucursales y aviso antes de llegar al mínimo.'},
+      {ic:'🤖',t:'Chatbot de atención y ventas',a:'Contestás las mismas preguntas de precio y stock todo el día.',d:'Un asistente responde 24/7 por WhatsApp, IG y web, y hasta toma el pedido.'}
     ]
   },
   {
     id:'estudio', nombre:'Estudio profesional', em:'📊', acc:'#3b82f6', acc2:'#60a5fa', mark:'📊',
     title:'Estudio',
-    kpis:[
-      {l:'Vencimientos esta semana', v:'14', s:'recordatorios listos'},
-      {l:'Clientes activos', v:'86'},
-      {l:'Tareas pendientes', v:'9'}
+    tabs:[
+      {id:'venc', ic:'⏰', lb:'Vencimientos', blocks:[
+        {type:'agenda', label:'Próximos vencimientos', items:[
+          {time:'2 días', t:'DGI · IVA — Pérez SRL', m:'Faltan las facturas de junio', tag:{x:'Pidiendo docs',c:'t-orange'}},
+          {time:'5 días', t:'BPS · Aportes — González', m:'Documentación completa', tag:{x:'Listo',c:'t-green'}},
+          {time:'12 días', t:'Cierre de balance — Martínez', tag:{x:'En fecha',c:'t-gray'}}
+        ]},
+        {type:'flow', h:'Vencimiento detectado → le pide los papeles al cliente', sub:'Ni vos ni tu cliente se olvidan de una fecha.',
+          steps:['📅 Se acerca el IVA de Pérez SRL','🔔 El sistema lo detecta solo','📎 Le pide al cliente las facturas que faltan','✅ Persigue hasta tenerlas, sin que muevas un dedo'],
+          wa:'Hola Juan! Te recuerdo que el 22/06 vence el IVA. Para presentarlo necesito las facturas de junio. ¿Me las pasás por acá? 📎'}
+      ]},
+      {id:'altas', ic:'🚀', lb:'Altas', blocks:[
+        {type:'feed', label:'Onboarding de clientes nuevos', items:[
+          {ic:'🚀', t:'Alta de "Estudio Gómez": datos y constancia recibidos', time:'Hace 10 min', btn:'Ver carpeta'},
+          {ic:'📎', t:'Le pedí a 2 clientes nuevos la documentación que faltaba', time:'Hoy'},
+          {ic:'🗂️', t:'Armé la carpeta digital de López SA automáticamente', time:'Ayer'}
+        ]}
+      ]},
+      {id:'chat', ic:'💬', lb:'Chat', blocks:[
+        {type:'chat', label:'Responde el estado de trámites 24/7',
+          msgs:[
+            {side:'in', x:'Hola, cómo va mi declaración de IRAE?'},
+            {side:'out', x:'¡Hola! 👋 Tu IRAE está presentado y al día ✅ Tu próximo vencimiento es el IVA, el 22/06.'},
+            {side:'in', x:'Genial. Qué necesitás para eso?'},
+            {side:'out', x:'Las facturas de compra de junio 📎 Si me las pasás esta semana, lo dejamos listo sin apuro.'}
+          ]}
+      ]}
     ],
-    notif:{ic:'⏰', t:'3 vencimientos en 48hs', s:'Recordatorios enviados a los clientes automáticamente.'},
-    data:{label:'Vencimientos', icon:'📅', rows:[
-      {t:'DGI · IVA', m:'Cliente Pérez SRL', tag:{x:'2 días',c:'t-red'}},
-      {t:'BPS · Aportes', m:'Cliente González', tag:{x:'5 días',c:'t-orange'}},
-      {t:'Cierre de balance', m:'Cliente Martínez', tag:{x:'12 días',c:'t-gray'}},
-      {t:'Declaración IRAE', m:'Cliente López SA', tag:{x:'18 días',c:'t-gray'}}
-    ]},
-    auto:{
-      h:'Vencimientos → recordatorios sin que muevas un dedo',
-      sub:'Ni vos ni tu cliente se olvidan de una fecha.',
-      steps:['📅 Se acerca un vencimiento de DGI','🔔 El sistema lo detecta automáticamente','✅ Le pide al cliente la info que falta','💬 Recordatorio enviado por WhatsApp'],
-      wa:'Hola Juan! Te recuerdo que el 22/06 vence el IVA. Para presentarlo necesito las facturas de junio. ¿Me las pasás por acá? 📎'
-    },
     ideas:[
-      {ic:'⏰',t:'Recordatorios de vencimientos',a:'Vivís pendiente de fechas y persiguiendo a clientes por la info.',d:'El sistema avisa solo y le pide al cliente lo que falta a tiempo.'},
+      {ic:'⏰',t:'Vencimientos + pedido de documentación',a:'Vivís pendiente de fechas y persiguiendo a cada cliente por la info que falta.',d:'El sistema avisa solo de cada vencimiento y le pide al cliente los papeles a tiempo, sin que persigas a nadie.'},
       {ic:'🚀',t:'Onboarding de clientes nuevos',a:'Cada cliente nuevo es media hora de pedir datos y documentos.',d:'Un flujo automático junta todo y arma la carpeta del cliente solo.'},
-      {ic:'💬',t:'Respuestas a consultas frecuentes',a:'Contestás las mismas preguntas 20 veces por semana.',d:'Un asistente responde lo de siempre y te deja sólo lo importante.'}
+      {ic:'🤖',t:'Chatbot de estado de trámites',a:'Contestás las mismas consultas ("¿cómo va lo mío?") 20 veces por semana.',d:'Un asistente responde el estado de cada trámite y las preguntas frecuentes 24/7.'}
     ]
   },
   {
     id:'comercio', nombre:'Comercio / Retail', em:'🛍️', acc:'#22c55e', acc2:'#4ade80', mark:'🛍️',
     title:'Comercio',
-    kpis:[
-      {l:'Ventas hoy', v:'$ 42.300'},
-      {l:'Productos', v:'540'},
-      {l:'Sin stock', v:'5'}
+    tabs:[
+      {id:'recompra', ic:'🔁', lb:'Recompra', blocks:[
+        {type:'outreach', ic:'🔁', trigger:'12 clientes compraron hace ~30 días y no volvieron. El sistema ya armó la oferta.', label:'Listos para recomprar',
+          people:[
+            {n:'Carolina M.', why:'Compró una campera · hace 32 días', meta:'Suele comprar cada mes'},
+            {n:'Diego F.', why:'2 remeras · hace 28 días', meta:'Ticket promedio $ 1.800'},
+            {n:'Valentina R.', why:'Pantalón cargo · hace 35 días', meta:'Primera compra'}
+          ],
+          wa:'¡Hola Caro! 🖤 Llegó la nueva temporada y nos acordamos de vos. Tenés 15% off esta semana en tu próxima compra. ¿Te muestro lo nuevo?'}
+      ]},
+      {id:'ventas', ic:'📊', lb:'Ventas', blocks:[
+        {type:'bars', label:'Ventas de la semana', bars:[
+          {d:'L', v:'12', h:45},{d:'M', v:'18', h:62},{d:'M', v:'15', h:52},{d:'J', v:'22', h:74},{d:'V', v:'31', h:100},{d:'S', v:'27', h:88}
+        ]},
+        {type:'list', label:'Stock — alerta de quiebre', rows:[
+          {t:'Remera oversize negra', m:'Talle M · 24u', tag:{x:'OK',c:'t-green'}},
+          {t:'Pantalón cargo', m:'Talle 42 · 3u', tag:{x:'Bajo',c:'t-orange'}},
+          {t:'Campera inflable', m:'Talle L · 0u', tag:{x:'Sin stock',c:'t-red'}}
+        ]}
+      ]},
+      {id:'chat', ic:'💬', lb:'Chat', blocks:[
+        {type:'chat', label:'Vende 24/7 · WhatsApp e Instagram',
+          msgs:[
+            {side:'in', ch:'📷 Instagram', x:'Hola! Tenés la campera inflable en talle M?'},
+            {side:'out', x:'¡Hola! 👋 En M sí, nos queda stock. Sale $ 4.900 con 3 cuotas sin interés 🙌'},
+            {side:'in', x:'La quiero. Hacen envío?'},
+            {side:'out', x:'¡Sí! Envío a todo el país 🚚 Te paso el link de pago y la despachamos hoy.'}
+          ]}
+      ]}
     ],
-    notif:{ic:'🔁', t:'12 clientes para recompra', s:'Compraron hace 30 días — momento ideal para reactivarlos.'},
-    data:{label:'Stock', icon:'🏷️', rows:[
-      {t:'Remera oversize negra', m:'Talle M · 24u', tag:{x:'OK',c:'t-green'}},
-      {t:'Pantalón cargo', m:'Talle 42 · 3u', tag:{x:'Bajo',c:'t-orange'}},
-      {t:'Campera inflable', m:'Talle L · 0u', tag:{x:'Sin stock',c:'t-red'}},
-      {t:'Gorro lana', m:'Único · 60u', tag:{x:'OK',c:'t-green'}}
-    ]},
-    auto:{
-      h:'Cliente que ya compró → vuelve a comprar',
-      sub:'La venta más fácil es a quien ya te compró una vez.',
-      steps:['🛍️ Detecta clientes que compraron hace 30 días','🎯 Filtra los que no volvieron','🎁 Arma una oferta personalizada','💬 Mensaje de recompra enviado'],
-      wa:'¡Hola Caro! 🖤 Llegó la nueva temporada y nos acordamos de vos. Tenés 15% off esta semana en tu próxima compra. ¿Te muestro lo nuevo?'
-    },
     ideas:[
-      {ic:'📊',t:'Panel de ventas y stock',a:'No sabés qué se vende más ni qué te está por faltar.',d:'Un panel claro con ventas del día y alertas de stock bajo.'},
-      {ic:'🔁',t:'Recompra automática',a:'El cliente compra una vez y no volvés a saber de él.',d:'El sistema lo reactiva con una oferta en el momento justo.'},
-      {ic:'⚠️',t:'Aviso de quiebre de stock',a:'Vendés algo que ya no tenés y quedás mal con el cliente.',d:'Alerta automática antes de quedarte sin tus productos estrella.'}
+      {ic:'🔁',t:'Recompra automática',a:'El cliente compra una vez y no volvés a saber de él.',d:'El sistema detecta a quién le toca volver y le manda una oferta en el momento justo. La venta más fácil es a quien ya te compró.'},
+      {ic:'📊',t:'Panel de ventas + quiebre de stock',a:'No sabés qué se vende más ni qué te está por faltar.',d:'Ventas del día de un vistazo y alerta automática antes de quedarte sin tus productos estrella.'},
+      {ic:'🤖',t:'Chatbot de ventas',a:'Llegan consultas de talle, stock y precio a toda hora y se te escapan ventas.',d:'Un asistente responde 24/7 por WhatsApp e IG y cierra la venta solo.'}
     ]
   },
   {
     id:'gastro', nombre:'Gastronomía', em:'🍽️', acc:'#ef4444', acc2:'#f87171', mark:'🍽️',
     title:'Gastronomía',
-    kpis:[
-      {l:'Reservas hoy', v:'28'},
-      {l:'Pedidos online', v:'41'},
-      {l:'Mesas libres', v:'6'}
+    tabs:[
+      {id:'reservas', ic:'📖', lb:'Reservas', blocks:[
+        {type:'agenda', label:'Reservas de hoy', items:[
+          {time:'20:00', t:'Andrés P. · 2 personas', tag:{x:'Confirmada',c:'t-green'}},
+          {time:'21:00', t:'Familia Rodríguez · 4', m:'Recordatorio enviado', tag:{x:'Confirmada',c:'t-green'}},
+          {time:'21:30', t:'Cumpleaños · 10 personas', m:'Seña recibida', tag:{x:'Seña ok',c:'t-acc'}}
+        ]},
+        {type:'flow', h:'Reserva → recordatorio que evita el "no show"', sub:'Menos mesas vacías por gente que no aparece.',
+          steps:['📖 El cliente reserva por WhatsApp','✅ Confirmación automática al instante','⏰ Recordatorio unas horas antes','🔄 Si no puede, libera la mesa para otro'],
+          wa:'Hola Andrés! Te esperamos hoy a las 20:00, mesa para 2 🍷 Respondé SÍ para confirmar. Si no podés venir, avisanos así liberamos el lugar 🙌'}
+      ]},
+      {id:'resenas', ic:'⭐', lb:'Reseñas', blocks:[
+        {type:'kpis', label:'Tu reputación online', items:[
+          {l:'Reseñas este mes', v:'34', s:'+21 vs. mes pasado'},
+          {l:'Promedio', v:'4,8★'}
+        ]},
+        {type:'feed', label:'Reseñas pedidas automáticamente', items:[
+          {ic:'⭐', t:'Le pedí la reseña a 8 clientes que comieron anoche', time:'Hoy 09:00'},
+          {ic:'🌟', t:'Familia Rodríguez dejó 5★ en Google', time:'Hace 2 h'},
+          {ic:'💬', t:'Respondí 3 reseñas nuevas para cuidar tu imagen', time:'Hoy'}
+        ]}
+      ]},
+      {id:'chat', ic:'💬', lb:'Chat', blocks:[
+        {type:'chat', label:'Toma pedidos y reservas 24/7',
+          msgs:[
+            {side:'in', x:'Hola, hacen delivery a Malvín?'},
+            {side:'out', x:'¡Hola! 👋 Sí, llegamos a Malvín 🛵 ¿Querés ver el menú o ya sabés qué pedir?'},
+            {side:'in', x:'2 milanesas completas y una coca'},
+            {side:'out', x:'¡Anotado! 🍽️ 2 milanesas completas + Coca = $ 980. Sale en 35 min. ¿Confirmo el pedido?'}
+          ]}
+      ]}
     ],
-    notif:{ic:'⭐', t:'8 pedidos para pedir reseña', s:'Clientes que comieron hoy — momento ideal para sumar estrellas.'},
-    data:{label:'Reservas', icon:'📖', rows:[
-      {t:'Familia Rodríguez', m:'21:00 · 4 personas', tag:{x:'Confirmada',c:'t-green'}},
-      {t:'Mesa Cumpleaños', m:'21:30 · 10 personas', tag:{x:'Seña ok',c:'t-acc'}},
-      {t:'Andrés P.', m:'20:00 · 2 personas', tag:{x:'Pendiente',c:'t-orange'}},
-      {t:'Delivery #4821', m:'En cocina', tag:{x:'25 min',c:'t-gray'}}
-    ]},
-    auto:{
-      h:'Reserva → recordatorio → reseña',
-      sub:'Menos ausencias, más estrellas en Google.',
-      steps:['📖 Cliente reserva por WhatsApp','✅ Confirmación y recordatorio automático','🍽️ Después de comer, pide la reseña','⭐ Sube tu reputación sin esfuerzo'],
-      wa:'¡Gracias por venir esta noche! 🍷 Si la pasaste bien, nos ayudás un montón con una reseña en Google 👉 (link). ¡Te esperamos pronto!'
-    },
     ideas:[
-      {ic:'📖',t:'Reservas y pedidos por WhatsApp',a:'Atendés reservas a mano entre plato y plato.',d:'El bot toma reservas y pedidos solo, sin saturar tu teléfono.'},
-      {ic:'⏰',t:'Recordatorio anti-ausencias',a:'Reservan mesa y no aparecen — perdés la noche.',d:'Recordatorio automático que reduce los "no shows".'},
-      {ic:'⭐',t:'Reseñas automáticas',a:'Tenés clientes felices pero pocas reseñas online.',d:'El sistema le pide la reseña a cada cliente en el mejor momento.'}
+      {ic:'📖',t:'Reservas con recordatorio anti-ausencia',a:'Reservan mesa y no aparecen — perdés la noche y la mesa quedó vacía.',d:'Confirmación y recordatorio automático que reduce los "no shows" al mínimo.'},
+      {ic:'⭐',t:'Reseñas automáticas',a:'Tenés clientes felices pero pocas reseñas — y eso es lo que te trae gente nueva.',d:'El sistema le pide la reseña a cada cliente en el mejor momento y sube tu Google solo.'},
+      {ic:'🤖',t:'Chatbot de pedidos y consultas',a:'Atendés reservas y pedidos a mano entre plato y plato.',d:'Un asistente toma pedidos, reservas y consultas 24/7 sin saturar tu teléfono.'}
     ]
   },
   {
     id:'salud', nombre:'Salud / Estética', em:'🩺', acc:'#14b8a6', acc2:'#2dd4bf', mark:'🩺',
     title:'Clínica',
-    kpis:[
-      {l:'Pacientes inactivos', v:'240', s:'para reactivar'},
-      {l:'Turnos hoy', v:'19'},
-      {l:'Confirmados', v:'16'}
+    tabs:[
+      {id:'reactivar', ic:'🔄', lb:'Reactivar', blocks:[
+        {type:'outreach', ic:'🔄', trigger:'240 pacientes no vuelven hace +6 meses. El sistema eligió a los de mayor chance y armó el mensaje.', label:'Pacientes para reactivar',
+          people:[
+            {n:'Lucía Fernández', why:'Última visita: limpieza facial · hace 7 meses', meta:'Solía venir cada 3 meses'},
+            {n:'Pablo Méndez', why:'Último control · hace 8 meses', meta:'No completó el tratamiento'},
+            {n:'Sofía Acosta', why:'Primera y única sesión · hace 6 meses', meta:'Mostró interés en seguir'}
+          ],
+          wa:'Hola Lucía! 💆 Pasó un tiempo de tu última limpieza facial y queríamos invitarte a renovarla. Tenemos lugar esta semana y un beneficio para vos. ¿Te agendo?'}
+      ]},
+      {id:'agenda', ic:'🗓️', lb:'Agenda', blocks:[
+        {type:'agenda', label:'Turnos de hoy', items:[
+          {time:'10:00', t:'Lucía F. · Limpieza facial', m:'Recordatorio enviado', tag:{x:'Confirmado',c:'t-green'}},
+          {time:'11:30', t:'Pablo M. · Control', tag:{x:'Sin confirmar',c:'t-orange'}},
+          {time:'15:00', t:'Sofía A. · Primera vez', tag:{x:'Nuevo',c:'t-acc'}}
+        ]},
+        {type:'notif', ic:'📲', t:'Hueco de las 16:30 recuperado', s:'Un paciente canceló y el sistema ofreció el lugar a otro de la lista.'}
+      ]},
+      {id:'chat', ic:'💬', lb:'Chat', blocks:[
+        {type:'chat', label:'Agenda y responde 24/7',
+          msgs:[
+            {side:'in', x:'Hola, quería sacar un turno para limpieza facial'},
+            {side:'out', x:'¡Hola! 👋 Tengo lugar el jueves 15:00 o el viernes 10:00. ¿Cuál te queda mejor?'},
+            {side:'in', x:'Jueves 15 perfecto'},
+            {side:'out', x:'¡Listo! ✅ Te agendé el jueves 15:00. Te mando un recordatorio el día anterior 💆'}
+          ]}
+      ]}
     ],
-    notif:{ic:'📲', t:'5 turnos sin confirmar mañana', s:'Recordatorios enviados para evitar ausencias.'},
-    data:{label:'Agenda', icon:'🗓️', rows:[
-      {t:'Lucía Fernández', m:'10:00 · Limpieza facial', tag:{x:'Confirmado',c:'t-green'}},
-      {t:'Pablo Méndez', m:'11:30 · Control', tag:{x:'Sin confirmar',c:'t-orange'}},
-      {t:'Sofía Acosta', m:'15:00 · Primera vez', tag:{x:'Nuevo',c:'t-acc'}},
-      {t:'Turno libre', m:'16:30', tag:{x:'Disponible',c:'t-gray'}}
-    ]},
-    auto:{
-      h:'Agenda llena, sin ausencias ni huecos',
-      sub:'Recordá a los de hoy y recuperá a los de hace meses.',
-      steps:['🗓️ Turno agendado para mañana','📲 Recordatorio + confirmación automática','❌ Si cancela, ofrece el lugar a otro','🔄 Reactiva pacientes que no vuelven hace 6 meses'],
-      wa:'Hola Lucía! Te recordamos tu turno mañana 10:00 para limpieza facial 💆 Respondé SÍ para confirmar o escribinos para reprogramar.'
-    },
     ideas:[
-      {ic:'📲',t:'Recordatorios anti-ausentismo',a:'Pacientes que faltan al turno y dejan el espacio vacío.',d:'Recordatorio y confirmación automática que llena tu agenda.'},
-      {ic:'🔄',t:'Reactivación de pacientes',a:'Cientos de pacientes que no volvieron y no estás contactando.',d:'El sistema los reactiva solo, con el mensaje justo.'},
-      {ic:'🗓️',t:'Agenda inteligente',a:'Coordinar turnos por WhatsApp te lleva todo el día.',d:'El bot agenda, reprograma y completa cancelaciones automáticamente.'}
+      {ic:'🔄',t:'Reactivación de pacientes inactivos',a:'Cientos de pacientes que no volvieron y no estás contactando — plata dormida.',d:'El sistema los reactiva solo, eligiendo a quién y con el mensaje justo, y te llena la agenda.'},
+      {ic:'📲',t:'Recordatorio y confirmación de turnos',a:'Pacientes que faltan y dejan el espacio vacío.',d:'Recordatorio y confirmación automática; si cancelan, ofrece el lugar a otro.'},
+      {ic:'🤖',t:'Chatbot de agenda',a:'Coordinar turnos por WhatsApp te lleva todo el día.',d:'Un asistente agenda, reprograma y responde consultas 24/7.'}
     ]
   },
   {
     id:'servicios', nombre:'Servicios / Oficios', em:'🔧', acc:'#eab308', acc2:'#facc15', mark:'🔧',
     title:'Servicios',
-    kpis:[
-      {l:'Pedidos sin responder', v:'0', s:'todos contestados'},
-      {l:'Trabajos activos', v:'12'},
-      {l:'Presupuestos', v:'7'}
+    tabs:[
+      {id:'presu', ic:'⚡', lb:'Presupuesto', blocks:[
+        {type:'chat', label:'Responde y presupuesta en minutos · ganás el trabajo',
+          msgs:[
+            {side:'in', x:'Hola, necesito instalar 3 tomas nuevas en Carrasco'},
+            {side:'out', x:'¡Hola! 👋 Genial. ¿Es en casa o local? ¿Para cuándo lo necesitás?'},
+            {side:'in', x:'Casa, esta semana si se puede'},
+            {side:'out', x:'Perfecto. Por 3 tomas nuevas (mano de obra + materiales) son $ 8.500. Tengo lugar el jueves 15:00 🔧 ¿Lo agendo?'},
+            {side:'in', x:'Dale, agendá'},
+            {side:'out', x:'¡Listo! ✅ Jueves 15:00 en Carrasco. Te llega un recordatorio el día anterior.'}
+          ],
+          saved:{h:'Presupuesto y agenda generados', items:[
+            {l:'Trabajo', v:'3 tomas nuevas'},
+            {l:'Zona', v:'Carrasco'},
+            {l:'Precio', v:'$ 8.500'},
+            {l:'Visita', v:'Jue 15:00'}
+          ]}
+        }
+      ]},
+      {id:'mant', ic:'🔁', lb:'Mantenimiento', blocks:[
+        {type:'outreach', ic:'🔁', trigger:'Clientes a los que les toca el mantenimiento. El sistema te trae trabajo de vuelta, solo.', label:'Para recordar mantenimiento',
+          people:[
+            {n:'Flia. Pérez', why:'Service de aire acondicionado · hace 11 meses', meta:'Antes de la temporada'},
+            {n:'Local Centro', why:'Revisión eléctrica anual · hace 12 meses', meta:'Cliente recurrente'},
+            {n:'Andrés G.', why:'Mantenimiento de caldera · hace 10 meses', meta:'Pidió que le avisen'}
+          ],
+          wa:'Hola! 🔧 Ya casi es momento del service anual de tu aire acondicionado, antes de que apriete el calor. ¿Te agendo una visita esta o la próxima semana?'}
+      ]},
+      {id:'chat', ic:'💬', lb:'Chat', blocks:[
+        {type:'chat', label:'Atiende y agenda 24/7',
+          msgs:[
+            {side:'in', x:'Hola, se me tapó un caño, pueden venir?'},
+            {side:'out', x:'¡Hola! 👋 Sí. ¿En qué zona estás y es urgente?'},
+            {side:'in', x:'Pocitos, bastante urgente'},
+            {side:'out', x:'Tengo a alguien que puede pasar hoy 18:00 por Pocitos 🚿 Visita y diagnóstico $ 1.200. ¿Lo confirmo?'}
+          ]}
+      ]}
     ],
-    notif:{ic:'⚡', t:'Nuevo pedido → presupuesto enviado', s:'Respondiste en 2 minutos sin tocar el teléfono.'},
-    data:{label:'Trabajos', icon:'🛠️', rows:[
-      {t:'Instalación eléctrica', m:'Carrasco · Hoy 15:00', tag:{x:'En curso',c:'t-acc'}},
-      {t:'Reparación caño', m:'Pocitos · Mañana', tag:{x:'Agendado',c:'t-green'}},
-      {t:'Presupuesto pintura', m:'Malvín', tag:{x:'Enviado',c:'t-orange'}},
-      {t:'Mantenimiento AC', m:'Centro', tag:{x:'Nuevo',c:'t-gray'}}
-    ]},
-    auto:{
-      h:'Pedido nuevo → presupuesto y agenda solos',
-      sub:'No perdés un trabajo por no contestar a tiempo.',
-      steps:['📞 Llega un pedido por WhatsApp','📋 El bot pide los datos del trabajo','💲 Calcula y envía el presupuesto','🗓️ Agenda la visita si el cliente acepta'],
-      wa:'¡Hola! Por la instalación eléctrica en Carrasco, el presupuesto es $ 8.500 (mano de obra + materiales). Tengo lugar este jueves 15:00. ¿Lo agendo? 🔧'
-    },
     ideas:[
-      {ic:'⚡',t:'Respuesta y presupuesto al toque',a:'Te llega un pedido y lo contestás horas después — ya eligieron a otro.',d:'El sistema responde y manda el presupuesto en minutos, siempre.'},
-      {ic:'🗓️',t:'Agenda automática',a:'Coordinás cada visita con idas y vueltas por WhatsApp.',d:'El cliente elige el horario disponible y queda agendado solo.'},
-      {ic:'🔁',t:'Seguimiento y recompra',a:'Hacés un trabajo y no volvés a saber del cliente.',d:'Recordatorios de mantenimiento que te traen trabajo de vuelta.'}
-    ]
-  },
-  {
-    id:'constructora', nombre:'Constructora / Arquitectura', em:'🏗️', acc:'#06b6d4', acc2:'#22d3ee', mark:'🏗️',
-    title:'Obra',
-    kpis:[
-      {l:'Avances enviados hoy', v:'3', s:'reportes a clientes'},
-      {l:'Obras activas', v:'5'},
-      {l:'Pagos a proveedores', v:'8'}
-    ],
-    notif:{ic:'📐', t:'Avance de obra → reporte enviado', s:'El cliente recibe fotos y estado sin que le escribas a mano.'},
-    data:{label:'Obras', icon:'🏗️', rows:[
-      {t:'Casa · Carrasco', m:'Estructura · 60%', tag:{x:'En obra',c:'t-acc'}},
-      {t:'Edificio · Cordón', m:'Terminaciones · 85%', tag:{x:'Avanzada',c:'t-green'}},
-      {t:'Reforma · Pocitos', m:'Demolición · 15%', tag:{x:'Inicio',c:'t-orange'}},
-      {t:'Local · Centro', m:'Esperando materiales', tag:{x:'En pausa',c:'t-gray'}}
-    ]},
-    auto:{
-      h:'Avance de obra → reporte automático al cliente',
-      sub:'El cliente vive tranquilo sin tener que perseguirte.',
-      steps:['📸 Cargás las fotos del avance de la semana','📊 El sistema arma el reporte con etapa y %','💰 Suma gastos y estado de pagos','💬 Reporte enviado al cliente por WhatsApp'],
-      wa:'Hola Fernando! 🏗️ Avance semanal de tu casa en Carrasco: terminamos la estructura (60%). Te adjunto las fotos 📸 La próxima etapa son las instalaciones. ¿Alguna duda?'
-    },
-    ideas:[
-      {ic:'📊',t:'Reporte de obra automático',a:'El cliente te llama cada dos días para saber cómo va la obra.',d:'Recibe un reporte claro con fotos y avance, automático, sin que muevas un dedo.'},
-      {ic:'💰',t:'Control de proveedores y pagos',a:'Llevás los pagos a proveedores en papeles y en la cabeza.',d:'Un panel con qué le debés a cada uno y qué vence, todo en orden.'},
-      {ic:'📋',t:'Seguimiento de presupuestos',a:'Mandás presupuestos grandes y no sabés en cuál quedó cada cliente.',d:'El sistema hace el follow-up y te avisa cuándo retomar cada uno.'}
+      {ic:'⚡',t:'Respuesta y presupuesto en minutos',a:'Te llega un pedido y lo contestás horas después — ya eligieron a otro.',d:'El sistema responde, arma el presupuesto y agenda la visita en minutos, siempre. El que contesta primero gana el trabajo.'},
+      {ic:'🔁',t:'Recordatorio de mantenimiento',a:'Hacés un trabajo y no volvés a saber del cliente.',d:'El sistema detecta a quién le toca el mantenimiento y le escribe solo, trayéndote trabajo recurrente.'},
+      {ic:'🤖',t:'Chatbot de atención y agenda',a:'Coordinás cada visita con idas y vueltas por WhatsApp.',d:'Un asistente responde, presupuesta y agenda 24/7 sin que toques el teléfono.'}
     ]
   },
   {
     id:'peluqueria', nombre:'Peluquería / Barbería / Spa', em:'💈', acc:'#ec4899', acc2:'#f472b6', mark:'💈',
     title:'Salón',
-    kpis:[
-      {l:'Listos para volver', v:'18', s:'"ya es hora de tu corte"'},
-      {l:'Turnos hoy', v:'14'},
-      {l:'Ausencias evitadas', v:'6'}
+    tabs:[
+      {id:'turno', ic:'✂️', lb:'Tu turno', blocks:[
+        {type:'outreach', ic:'✂️', trigger:'18 clientes ya cumplieron su ciclo de corte. El sistema los invita a volver, solo.', label:'"Ya es hora de tu corte"',
+          people:[
+            {n:'Martín R.', why:'Último corte + barba · hace 4 semanas', meta:'Viene cada mes'},
+            {n:'Joaquín P.', why:'Último corte · hace 5 semanas', meta:'Suele atrasarse'},
+            {n:'Cami S.', why:'Último color · hace 7 semanas', meta:'Color cada 2 meses'}
+          ],
+          wa:'Hola Martín! 💈 Ya pasó un mes de tu último corte, ¿lo dejamos prolijo otra vez? Tengo lugar hoy 16:00 o mañana 11:00. Respondé y te lo agendo ✂️'}
+      ]},
+      {id:'agenda', ic:'🗓️', lb:'Agenda', blocks:[
+        {type:'agenda', label:'Turnos de hoy', items:[
+          {time:'16:00', t:'Martín · Corte + barba', m:'Recordatorio enviado', tag:{x:'Confirmado',c:'t-green'}},
+          {time:'17:30', t:'Cami · Color', tag:{x:'Sin confirmar',c:'t-orange'}},
+          {time:'18:30', t:'Turno libre', tag:{x:'Disponible',c:'t-gray'}}
+        ]},
+        {type:'notif', ic:'📲', t:'6 ausencias evitadas esta semana', s:'La confirmación automática avisó a tiempo y liberó los lugares que no se iban a usar.'}
+      ]},
+      {id:'chat', ic:'💬', lb:'Chat', blocks:[
+        {type:'chat', label:'Reserva y responde 24/7',
+          msgs:[
+            {side:'in', ch:'📷 Instagram', x:'Hola! Tenés lugar para corte hoy?'},
+            {side:'out', x:'¡Hola! 👋 Sí, me queda 18:30. ¿Te lo reservo?'},
+            {side:'in', x:'Dale!'},
+            {side:'out', x:'¡Listo! ✅ Te espero hoy 18:30 💈 Te mando un recordatorio un rato antes.'}
+          ]}
+      ]}
     ],
-    notif:{ic:'✂️', t:'18 clientes listos para volver', s:'Pasó el tiempo de su último corte — momento de invitarlos.'},
-    data:{label:'Agenda', icon:'🗓️', rows:[
-      {t:'Martín · Corte + barba', m:'Hoy 16:00', tag:{x:'Confirmado',c:'t-green'}},
-      {t:'Cami · Color', m:'Hoy 17:30', tag:{x:'Sin confirmar',c:'t-orange'}},
-      {t:'Joaco · Corte', m:'Mañana 11:00', tag:{x:'Nuevo',c:'t-acc'}},
-      {t:'Turno libre', m:'Hoy 18:30', tag:{x:'Disponible',c:'t-gray'}}
-    ]},
-    auto:{
-      h:'"Ya es hora de tu corte" → reserva sola',
-      sub:'El cliente vuelve sin que tengas que acordarte de él.',
-      steps:['✂️ Pasaron 4 semanas del último corte de Martín','🔔 El sistema lo detecta automáticamente','💬 Le ofrece reservar de nuevo','🗓️ Martín elige horario y queda agendado'],
-      wa:'Hola Martín! 💈 Ya pasó un mes de tu último corte, ¿lo dejamos prolijo otra vez? Tengo lugar hoy 16:00 o mañana 11:00. Respondé y te lo agendo ✂️'
-    },
     ideas:[
-      {ic:'🔁',t:'Recompra por tiempo',a:'Esperás que el cliente se acuerde de volver — y muchos no vuelven.',d:'El sistema lo invita justo cuando "ya es hora" y te llena la agenda.'},
+      {ic:'✂️',t:'Recompra por tiempo ("ya es hora")',a:'Esperás que el cliente se acuerde de volver — y muchos no vuelven.',d:'El sistema detecta cuándo cumplió su ciclo y lo invita justo a tiempo, llenándote la agenda solo.'},
       {ic:'📲',t:'Recordatorio anti-ausencia',a:'Reservan y no aparecen — perdés el lugar y la plata.',d:'Confirmación automática que reduce las ausencias al mínimo.'},
-      {ic:'⭐',t:'Reseñas y referidos',a:'Tenés clientes fieles pero pocos te recomiendan online.',d:'Después de cada visita pide reseña e invita a traer un amigo.'}
+      {ic:'🤖',t:'Chatbot de reservas',a:'Contestás mensajes para agendar entre cliente y cliente.',d:'Un asistente toma las reservas y responde consultas 24/7 por WhatsApp e IG.'}
     ]
   },
   {
     id:'ecommerce', nombre:'E-commerce / Tienda online', em:'🛒', acc:'#6366f1', acc2:'#818cf8', mark:'🛒',
     title:'Tienda',
-    kpis:[
-      {l:'Carritos a recuperar', v:'12', s:'ventas casi perdidas'},
-      {l:'Pedidos hoy', v:'34'},
-      {l:'Recuperado este mes', v:'$ 38.500'}
+    tabs:[
+      {id:'carritos', ic:'🛒', lb:'Carritos', blocks:[
+        {type:'outreach', ic:'🛒', trigger:'12 personas dejaron productos en el carrito sin comprar. El sistema ya les escribió para cerrar la venta.', label:'Carritos para recuperar',
+          people:[
+            {n:'Sofía L.', why:'2 productos · $ 4.200 · hace 2 h', meta:'Llegó hasta el pago'},
+            {n:'Bruno T.', why:'1 producto · $ 1.900 · hace 5 h', meta:'Visitó 3 veces'},
+            {n:'Caro D.', why:'3 productos · $ 6.800 · ayer', meta:'Primera compra'}
+          ],
+          wa:'Hola Sofía! 🛍️ Vimos que dejaste 2 productos en el carrito. ¿Te ayudamos a terminar la compra? Si la cerrás hoy, el envío te lo dejamos gratis 🚚'}
+      ]},
+      {id:'postventa', ic:'📦', lb:'Post-venta', blocks:[
+        {type:'feed', label:'Seguimiento y recompra automáticos', items:[
+          {ic:'🚚', t:'Avisé a 9 clientes que su pedido salió para envío', time:'Hoy'},
+          {ic:'⭐', t:'Pedí reseña a quienes ya recibieron su compra', time:'Hace 3 h'},
+          {ic:'🔁', t:'Invité a recomprar a 14 clientes que compraron hace 45 días', time:'Hoy'}
+        ]}
+      ]},
+      {id:'chat', ic:'💬', lb:'Chat', blocks:[
+        {type:'chat', label:'Soporte 24/7 · talle, stock y envíos',
+          msgs:[
+            {side:'in', x:'Hola, el buzo viene en talle L?'},
+            {side:'out', x:'¡Hola! 👋 Sí, en L tenemos stock. ¿Te muestro los colores disponibles?'},
+            {side:'in', x:'Sí. Cuánto tarda el envío a Maldonado?'},
+            {side:'out', x:'A Maldonado llega en 48-72 hs 🚚 Si comprás ahora, lo despachamos hoy mismo. Te paso el link 🛒'}
+          ]}
+      ]}
     ],
-    notif:{ic:'🛒', t:'12 carritos abandonados hoy', s:'El sistema ya les escribió para cerrar la venta.'},
-    data:{label:'Pedidos', icon:'📦', rows:[
-      {t:'Pedido #5821', m:'En camino', tag:{x:'Despachado',c:'t-green'}},
-      {t:'Carrito · Sofía', m:'Dejó 2 productos', tag:{x:'Recuperando',c:'t-orange'}},
-      {t:'Pedido #5822', m:'Pago confirmado', tag:{x:'A preparar',c:'t-acc'}},
-      {t:'Consulta · talle', m:'Cliente esperando', tag:{x:'Bot respondió',c:'t-gray'}}
-    ]},
-    auto:{
-      h:'Carrito abandonado → venta recuperada',
-      sub:'La venta que se iba a perder, vuelve sola.',
-      steps:['🛒 Sofía agrega productos y no termina la compra','⏰ El sistema espera y detecta el carrito','🎁 Le manda un recordatorio (con descuento si querés)','💳 Sofía vuelve y completa la compra'],
-      wa:'Hola Sofía! 🛍️ Vimos que dejaste 2 productos en el carrito. ¿Te ayudamos a terminar la compra? Si la cerrás hoy, el envío te lo dejamos gratis 🚚'
-    },
     ideas:[
-      {ic:'🛒',t:'Recupero de carritos',a:'Mucha gente agrega al carrito y no compra — esas ventas se pierden.',d:'El sistema les escribe solo y recupera una buena parte de esas compras.'},
-      {ic:'🤖',t:'Soporte y consultas 24/7',a:'Preguntas de talle, stock y envío a toda hora que no llegás a responder.',d:'Un bot responde al instante y no perdés la venta por demora.'},
-      {ic:'🔁',t:'Post-venta y recompra',a:'El cliente compra una vez y no volvés a contactarlo.',d:'Seguimiento del envío + invitación a recomprar en el momento justo.'}
+      {ic:'🛒',t:'Recupero de carritos abandonados',a:'Mucha gente agrega al carrito y no compra — esas ventas se pierden.',d:'El sistema les escribe solo (con descuento si querés) y recupera una buena parte de esas compras.'},
+      {ic:'🔁',t:'Post-venta y recompra',a:'El cliente compra una vez y no volvés a contactarlo.',d:'Seguimiento del envío + invitación a recomprar en el momento justo, todo automático.'},
+      {ic:'🤖',t:'Chatbot de soporte',a:'Preguntas de talle, stock y envío a toda hora que no llegás a responder.',d:'Un asistente responde al instante 24/7 y no perdés la venta por demora.'}
     ]
   },
   {
     id:'otro', nombre:'No encuentro mi rubro', em:'✨', acc:'#7c3aed', acc2:'#a855f7', mark:'✨',
     title:'Tu negocio',
-    kpis:[
-      {l:'Horas que recuperás al mes', v:'+40'},
-      {l:'Tareas en automático', v:'∞'},
-      {l:'Se adapta a tu rubro', v:'100%'}
+    tabs:[
+      {id:'auto', ic:'⚙️', lb:'Automático', blocks:[
+        {type:'flow', h:'Tu proceso de hoy → en piloto automático', sub:'No importa el rubro: si se repite, se automatiza.',
+          steps:['🔎 Miramos cómo trabajás hoy','🎯 Encontramos qué te come horas','⚙️ Lo automatizamos a medida','🚀 Vos te dedicás a lo que importa'],
+          wa:'Contame en una línea qué hacés y qué tarea te come más tiempo — te digo al toque qué se puede automatizar en tu negocio 🚀'}
+      ]},
+      {id:'procesos', ic:'🧩', lb:'Procesos', blocks:[
+        {type:'list', label:'Lo que casi siempre se puede automatizar', rows:[
+          {t:'Atención al cliente', m:'Responder lo de siempre', tag:{x:'Automatizable',c:'t-acc'}},
+          {t:'Seguimiento de clientes', m:'Que no se enfríen', tag:{x:'Automatizable',c:'t-acc'}},
+          {t:'Pasar datos entre sistemas', m:'Sin copiar y pegar', tag:{x:'Automatizable',c:'t-acc'}},
+          {t:'Avisos y recordatorios', m:'Que no se te escape nada', tag:{x:'Automatizable',c:'t-acc'}}
+        ]}
+      ]},
+      {id:'chat', ic:'💬', lb:'Chat', blocks:[
+        {type:'chat', label:'Así te atiende a vos y a tus clientes',
+          msgs:[
+            {side:'in', x:'Tengo un negocio pero no sé si esto me sirve'},
+            {side:'out', x:'¡Seguro que sí! 👋 Contame qué hacés y qué tarea te come más tiempo en el día.'},
+            {side:'in', x:'Respondo las mismas preguntas todo el día por WhatsApp'},
+            {side:'out', x:'Eso se automatiza fácil 🤖 Un asistente responde lo de siempre 24/7 y te deja solo lo importante. ¿Te muestro cómo?'}
+          ]}
+      ]}
     ],
-    notif:{ic:'✨', t:'Esto se adapta a CUALQUIER negocio', s:'Si tenés tareas que se repiten, se pueden automatizar.'},
-    data:{label:'Procesos', icon:'⚙️', rows:[
-      {t:'Atención al cliente', m:'Responder lo de siempre', tag:{x:'Automatizable',c:'t-acc'}},
-      {t:'Seguimiento de clientes', m:'Que no se enfríen', tag:{x:'Automatizable',c:'t-acc'}},
-      {t:'Pasar datos entre sistemas', m:'Sin copiar y pegar', tag:{x:'Automatizable',c:'t-acc'}},
-      {t:'Avisos y recordatorios', m:'Que no se te escape nada', tag:{x:'Automatizable',c:'t-acc'}}
-    ]},
-    auto:{
-      h:'Tu proceso de hoy → en piloto automático',
-      sub:'No importa el rubro: si se repite, se automatiza.',
-      steps:['🔎 Miramos cómo trabajás hoy','🎯 Encontramos qué te come horas','⚙️ Lo automatizamos a medida','🚀 Vos te dedicás a lo que importa'],
-      wa:'Contame en una línea qué hacés y qué tarea te come más tiempo — te digo al toque qué se puede automatizar en tu negocio 🚀'
-    },
     ideas:[
-      {ic:'🤖',t:'Atención que no para',a:'Perdés clientes que escriben cuando no estás.',d:'Un asistente responde, califica y agenda 24/7 por WhatsApp.'},
+      {ic:'🤖',t:'Atención que no para',a:'Perdés clientes que escriben cuando no estás.',d:'Un asistente responde, califica y agenda 24/7 por WhatsApp, Instagram y web.'},
       {ic:'⚙️',t:'Adiós tareas repetitivas',a:'Pasás horas copiando datos y haciendo lo mismo cada día.',d:'Conectamos tus sistemas para que el trabajo manual desaparezca.'},
       {ic:'🛠️',t:'Tu app a medida',a:'Manejás todo en planillas sueltas y mensajes.',d:'Un panel propio con tus clientes, datos y procesos en un solo lugar.'}
     ]
@@ -680,6 +771,7 @@ function renderBlock(b){
     case 'list':   return blockList(b);
     case 'chat':   return blockChat(b);
     case 'match':  return blockMatch(b);
+    case 'outreach': return blockOutreach(b);
     case 'flow':   return blockFlow(b);
     case 'bars':   return blockBars(b);
     case 'agenda': return blockAgenda(b);
@@ -741,6 +833,18 @@ function blockMatch(b){
     ).join('')}
     <div class="wa" style="opacity:1;animation:none;margin-top:11px">
       <div class="wa-tag">💬 Mensaje listo para enviar a ${b.clients[0].n}</div>
+      <div class="wa-x">${b.wa}</div></div>`;
+}
+function blockOutreach(b){
+  return `<div class="seclbl">${b.label||'Listos para contactar'}</div>
+    <div class="outreach-trigger"><div class="ot-ic">${b.ic||'⚡'}</div><div class="ot-x">${b.trigger}</div></div>
+    <div class="match-arrow">↓  el sistema armó la lista y el mensaje  ↓</div>
+    ${b.people.map(c=>
+      `<div class="match-client"><div class="match-av">${initials(c.n)}</div>
+        <div style="flex:1;min-width:0"><div class="match-c-t">${c.n}</div><div class="match-c-m">${c.why}</div><div class="match-c-meta">${c.meta}</div></div></div>`
+    ).join('')}
+    <div class="wa" style="opacity:1;animation:none;margin-top:11px">
+      <div class="wa-tag">💬 Mensaje listo para enviar a ${b.people[0].n}</div>
       <div class="wa-x">${b.wa}</div></div>`;
 }
 function blockFlow(b){
