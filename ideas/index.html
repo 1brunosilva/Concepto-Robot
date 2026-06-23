@@ -295,20 +295,6 @@ const RUBROS = [
     id:'inmo', nombre:'Inmobiliaria', em:'🏠', acc:'#7c3aed', acc2:'#a855f7', mark:'🏠',
     title:'Inmobiliaria',
     tabs:[
-      {id:'hoy', ic:'⚡', lb:'Hoy', blocks:[
-        {type:'kpis', label:'Tu día de hoy', items:[
-          {l:'Matches sugeridos hoy', v:'4', s:'cliente ↔ propiedad'},
-          {l:'Leads nuevos hoy', v:'12'},
-          {l:'Visitas agendadas', v:'5'},
-          {l:'Cierres del mes', v:'3'}
-        ]},
-        {type:'feed', label:'Lo que el sistema hizo por vos hoy', items:[
-          {ic:'🎯', t:'Encontré 4 clientes para el apto nuevo de Pocitos', time:'Hace 20 min', btn:'Ver match', goto:'match'},
-          {ic:'💬', t:'Respondí 12 consultas en WhatsApp, Instagram y la web', time:'Durante el día', btn:'Ver chat', goto:'chat'},
-          {ic:'🗓️', t:'Agendé 3 visitas para esta semana', time:'Hace 1 h'},
-          {ic:'🛰️', t:'Se publicó en un portal una casa en Carrasco que busca la flia. Pérez', time:'Hace 2 h', btn:'Avisar'}
-        ]}
-      ]},
       {id:'match', ic:'🎯', lb:'Match', blocks:[
         {type:'match',
           prop:{em:'🏢', t:'Apto 2 dorm · Pocitos', sub:'65 m² · garaje · a estrenar', price:'USD 185.000', badge:'Nueva'},
@@ -347,6 +333,20 @@ const RUBROS = [
             {l:'Extra', v:'Con garaje'}
           ]}
         }
+      ]},
+      {id:'hoy', ic:'⚡', lb:'Hoy', blocks:[
+        {type:'kpis', label:'Tu día de hoy', items:[
+          {l:'Matches sugeridos hoy', v:'4', s:'cliente ↔ propiedad'},
+          {l:'Leads nuevos hoy', v:'12'},
+          {l:'Visitas agendadas', v:'5'},
+          {l:'Cierres del mes', v:'3'}
+        ]},
+        {type:'feed', label:'Lo que el sistema hizo por vos hoy', items:[
+          {ic:'🎯', t:'Encontré 4 clientes para el apto nuevo de Pocitos', time:'Hace 20 min', btn:'Ver match', goto:'match'},
+          {ic:'💬', t:'Respondí 12 consultas en WhatsApp, Instagram y la web', time:'Durante el día', btn:'Ver chat', goto:'chat'},
+          {ic:'🗓️', t:'Agendé 3 visitas para esta semana', time:'Hace 1 h'},
+          {ic:'🛰️', t:'Se publicó en un portal una casa en Carrasco que busca la flia. Pérez', time:'Hace 2 h', btn:'Avisar'}
+        ]}
       ]}
     ],
     ideas:[
