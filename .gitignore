@@ -1,0 +1,10 @@
+# Previews / artefactos locales (no son contenido del sitio)
+preview/
+__pycache__/
+*.pyc
+
+# Salida generada por Nano Banana
+ideas/share-banana.png
+
+# Node (si se instala algo local)
+node_modules/

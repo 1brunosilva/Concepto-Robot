@@ -23,6 +23,10 @@
     {
       "source": "/diagnostico",
       "destination": "/diagnostico.html"
+    },
+    {
+      "source": "/ideas",
+      "destination": "/ideas/index.html"
     }
   ]
 }
