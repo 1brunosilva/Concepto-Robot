@@ -350,14 +350,14 @@ const RUBROS = [
           {ic:'🎯', t:'Encontré 4 clientes para el apto nuevo de Pocitos', time:'Hace 20 min', btn:'Ver match', goto:'match'},
           {ic:'💬', t:'Respondí 12 consultas en WhatsApp, Instagram y la web', time:'Durante el día', btn:'Ver chat', goto:'chat'},
           {ic:'🗓️', t:'Agendé 3 visitas para esta semana', time:'Hace 1 h'},
-          {ic:'🛰️', t:'Se publicó en un portal una casa en Carrasco que busca la flia. Pérez', time:'Hace 2 h', btn:'Avisar'}
+          {ic:'🌱', t:'Recontacté a 5 interesados tibios y pedí feedback post-visita a la flia. Pérez', time:'Hace 2 h', btn:'Ver'}
         ]}
       ]}
     ],
     ideas:[
       {ic:'🎯',t:'Match comprador ↔ propiedad',a:'Te entra una propiedad y tratás de acordarte, de memoria, quién buscaba algo parecido. Muchos clientes de hace meses se pierden.',d:'Cada persona que te escribe queda guardada con lo que busca (zona, dormitorios, presupuesto). Cuando entra una propiedad que encaja —aunque el cliente sea de hace meses— te dice a quién ofrecérsela y te deja el mensaje listo para enviar.'},
       {ic:'💬',t:'Atención 24/7 en todos los canales',a:'Las consultas llegan por WhatsApp, Instagram, Facebook y la web, a toda hora. Las que entran de noche o mientras estás en una visita se enfrían.',d:'Un solo asistente responde, califica y agenda la visita en todos los canales, las 24 horas — y guarda qué busca cada cliente.'},
-      {ic:'🛰️',t:'Radar del mercado',a:'Revisás los portales a mano para ver qué se publicó nuevo, y muchas veces te enterás tarde.',d:'El sistema vigila los portales y te avisa apenas se publica una propiedad que encaja con lo que tus clientes buscan — te enterás antes que nadie.'}
+      {ic:'🌱',t:'Seguimiento de leads y post-visita',a:'El que no compra hoy queda en una lista que nunca retomás — y se enfría con la competencia.',d:'Cada interesado queda en seguimiento automático: después de cada visita pregunta "¿qué te pareció?" y lo recontacta cada tanto, hasta que compra. Ningún lead se enfría.'}
     ]
   },
   {
@@ -391,22 +391,20 @@ const RUBROS = [
         ]},
         {type:'notif', ic:'🔁', t:'Hierro 8mm bajo mínimo', s:'Orden de reposición sugerida antes de que te quedes sin.'}
       ]},
-      {id:'chat', ic:'💬', lb:'Chat', blocks:[
-        {type:'chat',
-          label:'Atiende 24/7 · WhatsApp, Instagram y web',
-          msgs:[
-            {side:'in', ch:'📷 Instagram', x:'Buenas, tenés arena fina?'},
-            {side:'out', x:'¡Hola! 👋 Sí, arena fina y gruesa. ¿Cuántos m³ necesitás?'},
-            {side:'in', x:'2 m³. Hacen envío a Carrasco?'},
-            {side:'out', x:'Sí, llegamos a Carrasco 🚚 2 m³ de fina + envío = $ 3.900. ¿Te lo agendo para mañana?'}
-          ]
-        }
+      {id:'cobranzas', ic:'💰', lb:'Cobranzas', blocks:[
+        {type:'outreach', ic:'💰', trigger:'4 clientes con cuenta corriente tienen saldo por vencer. El sistema ya les armó el recordatorio de pago.', label:'Saldos por cobrar',
+          people:[
+            {n:'Constructora del Este', why:'Saldo $ 86.400 · vence en 2 días', meta:'Cuenta corriente · paga puntual'},
+            {n:'Maestro Pereira', why:'Saldo $ 23.100 · venció hace 5 días', meta:'Segundo aviso'},
+            {n:'Obra Pocitos SRL', why:'Saldo $ 51.800 · vence hoy', meta:'Compra cada semana'}
+          ],
+          wa:'Hola! 👋 Te recordamos que tenés un saldo de $ 86.400 en tu cuenta con nosotros, que vence el jueves. ¿Te paso el link para abonarlo o coordinamos? ¡Gracias! 🧱'}
       ]}
     ],
     ideas:[
       {ic:'💲',t:'Cotización automática',a:'Cada presupuesto te lleva 15-20 minutos a mano y, si tardás, el cliente compra en otro lado.',d:'El cliente manda la lista por WhatsApp y recibe el precio, el stock y la reserva al toque.'},
       {ic:'📦',t:'Stock por sucursal + reposición',a:'No sabés qué hay en cada sucursal y te enterás que falta material cuando ya te quedaste sin.',d:'Panel único con el stock de todas tus sucursales y aviso antes de llegar al mínimo.'},
-      {ic:'🤖',t:'Chatbot de atención y ventas',a:'Contestás las mismas preguntas de precio y stock todo el día.',d:'Un asistente responde 24/7 por WhatsApp, IG y web, y hasta toma el pedido.'}
+      {ic:'💰',t:'Cobranzas / cuenta corriente',a:'Vendés a cuenta a constructores y vivís persiguiendo pagos atrasados — tu plata, parada.',d:'El sistema controla los saldos y manda el recordatorio de pago solo, en el momento justo. Mejor caja sin perseguir a nadie.'}
     ]
   },
   {
@@ -423,11 +421,15 @@ const RUBROS = [
           steps:['📅 Se acerca el IVA de Pérez SRL','🔔 El sistema lo detecta solo','📎 Le pide al cliente las facturas que faltan','✅ Persigue hasta tenerlas, sin que muevas un dedo'],
           wa:'Hola Juan! Te recuerdo que el 22/06 vence el IVA. Para presentarlo necesito las facturas de junio. ¿Me las pasás por acá? 📎'}
       ]},
-      {id:'altas', ic:'🚀', lb:'Altas', blocks:[
-        {type:'feed', label:'Onboarding de clientes nuevos', items:[
-          {ic:'🚀', t:'Alta de "Estudio Gómez": datos y constancia recibidos', time:'Hace 10 min', btn:'Ver carpeta'},
-          {ic:'📎', t:'Le pedí a 2 clientes nuevos la documentación que faltaba', time:'Hoy'},
-          {ic:'🗂️', t:'Armé la carpeta digital de López SA automáticamente', time:'Ayer'}
+      {id:'comprob', ic:'🧾', lb:'Comprobantes', blocks:[
+        {type:'kpis', label:'Carga automática de comprobantes', items:[
+          {l:'Facturas cargadas hoy', v:'73', s:'sin tipear una'},
+          {l:'Horas ahorradas', v:'+6'}
+        ]},
+        {type:'feed', label:'Lo que el sistema cargó solo', items:[
+          {ic:'🧾', t:'Leí y cargué 23 facturas de compra de Pérez SRL → listas para la liquidación', time:'Hace 8 min', btn:'Ver lote'},
+          {ic:'📥', t:'Importé los comprobantes de venta de González desde el correo', time:'Hoy'},
+          {ic:'⚠️', t:'Aparté 2 facturas con datos dudosos para que las revises', time:'Hoy', btn:'Revisar'}
         ]}
       ]},
       {id:'chat', ic:'💬', lb:'Chat', blocks:[
@@ -442,7 +444,7 @@ const RUBROS = [
     ],
     ideas:[
       {ic:'⏰',t:'Vencimientos + pedido de documentación',a:'Vivís pendiente de fechas y persiguiendo a cada cliente por la info que falta.',d:'El sistema avisa solo de cada vencimiento y le pide al cliente los papeles a tiempo, sin que persigas a nadie.'},
-      {ic:'🚀',t:'Onboarding de clientes nuevos',a:'Cada cliente nuevo es media hora de pedir datos y documentos.',d:'Un flujo automático junta todo y arma la carpeta del cliente solo.'},
+      {ic:'🧾',t:'Carga automática de comprobantes',a:'Te pasás horas tipeando facturas de compra y venta a mano para cada liquidación.',d:'El sistema lee tus facturas (foto, PDF o correo) y las carga solas, listas para liquidar. Cero data-entry.'},
       {ic:'🤖',t:'Chatbot de estado de trámites',a:'Contestás las mismas consultas ("¿cómo va lo mío?") 20 veces por semana.',d:'Un asistente responde el estado de cada trámite y las preguntas frecuentes 24/7.'}
     ]
   },
@@ -521,7 +523,7 @@ const RUBROS = [
       ]}
     ],
     ideas:[
-      {ic:'📖',t:'Reservas con recordatorio anti-ausencia',a:'Reservan mesa y no aparecen — perdés la noche y la mesa quedó vacía.',d:'Confirmación y recordatorio automático que reduce los "no shows" al mínimo.'},
+      {ic:'📖',t:'Reservas y pedidos sin ausencias',a:'Tomás reservas y pedidos a mano entre plato y plato, y los que reservan y no aparecen te dejan la mesa vacía.',d:'El sistema toma la reserva o el pedido y manda la confirmación + recordatorio automático que baja los "no shows" al mínimo.'},
       {ic:'⭐',t:'Reseñas automáticas',a:'Tenés clientes felices pero pocas reseñas — y eso es lo que te trae gente nueva.',d:'El sistema le pide la reseña a cada cliente en el mejor momento y sube tu Google solo.'},
       {ic:'🤖',t:'Chatbot de pedidos y consultas',a:'Atendés reservas y pedidos a mano entre plato y plato.',d:'Un asistente toma pedidos, reservas y consultas 24/7 sin saturar tu teléfono.'}
     ]
@@ -594,20 +596,20 @@ const RUBROS = [
           ],
           wa:'Hola! 🔧 Ya casi es momento del service anual de tu aire acondicionado, antes de que apriete el calor. ¿Te agendo una visita esta o la próxima semana?'}
       ]},
-      {id:'chat', ic:'💬', lb:'Chat', blocks:[
-        {type:'chat', label:'Atiende y agenda 24/7',
-          msgs:[
-            {side:'in', x:'Hola, se me tapó un caño, pueden venir?'},
-            {side:'out', x:'¡Hola! 👋 Sí. ¿En qué zona estás y es urgente?'},
-            {side:'in', x:'Pocitos, bastante urgente'},
-            {side:'out', x:'Tengo a alguien que puede pasar hoy 18:00 por Pocitos 🚿 Visita y diagnóstico $ 1.200. ¿Lo confirmo?'}
-          ]}
+      {id:'resenas', ic:'⭐', lb:'Reseñas', blocks:[
+        {type:'kpis', label:'Tu reputación trabaja para vos', items:[
+          {l:'Reseñas en Google', v:'4,9★', s:'+34 este trimestre'},
+          {l:'Trabajos por referido', v:'12', s:'este mes'}
+        ]},
+        {type:'flow', h:'Trabajo terminado → reseña + referido, solo', sub:'El boca a boca y el Google son los que te traen el próximo trabajo.',
+          steps:['✅ Marcás el trabajo como terminado','⭐ El sistema le pide la reseña al cliente','🙌 Y lo invita a recomendarte a un conocido','📈 Subís en Google y entran pedidos nuevos'],
+          wa:'¡Gracias por confiar en nosotros, Andrés! 🔧 Si quedaste conforme, nos ayudás un montón con una reseña 👉 (link). Y si conocés a alguien que necesite una mano, contanos — tenemos un beneficio para vos 🙌'}
       ]}
     ],
     ideas:[
-      {ic:'⚡',t:'Respuesta y presupuesto en minutos',a:'Te llega un pedido y lo contestás horas después — ya eligieron a otro.',d:'El sistema responde, arma el presupuesto y agenda la visita en minutos, siempre. El que contesta primero gana el trabajo.'},
+      {ic:'⚡',t:'Respuesta, presupuesto y agenda en minutos',a:'Te llega un pedido y lo contestás horas después — ya eligieron a otro.',d:'El sistema responde, arma el presupuesto y agenda la visita en minutos, siempre. El que contesta primero gana el trabajo.'},
       {ic:'🔁',t:'Recordatorio de mantenimiento',a:'Hacés un trabajo y no volvés a saber del cliente.',d:'El sistema detecta a quién le toca el mantenimiento y le escribe solo, trayéndote trabajo recurrente.'},
-      {ic:'🤖',t:'Chatbot de atención y agenda',a:'Coordinás cada visita con idas y vueltas por WhatsApp.',d:'Un asistente responde, presupuesta y agenda 24/7 sin que toques el teléfono.'}
+      {ic:'⭐',t:'Reseñas y referidos',a:'Tu mejor publicidad es el boca a boca, pero rara vez la pedís y se pierde.',d:'Después de cada trabajo el sistema pide la reseña en Google e invita a recomendarte. Más reputación = más pedidos.'}
     ]
   },
   {
@@ -631,20 +633,20 @@ const RUBROS = [
         ]},
         {type:'notif', ic:'📲', t:'6 ausencias evitadas esta semana', s:'La confirmación automática avisó a tiempo y liberó los lugares que no se iban a usar.'}
       ]},
-      {id:'chat', ic:'💬', lb:'Chat', blocks:[
-        {type:'chat', label:'Reserva y responde 24/7',
-          msgs:[
-            {side:'in', ch:'📷 Instagram', x:'Hola! Tenés lugar para corte hoy?'},
-            {side:'out', x:'¡Hola! 👋 Sí, me queda 18:30. ¿Te lo reservo?'},
-            {side:'in', x:'Dale!'},
-            {side:'out', x:'¡Listo! ✅ Te espero hoy 18:30 💈 Te mando un recordatorio un rato antes.'}
-          ]}
+      {id:'resenas', ic:'⭐', lb:'Reseñas', blocks:[
+        {type:'kpis', label:'Más estrellas, más clientes nuevos', items:[
+          {l:'Reseñas en Google', v:'4,9★', s:'+58 este trimestre'},
+          {l:'Clientes por referido', v:'21', s:'este mes'}
+        ]},
+        {type:'flow', h:'Después de la visita → reseña + referido', sub:'Los salones crecen por Instagram y por recomendación. El sistema lo provoca solo.',
+          steps:['✂️ Martín se va recién cortado','⭐ Le llega el pedido de reseña en el mejor momento','🙌 Y la invitación a traer un amigo con beneficio','📈 Subís en Google y llegan clientes nuevos'],
+          wa:'¡Gracias por la visita, Martín! 💈 Si te gustó cómo quedó, ¿nos dejás una reseña? 👉 (link). Y si traés a un amigo, los dos tienen 20% off en el próximo corte ✂️'}
       ]}
     ],
     ideas:[
       {ic:'✂️',t:'Recompra por tiempo ("ya es hora")',a:'Esperás que el cliente se acuerde de volver — y muchos no vuelven.',d:'El sistema detecta cuándo cumplió su ciclo y lo invita justo a tiempo, llenándote la agenda solo.'},
       {ic:'📲',t:'Recordatorio anti-ausencia',a:'Reservan y no aparecen — perdés el lugar y la plata.',d:'Confirmación automática que reduce las ausencias al mínimo.'},
-      {ic:'🤖',t:'Chatbot de reservas',a:'Contestás mensajes para agendar entre cliente y cliente.',d:'Un asistente toma las reservas y responde consultas 24/7 por WhatsApp e IG.'}
+      {ic:'⭐',t:'Reseñas y referidos',a:'Tus clientes están felices pero pocos te reseñan o te recomiendan, y ahí está el crecimiento.',d:'Tras cada visita el sistema pide la reseña e invita a traer un amigo con beneficio. Más Google, más boca a boca.'}
     ]
   },
   {
