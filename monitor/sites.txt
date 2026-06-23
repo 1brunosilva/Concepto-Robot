@@ -1,0 +1,5 @@
+# Sitios a vigilar (uptime + SSL). Uno por línea. Las líneas con # se ignoran.
+# Para agregar/quitar un sitio, editá esta lista.
+https://conceptodevelopment.com
+https://www.conceptodevelopment.com
+https://concepto-hq.vercel.app
