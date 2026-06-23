@@ -205,10 +205,18 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(900px 
 .ab-antes .ab-lbl{color:var(--red)}
 .ab-desp .ab-lbl{color:var(--green)}
 .ab-antes .ab-txt{color:var(--txt2)}
+/* GIFT (idea-regalo: lo que el vecino puede hacer solo) */
+.idea.gift{border-color:rgba(124,58,237,.45);box-shadow:0 0 0 1px rgba(124,58,237,.18),0 8px 26px var(--acc-glow);background:linear-gradient(180deg,rgba(124,58,237,.07),var(--bg1))}
+.idea-gift-badge{display:inline-flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#fff;background:linear-gradient(135deg,var(--acc),var(--acc2));padding:5px 10px;border-radius:999px;margin-bottom:11px;box-shadow:0 4px 14px var(--acc-glow)}
+.idea-diy{margin-top:10px;background:rgba(124,58,237,.08);border:1px dashed rgba(124,58,237,.4);border-radius:11px;padding:11px 12px}
+.diy-lbl{display:block;font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:1px;text-transform:uppercase;color:var(--acc2);margin-bottom:5px;font-weight:700}
+.diy-txt{display:block;font-size:12.5px;line-height:1.5;color:var(--txt1)}
+.diy-tag{display:block;margin-top:8px;font-size:11.5px;color:var(--txt3);font-style:italic}
 
 /* CTA */
 .cta{margin-top:26px;background:linear-gradient(135deg,rgba(124,58,237,.16),var(--bg1));border:1px solid rgba(124,58,237,.3);border-radius:20px;padding:26px 22px;text-align:center;transition:background .4s}
 .cta h2{font-size:21px;font-weight:900;letter-spacing:-.8px;margin-bottom:8px}
+.cta h2 b{color:var(--acc2)}
 .cta p{color:var(--txt2);font-size:14px;margin-bottom:18px;max-width:380px;margin-left:auto;margin-right:auto}
 .cta-btns{display:flex;flex-direction:column;gap:9px;max-width:300px;margin:0 auto}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 20px;border-radius:12px;font-size:15px;font-weight:700;text-decoration:none;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:transform .12s}
@@ -282,11 +290,11 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(900px 
   </div>
 
   <div class="cta">
-    <h2 id="ctaTitle">¿Querés esto en tu negocio?</h2>
-    <p>Te hago un diagnóstico gratis: miro tu proceso de hoy y te digo qué se puede automatizar. Sin compromiso.</p>
+    <h2 id="ctaTitle">Te dejo las 3 ideas listas para tu negocio</h2>
+    <p id="ctaText">Soy del barrio y esto es un regalo. Decime tu rubro y te las mando armadas para que las uses ya. Gratis, sin compromiso.</p>
     <div class="cta-btns">
-      <a class="btn btn-wa" id="waBtn" target="_blank" rel="noopener">💬 Escribime por WhatsApp</a>
-      <a class="btn btn-ghost" href="https://conceptodevelopment.com/diagnostico" target="_blank" rel="noopener">Agendar diagnóstico gratis</a>
+      <a class="btn btn-wa" id="waBtn" target="_blank" rel="noopener">💬 Mandame las 3 ideas</a>
+      <a class="btn btn-ghost" href="https://conceptodevelopment.com/diagnostico" target="_blank" rel="noopener">O agendá un diagnóstico gratis</a>
     </div>
   </div>
 
@@ -357,7 +365,7 @@ const RUBROS = [
       ]}
     ],
     ideas:[
-      {ic:'🎯',t:'Match comprador ↔ propiedad',a:'Te entra una propiedad y tratás de acordarte, de memoria, quién buscaba algo parecido. Muchos clientes de hace meses se pierden.',d:'Cada persona que te escribe queda guardada con lo que busca (zona, dormitorios, presupuesto). Cuando entra una propiedad que encaja —aunque el cliente sea de hace meses— te dice a quién ofrecérsela y te deja el mensaje listo para enviar.'},
+      {ic:'🎯',t:'Match comprador ↔ propiedad',gift:true,diy:'Abrí una planilla y anotá cada persona que te escribe con lo que busca: zona, dormitorios y presupuesto. Cuando entra una propiedad, filtrás y ya sabés a quién llamar.',a:'Te entra una propiedad y tratás de acordarte, de memoria, quién buscaba algo parecido. Muchos clientes de hace meses se pierden.',d:'Cada persona que te escribe queda guardada con lo que busca (zona, dormitorios, presupuesto). Cuando entra una propiedad que encaja —aunque el cliente sea de hace meses— te dice a quién ofrecérsela y te deja el mensaje listo para enviar.'},
       {ic:'💬',t:'Atención 24/7 en todos los canales',a:'Las consultas llegan por WhatsApp, Instagram, Facebook y la web, a toda hora. Las que entran de noche o mientras estás en una visita se enfrían.',d:'Un solo asistente responde, califica y agenda la visita en todos los canales, las 24 horas — y guarda qué busca cada cliente.'},
       {ic:'🌱',t:'Seguimiento de leads y post-visita',a:'El que no compra hoy queda en una lista que nunca retomás — y se enfría con la competencia.',d:'Cada interesado queda en seguimiento automático: después de cada visita pregunta "¿qué te pareció?" y lo recontacta cada tanto, hasta que compra. Ningún lead se enfría.'}
     ]
@@ -406,7 +414,7 @@ const RUBROS = [
     ideas:[
       {ic:'💲',t:'Cotización automática',a:'Cada presupuesto te lleva 15-20 minutos a mano y, si tardás, el cliente compra en otro lado.',d:'El cliente manda la lista por WhatsApp y recibe el precio, el stock y la reserva al toque.'},
       {ic:'📦',t:'Stock por sucursal + reposición',a:'No sabés qué hay en cada sucursal y te enterás que falta material cuando ya te quedaste sin.',d:'Panel único con el stock de todas tus sucursales y aviso antes de llegar al mínimo.'},
-      {ic:'💰',t:'Cobranzas / cuenta corriente',a:'Vendés a cuenta a constructores y vivís persiguiendo pagos atrasados — tu plata, parada.',d:'El sistema controla los saldos y manda el recordatorio de pago solo, en el momento justo. Mejor caja sin perseguir a nadie.'}
+      {ic:'💰',t:'Cobranzas / cuenta corriente',gift:true,diy:'Llevá una planilla con cuánto te debe cada cliente y desde cuándo. Revisala los lunes y mandales un recordatorio amable a los que se pasaron de fecha.',a:'Vendés a cuenta a constructores y vivís persiguiendo pagos atrasados — tu plata, parada.',d:'El sistema controla los saldos y manda el recordatorio de pago solo, en el momento justo. Mejor caja sin perseguir a nadie.'}
     ]
   },
   {
@@ -445,7 +453,7 @@ const RUBROS = [
       ]}
     ],
     ideas:[
-      {ic:'⏰',t:'Vencimientos + pedido de documentación',a:'Vivís pendiente de fechas y persiguiendo a cada cliente por la info que falta.',d:'El sistema avisa solo de cada vencimiento y le pide al cliente los papeles a tiempo, sin que persigas a nadie.'},
+      {ic:'⏰',t:'Vencimientos + pedido de documentación',gift:true,diy:'Armá un calendario con los vencimientos de cada cliente y revisalo cada lunes. Pediles los papeles con una semana de aire, así nunca corrés sobre la fecha.',a:'Vivís pendiente de fechas y persiguiendo a cada cliente por la info que falta.',d:'El sistema avisa solo de cada vencimiento y le pide al cliente los papeles a tiempo, sin que persigas a nadie.'},
       {ic:'🧾',t:'Carga automática de comprobantes',a:'Te pasás horas tipeando facturas de compra y venta a mano para cada liquidación.',d:'El sistema lee tus facturas (foto, PDF o correo) y las carga solas, listas para liquidar. Cero data-entry.'},
       {ic:'🤖',t:'Chatbot de estado de trámites',a:'Contestás las mismas consultas ("¿cómo va lo mío?") 20 veces por semana.',d:'Un asistente responde el estado de cada trámite y las preguntas frecuentes 24/7.'}
     ]
@@ -484,7 +492,7 @@ const RUBROS = [
       ]}
     ],
     ideas:[
-      {ic:'🔁',t:'Recompra automática',a:'El cliente compra una vez y no volvés a saber de él.',d:'El sistema detecta a quién le toca volver y le manda una oferta en el momento justo. La venta más fácil es a quien ya te compró.'},
+      {ic:'🔁',t:'Recompra automática',gift:true,diy:'Anotá qué compró y cuándo cada cliente. A los 30-40 días escribiles con una oferta de lo que les toca reponer. La venta más fácil es a quien ya te compró.',a:'El cliente compra una vez y no volvés a saber de él.',d:'El sistema detecta a quién le toca volver y le manda una oferta en el momento justo. La venta más fácil es a quien ya te compró.'},
       {ic:'📊',t:'Panel de ventas + quiebre de stock',a:'No sabés qué se vende más ni qué te está por faltar.',d:'Ventas del día de un vistazo y alerta automática antes de quedarte sin tus productos estrella.'},
       {ic:'🤖',t:'Chatbot de ventas',a:'Llegan consultas de talle, stock y precio a toda hora y se te escapan ventas.',d:'Un asistente responde 24/7 por WhatsApp e IG y cierra la venta solo.'}
     ]
@@ -526,7 +534,7 @@ const RUBROS = [
     ],
     ideas:[
       {ic:'📖',t:'Reservas y pedidos sin ausencias',a:'Tomás reservas y pedidos a mano entre plato y plato, y los que reservan y no aparecen te dejan la mesa vacía.',d:'El sistema toma la reserva o el pedido y manda la confirmación + recordatorio automático que baja los "no shows" al mínimo.'},
-      {ic:'⭐',t:'Reseñas automáticas',a:'Tenés clientes felices pero pocas reseñas — y eso es lo que te trae gente nueva.',d:'El sistema le pide la reseña a cada cliente en el mejor momento y sube tu Google solo.'},
+      {ic:'⭐',t:'Reseñas automáticas',gift:true,diy:'Pegá un QR a tu Google en la mesa o el mostrador y pedí la reseña justo cuando el cliente se va contento. Ese es el momento de oro.',a:'Tenés clientes felices pero pocas reseñas — y eso es lo que te trae gente nueva.',d:'El sistema le pide la reseña a cada cliente en el mejor momento y sube tu Google solo.'},
       {ic:'🤖',t:'Chatbot de pedidos y consultas',a:'Atendés reservas y pedidos a mano entre plato y plato.',d:'Un asistente toma pedidos, reservas y consultas 24/7 sin saturar tu teléfono.'}
     ]
   },
@@ -562,7 +570,7 @@ const RUBROS = [
       ]}
     ],
     ideas:[
-      {ic:'🔄',t:'Reactivación de pacientes inactivos',a:'Cientos de pacientes que no volvieron y no estás contactando — plata dormida.',d:'El sistema los reactiva solo, eligiendo a quién y con el mensaje justo, y te llena la agenda.'},
+      {ic:'🔄',t:'Reactivación de pacientes inactivos',gift:true,diy:'Filtrá en tu agenda quién no viene hace +6 meses y escribiles uno por uno: "te extrañamos, ¿coordinamos?". Es la plata dormida más fácil de despertar.',a:'Cientos de pacientes que no volvieron y no estás contactando — plata dormida.',d:'El sistema los reactiva solo, eligiendo a quién y con el mensaje justo, y te llena la agenda.'},
       {ic:'📲',t:'Recordatorio y confirmación de turnos',a:'Pacientes que faltan y dejan el espacio vacío.',d:'Recordatorio y confirmación automática; si cancelan, ofrece el lugar a otro.'},
       {ic:'🤖',t:'Chatbot de agenda',a:'Coordinar turnos por WhatsApp te lleva todo el día.',d:'Un asistente agenda, reprograma y responde consultas 24/7.'}
     ]
@@ -610,7 +618,7 @@ const RUBROS = [
     ],
     ideas:[
       {ic:'⚡',t:'Respuesta, presupuesto y agenda en minutos',a:'Te llega un pedido y lo contestás horas después — ya eligieron a otro.',d:'El sistema responde, arma el presupuesto y agenda la visita en minutos, siempre. El que contesta primero gana el trabajo.'},
-      {ic:'🔁',t:'Recordatorio de mantenimiento',a:'Hacés un trabajo y no volvés a saber del cliente.',d:'El sistema detecta a quién le toca el mantenimiento y le escribe solo, trayéndote trabajo recurrente.'},
+      {ic:'🔁',t:'Recordatorio de mantenimiento',gift:true,diy:'Anotá la fecha de cada trabajo y a los X meses escribile al cliente para el próximo mantenimiento. Trabajo que vuelve solo, sin buscar clientes nuevos.',a:'Hacés un trabajo y no volvés a saber del cliente.',d:'El sistema detecta a quién le toca el mantenimiento y le escribe solo, trayéndote trabajo recurrente.'},
       {ic:'⭐',t:'Reseñas y referidos',a:'Tu mejor publicidad es el boca a boca, pero rara vez la pedís y se pierde.',d:'Después de cada trabajo el sistema pide la reseña en Google e invita a recomendarte. Más reputación = más pedidos.'}
     ]
   },
@@ -646,7 +654,7 @@ const RUBROS = [
       ]}
     ],
     ideas:[
-      {ic:'✂️',t:'Recompra por tiempo ("ya es hora")',a:'Esperás que el cliente se acuerde de volver — y muchos no vuelven.',d:'El sistema detecta cuándo cumplió su ciclo y lo invita justo a tiempo, llenándote la agenda solo.'},
+      {ic:'✂️',t:'Recompra por tiempo ("ya es hora")',gift:true,diy:'Anotá la última visita de cada cliente. A las 3-4 semanas mandales "ya es hora de tu corte 💈". Llenás la agenda con los que ya te conocen.',a:'Esperás que el cliente se acuerde de volver — y muchos no vuelven.',d:'El sistema detecta cuándo cumplió su ciclo y lo invita justo a tiempo, llenándote la agenda solo.'},
       {ic:'📲',t:'Recordatorio anti-ausencia',a:'Reservan y no aparecen — perdés el lugar y la plata.',d:'Confirmación automática que reduce las ausencias al mínimo.'},
       {ic:'⭐',t:'Reseñas y referidos',a:'Tus clientes están felices pero pocos te reseñan o te recomiendan, y ahí está el crecimiento.',d:'Tras cada visita el sistema pide la reseña e invita a traer un amigo con beneficio. Más Google, más boca a boca.'}
     ]
@@ -683,7 +691,7 @@ const RUBROS = [
     ],
     ideas:[
       {ic:'🛒',t:'Recupero de carritos abandonados',a:'Mucha gente agrega al carrito y no compra — esas ventas se pierden.',d:'El sistema les escribe solo (con descuento si querés) y recupera una buena parte de esas compras.'},
-      {ic:'🔁',t:'Post-venta y recompra',a:'El cliente compra una vez y no volvés a contactarlo.',d:'Seguimiento del envío + invitación a recomprar en el momento justo, todo automático.'},
+      {ic:'🔁',t:'Post-venta y recompra',gift:true,diy:'Escribile a cada cliente: a los 3 días "¿llegó todo bien?" y a los 30 "reponé / mirá esto". Recompra sin gastar un peso en pauta.',a:'El cliente compra una vez y no volvés a contactarlo.',d:'Seguimiento del envío + invitación a recomprar en el momento justo, todo automático.'},
       {ic:'🤖',t:'Chatbot de soporte',a:'Preguntas de talle, stock y envío a toda hora que no llegás a responder.',d:'Un asistente responde al instante 24/7 y no perdés la venta por demora.'}
     ]
   },
@@ -716,7 +724,7 @@ const RUBROS = [
     ],
     ideas:[
       {ic:'🤖',t:'Atención que no para',a:'Perdés clientes que escriben cuando no estás.',d:'Un asistente responde, califica y agenda 24/7 por WhatsApp, Instagram y web.'},
-      {ic:'⚙️',t:'Adiós tareas repetitivas',a:'Pasás horas copiando datos y haciendo lo mismo cada día.',d:'Conectamos tus sistemas para que el trabajo manual desaparezca.'},
+      {ic:'⚙️',t:'Adiós tareas repetitivas',gift:true,diy:'Hacé la lista de las 3 tareas que más repetís en la semana. Esa lista es el mapa exacto de lo que se puede automatizar primero.',a:'Pasás horas copiando datos y haciendo lo mismo cada día.',d:'Conectamos tus sistemas para que el trabajo manual desaparezca.'},
       {ic:'🛠️',t:'Tu app a medida',a:'Manejás todo en planillas sueltas y mensajes.',d:'Un panel propio con tus clientes, datos y procesos en un solo lugar.'}
     ]
   }
@@ -894,17 +902,26 @@ function renderScreen(){
 function renderIdeas(){
   document.getElementById('ideasRubro').textContent = cur.nombre.toLowerCase()==='no encuentro mi rubro' ? 'tu negocio' : cur.nombre.toLowerCase();
   document.getElementById('ideas').innerHTML = cur.ideas.map(i=>`
-    <div class="idea">
+    <div class="idea${i.gift?' gift':''}">
+      ${i.gift?'<div class="idea-gift-badge">💡 Llevátela · armala vos</div>':''}
       <div class="idea-top"><div class="idea-ic">${i.ic}</div><div class="idea-t">${i.t}</div></div>
       <div class="ab">
         <div class="ab-box ab-antes"><span class="ab-lbl">Antes</span><span class="ab-txt">${i.a}</span></div>
         <div class="ab-box ab-desp"><span class="ab-lbl">Con Concepto</span><span class="ab-txt">${i.d}</span></div>
       </div>
+      ${i.gift?`<div class="idea-diy"><span class="diy-lbl">🎁 Cómo arrancar hoy</span><span class="diy-txt">${i.diy}</span><span class="diy-tag">→ ¿No querés hacerlo a mano? Te lo dejo andando solo.</span></div>`:''}
     </div>`).join('');
 }
 
 function renderCTA(){
-  const msg = encodeURIComponent(`Hola Bruno! Vi la herramienta de Concepto. Tengo ${cur.nombre==='No encuentro mi rubro'?'un negocio':'un/a '+cur.nombre.toLowerCase()} y me interesa ver qué se puede automatizar.`);
+  const esOtro = cur.nombre==='No encuentro mi rubro';
+  const rubroTxt = esOtro ? 'tu negocio' : cur.nombre.toLowerCase();
+  document.getElementById('ctaTitle').innerHTML = esOtro
+    ? 'Te armo las ideas para tu negocio'
+    : `Te dejo las 3 ideas listas para tu <b>${rubroTxt}</b>`;
+  const msg = encodeURIComponent(esOtro
+    ? `Hola Bruno! Soy del barrio 👋 Vi la herramienta de Concepto y me gustaría que veas qué se puede automatizar en mi negocio.`
+    : `Hola Bruno! Soy del barrio 👋 Mi rubro es ${rubroTxt}, mandame las 3 ideas listas para mi negocio.`);
   document.getElementById('waBtn').href = `https://wa.me/${WA}?text=${msg}`;
 }
 
