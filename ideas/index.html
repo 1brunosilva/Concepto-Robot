@@ -215,17 +215,17 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(900px 
 
 /* MOBILE: the demo dominates the screen */
 @media (max-width:600px){
-  .stage{margin:12px 0 6px}
-  .phone{width:min(94vw,370px);padding:10px}
-  .screen{height:70vh;height:min(70dvh,640px);min-height:440px}
-  .scr-head{padding:13px 14px 9px}
+  .stage{margin:10px 0 6px}
+  .phone{width:min(97vw,460px);padding:9px;border-radius:30px}
+  .screen{height:74vh;height:min(74dvh,680px);min-height:460px;border-radius:22px}
+  .scr-head{padding:13px 15px 9px}
   .demo-hint{font-size:13px;padding:11px 15px}
   .hero{padding:14px 4px 4px}
   .hero h1{margin-bottom:10px}
   .hero p{font-size:14.5px}
 }
 @media (max-width:600px) and (max-height:720px){
-  .screen{height:min(64dvh,540px);min-height:400px}
+  .screen{height:min(67dvh,560px);min-height:420px}
 }
 </style>
 </head>
@@ -249,7 +249,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(900px 
   <div class="switch-label">↓ Elegí tu rubro ↓</div>
   <div class="chips" id="chips"></div>
 
-  <div class="demo-hint"><span class="dh-finger">👆</span> <span>Es interactivo: <b>tocá los botones de abajo</b> para cambiar de sección</span></div>
+  <div class="demo-hint"><span class="dh-finger">👇</span> <span>Es interactivo: <b>tocá los botones de abajo</b> para cambiar de sección</span></div>
 
   <div class="stage">
     <div class="phone">
@@ -263,7 +263,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(900px 
           <div class="scr-energy">9:41 ◆ HQ</div>
         </div>
         <div class="scr-body" id="scrBody"></div>
-        <div class="tap-hint" id="tapHint"><span class="th-finger">👆</span> Tocá acá</div>
+        <div class="tap-hint" id="tapHint"><span class="th-finger">👇</span> Tocá acá</div>
         <div class="scr-nav untouched" id="scrNav"></div>
       </div>
     </div>
