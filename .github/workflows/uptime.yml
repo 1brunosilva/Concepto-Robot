@@ -1,0 +1,14 @@
+name: Monitoreo de sitios (uptime + SSL)
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'   # cada 30 minutos
+  workflow_dispatch:          # permite correrlo a mano desde la pestaña Actions
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Revisar sitios (uptime + vencimiento SSL)
+        run: bash scripts/monitor.sh
