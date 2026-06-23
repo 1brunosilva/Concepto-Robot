@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg0:#07070a;--bg2:#141418;--border2:#2a2a35;--txt1:#e8e8f2;--txt2:#9898b0;--txt3:#55556a;--acc:#7c3aed;--acc2:#a855f7}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#000;font-family:'Inter',sans-serif}
+.card{width:1200px;height:630px;background:var(--bg0);position:relative;overflow:hidden;color:var(--txt1)}
+.card::before{content:'';position:absolute;inset:0;background:radial-gradient(900px 560px at 50% -10%,rgba(124,58,237,.42),transparent 62%)}
+.card::after{content:'';position:absolute;left:50%;transform:translateX(-50%);bottom:-300px;width:900px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(168,85,247,.16),transparent 62%)}
+.inner{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:center;padding:50px 64px}
+.top{position:absolute;top:40px;left:0;right:0;display:flex;align-items:center;gap:11px;justify-content:center}
+.mark{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff;font-family:'DM Mono',monospace}
+.bn{font-size:19px;font-weight:800;letter-spacing:-.4px}.bn span{color:var(--acc2)}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:14px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:2px;color:var(--acc2);background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.3);padding:8px 18px;border-radius:100px;margin-bottom:22px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--acc2);box-shadow:0 0 10px var(--acc2)}
+h1{font-size:62px;font-weight:900;letter-spacing:-2.6px;line-height:1.0;margin-bottom:18px}
+h1 .g{background:linear-gradient(120deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.sub{font-size:22px;color:var(--txt2);line-height:1.4;max-width:760px}
+.sub b{color:var(--txt1);font-weight:700}
+.row{margin-top:30px;display:flex;align-items:center;gap:14px}
+.url{display:flex;align-items:center;gap:11px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-size:22px;font-weight:800;letter-spacing:-.3px;padding:15px 26px;border-radius:14px;box-shadow:0 14px 40px rgba(124,58,237,.45)}
+.emojis{position:absolute;bottom:38px;left:0;right:0;display:flex;gap:10px;justify-content:center}
+.emojis span{width:44px;height:44px;border-radius:12px;background:var(--bg2);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:21px}
+.emojis span.on{background:linear-gradient(135deg,rgba(124,58,237,.3),var(--bg2));border-color:rgba(124,58,237,.55)}
+</style></head><body>
+<div class="card">
+  <div class="top"><div class="mark">C</div><div class="bn">Concepto <span>Development</span></div></div>
+  <div class="inner">
+    <div class="eyebrow"><span class="dot"></span> 🎁 Regalo para vecinos · gratis</div>
+    <h1>Mirá tu negocio en <span class="g">piloto automático.</span></h1>
+    <p class="sub">Elegí tu rubro y llevate una idea para usar ya.</p>
+    <div class="row"><div class="url">conceptodevelopment.com/ideas 👉</div></div>
+  </div>
+  <div class="emojis"><span class="on">🏠</span><span>🧱</span><span>📊</span><span>🛍️</span><span>🍽️</span><span>🩺</span><span>🔧</span><span>💈</span><span>🛒</span><span>✨</span></div>
+</div></body></html>

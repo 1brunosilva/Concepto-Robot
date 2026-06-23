@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg0:#07070a;--bg1:#0f0f13;--bg2:#141418;--border2:#2a2a35;--txt1:#e8e8f2;--txt2:#9898b0;--txt3:#55556a;--acc:#7c3aed;--acc2:#a855f7}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#000;font-family:'Inter',sans-serif}
+.card{width:540px;height:675px;background:var(--bg0);position:relative;overflow:hidden;color:var(--txt1)}
+.card::before{content:'';position:absolute;inset:0;background:radial-gradient(680px 440px at 50% -4%,rgba(124,58,237,.42),transparent 66%)}
+.card::after{content:'';position:absolute;left:50%;transform:translateX(-50%);bottom:-220px;width:560px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(168,85,247,.18),transparent 64%);filter:blur(6px)}
+.inner{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;align-items:center;text-align:center;padding:34px 34px 30px}
+.top{display:flex;align-items:center;gap:9px;justify-content:center}
+.mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:#fff;font-family:'DM Mono',monospace}
+.bn{font-size:16px;font-weight:800;letter-spacing:-.4px}.bn span{color:var(--acc2)}
+.mid{margin:auto 0;display:flex;flex-direction:column;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1.8px;color:var(--acc2);background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.3);padding:7px 15px;border-radius:100px;margin-bottom:20px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--acc2);box-shadow:0 0 10px var(--acc2)}
+h1{font-size:51px;font-weight:900;letter-spacing:-2px;line-height:1.02;margin-bottom:16px}
+h1 .g{background:linear-gradient(120deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.sub{font-size:17px;color:var(--txt2);line-height:1.45;max-width:400px}
+.sub b{color:var(--txt1);font-weight:700}
+.pick{margin-top:26px;display:flex;flex-direction:column;align-items:center;gap:11px}
+.pick-lbl{font-size:13px;font-weight:800;color:var(--txt1);letter-spacing:-.2px}
+.emojis{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:430px}
+.emojis span{width:42px;height:42px;border-radius:12px;background:var(--bg2);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:20px}
+.emojis span.on{background:linear-gradient(135deg,rgba(124,58,237,.3),var(--bg2));border-color:rgba(124,58,237,.55);box-shadow:0 6px 18px rgba(124,58,237,.3)}
+.cta-wrap{width:100%;margin-top:auto}
+.cta{display:flex;align-items:center;justify-content:center;gap:11px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-size:19.5px;font-weight:800;letter-spacing:-.3px;padding:18px 22px;border-radius:16px;box-shadow:0 16px 44px rgba(124,58,237,.5)}
+.cta .ar{font-size:21px}
+.foot{margin-top:13px;font-size:13px;color:var(--txt3);font-family:'DM Mono',monospace;letter-spacing:.4px}
+</style></head><body>
+<div class="card"><div class="inner">
+  <div class="top"><div class="mark">C</div><div class="bn">Concepto <span>Development</span></div></div>
+  <div class="mid">
+    <div class="eyebrow"><span class="dot"></span> 🎁 Regalo para vecinos</div>
+    <h1>Mirá tu negocio en<br><span class="g">piloto automático.</span></h1>
+    <p class="sub">Elegí tu rubro y, en 30 segundos, <b>llevate una idea para usar ya.</b> Gratis.</p>
+    <div class="pick">
+      <div class="pick-lbl">👆 Tocá tu rubro</div>
+      <div class="emojis">
+        <span class="on">🏠</span><span>🧱</span><span>📊</span><span>🛍️</span><span>🍽️</span><span>🩺</span><span>🔧</span><span>✨</span>
+      </div>
+    </div>
+  </div>
+  <div class="cta-wrap">
+    <div class="cta"><span>conceptodevelopment.com/ideas</span><span class="ar">👉</span></div>
+    <div class="foot">Entrá y jugá · es gratis · de un vecino</div>
+  </div>
+</div></div></body></html>
