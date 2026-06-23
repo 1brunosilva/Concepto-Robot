@@ -103,23 +103,28 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(900px 
 .wa-x{font-size:12px;line-height:1.4;color:#e8e8f2}
 
 /* inner nav */
-.scr-nav{display:flex;border-top:1px solid var(--border);background:var(--bg1);position:relative}
+.scr-nav{display:flex;gap:4px;padding:6px 6px 7px;border-top:1px solid var(--border);background:var(--bg1);position:relative}
+.scr-nav.untouched{animation:navglow 1.5s ease-in-out infinite}
+@keyframes navglow{0%,100%{box-shadow:0 0 0 0 rgba(124,58,237,0)}50%{box-shadow:0 -7px 24px -3px var(--acc-glow)}}
 .scr-nav.untouched::before{content:'';position:absolute;top:-1px;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--acc2),transparent);animation:sweep 1.7s ease-in-out infinite}
-@keyframes sweep{0%,100%{opacity:.25}50%{opacity:1}}
-.scr-nav button{flex:1;background:none;border:none;color:var(--txt3);padding:8px 4px 9px;font-size:9px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:color .15s}
-.scr-nav button .ni{font-size:15px;line-height:1;width:34px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:9px;transition:background .18s,box-shadow .18s}
-.scr-nav button.on{color:var(--txt1)}
+@keyframes sweep{0%,100%{opacity:.2}50%{opacity:1}}
+.scr-nav button{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:11px;color:var(--txt2);padding:7px 4px 6px;font-size:9px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:color .15s,background .15s,border-color .15s,transform .12s}
+.scr-nav button:active{transform:scale(.94)}
+.scr-nav button .ni{font-size:15px;line-height:1;width:30px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:8px;transition:background .18s,box-shadow .18s}
+.scr-nav button.on{color:#fff;background:rgba(124,58,237,.16);border-color:rgba(124,58,237,.4)}
 .scr-nav button.on .ni{background:var(--acc);color:#fff;box-shadow:0 3px 12px var(--acc-glow)}
 
 /* tap hint over nav */
-.tap-hint{position:absolute;left:50%;bottom:56px;transform:translateX(-50%);background:var(--acc);color:#fff;font-size:10px;font-weight:700;font-family:'DM Mono',monospace;padding:6px 12px;border-radius:100px;white-space:nowrap;box-shadow:0 6px 18px var(--acc-glow);animation:bob 1.2s ease-in-out infinite;z-index:5;pointer-events:none;transition:opacity .35s,transform .35s}
-.tap-hint::after{content:'';position:absolute;left:50%;bottom:-4px;transform:translateX(-50%) rotate(45deg);width:9px;height:9px;background:var(--acc)}
-@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(5px)}}
-.tap-hint.gone{opacity:0;transform:translateX(-50%) translateY(10px);pointer-events:none}
+.tap-hint{position:absolute;left:50%;bottom:62px;transform:translateX(-50%);background:var(--acc);color:#fff;font-size:11px;font-weight:800;font-family:'Inter',sans-serif;padding:8px 14px;border-radius:100px;white-space:nowrap;box-shadow:0 8px 24px var(--acc-glow);display:flex;align-items:center;gap:7px;z-index:5;pointer-events:none;transition:opacity .35s,transform .35s}
+.tap-hint::after{content:'';position:absolute;left:50%;bottom:-5px;transform:translateX(-50%) rotate(45deg);width:11px;height:11px;background:var(--acc)}
+.tap-hint .th-finger{font-size:17px;display:inline-block;animation:tap 1s ease-in-out infinite}
+@keyframes tap{0%,100%{transform:translateY(-3px)}45%{transform:translateY(4px)}55%{transform:translateY(4px)}}
+.tap-hint.gone{opacity:0;transform:translateX(-50%) translateY(12px);pointer-events:none}
 
 /* demo cartel above phone */
-.demo-hint{display:flex;align-items:center;gap:7px;justify-content:center;text-align:center;font-size:12.5px;color:var(--txt2);background:var(--bg2);border:1px solid var(--border2);border-radius:100px;padding:9px 17px;margin:24px auto 0;width:fit-content;max-width:92%}
-.demo-hint b{color:var(--txt1);font-weight:700}
+.demo-hint{display:flex;align-items:center;gap:9px;justify-content:center;text-align:center;font-size:13.5px;font-weight:600;color:var(--txt1);background:linear-gradient(135deg,rgba(124,58,237,.16),var(--bg2));border:1px solid rgba(124,58,237,.35);border-radius:14px;padding:12px 18px;margin:22px auto 0;width:fit-content;max-width:94%;box-shadow:0 6px 20px var(--acc-glow)}
+.demo-hint .dh-finger{font-size:19px;display:inline-block;animation:tap 1s ease-in-out infinite}
+.demo-hint b{color:var(--acc2);font-weight:800}
 
 /* BLOCK: feed */
 .feed-item{display:flex;gap:10px;align-items:center;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:10px 11px;margin-bottom:7px}
@@ -207,6 +212,21 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(900px 
 .btn-ghost{background:var(--bg3);color:var(--txt1);border:1px solid var(--border2)}
 .foot{text-align:center;margin-top:24px;font-size:12px;color:var(--txt3);font-family:'DM Mono',monospace}
 .foot a{color:var(--acc2);text-decoration:none}
+
+/* MOBILE: the demo dominates the screen */
+@media (max-width:600px){
+  .stage{margin:12px 0 6px}
+  .phone{width:min(94vw,370px);padding:10px}
+  .screen{height:70vh;height:min(70dvh,640px);min-height:440px}
+  .scr-head{padding:13px 14px 9px}
+  .demo-hint{font-size:13px;padding:11px 15px}
+  .hero{padding:14px 4px 4px}
+  .hero h1{margin-bottom:10px}
+  .hero p{font-size:14.5px}
+}
+@media (max-width:600px) and (max-height:720px){
+  .screen{height:min(64dvh,540px);min-height:400px}
+}
 </style>
 </head>
 <body>
@@ -229,7 +249,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(900px 
   <div class="switch-label">↓ Elegí tu rubro ↓</div>
   <div class="chips" id="chips"></div>
 
-  <div class="demo-hint">📱 <b>Demo interactiva</b> — tocá las secciones de abajo 👇</div>
+  <div class="demo-hint"><span class="dh-finger">👆</span> <span>Es interactivo: <b>tocá los botones de abajo</b> para cambiar de sección</span></div>
 
   <div class="stage">
     <div class="phone">
@@ -243,7 +263,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(900px 
           <div class="scr-energy">9:41 ◆ HQ</div>
         </div>
         <div class="scr-body" id="scrBody"></div>
-        <div class="tap-hint" id="tapHint">👆 tocá para cambiar de sección</div>
+        <div class="tap-hint" id="tapHint"><span class="th-finger">👆</span> Tocá acá</div>
         <div class="scr-nav untouched" id="scrNav"></div>
       </div>
     </div>
@@ -789,12 +809,24 @@ function markTouched(){
   const h=document.getElementById('tapHint'); if(h) h.classList.add('gone');
   document.getElementById('scrNav').classList.remove('untouched');
 }
+// Bring the invitation back so each rubro re-invites the user to interact.
+function resetInvite(){
+  touched=false;
+  const h=document.getElementById('tapHint'); if(h) h.classList.remove('gone');
+  document.getElementById('scrNav').classList.add('untouched');
+}
+function scrollToDemo(){
+  const el=document.querySelector('.demo-hint') || document.querySelector('.stage');
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
 
 function selectRubro(id){
   cur = RUBROS.find(r=>r.id===id) || RUBROS[0];
   setAccent(cur);
   tab = activeTabs()[0].id;
   renderChips(); renderNav(); renderScreen(); renderIdeas(); renderCTA();
+  resetInvite();      // re-show the "tocá acá" cue
+  scrollToDemo();     // glide down so the phone fills the screen
 }
 
 document.getElementById('chips').addEventListener('click',e=>{
