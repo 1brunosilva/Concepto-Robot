@@ -103,10 +103,85 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(900px 
 .wa-x{font-size:12px;line-height:1.4;color:#e8e8f2}
 
 /* inner nav */
-.scr-nav{display:flex;border-top:1px solid var(--border);background:var(--bg1)}
-.scr-nav button{flex:1;background:none;border:none;color:var(--txt3);padding:10px 4px 12px;font-size:9px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:color .15s}
-.scr-nav button .ni{font-size:16px;line-height:1}
-.scr-nav button.on{color:var(--acc2)}
+.scr-nav{display:flex;gap:4px;padding:6px 6px 7px;border-top:1px solid var(--border);background:var(--bg1);position:relative}
+.scr-nav.untouched{animation:navglow 1.5s ease-in-out infinite}
+@keyframes navglow{0%,100%{box-shadow:0 0 0 0 rgba(124,58,237,0)}50%{box-shadow:0 -7px 24px -3px var(--acc-glow)}}
+.scr-nav.untouched::before{content:'';position:absolute;top:-1px;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--acc2),transparent);animation:sweep 1.7s ease-in-out infinite}
+@keyframes sweep{0%,100%{opacity:.2}50%{opacity:1}}
+.scr-nav button{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:11px;color:var(--txt2);padding:7px 4px 6px;font-size:9px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:color .15s,background .15s,border-color .15s,transform .12s}
+.scr-nav button:active{transform:scale(.94)}
+.scr-nav button .ni{font-size:15px;line-height:1;width:30px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:8px;transition:background .18s,box-shadow .18s}
+.scr-nav button.on{color:#fff;background:rgba(124,58,237,.16);border-color:rgba(124,58,237,.4)}
+.scr-nav button.on .ni{background:var(--acc);color:#fff;box-shadow:0 3px 12px var(--acc-glow)}
+
+/* tap hint over nav */
+.tap-hint{position:absolute;left:50%;bottom:62px;transform:translateX(-50%);background:var(--acc);color:#fff;font-size:11px;font-weight:800;font-family:'Inter',sans-serif;padding:8px 14px;border-radius:100px;white-space:nowrap;box-shadow:0 8px 24px var(--acc-glow);display:flex;align-items:center;gap:7px;z-index:5;pointer-events:none;transition:opacity .35s,transform .35s}
+.tap-hint::after{content:'';position:absolute;left:50%;bottom:-5px;transform:translateX(-50%) rotate(45deg);width:11px;height:11px;background:var(--acc)}
+.tap-hint .th-finger{font-size:17px;display:inline-block;animation:tap 1s ease-in-out infinite}
+@keyframes tap{0%,100%{transform:translateY(-3px)}45%{transform:translateY(4px)}55%{transform:translateY(4px)}}
+.tap-hint.gone{opacity:0;transform:translateX(-50%) translateY(12px);pointer-events:none}
+
+/* demo cartel above phone */
+.demo-hint{display:flex;align-items:center;gap:9px;justify-content:center;text-align:center;font-size:13.5px;font-weight:600;color:var(--txt1);background:linear-gradient(135deg,rgba(124,58,237,.16),var(--bg2));border:1px solid rgba(124,58,237,.35);border-radius:14px;padding:12px 18px;margin:22px auto 0;width:fit-content;max-width:94%;box-shadow:0 6px 20px var(--acc-glow)}
+.demo-hint .dh-finger{font-size:19px;display:inline-block;animation:tap 1s ease-in-out infinite}
+.demo-hint b{color:var(--acc2);font-weight:800}
+
+/* BLOCK: feed */
+.feed-item{display:flex;gap:10px;align-items:center;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:10px 11px;margin-bottom:7px}
+.feed-ic{width:32px;height:32px;border-radius:9px;background:rgba(124,58,237,.14);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.feed-main{flex:1;min-width:0}
+.feed-t{font-size:12px;font-weight:600;line-height:1.35;margin-bottom:3px}
+.feed-time{font-size:9px;font-family:'DM Mono',monospace;color:var(--txt3)}
+.feed-btn{font-size:10px;font-weight:700;font-family:'DM Mono',monospace;color:var(--acc2);background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.28);padding:6px 11px;border-radius:100px;white-space:nowrap;flex-shrink:0;cursor:pointer;transition:background .15s}
+.feed-btn:hover{background:rgba(124,58,237,.2)}
+
+/* BLOCK: property cards */
+.pcard{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:9px}
+.pcard-top{height:62px;background:linear-gradient(135deg,rgba(124,58,237,.28),rgba(168,85,247,.12));display:flex;align-items:center;justify-content:center;font-size:30px;position:relative}
+.pcard-badge{position:absolute;top:8px;right:8px}
+.pcard-body{padding:10px 12px}
+.pcard-t{font-size:13px;font-weight:700;letter-spacing:-.2px}
+.pcard-sub{font-size:10.5px;color:var(--txt3);font-family:'DM Mono',monospace;margin:3px 0 9px}
+.pcard-foot{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.pcard-price{font-size:15px;font-weight:800;letter-spacing:-.4px}
+.pcard-int{font-size:10px;font-weight:700;color:var(--acc2);font-family:'DM Mono',monospace}
+
+/* BLOCK: chat */
+.chat{display:flex;flex-direction:column;gap:7px;margin-bottom:4px}
+.bub{max-width:82%;padding:8px 11px;font-size:12px;line-height:1.4;border-radius:14px}
+.bub.in{align-self:flex-start;background:var(--bg3);border:1px solid var(--border2);border-bottom-left-radius:4px}
+.bub.out{align-self:flex-end;background:#0b2e22;border:1px solid #14543c;border-bottom-right-radius:4px;color:#e8e8f2}
+.bub-ch{font-size:8px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.5px;color:var(--acc2);margin-bottom:4px;display:flex;align-items:center;gap:4px}
+.chat-saved{margin-top:11px;background:linear-gradient(135deg,rgba(124,58,237,.13),var(--bg2));border:1px solid rgba(124,58,237,.3);border-radius:12px;padding:11px}
+.chat-saved-h{font-size:9px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.6px;color:var(--acc2);margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.chat-saved-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.saved-item{background:var(--bg1);border:1px solid var(--border);border-radius:8px;padding:6px 9px}
+.saved-l{font-size:8px;font-family:'DM Mono',monospace;color:var(--txt3);text-transform:uppercase;letter-spacing:.4px}
+.saved-v{font-size:11.5px;font-weight:700;margin-top:2px}
+
+/* BLOCK: match */
+.match-arrow{text-align:center;font-size:11px;font-family:'DM Mono',monospace;color:var(--acc2);margin:9px 0;letter-spacing:.5px}
+.match-client{display:flex;gap:10px;align-items:center;background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:9px 10px;margin-bottom:6px}
+.match-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0;font-family:'DM Mono',monospace}
+.match-c-t{font-size:12px;font-weight:700}
+.match-c-m{font-size:10px;color:var(--txt2);line-height:1.35;margin:2px 0 1px}
+.match-c-meta{font-size:9px;color:var(--txt3);font-family:'DM Mono',monospace}
+
+/* BLOCK: bars */
+.bars{display:flex;align-items:flex-end;gap:7px;height:96px;padding:18px 6px 20px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;margin-bottom:8px}
+.bar{flex:1;background:linear-gradient(180deg,var(--acc2),var(--acc));border-radius:5px 5px 0 0;position:relative;min-height:6px}
+.bar span{position:absolute;top:-15px;left:0;right:0;text-align:center;font-size:8px;font-weight:700;font-family:'DM Mono',monospace;color:var(--txt2)}
+.bar small{position:absolute;bottom:-16px;left:0;right:0;text-align:center;font-size:8px;font-family:'DM Mono',monospace;color:var(--txt3)}
+
+/* BLOCK: agenda */
+.ag-item{display:flex;gap:10px}
+.ag-time{font-size:11px;font-family:'DM Mono',monospace;color:var(--acc2);width:48px;flex-shrink:0;padding-top:9px;font-weight:600}
+.ag-card{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:9px 11px;margin-bottom:7px}
+
+/* BLOCK: kanban */
+.kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.kcol-h{font-size:8px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.4px;color:var(--txt3);margin-bottom:6px;text-align:center}
+.kcard{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:7px 8px;margin-bottom:6px;font-size:10px;font-weight:600;line-height:1.3}
 
 /* IDEAS */
 .ideas-wrap{margin-top:14px}
@@ -137,6 +212,21 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(900px 
 .btn-ghost{background:var(--bg3);color:var(--txt1);border:1px solid var(--border2)}
 .foot{text-align:center;margin-top:24px;font-size:12px;color:var(--txt3);font-family:'DM Mono',monospace}
 .foot a{color:var(--acc2);text-decoration:none}
+
+/* MOBILE: the demo dominates the screen */
+@media (max-width:600px){
+  .stage{margin:12px 0 6px}
+  .phone{width:min(94vw,370px);padding:10px}
+  .screen{height:70vh;height:min(70dvh,640px);min-height:440px}
+  .scr-head{padding:13px 14px 9px}
+  .demo-hint{font-size:13px;padding:11px 15px}
+  .hero{padding:14px 4px 4px}
+  .hero h1{margin-bottom:10px}
+  .hero p{font-size:14.5px}
+}
+@media (max-width:600px) and (max-height:720px){
+  .screen{height:min(64dvh,540px);min-height:400px}
+}
 </style>
 </head>
 <body>
@@ -159,6 +249,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(900px 
   <div class="switch-label">↓ Elegí tu rubro ↓</div>
   <div class="chips" id="chips"></div>
 
+  <div class="demo-hint"><span class="dh-finger">👆</span> <span>Es interactivo: <b>tocá los botones de abajo</b> para cambiar de sección</span></div>
+
   <div class="stage">
     <div class="phone">
       <div class="phone-notch"></div>
@@ -171,7 +263,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(900px 
           <div class="scr-energy">9:41 ◆ HQ</div>
         </div>
         <div class="scr-body" id="scrBody"></div>
-        <div class="scr-nav" id="scrNav"></div>
+        <div class="tap-hint" id="tapHint"><span class="th-finger">👆</span> Tocá acá</div>
+        <div class="scr-nav untouched" id="scrNav"></div>
       </div>
     </div>
   </div>
@@ -201,28 +294,65 @@ const RUBROS = [
   {
     id:'inmo', nombre:'Inmobiliaria', em:'🏠', acc:'#7c3aed', acc2:'#a855f7', mark:'🏠',
     title:'Inmobiliaria',
-    kpis:[
-      {l:'Match nuevo hoy', v:'4', s:'clientes que encajan'},
-      {l:'Propiedades activas', v:'47'},
-      {l:'Consultas hoy', v:'23'}
+    tabs:[
+      {id:'hoy', ic:'⚡', lb:'Hoy', blocks:[
+        {type:'kpis', label:'Tu día de hoy', items:[
+          {l:'Matches sugeridos hoy', v:'4', s:'cliente ↔ propiedad'},
+          {l:'Leads nuevos hoy', v:'12'},
+          {l:'Visitas agendadas', v:'5'},
+          {l:'Cierres del mes', v:'3'}
+        ]},
+        {type:'feed', label:'Lo que el sistema hizo por vos hoy', items:[
+          {ic:'🎯', t:'Encontré 4 clientes para el apto nuevo de Pocitos', time:'Hace 20 min', btn:'Ver match', goto:'match'},
+          {ic:'💬', t:'Respondí 12 consultas en WhatsApp, Instagram y la web', time:'Durante el día', btn:'Ver chat', goto:'chat'},
+          {ic:'🗓️', t:'Agendé 3 visitas para esta semana', time:'Hace 1 h'},
+          {ic:'🛰️', t:'Se publicó en un portal una casa en Carrasco que busca la flia. Pérez', time:'Hace 2 h', btn:'Avisar'}
+        ]}
+      ]},
+      {id:'match', ic:'🎯', lb:'Match', blocks:[
+        {type:'match',
+          prop:{em:'🏢', t:'Apto 2 dorm · Pocitos', sub:'65 m² · garaje · a estrenar', price:'USD 185.000', badge:'Nueva'},
+          clients:[
+            {n:'Martín R.', busca:'2 dorm · Pocitos / Punta Carretas · hasta USD 200k', meta:'Te escribió hace 3 meses'},
+            {n:'Lucía G.', busca:'2 dorm con garaje · Pocitos · hasta USD 190k', meta:'Visitó 2 propiedades'},
+            {n:'Flia. Díaz', busca:'A estrenar · 2-3 dorm · hasta USD 210k', meta:'Te escribió hace 5 meses'},
+            {n:'Andrés P.', busca:'2 dorm · zona costa · hasta USD 195k', meta:'Lead de Instagram'}
+          ],
+          wa:'Hola Martín! Me acordé de vos 👋 Apareció un apto de 2 dormitorios a estrenar en Pocitos, con garaje, en USD 185.000 — justo lo que estabas buscando. ¿Te paso la info y coordinamos una visita?'
+        }
+      ]},
+      {id:'cartera', ic:'🏘️', lb:'Cartera', blocks:[
+        {type:'cards', label:'Propiedades en cartera · 47', items:[
+          {em:'🏢', t:'Apto 2 dorm · Pocitos', sub:'65 m² · garaje · a estrenar', price:'USD 185.000', int:'4 interesados', badge:{x:'Nueva',c:'t-green'}},
+          {em:'🏡', t:'Casa · Carrasco', sub:'320 m² · 4 dorm · piscina', price:'USD 420.000', int:'2 interesados', badge:{x:'Visita hoy',c:'t-orange'}},
+          {em:'🏬', t:'Apto 1 dorm · Centro', sub:'42 m² · al frente', price:'USD 110.000', int:'Reservado', badge:{x:'Reservado',c:'t-gray'}},
+          {em:'🏪', t:'Local · Ciudad Vieja', sub:'90 m² · sobre peatonal', price:'USD 95.000', int:'6 interesados', badge:{x:'Activa',c:'t-acc'}}
+        ]}
+      ]},
+      {id:'chat', ic:'💬', lb:'Chat', blocks:[
+        {type:'chat',
+          label:'Atiende solo · WhatsApp, Instagram, Facebook y web',
+          msgs:[
+            {side:'in', ch:'📷 Instagram', x:'Hola! Vi un apto en Pocitos, ¿sigue disponible?'},
+            {side:'out', x:'¡Hola! 👋 Sí, sigue disponible. ¿Buscás algo de 1 o 2 dormitorios?'},
+            {side:'in', x:'2 dormitorios. Mi presupuesto es hasta 190 mil dólares.'},
+            {side:'out', x:'¡Perfecto! ¿Solo Pocitos o también mirás Punta Carretas? ¿Necesitás garaje?'},
+            {side:'in', x:'Pocitos, y con garaje mejor.'},
+            {side:'out', x:'Buenísimo, tengo 3 opciones que encajan 🙌 ¿Te agendo una visita el sábado?'}
+          ],
+          saved:{h:'Guardado en la ficha del cliente', items:[
+            {l:'Zona', v:'Pocitos'},
+            {l:'Dormitorios', v:'2'},
+            {l:'Presupuesto', v:'≤ USD 190k'},
+            {l:'Extra', v:'Con garaje'}
+          ]}
+        }
+      ]}
     ],
-    notif:{ic:'🔔', t:'Apto Pocitos ↔ 4 interesados', s:'Entró una propiedad nueva y ya sabés a quién ofrecérsela.'},
-    data:{label:'Propiedades', icon:'🏘️', rows:[
-      {t:'Apto 2 dorm · Pocitos', m:'USD 185.000', tag:{x:'4 interesados',c:'t-acc'}},
-      {t:'Casa · Carrasco', m:'USD 420.000', tag:{x:'Nueva',c:'t-green'}},
-      {t:'Apto 1 dorm · Centro', m:'USD 110.000', tag:{x:'Reservado',c:'t-gray'}},
-      {t:'Local · Ciudad Vieja', m:'USD 95.000', tag:{x:'Visita hoy',c:'t-orange'}}
-    ]},
-    auto:{
-      h:'Propiedad nueva → clientes que la buscaban',
-      sub:'Lo que antes dependía de tu memoria, ahora pasa solo.',
-      steps:['🏠 Entra: Apto 2 dorm, Pocitos, USD 185.000','🔎 El sistema cruza con tu base de clientes','✅ 4 personas buscaban algo así','💬 Mensaje de follow-up listo para enviar'],
-      wa:'Hola Martín! Me acordé de vos 👋 Apareció un apto de 2 dormitorios en Pocitos que encaja justo con lo que estabas buscando. ¿Te paso la info?'
-    },
     ideas:[
-      {ic:'🎯',t:'Match automático de propiedades',a:'Te entra una casa y tratás de acordarte quién buscaba algo parecido.',d:'El sistema te dice al instante qué clientes encajan y te arma el mensaje.'},
-      {ic:'💬',t:'Atención 24/7 por WhatsApp',a:'Perdés consultas que llegan de noche o cuando estás en una visita.',d:'El bot responde, califica y agenda la visita solo, a cualquier hora.'},
-      {ic:'🗂️',t:'Ficha viva de cada cliente',a:'Anotás en un cuaderno qué busca y cuánto puede pagar cada uno.',d:'Base ordenada con qué busca y presupuesto, lista para cruzar con cada propiedad.'}
+      {ic:'🎯',t:'Match comprador ↔ propiedad',a:'Te entra una propiedad y tratás de acordarte, de memoria, quién buscaba algo parecido. Muchos clientes de hace meses se pierden.',d:'Cada persona que te escribe queda guardada con lo que busca (zona, dormitorios, presupuesto). Cuando entra una propiedad que encaja —aunque el cliente sea de hace meses— te dice a quién ofrecérsela y te deja el mensaje listo para enviar.'},
+      {ic:'💬',t:'Atención 24/7 en todos los canales',a:'Las consultas llegan por WhatsApp, Instagram, Facebook y la web, a toda hora. Las que entran de noche o mientras estás en una visita se enfrían.',d:'Un solo asistente responde, califica y agenda la visita en todos los canales, las 24 horas — y guarda qué busca cada cliente.'},
+      {ic:'🛰️',t:'Radar del mercado',a:'Revisás los portales a mano para ver qué se publicó nuevo, y muchas veces te enterás tarde.',d:'El sistema vigila los portales y te avisa apenas se publica una propiedad que encaja con lo que tus clientes buscan — te enterás antes que nadie.'}
     ]
   },
   {
@@ -498,7 +628,8 @@ const RUBROS = [
 ];
 
 let cur = RUBROS[0];
-let tab = 'panel';
+let tab = null;
+let touched = false;
 
 function setAccent(r){
   document.documentElement.style.setProperty('--acc', r.acc);
@@ -516,12 +647,129 @@ function renderChips(){
   ).join('');
 }
 
-function renderNav(){
-  const tabs=[
-    {id:'panel',ic:'◆',lb:'Panel'},
-    {id:'data',ic:cur.data.icon,lb:cur.data.label},
-    {id:'auto',ic:'⚡',lb:'Automático'}
+// Returns the tabs for a rubro. Rubros with explicit `tabs` use the block system.
+// Legacy rubros (panel/data/auto) are synthesized into the same block format.
+function activeTabs(r){
+  r = r || cur;
+  if(r.tabs) return r.tabs;
+  return [
+    {id:'panel', ic:'◆', lb:'Panel', blocks:[
+      {type:'kpis', label:'Panel de hoy', items:r.kpis},
+      {type:'notif', ic:r.notif.ic, t:r.notif.t, s:r.notif.s}
+    ]},
+    {id:'data', ic:r.data.icon, lb:r.data.label, blocks:[
+      {type:'list', label:r.data.label, rows:r.data.rows}
+    ]},
+    {id:'auto', ic:'⚡', lb:'Automático', blocks:[
+      {type:'flow', h:r.auto.h, sub:r.auto.sub, steps:r.auto.steps, wa:r.auto.wa}
+    ]}
   ];
+}
+
+function initials(name){
+  return name.replace(/[^a-zA-ZáéíóúÁÉÍÓÚ\s]/g,'').trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+}
+
+// Block dispatcher — each block type is a self-contained renderer.
+function renderBlock(b){
+  switch(b.type){
+    case 'kpis':   return blockKpis(b);
+    case 'notif':  return blockNotif(b);
+    case 'feed':   return blockFeed(b);
+    case 'cards':  return blockCards(b);
+    case 'list':   return blockList(b);
+    case 'chat':   return blockChat(b);
+    case 'match':  return blockMatch(b);
+    case 'flow':   return blockFlow(b);
+    case 'bars':   return blockBars(b);
+    case 'agenda': return blockAgenda(b);
+    case 'kanban': return blockKanban(b);
+    default:       return '';
+  }
+}
+
+function blockKpis(b){
+  return `<div class="seclbl">${b.label||'Panel'}</div>
+    <div class="kpis">${b.items.map(k=>
+      `<div class="kpi"><div class="kpi-l">${k.l}</div><div class="kpi-v">${k.v}${k.s?` <small>${k.s}</small>`:''}</div></div>`
+    ).join('')}</div>`;
+}
+function blockNotif(b){
+  return `<div class="seclbl">Pasando ahora</div>
+    <div class="notif"><div class="notif-ic">${b.ic}</div><div><div class="notif-t">${b.t}</div><div class="notif-s">${b.s}</div></div></div>`;
+}
+function blockFeed(b){
+  return `<div class="seclbl">${b.label}</div>${b.items.map(it=>
+    `<div class="feed-item"><div class="feed-ic">${it.ic}</div>
+      <div class="feed-main"><div class="feed-t">${it.t}</div><div class="feed-time">${it.time}</div></div>
+      ${it.btn?`<button class="feed-btn"${it.goto?` data-goto="${it.goto}"`:''}>${it.btn}</button>`:''}</div>`
+  ).join('')}`;
+}
+function blockCards(b){
+  return `<div class="seclbl">${b.label}</div>${b.items.map(c=>
+    `<div class="pcard"><div class="pcard-top">${c.em}<span class="pcard-badge minitag ${c.badge.c}">${c.badge.x}</span></div>
+      <div class="pcard-body"><div class="pcard-t">${c.t}</div><div class="pcard-sub">${c.sub}</div>
+        <div class="pcard-foot"><div class="pcard-price">${c.price}</div><div class="pcard-int">👥 ${c.int}</div></div></div></div>`
+  ).join('')}`;
+}
+function blockList(b){
+  return `<div class="seclbl">${b.label}</div>${b.rows.map(r=>
+    `<div class="row"><div><div class="row-t">${r.t}</div><div class="row-m">${r.m}</div></div><div class="minitag ${r.tag.c}">${r.tag.x}</div></div>`
+  ).join('')}`;
+}
+function blockChat(b){
+  return `<div class="seclbl">${b.label||'Conversación'}</div>
+    <div class="chat">${b.msgs.map(m=>
+      `<div class="bub ${m.side==='in'?'in':'out'}">${m.ch?`<div class="bub-ch">${m.ch}</div>`:''}${m.x}</div>`
+    ).join('')}</div>
+    ${b.saved?`<div class="chat-saved"><div class="chat-saved-h">🗂️ ${b.saved.h}</div>
+      <div class="chat-saved-grid">${b.saved.items.map(s=>
+        `<div class="saved-item"><div class="saved-l">${s.l}</div><div class="saved-v">${s.v}</div></div>`
+      ).join('')}</div></div>`:''}`;
+}
+function blockMatch(b){
+  const p=b.prop;
+  return `<div class="seclbl">Propiedad nueva</div>
+    <div class="pcard"><div class="pcard-top">${p.em}<span class="pcard-badge minitag t-green">${p.badge}</span></div>
+      <div class="pcard-body"><div class="pcard-t">${p.t}</div><div class="pcard-sub">${p.sub}</div>
+        <div class="pcard-foot"><div class="pcard-price">${p.price}</div></div></div></div>
+    <div class="match-arrow">↓  el sistema la cruzó con tu base de clientes  ↓</div>
+    <div class="seclbl">Buscaban algo así (${b.clients.length})</div>
+    ${b.clients.map(c=>
+      `<div class="match-client"><div class="match-av">${initials(c.n)}</div>
+        <div style="flex:1;min-width:0"><div class="match-c-t">${c.n}</div><div class="match-c-m">${c.busca}</div><div class="match-c-meta">${c.meta}</div></div></div>`
+    ).join('')}
+    <div class="wa" style="opacity:1;animation:none;margin-top:11px">
+      <div class="wa-tag">💬 Mensaje listo para enviar a ${b.clients[0].n}</div>
+      <div class="wa-x">${b.wa}</div></div>`;
+}
+function blockFlow(b){
+  const st=b.steps.map((s,i)=>
+    `<div class="step done" style="animation-delay:${i*.18}s"><div class="step-n">${i+1}</div><div class="step-x">${s}</div></div>`
+  ).join('');
+  return `<div class="seclbl">Automatización en vivo</div>
+    <div class="flow-h">${b.h}</div><div class="flow-sub">${b.sub}</div>${st}
+    <div class="wa" style="animation-delay:${b.steps.length*.18+.1}s">
+      <div class="wa-tag">💬 WhatsApp · enviado automáticamente</div><div class="wa-x">${b.wa}</div></div>`;
+}
+function blockBars(b){
+  return `<div class="seclbl">${b.label}</div>
+    <div class="bars">${b.bars.map(bar=>`<div class="bar" style="height:${bar.h}%"><span>${bar.v}</span><small>${bar.d}</small></div>`).join('')}</div>`;
+}
+function blockAgenda(b){
+  return `<div class="seclbl">${b.label}</div>${b.items.map(a=>
+    `<div class="ag-item"><div class="ag-time">${a.time}</div><div class="ag-card"><div class="row-t">${a.t}</div>${a.m?`<div class="row-m">${a.m}</div>`:''}${a.tag?`<div class="minitag ${a.tag.c}" style="margin-top:6px;display:inline-block">${a.tag.x}</div>`:''}</div></div>`
+  ).join('')}`;
+}
+function blockKanban(b){
+  return `<div class="seclbl">${b.label}</div>
+    <div class="kanban">${b.cols.map(col=>
+      `<div><div class="kcol-h">${col.h}</div>${col.items.map(it=>`<div class="kcard">${it}</div>`).join('')}</div>`
+    ).join('')}</div>`;
+}
+
+function renderNav(){
+  const tabs=activeTabs();
   document.getElementById('scrNav').innerHTML = tabs.map(t=>
     `<button class="${t.id===tab?'on':''}" data-tab="${t.id}"><span class="ni">${t.ic}</span>${t.lb}</button>`
   ).join('');
@@ -530,35 +778,9 @@ function renderNav(){
 function renderScreen(){
   document.getElementById('scrMark').textContent = cur.mark;
   document.getElementById('scrTitle').innerHTML = `${cur.title} <span>HQ</span>`;
-  const b = document.getElementById('scrBody');
-  if(tab==='panel'){
-    b.innerHTML = `
-      <div class="seclbl">Panel de hoy</div>
-      <div class="kpis">${cur.kpis.map((k,i)=>
-        `<div class="kpi"><div class="kpi-l">${k.l}</div><div class="kpi-v">${k.v}${k.s?` <small>${k.s}</small>`:''}</div></div>`
-      ).join('')}</div>
-      <div class="seclbl">Pasando ahora</div>
-      <div class="notif"><div class="notif-ic">${cur.notif.ic}</div><div><div class="notif-t">${cur.notif.t}</div><div class="notif-s">${cur.notif.s}</div></div></div>`;
-  } else if(tab==='data'){
-    b.innerHTML = `
-      <div class="seclbl">${cur.data.label}</div>
-      ${cur.data.rows.map(r=>
-        `<div class="row"><div><div class="row-t">${r.t}</div><div class="row-m">${r.m}</div></div><div class="minitag ${r.tag.c}">${r.tag.x}</div></div>`
-      ).join('')}`;
-  } else {
-    const st = cur.auto.steps.map((s,i)=>
-      `<div class="step done" style="animation-delay:${i*.18}s"><div class="step-n">${i+1}</div><div class="step-x">${s}</div></div>`
-    ).join('');
-    b.innerHTML = `
-      <div class="seclbl">Automatización en vivo</div>
-      <div class="flow-h">${cur.auto.h}</div>
-      <div class="flow-sub">${cur.auto.sub}</div>
-      ${st}
-      <div class="wa" style="animation-delay:${cur.auto.steps.length*.18+.1}s">
-        <div class="wa-tag">💬 WhatsApp · enviado automáticamente</div>
-        <div class="wa-x">${cur.auto.wa}</div>
-      </div>`;
-  }
+  const tabs=activeTabs();
+  const t = tabs.find(x=>x.id===tab) || tabs[0];
+  document.getElementById('scrBody').innerHTML = t.blocks.map(renderBlock).join('');
 }
 
 function renderIdeas(){
@@ -578,11 +800,33 @@ function renderCTA(){
   document.getElementById('waBtn').href = `https://wa.me/${WA}?text=${msg}`;
 }
 
+function goToTab(id){
+  tab=id; renderNav(); renderScreen();
+}
+function markTouched(){
+  if(touched) return;
+  touched=true;
+  const h=document.getElementById('tapHint'); if(h) h.classList.add('gone');
+  document.getElementById('scrNav').classList.remove('untouched');
+}
+// Bring the invitation back so each rubro re-invites the user to interact.
+function resetInvite(){
+  touched=false;
+  const h=document.getElementById('tapHint'); if(h) h.classList.remove('gone');
+  document.getElementById('scrNav').classList.add('untouched');
+}
+function scrollToDemo(){
+  const el=document.querySelector('.demo-hint') || document.querySelector('.stage');
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
 function selectRubro(id){
   cur = RUBROS.find(r=>r.id===id) || RUBROS[0];
-  tab = 'panel';
   setAccent(cur);
+  tab = activeTabs()[0].id;
   renderChips(); renderNav(); renderScreen(); renderIdeas(); renderCTA();
+  resetInvite();      // re-show the "tocá acá" cue
+  scrollToDemo();     // glide down so the phone fills the screen
 }
 
 document.getElementById('chips').addEventListener('click',e=>{
@@ -590,11 +834,17 @@ document.getElementById('chips').addEventListener('click',e=>{
 });
 document.getElementById('scrNav').addEventListener('click',e=>{
   const btn=e.target.closest('button'); if(!btn) return;
-  tab=btn.dataset.tab; renderNav(); renderScreen();
+  markTouched(); goToTab(btn.dataset.tab);
+});
+// feed items can jump to another section
+document.getElementById('scrBody').addEventListener('click',e=>{
+  const fb=e.target.closest('.feed-btn[data-goto]'); if(!fb) return;
+  markTouched(); goToTab(fb.dataset.goto);
 });
 
 // init
 setAccent(cur);
+tab = activeTabs()[0].id;
 renderChips(); renderNav(); renderScreen(); renderIdeas(); renderCTA();
 </script>
 </body>
