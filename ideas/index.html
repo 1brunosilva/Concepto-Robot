@@ -319,7 +319,7 @@ const WA = "59897976574";
 // ¿De qué grupo/canal vino? (link por grupo: /ideas?g=grupo1)
 const GROUP = (new URLSearchParams(location.search).get('g') || 'directo').slice(0,40);
 // Vercel Web Analytics: evento custom (no rompe si Analytics está apagado)
-function track(name, data){ try{ window.va && window.va('event', {name, ...(data||{}), grupo:GROUP}); }catch(e){} }
+function track(name, data){ try{ window.va && window.va('event', {name, data:{...(data||{}), grupo:GROUP}}); }catch(e){} }
 
 const RUBROS = [
   {
