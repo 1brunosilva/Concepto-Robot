@@ -9,9 +9,21 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_UY">
 <meta property="og:title" content="Elegí tu rubro. Mirá tu negocio en piloto automático.">
-<meta property="og:description" content="Una herramienta gratis: elegís tu rubro y ves cómo se automatiza tu negocio. Concepto Development.">
+<meta property="og:description" content="Un regalo para vecinos: elegís tu rubro y ves, en 30 segundos, cómo se automatiza tu negocio. Te llevás una idea para usar ya. Gratis.">
 <meta property="og:url" content="https://conceptodevelopment.com/ideas">
+<meta property="og:site_name" content="Concepto Development">
+<meta property="og:image" content="https://conceptodevelopment.com/ideas/og.png">
+<meta property="og:image:secure_url" content="https://conceptodevelopment.com/ideas/og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta property="og:image:alt" content="Mirá tu negocio en piloto automático — elegí tu rubro. Gratis.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Elegí tu rubro. Mirá tu negocio en piloto automático.">
+<meta name="twitter:description" content="Un regalo para vecinos: elegís tu rubro y ves cómo se automatiza tu negocio. Gratis.">
+<meta name="twitter:image" content="https://conceptodevelopment.com/ideas/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -304,6 +316,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(900px 
 
 <script>
 const WA = "59897976574";
+// ¿De qué grupo/canal vino? (link por grupo: /ideas?g=grupo1)
+const GROUP = (new URLSearchParams(location.search).get('g') || 'directo').slice(0,40);
+// Vercel Web Analytics: evento custom (no rompe si Analytics está apagado)
+function track(name, data){ try{ window.va && window.va('event', {name, ...(data||{}), grupo:GROUP}); }catch(e){} }
 
 const RUBROS = [
   {
@@ -919,14 +935,16 @@ function renderCTA(){
   document.getElementById('ctaTitle').innerHTML = esOtro
     ? 'Te armo las ideas para tu negocio'
     : `Te dejo las 3 ideas listas para tu <b>${rubroTxt}</b>`;
+  const tag = GROUP!=='directo' ? ` (${GROUP})` : '';
   const msg = encodeURIComponent(esOtro
-    ? `Hola Bruno! Soy del barrio 👋 Vi la herramienta de Concepto y me gustaría que veas qué se puede automatizar en mi negocio.`
-    : `Hola Bruno! Soy del barrio 👋 Mi rubro es ${rubroTxt}, mandame las 3 ideas listas para mi negocio.`);
+    ? `Hola Bruno! Soy del barrio 👋${tag} Vi la herramienta de Concepto y me gustaría que veas qué se puede automatizar en mi negocio.`
+    : `Hola Bruno! Soy del barrio 👋${tag} Mi rubro es ${rubroTxt}, mandame las 3 ideas listas para mi negocio.`);
   document.getElementById('waBtn').href = `https://wa.me/${WA}?text=${msg}`;
 }
 
 function goToTab(id){
   tab=id; renderNav(); renderScreen();
+  track('tab_change', {rubro:cur.id, tab:id});
 }
 function markTouched(){
   if(touched) return;
@@ -957,6 +975,7 @@ function selectRubro(id){
   renderChips(); renderNav(); renderScreen(); renderIdeas(); renderCTA();
   resetInvite();      // re-show the "tocá acá" cue
   scrollToDemo();     // glide down so the phone fills the screen
+  track('rubro_select', {rubro:id});
 }
 
 document.getElementById('chips').addEventListener('click',e=>{
@@ -971,11 +990,18 @@ document.getElementById('scrBody').addEventListener('click',e=>{
   const fb=e.target.closest('.feed-btn[data-goto]'); if(!fb) return;
   markTouched(); goToTab(fb.dataset.goto);
 });
+// CTA: medir quién toca el botón (conversión real)
+document.getElementById('waBtn').addEventListener('click',()=>track('cta_whatsapp',{rubro:cur.id}));
+const diagBtn=document.querySelector('.cta .btn-ghost');
+if(diagBtn) diagBtn.addEventListener('click',()=>track('cta_diagnostico',{rubro:cur.id}));
 
 // init
 setAccent(cur);
 tab = activeTabs()[0].id;
 renderChips(); renderNav(); renderScreen(); renderIdeas(); renderCTA();
 </script>
+<!-- Vercel Web Analytics (activar en el panel de Vercel: Project → Analytics → Enable) -->
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
