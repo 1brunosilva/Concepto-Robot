@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Barraca Uno — Propuesta · Sistema de gestión y ventas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f4f6; --card:#ffffff; --ink:#16161c; --body:#474751; --mid:#6d6d77; --faint:#9a9aa4;
+    --line:#eaeaee; --line2:#e0e0e5;
+    --navy:#001d7e; --navy-d:#00135a; --navy-soft:#edeff8; --navy-soft2:#e2e6f4;
+    --ok:#15794a; --ok-soft:#e7f3ec; --amber:#a9720b; --amber-soft:#f7efdd; --loss:#b23a1f;
+    --ease:cubic-bezier(0.23,1,0.32,1);
+    --shadow:0 1px 2px rgba(20,20,40,.04),0 4px 16px rgba(20,20,40,.05);
+    --shadow-s:0 1px 2px rgba(20,20,40,.05);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Hanken Grotesk',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);
+    line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:rgba(0,29,126,.15)}
+  .doc{max-width:960px;margin:0 auto;padding:clamp(24px,5vw,60px) clamp(18px,5vw,52px) 120px}
+
+  /* reveal on scroll — visible por defecto; la animación solo se activa con JS vivo */
+  html.js .rv{opacity:0;transform:translateY(14px)}
+  html.js .rv.in{opacity:1;transform:none;transition:opacity .55s var(--ease),transform .55s var(--ease)}
+  @media(prefers-reduced-motion:reduce){html.js .rv{opacity:1;transform:none;transition:none}}
+
+  /* ── encabezado ── */
+  .head{padding-bottom:clamp(26px,4vw,40px);border-bottom:1px solid var(--line2);margin-bottom:clamp(20px,4vw,40px)}
+  .brand{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;margin-bottom:clamp(32px,6vw,56px);text-align:center}
+  .logo{width:64px;height:64px;border-radius:16px;background:var(--navy);color:#fff;font-weight:800;font-size:34px;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--shadow-s)}
+  .brand .bn{font-weight:800;font-size:21px;letter-spacing:-.01em;line-height:1.15}
+  .brand .bs{font-size:14px;color:var(--mid);font-weight:600;margin-top:2px}
+  h1{font-size:clamp(31px,5.3vw,52px);font-weight:800;letter-spacing:-.03em;line-height:1.04;margin-bottom:16px}
+  .lede{font-size:clamp(17px,2.1vw,22px);color:var(--body);font-weight:500;max-width:640px;line-height:1.45}
+  .meta{font-size:13.5px;color:var(--faint);font-weight:600;margin-top:24px;letter-spacing:.01em}
+
+  /* ── secciones ── */
+  .sec{margin-top:clamp(46px,7vw,80px)}
+  .lbl{font-size:12.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--navy);margin-bottom:13px;
+    display:flex;align-items:center;gap:10px}
+  .lbl::before{content:"";width:22px;height:2px;background:var(--navy);border-radius:2px}
+  h2{font-size:clamp(24px,3.6vw,38px);font-weight:800;letter-spacing:-.025em;line-height:1.1;margin-bottom:12px}
+  .sec-intro{font-size:clamp(16px,1.9vw,19px);color:var(--body);font-weight:500;max-width:660px;margin-bottom:8px;line-height:1.5}
+
+  /* ── showcase (bloque interactivo) ── */
+  .show{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);
+    margin-top:26px;overflow:hidden}
+  .show-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+  @media(max-width:760px){.show-grid{grid-template-columns:1fr}}
+  .show-copy{padding:clamp(26px,3.4vw,40px)}
+  .show-copy .k{font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:14px}
+  .show-copy h3{font-size:clamp(21px,2.5vw,28px);font-weight:800;letter-spacing:-.02em;line-height:1.14;margin-bottom:12px}
+  .show-copy p{font-size:clamp(15.5px,1.8vw,18px);color:var(--body);line-height:1.55;font-weight:450}
+  .show-copy p+p{margin-top:13px}
+  .show-copy .path{display:flex;gap:11px;align-items:baseline;padding:11px 0;border-top:1px solid var(--line)}
+  .show-copy .path:first-of-type{border-top:none;margin-top:6px}
+  .show-copy .path .pt{flex-shrink:0;font-size:12px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--navy);background:var(--navy-soft);border-radius:7px;padding:5px 10px;min-width:96px;text-align:center}
+  .show-copy .path p{font-size:clamp(15px,1.7vw,17px);margin:0}
+  .show-copy .res{display:block;margin-top:16px;color:var(--ink);font-weight:700}
+  .stage{background:linear-gradient(180deg,#fafafb,#f1f1f5);border-left:1px solid var(--line);
+    padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;justify-content:center;position:relative;min-height:280px}
+  @media(max-width:760px){.stage{border-left:none;border-top:1px solid var(--line)}}
+  .demo-tag{position:absolute;top:14px;right:16px;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--faint);background:#fff;border:1px solid var(--line);border-radius:20px;padding:4px 10px}
+
+  /* mini-app panel base */
+  .panel{background:#fff;border:1px solid var(--line2);border-radius:16px;box-shadow:var(--shadow-s);overflow:hidden}
+  .panel-h{display:flex;align-items:center;gap:9px;padding:13px 16px;border-bottom:1px solid var(--line);font-weight:700;font-size:14px}
+  .dotB{width:22px;height:22px;border-radius:7px;background:var(--navy);color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+
+  .btn{font-family:inherit;font-weight:700;font-size:15px;border:none;border-radius:11px;padding:12px 20px;cursor:pointer;
+    background:var(--navy);color:#fff;transition:transform .16s var(--ease),background .16s var(--ease);box-shadow:var(--shadow-s)}
+  @media(hover:hover){.btn:hover{background:var(--navy-d)}}
+  .btn:active{transform:scale(.97)}
+  .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line2);box-shadow:none}
+  .btn-big{display:block;text-align:center;background:var(--navy);color:#fff;font-weight:800;font-size:clamp(18px,2.5vw,25px);
+    padding:24px 32px;border-radius:16px;text-decoration:none;margin-top:22px;box-shadow:0 10px 34px rgba(0,29,126,.24);
+    transition:transform .16s var(--ease),background .16s var(--ease)}
+  .btn-big:active{transform:scale(.99)}
+  @media(hover:hover){.btn-big:hover{background:var(--navy-d)}}
+  .price-line{display:flex;align-items:baseline;gap:12px;margin-top:6px}
+  .amt2{font-size:clamp(30px,4.6vw,46px);font-weight:800;color:var(--navy);letter-spacing:-.02em}
+  .per{font-size:clamp(15px,1.7vw,18px);color:var(--mid);font-weight:600}
+
+  /* ── botón "cómo funciona" + cue "probalo ↓" ── */
+  .moreinfo{position:relative;display:inline-flex;align-items:center;gap:8px;font-family:inherit;font-weight:700;font-size:13.5px;
+    color:var(--navy);background:var(--navy-soft);border:1px solid var(--navy-soft2);border-radius:22px;
+    padding:9px 16px;cursor:pointer;transition:background .16s var(--ease),transform .16s var(--ease)}
+  @media(hover:hover){.moreinfo:hover{background:var(--navy-soft2)}}
+  .moreinfo:active{transform:scale(.97)}
+  .moreinfo .pl{font-size:17px;line-height:1;font-weight:800}
+  .moreinfo.pulse::after{content:"";position:absolute;inset:-4px;border-radius:26px;border:2px solid var(--navy);opacity:.55;
+    animation:btnpulse 1.8s ease-out infinite;pointer-events:none}
+  @keyframes btnpulse{0%{transform:scale(1);opacity:.5}100%{transform:scale(1.16);opacity:0}}
+  @media(prefers-reduced-motion:reduce){.moreinfo.pulse::after{display:none}}
+  .cta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+  .hint{font-size:12.5px;font-weight:700;color:var(--navy);font-style:italic}
+  .try-cue{position:absolute;top:15px;left:clamp(20px,3vw,32px);z-index:3;font-size:11.5px;font-weight:700;
+    letter-spacing:.09em;text-transform:uppercase;color:var(--navy);display:flex;align-items:center;gap:6px}
+  .try-cue .dn{display:inline-block;font-size:14px;animation:cuebounce 1.6s var(--ease) infinite}
+  @keyframes cuebounce{0%,100%{transform:translateY(0)}50%{transform:translateY(3px)}}
+  @media(prefers-reduced-motion:reduce){.try-cue .dn{animation:none}}
+
+  /* ── modal pop-up ── */
+  .mdl-ov{position:fixed;inset:0;z-index:100;background:rgba(18,18,34,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+    display:flex;align-items:center;justify-content:center;padding:18px;opacity:0;visibility:hidden;
+    transition:opacity .2s var(--ease),visibility .2s var(--ease)}
+  .mdl-ov.open{opacity:1;visibility:visible}
+  .mdl{background:#fff;border-radius:22px;max-width:660px;width:100%;max-height:88vh;overflow-y:auto;
+    box-shadow:0 30px 80px rgba(0,0,0,.32);transform:scale(.96);transition:transform .22s var(--ease)}
+  .mdl-ov.open .mdl{transform:scale(1)}
+  .mdl-h{position:sticky;top:0;background:#fff;padding:24px clamp(22px,4vw,34px) 14px;border-bottom:1px solid var(--line);
+    display:flex;align-items:flex-start;gap:14px;z-index:2}
+  .mdl-h h3{font-size:clamp(19px,2.6vw,25px);font-weight:800;letter-spacing:-.02em;line-height:1.15;flex:1}
+  .mdl-x{flex-shrink:0;width:34px;height:34px;border-radius:10px;border:1px solid var(--line2);background:#fff;cursor:pointer;
+    font-size:16px;color:var(--mid);display:flex;align-items:center;justify-content:center;transition:background .15s var(--ease)}
+  @media(hover:hover){.mdl-x:hover{background:var(--bg)}}
+  .mdl-x:active{transform:scale(.95)}
+  .mdl-b{padding:18px clamp(22px,4vw,34px) 30px}
+  .mdl-b p{font-size:16px;color:var(--body);line-height:1.6;margin-bottom:13px}
+  .mdl-b p b{color:var(--ink);font-weight:700}
+  .mdl-b h4{font-size:14px;font-weight:800;color:var(--navy);margin:22px 0 10px;letter-spacing:.01em}
+  .mdl-b ul{list-style:none}
+  .mdl-b li{font-size:15.5px;color:var(--body);line-height:1.5;padding:9px 0 9px 24px;position:relative;border-top:1px solid var(--line)}
+  .mdl-b li:first-child{border-top:none}
+  .mdl-b li::before{content:"→";position:absolute;left:0;top:9px;color:var(--navy);font-weight:800}
+  .mdl-b li b{color:var(--ink);font-weight:700}
+  .mdl-tech{font-size:13.5px;color:var(--mid);background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:13px 15px;margin-bottom:16px}
+  .mdl-tech b{color:var(--navy)}
+
+  /* stepper (venta global) */
+  .vg-prod{display:flex;align-items:center;gap:13px;padding:14px 16px}
+  .vg-ph{width:42px;height:42px;border-radius:10px;background:var(--navy-soft);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--navy)}
+  .vg-prod .nm{font-weight:700;font-size:15px}.vg-prod .sub{font-size:13px;color:var(--mid)}
+  .stepper{display:flex;align-items:center;gap:0;border:1px solid var(--line2);border-radius:11px;overflow:hidden;margin-left:auto}
+  .stepper button{width:38px;height:38px;border:none;background:#fff;font-size:20px;font-weight:700;color:var(--navy);cursor:pointer;transition:background .15s var(--ease)}
+  @media(hover:hover){.stepper button:hover{background:var(--navy-soft)}}
+  .stepper button:active{background:var(--navy-soft2)}
+  .stepper .qv{width:52px;text-align:center;font-weight:800;font-size:17px;font-variant-numeric:tabular-nums}
+  .vg-body{padding:6px 16px 16px}
+  .vg-cap{font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mid);margin:8px 0 10px}
+  .suc{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+  .suc .snm{width:74px;font-size:14px;font-weight:600;flex-shrink:0}
+  .suc .track{flex:1;height:9px;background:var(--navy-soft);border-radius:6px;overflow:hidden}
+  .suc .fill{height:100%;width:0;background:var(--navy);border-radius:6px;transition:width .5s var(--ease)}
+  .suc .stake{width:56px;text-align:right;font-size:13.5px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--navy)}
+  .suc.dim .snm,.suc.dim .stake{color:var(--faint)}.suc.dim .fill{background:var(--line2)}
+  .vg-note{font-size:13.5px;color:var(--ok);font-weight:700;margin-top:6px}
+  .vg-note.bad{color:var(--loss)}
+
+  /* chat */
+  .chat{padding:16px;display:flex;flex-direction:column;gap:9px;min-height:220px}
+  .bub{max-width:82%;padding:10px 14px;border-radius:15px;font-size:14.5px;line-height:1.4;opacity:0;transform:translateY(8px) scale(.98)}
+  .bub.in{opacity:1;transform:none;transition:opacity .35s var(--ease),transform .35s var(--ease)}
+  .bub.cli{align-self:flex-end;background:var(--navy);color:#fff;border-bottom-right-radius:5px}
+  .bub.bot{align-self:flex-start;background:#f0f0f4;color:var(--ink);border-bottom-left-radius:5px}
+  .bub.typing{display:flex;gap:4px;align-items:center;padding:13px 15px}
+  .bub.typing span{width:7px;height:7px;border-radius:50%;background:#b4b4bd;animation:blink 1.2s infinite}
+  .bub.typing span:nth-child(2){animation-delay:.2s}.bub.typing span:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
+  .chat-divider{display:flex;align-items:center;gap:10px;margin:4px 0;color:var(--faint);font-size:11px;font-weight:700;
+    letter-spacing:.04em;text-transform:uppercase;opacity:0;transition:opacity .4s ease}
+  .chat-divider.in{opacity:1}
+  .chat-divider::before,.chat-divider::after{content:"";flex:1;height:1px;background:var(--line2)}
+
+  /* finanzas roi */
+  .roi-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
+  .roi-tab{font-family:inherit;font-size:13.5px;font-weight:700;border:1px solid var(--line2);background:#fff;color:var(--mid);
+    border-radius:20px;padding:7px 15px;cursor:pointer;transition:all .18s var(--ease)}
+  .roi-tab.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+  @media(hover:hover){.roi-tab:not(.on):hover{border-color:var(--navy);color:var(--navy)}}
+  .roi-tab:active{transform:scale(.97)}
+  .roi-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .roi-stat{background:#fff;border:1px solid var(--line);border-radius:13px;padding:15px 14px}
+  .roi-stat .rl{font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--mid);margin-bottom:7px}
+  .roi-stat .rv2{font-size:clamp(22px,3.4vw,29px);font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;transition:color .2s var(--ease)}
+  .roi-bar{margin-top:14px;height:10px;background:var(--navy-soft);border-radius:6px;overflow:hidden}
+  .roi-bar .rf{height:100%;background:var(--navy);border-radius:6px;transition:width .55s var(--ease)}
+
+  /* dueño tiles */
+  .tiles{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+  .tile{background:#fff;border:1px solid var(--line);border-radius:13px;padding:15px 16px}
+  .tile.wide{grid-column:1/-1}
+  .tile .tl{font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--mid);margin-bottom:6px}
+  .tile .tv{font-size:clamp(21px,3.2vw,27px);font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .tile .tv.g{color:var(--ok)}.tile .tv.r{color:var(--loss)}
+  .barwrap{height:11px;background:var(--ok-soft);border-radius:6px;overflow:hidden;margin-top:8px;display:flex}
+  .barwrap .cob{background:var(--ok);height:100%;width:0;transition:width .9s var(--ease)}
+  .tile .cap{font-size:12.5px;color:var(--mid);margin-top:8px;font-weight:500}
+
+  /* foto-IA */
+  .fia{display:flex;flex-direction:column;gap:14px}
+  .fia-photo{position:relative;height:150px;border-radius:14px;overflow:hidden;border:1px solid var(--line2)}
+  .fia-photo svg{width:100%;height:100%;display:block}
+  .fia-scan{position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(0,29,126,.14));opacity:0;transition:opacity .3s var(--ease)}
+  .fia.scanning .fia-scan{opacity:1}
+  .fia-line{position:absolute;left:0;right:0;height:2px;background:rgba(0,29,126,.7);top:0;opacity:0}
+  .fia.scanning .fia-line{opacity:1;animation:scan 1s var(--ease)}
+  @keyframes scan{0%{top:0}100%{top:100%}}
+  .fia-out{background:#fff;border:1px solid var(--line);border-radius:13px;padding:15px 16px;opacity:0;transform:translateY(8px);transition:opacity .4s var(--ease),transform .4s var(--ease)}
+  .fia-out.show{opacity:1;transform:none}
+  .fia-out .eh{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--mid);margin-bottom:6px}
+  .fia-out .et{font-size:20px;font-weight:800;letter-spacing:-.02em;margin-bottom:10px}
+  .fia-out .et b{color:var(--navy)}
+  .conf{height:9px;background:var(--navy-soft);border-radius:6px;overflow:hidden}
+  .conf .cf{height:100%;width:0;background:var(--navy);border-radius:6px;transition:width .8s var(--ease)}
+  .fia-out .cc{font-size:12.5px;color:var(--mid);margin-top:7px;font-weight:600}
+
+  /* grid de módulos ── */
+  .mods{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:24px}
+  @media(max-width:680px){.mods{grid-template-columns:1fr}}
+  .mod{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 22px;box-shadow:var(--shadow-s);
+    transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+  @media(hover:hover){.mod:hover{transform:translateY(-2px);box-shadow:var(--shadow)}}
+  .mod h4{font-size:17px;font-weight:700;letter-spacing:-.01em;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+  .mod p{font-size:15px;color:var(--body);line-height:1.45;font-weight:450}
+  .mod .res{color:var(--ink);font-weight:700}
+  .tag{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--navy);background:var(--navy-soft);border-radius:6px;padding:2px 7px}
+
+  /* inversión */
+  .price{background:var(--navy);color:#fff;border-radius:22px;padding:clamp(30px,5vw,50px);margin-top:24px;text-align:center;
+    box-shadow:0 10px 40px rgba(0,29,126,.18);position:relative;overflow:hidden}
+  .price::after{content:"";position:absolute;top:-40%;right:-10%;width:340px;height:340px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,255,255,.09),transparent 70%)}
+  .price .pk{font-size:12.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.62);margin-bottom:14px;position:relative}
+  .price .amt{font-size:clamp(48px,9vw,88px);font-weight:800;letter-spacing:-.035em;line-height:1;position:relative}
+  .price .amt small{font-size:.29em;font-weight:600;color:rgba(255,255,255,.65);letter-spacing:0}
+  .price .pd{font-size:clamp(15.5px,1.9vw,19px);color:rgba(255,255,255,.86);margin-top:16px;font-weight:500;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.45;position:relative}
+  .roi-note{margin-top:18px;background:var(--ok-soft);border:1px solid #cfe6d8;border-radius:15px;padding:20px 24px;
+    font-size:clamp(15.5px,1.9vw,18px);color:var(--ink);line-height:1.5;font-weight:500}
+  .roi-note b{font-weight:700}.roi-note .g{color:var(--ok);font-weight:700}
+
+  /* pasos */
+  .steps{list-style:none;counter-reset:s;margin-top:24px;display:grid;gap:11px}
+  .step{counter-increment:s;display:flex;gap:16px;align-items:flex-start;background:var(--card);border:1px solid var(--line);
+    border-radius:15px;padding:18px 20px;box-shadow:var(--shadow-s)}
+  .step::before{content:counter(s);flex-shrink:0;width:32px;height:32px;border-radius:9px;background:var(--navy);
+    color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center}
+  .step p{font-size:clamp(15.5px,1.9vw,18px);color:var(--body);font-weight:500;line-height:1.45;padding-top:4px}
+  .step p b{color:var(--ink);font-weight:700}
+
+  /* futuro */
+  .future{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:22px}
+  @media(max-width:680px){.future{grid-template-columns:1fr}}
+  .fitem{background:var(--card);border:1px dashed var(--line2);border-radius:14px;padding:19px 20px}
+  .fitem h4{font-size:16px;font-weight:700;margin-bottom:4px;letter-spacing:-.01em}
+  .fitem p{font-size:14.5px;color:var(--mid);line-height:1.45;font-weight:450}
+
+  .foot{margin-top:clamp(52px,7vw,84px);padding-top:24px;border-top:1px solid var(--line2);
+    font-size:13.5px;color:var(--faint);font-weight:500;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  .foot b{color:var(--navy);font-weight:700}
+
+  @media print{
+    body{background:#fff}.show,.mod,.fitem,.price,.step{break-inside:avoid}
+    .rv{opacity:1;transform:none}.demo-tag{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <!-- ENCABEZADO -->
+  <header class="head rv">
+    <div class="brand">
+      <div class="logo">B</div>
+      <div><div class="bn">Barraca Uno</div><div class="bs">× Concepto Development</div></div>
+    </div>
+    <h1>Todo su negocio,<br>en un solo sistema.</h1>
+    <p class="lede">El sistema vende sin parar, no deja escapar ninguna venta y reúne en un solo lugar lo que hoy vive en planillas y en la memoria del equipo. Varias funciones se pueden probar aquí mismo, de forma interactiva.</p>
+    <p class="meta">PROPUESTA · JULIO 2026</p>
+  </header>
+
+  <!-- 1 · VENTA GLOBAL (interactivo) -->
+  <section class="sec">
+    <div class="lbl rv">Ventas</div>
+    <h2 class="rv">Vender juntando el stock de todos los locales.</h2>
+    <div class="show rv"><div class="show-grid">
+      <div class="show-copy">
+        <div class="cta-row">
+          <button class="moreinfo pulse" data-info="ventas"><span class="pl">+</span> Cómo funciona</button>
+          <span class="hint">Contiene información clave</span>
+        </div>
+        <h3>Al modificar la cantidad, se observa de dónde sale cada producto.</h3>
+        <p>Cuando falta material en un local pero sobra en otro, el sistema arma la venta juntando el stock de toda la Barraca.</p>
+        <p><b>De qué local sale primero se define junto con el equipo de stock:</b> el más cercano a la obra, el de mayor disponibilidad, o el que conviene vaciar.</p>
+        <span class="res">Se cierran ventas que hoy se pierden por no tener todo en una sucursal.</span>
+      </div>
+      <div class="stage">
+        <div class="demo-tag">Demo</div>
+        <div class="panel" id="vg">
+          <div class="vg-prod">
+            <div class="vg-ph"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-6 9 6v10a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>
+            <div><div class="nm">Cemento Portland 50kg</div><div class="sub">Stock total: <b id="vgTot">46</b> bolsas</div></div>
+            <div class="stepper"><button id="vgMinus" aria-label="menos">−</button><div class="qv" id="vgQty">24</div><button id="vgPlus" aria-label="más">+</button></div>
+          </div>
+          <div class="vg-body">
+            <div class="vg-cap">Sale de</div>
+            <div id="vgList"></div>
+            <div class="vg-note" id="vgNote"></div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- 2 · ASISTENTE (interactivo) -->
+  <section class="sec">
+    <div class="lbl rv">El asistente</div>
+    <h2 class="rv">Respuesta al instante. A cada consulta, a cada cliente.</h2>
+    <div class="show rv"><div class="show-grid">
+      <div class="show-copy">
+        <div class="cta-row">
+          <button class="moreinfo pulse" data-info="chatbot"><span class="pl">+</span> Cómo funciona</button>
+          <span class="hint">Contiene información clave</span>
+        </div>
+        <h3>Entrenado como su mejor vendedor.</h3>
+        <p>Mediante inteligencia artificial, entiende qué busca cada persona y responde pensando en la venta, no simplemente en salir del paso.</p>
+        <div class="path"><span class="pt">Cliente final</span><p>Cotiza, informa y <b>cierra la venta con orden de compra</b>, todo dentro del chat.</p></div>
+        <div class="path"><span class="pt">Ticket grande</span><p>Arma el pedido y lo deriva a Nicolás, quien elabora el <b>presupuesto a medida</b>.</p></div>
+        <p>Si una persona deja de responder, el sistema retoma la conversación de forma automática a las dos horas, en el mismo punto donde quedó, sumando información que ayude a cerrar la venta.</p>
+        <span class="res">Nadie espera, y ninguna consulta se pierde.</span>
+      </div>
+      <div class="stage">
+        <div class="demo-tag">Demo</div>
+        <div class="panel" style="margin-top:20px">
+          <div class="panel-h"><span class="dotB">B</span> Asistente · Barraca Uno <button class="btn ghost" id="chatReplay" style="margin-left:auto;padding:6px 12px;font-size:12.5px">Repetir</button></div>
+          <div class="chat" id="chat"></div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- 2b · LA BASE DE DATOS DEL ASISTENTE (el activo que queda) -->
+  <section class="sec">
+    <div class="lbl rv">El sistema lo lee todo</div>
+    <h2 class="rv">Todo tu negocio, en una sola base.</h2>
+    <p class="sec-intro rv">El sistema lee y junta todo lo que ocurre en el negocio: el stock, las ventas, las compras, los pedidos a proveedores, la cobranza, las obras y cada consulta del chatbot. Un dato se carga una vez y vive en todos lados. Con esa base:</p>
+    <div class="cta-row rv">
+      <button class="moreinfo pulse" data-info="datos"><span class="pl">+</span> Ver todo lo que se puede saber</button>
+      <span class="hint">Contiene información clave</span>
+    </div>
+    <div class="mods">
+      <div class="mod rv"><h4>Un dato, en todos lados</h4><p>Un cambio de precio se refleja en el chat, en la aplicación y en el mostrador al mismo tiempo. <span class="res">Nada se contradice ni se carga dos veces.</span></p></div>
+      <div class="mod rv"><h4>Se cierra lo que quedó a medias</h4><p>Cada consulta o compra que no se terminó se retoma y se cierra, una por una. <span class="res">Ventas que hoy se pierden en el camino.</span></p></div>
+      <div class="mod rv"><h4>Leads para los vendedores externos</h4><p>Quien consultó y no cerró se convierte en un lead, asignado directamente al vendedor de calle. <span class="res">Trabajo servido, no un contacto frío.</span></p></div>
+      <div class="mod rv"><h4>Campañas a quien ya se comunicó</h4><p>Cada contacto queda registrado. Se le puede volver a escribir con lo que le sirve, cuando la empresa lo decida. <span class="res">Una lista propia, no alquilada.</span></p></div>
+      <div class="mod rv"><h4>Se compra y se vende con datos</h4><p>Qué se pide y no se tiene, qué producto rota y cuál no, qué proveedor conviene. <span class="res">Decisiones con números, no a criterio personal.</span></p></div>
+      <div class="mod rv"><h4>Inventario que no miente</h4><p>Cada movimiento de stock queda registrado: quién lo hizo, cuándo y por qué. <span class="res">Stock demostrable, no estimado.</span></p></div>
+    </div>
+  </section>
+
+  <!-- 3 · FINANZAS ROI (interactivo) -->
+  <section class="sec">
+    <div class="lbl rv">Finanzas <span class="tag">nuevo</span></div>
+    <h2 class="rv">Dónde está la plata, por local.</h2>
+    <div class="show rv"><div class="show-grid">
+      <div class="show-copy">
+        <div class="k">Seleccione un local →</div>
+        <h3>La ganancia real, según el local que se elija.</h3>
+        <p>Ganancia, retorno y margen de lo que ya ocurre en el sistema, sin cargar nada a mano.</p>
+        <p>Por local, por área, y su evolución mes a mes.</p>
+        <span class="res">Se observa qué sucursal y qué rubro deja ganancia, y cuál la consume.</span>
+      </div>
+      <div class="stage">
+        <div class="demo-tag">Demo · datos de ejemplo</div>
+        <div class="panel" style="padding:18px 18px 20px">
+          <div class="roi-tabs" id="roiTabs">
+            <button class="roi-tab on" data-k="Todos">Todos</button>
+            <button class="roi-tab" data-k="Centro">Centro</button>
+            <button class="roi-tab" data-k="Cerro">Cerro</button>
+            <button class="roi-tab" data-k="Pando">Pando</button>
+          </div>
+          <div class="roi-stats">
+            <div class="roi-stat"><div class="rl">Ganancia</div><div class="rv2" id="roiGan">$1,2M</div></div>
+            <div class="roi-stat"><div class="rl">Retorno</div><div class="rv2" id="roiRoi">34%</div></div>
+            <div class="roi-stat"><div class="rl">Margen</div><div class="rv2" id="roiMar">22%</div></div>
+          </div>
+          <div class="roi-bar"><div class="rf" id="roiBar" style="width:68%"></div></div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- 4 · PANEL DUEÑO (animado) -->
+  <section class="sec">
+    <div class="lbl rv">El dueño</div>
+    <h2 class="rv">El estado del negocio, de un vistazo.</h2>
+    <div class="show rv"><div class="show-grid">
+      <div class="show-copy">
+        <div class="cta-row">
+          <button class="moreinfo pulse" data-info="dueno"><span class="pl">+</span> Cómo funciona</button>
+          <span class="hint">Contiene información clave</span>
+        </div>
+        <h3>Cuánto dinero está en la calle, sin necesidad de preguntarle a nadie.</h3>
+        <p>Facturado, cobrado y lo que todavía está sin cobrar. Quién vende y, el dato que realmente importa, quién <b>cobra</b> de verdad.</p>
+        <p>Toda la información es accesible: al seleccionar un número, se puede ver de dónde proviene, factura por factura.</p>
+        <span class="res">El estado real del negocio en segundos, sin necesidad de solicitar una planilla.</span>
+      </div>
+      <div class="stage">
+        <div class="demo-tag">Demo · datos de ejemplo</div>
+        <div class="tiles" id="tiles">
+          <div class="tile"><div class="tl">Facturado</div><div class="tv" data-cu="170275" data-pre="$">$0</div></div>
+          <div class="tile"><div class="tl">Cobrado</div><div class="tv g" data-cu="54000" data-pre="$">$0</div></div>
+          <div class="tile wide"><div class="tl">En la calle</div><div class="tv r" data-cu="116275" data-pre="$">$0</div>
+            <div class="barwrap"><div class="cob" id="cobBar"></div></div>
+            <div class="cap">Cobrado 32% · el resto, pendiente</div></div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- 5 · FOTO IA (interactivo) -->
+  <section class="sec">
+    <div class="lbl rv">Obras</div>
+    <h2 class="rv">Una foto, y el sistema sabe en qué etapa va.</h2>
+    <div class="show rv"><div class="show-grid">
+      <div class="show-copy">
+        <div class="cta-row">
+          <button class="moreinfo pulse" data-info="foto"><span class="pl">+</span> Cómo funciona</button>
+          <span class="hint">Contiene información clave</span>
+        </div>
+        <h3>Una foto, y la IA sabe en qué etapa está la obra.</h3>
+        <p>El vendedor toma la fotografía y la inteligencia artificial reconoce la etapa de la obra. Con cada fotografía, el sistema aprende cuánto demora cada etapa, permitiendo anticipar qué obra está por avanzar.</p>
+        <p>Y sugiere qué ofrecer a cada obra en el momento justo: si la obra entró en revoque, sugiere ofrecer pintura y accesorios.</p>
+        <span class="res">Nicolás ve el estado de cada obra sin salir de la oficina.</span>
+      </div>
+      <div class="stage">
+        <div class="demo-tag">Demo</div>
+        <div class="fia" id="fia">
+          <div class="fia-photo">
+            <svg viewBox="0 0 300 150" preserveAspectRatio="xMidYMid slice"><rect width="300" height="150" fill="#dfe1ea"/><rect y="96" width="300" height="54" fill="#cfd2dd"/><rect x="40" y="40" width="58" height="56" fill="#b9bccb"/><rect x="46" y="46" width="14" height="14" fill="#e7e9f0"/><rect x="70" y="46" width="14" height="14" fill="#e7e9f0"/><rect x="46" y="68" width="14" height="14" fill="#e7e9f0"/><rect x="70" y="68" width="14" height="14" fill="#e7e9f0"/><rect x="130" y="20" width="66" height="76" fill="#a7abbd"/><rect x="138" y="28" width="16" height="16" fill="#e7e9f0"/><rect x="164" y="28" width="16" height="16" fill="#e7e9f0"/><rect x="138" y="52" width="16" height="16" fill="#e7e9f0"/><rect x="164" y="52" width="16" height="16" fill="#e7e9f0"/><rect x="138" y="76" width="16" height="16" fill="#e7e9f0"/><rect x="164" y="76" width="16" height="16" fill="#e7e9f0"/><rect x="226" y="54" width="44" height="42" fill="#b9bccb"/><path d="M226 54l22-16 22 16z" fill="#a7abbd"/><rect x="150" y="4" width="4" height="90" fill="#8b8fa3"/><rect x="150" y="4" width="46" height="4" fill="#8b8fa3"/></svg>
+            <div class="fia-scan"></div><div class="fia-line"></div>
+          </div>
+          <button class="btn" id="fiaBtn">Analizar foto</button>
+          <div class="fia-out" id="fiaOut">
+            <div class="eh">Etapa detectada</div>
+            <div class="et"><b>Revestimiento</b></div>
+            <div class="conf"><div class="cf" id="fiaConf"></div></div>
+            <div class="cc" id="fiaCc">Confianza 87% · el vendedor confirma de un toque</div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- Y ADEMÁS (grid) -->
+  <section class="sec">
+    <div class="lbl rv">Y además, todo esto</div>
+    <h2 class="rv">El resto del sistema.</h2>
+    <div class="mods">
+      <div class="mod rv"><h4>El día del vendedor</h4><p>Al abrir la aplicación, ve primero las oportunidades del día: presupuestos para retomar, clientes que dejaron de comprar y a quienes les corresponde una recompra, con recordatorio automático a los 14 días si el cliente no respondió. También su recorrido de obras del día y, más abajo, lo que tiene pendiente de cobro. <span class="res">No se pierde una venta ni un cobro por olvido.</span></p></div>
+      <div class="mod rv"><h4>Presupuestos</h4><p>El vendedor arma el presupuesto, la gerencia define los precios y aprueba, el vendedor lo envía y la gerencia confirma la venta. El total lo calcula el sistema. <span class="res">Precio y margen bajo control de la gerencia.</span></p></div>
+      <div class="mod rv"><h4>Clientes</h4><p>Ficha con saldo, crédito, contacto e historial, incluido el precio de la última venta, para no resignar margen. En el mostrador no se concreta ninguna venta sin registrar quién es el cliente. <span class="res">Cada cliente queda en la empresa, no en la libreta.</span></p></div>
+      <div class="mod rv"><h4>Stock en tiempo real</h4><p>El mostrador y los vendedores ven qué hay y en qué sucursal, con precio. <span class="res">No se pierde la venta por no saber qué hay.</span></p></div>
+      <div class="mod rv"><h4>Reposición y proveedores</h4><p>Avisa qué comprar antes de quedarse sin stock, calculando hacia atrás lo que realmente demora cada proveedor (por ejemplo, si prometió 3 días y tardó 9, el sistema lo registra y ajusta). Marca los productos que no rotan. <span class="res">Se compra a tiempo, sin capital inmovilizado.</span></p></div>
+      <div class="mod rv"><h4>Panel de la gerencia</h4><p>Muestra primero lo pendiente: presupuestos por aprobar, el equipo del día, quién va atrasado. <span class="res">Ordena el día sin necesidad de perseguir a nadie.</span></p></div>
+      <div class="mod rv"><h4>Autorizaciones</h4><p>El mostrador no concreta un descuento grande sin la aprobación de la gerencia. <span class="res">Control del margen en cada venta.</span></p></div>
+      <div class="mod rv"><h4>La base</h4><p>Cada rol ve solo lo que le corresponde; los montos los calcula el sistema sobre todas las operaciones; se instala como aplicación, con soporte y respaldo. <span class="res">Un sistema confiable, pensado para durar años.</span></p></div>
+    </div>
+  </section>
+
+  <!-- PROBAR LA APP (disclaimer + link) -->
+  <section class="sec">
+    <div class="lbl rv">Véanlo ustedes mismos</div>
+    <h2 class="rv">Entren y toquen la app.</h2>
+    <p class="sec-intro rv">Se puede ingresar por cada rol (vendedor, mostrador, gerencia y dueño) y recorrer la aplicación de punta a punta.</p>
+    <a class="btn-big rv" href="https://barraca-uno-star.vercel.app" target="_blank" rel="noopener">🔓&nbsp;&nbsp;Abrir la app y probarla →</a>
+    <div class="live rv" style="margin-top:22px"><b>Una aclaración:</b> esto es el MVP, el mismo que se mostró en la reunión, para poder recordar y ver cómo funciona. El producto final está mucho más pulido, con varios cambios y numerosos módulos y funciones adicionales conversados en las reuniones.</div>
+  </section>
+
+  <!-- INVERSIÓN -->
+  <section class="sec">
+    <div class="lbl rv">La inversión</div>
+    <p class="sec-intro rv">El sistema con sus cuatro roles, el asistente y el soporte, por un abono mensual:</p>
+    <div class="price-line rv"><span class="amt2">USD 1.600</span><span class="per">por mes</span></div>
+  </section>
+
+  <!-- CÓMO ARRANCAMOS -->
+  <section class="sec">
+    <div class="lbl rv">Cómo arrancamos</div>
+    <h2 class="rv">El camino, en pasos.</h2>
+    <ol class="steps">
+      <li class="step rv"><p>Nos remiten la <b>base de datos</b> para cargar su información.</p></li>
+      <li class="step rv"><p>Presentamos el <b>producto</b> armado con sus datos.</p></li>
+      <li class="step rv"><p>Comenzamos con la <b>implementación</b>.</p></li>
+      <li class="step rv"><p>Cerramos con la <b>capacitación</b> del equipo.</p></li>
+    </ol>
+  </section>
+
+  <footer class="foot rv">
+    <span><b>Concepto Development</b> · Automatización a medida para empresas en Uruguay</span>
+    <span>Barraca Uno · Julio 2026</span>
+  </footer>
+
+</div>
+
+<!-- ═══ MODAL ═══ -->
+<div class="mdl-ov" id="mdl" aria-hidden="true">
+  <div class="mdl" role="dialog" aria-modal="true" aria-labelledby="mdl-title">
+    <div class="mdl-h"><h3 id="mdl-title"></h3><button class="mdl-x" id="mdl-x" aria-label="Cerrar">✕</button></div>
+    <div class="mdl-b" id="mdl-b"></div>
+  </div>
+</div>
+
+<!-- contenido de los pop-ups (oculto) -->
+<div hidden>
+  <div id="src-chatbot" data-title="El asistente, en detalle">
+    <p>Es un asistente con <b>inteligencia artificial</b> que atiende a cada persona que escribe, a cualquier hora, como lo haría el mejor vendedor de la empresa. Está entrenado con los productos, los precios y la forma de vender de Barraca Uno, y también en cómo se acompaña a un cliente hasta la compra.</p>
+    <p>No solo responde: se ocupa de que <b>ninguna persona quede en el camino</b>. Si alguien inicia una consulta y deja de responder, el sistema la retoma y realiza el seguimiento hasta ayudarla a decidir.</p>
+    <p>Además, <b>mejora con el uso</b>: aprende de qué conversaciones terminaron en venta y cuáles no, y ajusta sus respuestas para cerrar cada vez más.</p>
+    <h4>Con cada charla, guarda información que hoy no existe</h4>
+    <p>Cada persona que escribe queda registrada: quién es, cómo contactarla y qué le interesó. Con esa base, es posible:</p>
+    <ul>
+      <li><b>Enviar campañas a quienes ya se comunicaron:</b> volver a escribirles con lo que le sirve a cada uno, cuando la empresa lo decida.</li>
+      <li><b>Identificar dónde se pierden las ventas:</b> el sistema muestra en qué punto de la charla la gente deja de responder. Si ocho de cada diez abandonan al conocer el precio, ya se sabe cuál es el problema, con datos concretos.</li>
+      <li><b>Anticipar a quién le corresponde volver a comprar,</b> antes que la competencia.</li>
+      <li><b>Saber qué se pide y no se tiene,</b> para comprar lo que realmente se busca.</li>
+      <li><b>Generar leads para los vendedores externos:</b> quien consultó y no cerró se deriva, ya calificado, al vendedor de calle.</li>
+    </ul>
+  </div>
+  <div id="src-ventas" data-title="Vender con el stock de todos los locales">
+    <p>El sistema reúne el stock de todos los locales y arma la venta sin necesidad de consultar sucursal por sucursal.</p>
+    <p>De qué local sale cada producto se puede resolver de varias formas, según lo que convenga a la operación:</p>
+    <ul>
+      <li>Del local <b>más cercano</b> a la obra o al cliente, para ahorrar flete.</li>
+      <li>Del que tiene <b>mayor stock</b>, para emparejar los locales.</li>
+      <li>Del que conviene <b>vaciar</b>, para mover lo que está inmovilizado.</li>
+      <li>Cuidando que <b>ningún local quede en falta</b>.</li>
+    </ul>
+    <p>Esta definición no se toma de escritorio: se <b>acuerda con el equipo de stock</b>, entendiendo cómo trabajan hoy y adaptando el sistema a la operación de Barraca Uno. Las formas de resolverlo son prácticamente infinitas.</p>
+  </div>
+  <div id="src-datos" data-title="Todo el negocio, en una base">
+    <p class="mdl-tech"><b>Una base con candado de seguridad (RLS):</b> cada persona ve solo lo que le corresponde y los datos nunca se cruzan entre sí.</p>
+    <p>El sistema guarda todo lo que ocurre: el stock, las ventas, las compras, los pedidos, la cobranza, las obras y cada consulta del chatbot. Con toda esa información reunida, es posible responder preguntas que hoy no tienen respuesta:</p>
+    <ul>
+      <li>Qué mes se vende más y en cuál se vende menos.</li>
+      <li>Cada cuántas consultas se concreta una venta.</li>
+      <li>Qué parte de las ventas corresponde a empresas y qué parte a público final.</li>
+      <li>Qué productos rotan más y cuáles permanecen inmovilizados.</li>
+      <li>Facturación y <b>ganancia real</b>, mes a mes.</li>
+      <li>En qué días y horarios llega más demanda, para organizar la atención.</li>
+      <li><b>Quién del equipo genera más de lo que cuesta, y quién cuesta más de lo que genera.</b></li>
+    </ul>
+    <h4>Facturar no es lo mismo que ganar</h4>
+    <p>Es posible facturar $100.000 en martillos, pero si costaron $50.000, la ganancia real es de $50.000. Y puede que otro producto, con menor facturación, deje un margen mayor. El sistema muestra <b>dónde está la ganancia real</b>, no solo dónde está la venta.</p>
+  </div>
+  <div id="src-dueno" data-title="El panel del dueño">
+    <p>Una sola pantalla, en modo lectura, con el estado real del negocio, sin necesidad de solicitar información a nadie.</p>
+    <ul>
+      <li><b>Facturado, cobrado y lo que está en la calle</b> (lo que todavía no fue pagado).</li>
+      <li><b>Quién vende y quién cobra</b> de verdad, vendedor por vendedor.</li>
+      <li>Ventas por sucursal, ticket promedio y obras activas.</li>
+      <li>Capital inmovilizado en stock y lo que permanece sin movimiento.</li>
+    </ul>
+    <p><b>Toda la información es accesible:</b> al seleccionar un número, se puede ver de dónde proviene, factura por factura. Ninguna cifra queda sin poder rastrearse.</p>
+  </div>
+  <div id="src-foto" data-title="La foto que reconoce la obra">
+    <p>El vendedor toma una fotografía de la obra desde el teléfono. La inteligencia artificial la analiza y reconoce en qué etapa se encuentra, desde el pozo hasta la obra terminada.</p>
+    <p>Con esa información: al vendedor le surge la próxima oportunidad de venta, la gerencia y el dueño ven el avance sin salir de la oficina, y la etapa se actualiza automáticamente.</p>
+    <p>Es una fotografía común, tomada con el teléfono. No requiere equipos costosos ni complejos: lo difícil lo resuelve el sistema.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* reveal on scroll */
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.14, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+
+  /* ── pop-ups "cómo funciona" ── */
+  var mdl=document.getElementById('mdl'), mB=document.getElementById('mdl-b'), mT=document.getElementById('mdl-title');
+  function openInfo(k){ var s=document.getElementById('src-'+k); if(!s){return;} mT.textContent=s.getAttribute('data-title')||''; mB.innerHTML=s.innerHTML; mB.scrollTop=0; mdl.classList.add('open'); mdl.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+  function closeInfo(){ mdl.classList.remove('open'); mdl.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+  document.querySelectorAll('[data-info]').forEach(function(b){ b.addEventListener('click',function(){ openInfo(b.getAttribute('data-info')); b.classList.remove('pulse'); }); });
+  document.getElementById('mdl-x').addEventListener('click',closeInfo);
+  mdl.addEventListener('click',function(e){ if(e.target===mdl) closeInfo(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape' && mdl.classList.contains('open')) closeInfo(); });
+
+  /* ── cue "↓ probalo" en los paneles interactivos ── */
+  function addCue(panelId, txt){ var el=document.getElementById(panelId); if(!el){return;} var stage=el.closest('.stage'); if(!stage){return;} var c=document.createElement('div'); c.className='try-cue'; c.innerHTML=txt+' <span class="dn">↓</span>'; stage.insertBefore(c, stage.firstChild); }
+  addCue('vg','Probalo'); addCue('fia','Probalo'); addCue('chat','En vivo');
+
+  /* ── 1 · venta global ── */
+  var suc=[{n:'Centro',s:18},{n:'Cerro',s:12},{n:'Pando',s:9},{n:'La Paz',s:7}];
+  var TOTAL=suc.reduce(function(a,b){return a+b.s;},0);
+  var qty=24, list=document.getElementById('vgList'), qEl=document.getElementById('vgQty'), noteEl=document.getElementById('vgNote');
+  document.getElementById('vgTot').textContent=TOTAL;
+  suc.forEach(function(s){
+    var row=document.createElement('div'); row.className='suc';
+    row.innerHTML='<div class="snm">'+s.n+'</div><div class="track"><div class="fill"></div></div><div class="stake"></div>';
+    s.el=row; s.fill=row.querySelector('.fill'); s.take=row.querySelector('.stake'); list.appendChild(row);
+  });
+  function renderVG(){
+    qEl.textContent=qty; var rem=qty;
+    suc.forEach(function(s){
+      var t=Math.max(0,Math.min(s.s,rem)); rem-=t;
+      s.fill.style.width=(s.s? (t/s.s*100):0)+'%';
+      s.take.textContent=t+' / '+s.s;
+      s.el.classList.toggle('dim', t===0);
+    });
+    if(rem>0){ noteEl.textContent='Faltan '+rem+' — el sistema avisa antes de prometerlas.'; noteEl.classList.add('bad'); }
+    else { noteEl.textContent='✓ Se arma con el stock de '+suc.filter(function(s){return Math.min(s.s,qtyUsedBy(s))>0;}).length+' sucursales.'; noteEl.classList.remove('bad'); }
+  }
+  function qtyUsedBy(s){ var rem=qty; for(var i=0;i<suc.length;i++){ var t=Math.min(suc[i].s,rem); rem-=t; if(suc[i]===s) return t; } return 0; }
+  document.getElementById('vgPlus').onclick=function(){ qty=Math.min(TOTAL,qty+2); renderVG(); };
+  document.getElementById('vgMinus').onclick=function(){ qty=Math.max(1,qty-2); renderVG(); };
+  renderVG();
+
+  /* ── 2 · chat ── */
+  var script=[
+    {w:'cli',t:'Hola, ¿tienen cemento Portland?'},
+    {w:'bot',t:'Sí, hay stock. La bolsa de 50 kg está a $385. ¿Cuántas necesita?'},
+    {w:'cli',t:'Necesito bastante, es para una platea grande.'},
+    {w:'bot',t:'Entendido. ¿Cuántos metros cuadrados tiene la platea? Así calculo la cantidad exacta.'},
+    {divider:'Dos horas después'},
+    {w:'bot',t:'Le escribo de nuevo: puedo reservarle 100 bolsas de Portland al precio de hoy. ¿Se las aparto?'}
+  ];
+  var chat=document.getElementById('chat'), timers=[];
+  function clearChat(){ timers.forEach(clearTimeout); timers=[]; chat.innerHTML=''; }
+  function addBub(m){ var b=document.createElement('div'); b.className='bub '+m.w; b.textContent=m.t; chat.appendChild(b); requestAnimationFrame(function(){ b.classList.add('in'); }); }
+  function addDivider(text){ var d=document.createElement('div'); d.className='chat-divider'; d.innerHTML='<span>'+text+'</span>'; chat.appendChild(d); requestAnimationFrame(function(){ d.classList.add('in'); }); }
+  function typing(){ var b=document.createElement('div'); b.className='bub bot typing'; b.innerHTML='<span></span><span></span><span></span>'; chat.appendChild(b); requestAnimationFrame(function(){ b.classList.add('in'); }); return b; }
+  function playChat(){
+    clearChat(); var d=300;
+    script.forEach(function(m,i){
+      if(m.divider){
+        timers.push(setTimeout(function(){ addDivider(m.divider); }, d));
+        d+=900;
+      } else if(m.w==='bot'){
+        timers.push(setTimeout(function(){ var tp=typing(); timers.push(setTimeout(function(){ tp.remove(); addBub(m); }, 750)); }, d));
+        d+=750+600;
+      } else {
+        timers.push(setTimeout(function(){ addBub(m); }, d)); d+=700;
+      }
+    });
+  }
+  document.getElementById('chatReplay').onclick=playChat;
+  var chatStarted=false;
+  var cio=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && !chatStarted){ chatStarted=true; if(reduce){ script.forEach(function(m){ if(m.divider){ addDivider(m.divider);} else { addBub(m);} }); } else { playChat(); } } }); },{threshold:.4});
+  cio.observe(chat);
+
+  /* ── 3 · finanzas roi ── */
+  var roiData={Todos:{g:'$1,2M',r:'34%',m:'22%',b:68},Centro:{g:'$640k',r:'41%',m:'26%',b:82},Cerro:{g:'$380k',r:'29%',m:'19%',b:58},Pando:{g:'$210k',r:'24%',m:'16%',b:46}};
+  var rg=document.getElementById('roiGan'),rr=document.getElementById('roiRoi'),rm=document.getElementById('roiMar'),rb=document.getElementById('roiBar');
+  document.getElementById('roiTabs').addEventListener('click',function(e){
+    var t=e.target.closest('.roi-tab'); if(!t) return;
+    this.querySelectorAll('.roi-tab').forEach(function(x){x.classList.remove('on');}); t.classList.add('on');
+    var d=roiData[t.dataset.k]; rg.textContent=d.g; rr.textContent=d.r; rm.textContent=d.m; rb.style.width=d.b+'%';
+  });
+
+  /* ── 4 · tiles count-up ── */
+  function fmt(n){ return '$'+n.toLocaleString('es-UY'); }
+  function countUp(el){
+    var target=+el.dataset.cu, dur=1000, t0=null;
+    if(reduce){ el.textContent=fmt(target); return; }
+    function step(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/dur); var e=1-Math.pow(1-p,3); el.textContent=fmt(Math.round(target*e)); if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+  var tilesDone=false;
+  var tio=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && !tilesDone){ tilesDone=true;
+    document.querySelectorAll('#tiles .tv').forEach(countUp);
+    setTimeout(function(){ var cb=document.getElementById('cobBar'); if(cb) cb.style.width='32%'; },200);
+  } }); },{threshold:.4});
+  tio.observe(document.getElementById('tiles'));
+
+  /* ── 5 · foto IA ── */
+  var fia=document.getElementById('fia'), fbtn=document.getElementById('fiaBtn'), fout=document.getElementById('fiaOut'), fconf=document.getElementById('fiaConf');
+  fbtn.onclick=function(){
+    fout.classList.remove('show'); fconf.style.width='0'; fia.classList.add('scanning'); fbtn.disabled=true; fbtn.textContent='Analizando…';
+    setTimeout(function(){
+      fia.classList.remove('scanning'); fout.classList.add('show'); fbtn.disabled=false; fbtn.textContent='Analizar de nuevo';
+      setTimeout(function(){ fconf.style.width='87%'; },80);
+    }, reduce?0:1050);
+  };
+})();
+</script>
+</body>
+</html>
