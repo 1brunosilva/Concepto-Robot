@@ -11,7 +11,7 @@
   :root{
     --bg:#f4f4f6; --card:#ffffff; --ink:#16161c; --body:#474751; --mid:#6d6d77; --faint:#9a9aa4;
     --line:#eaeaee; --line2:#e0e0e5;
-    --navy:#001d7e; --navy-d:#00135a; --navy-soft:#edeff8; --navy-soft2:#e2e6f4;
+    --navy:#5B50F0; --navy-d:#4940C0; --navy-soft:#EBEAFD; --navy-soft2:#DEDCFC;
     --ok:#15794a; --ok-soft:#e7f3ec; --amber:#a9720b; --amber-soft:#f7efdd; --loss:#b23a1f;
     --ease:cubic-bezier(0.23,1,0.32,1);
     --shadow:0 1px 2px rgba(20,20,40,.04),0 4px 16px rgba(20,20,40,.05);
@@ -21,7 +21,7 @@
   html{scroll-behavior:smooth}
   body{font-family:'Hanken Grotesk',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);
     line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-  ::selection{background:rgba(0,29,126,.15)}
+  ::selection{background:rgba(91,80,240,.15)}
   .doc{max-width:960px;margin:0 auto;padding:clamp(24px,5vw,60px) clamp(18px,5vw,52px) 120px}
 
   /* reveal on scroll — visible por defecto; la animación solo se activa con JS vivo */
@@ -33,7 +33,7 @@
   .head{padding-bottom:clamp(26px,4vw,40px);border-bottom:1px solid var(--line2);margin-bottom:clamp(20px,4vw,40px);
     text-align:center;display:flex;flex-direction:column;align-items:center}
   .brand{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;margin-bottom:clamp(30px,6vw,50px)}
-  .logo-img{height:clamp(120px,16vw,190px);width:auto;display:block;filter:drop-shadow(0 6px 18px rgba(0,29,126,.14))}
+  .logo-img{height:clamp(120px,16vw,190px);width:auto;display:block;filter:drop-shadow(0 6px 18px rgba(91,80,240,.14))}
   .brand .bs{font-size:14px;color:var(--mid);font-weight:600}
   h1{font-size:clamp(31px,5.3vw,52px);font-weight:800;letter-spacing:-.03em;line-height:1.04;margin-bottom:16px}
   .lede{font-size:clamp(17px,2.1vw,22px);color:var(--body);font-weight:500;max-width:640px;line-height:1.45;margin:0 auto}
@@ -79,11 +79,13 @@
   .btn:active{transform:scale(.97)}
   .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line2);box-shadow:none}
   .btn-big{display:block;text-align:center;background:var(--navy);color:#fff;font-weight:800;font-size:clamp(18px,2.5vw,25px);
-    padding:24px 32px;border-radius:16px;text-decoration:none;margin-top:22px;box-shadow:0 10px 34px rgba(0,29,126,.24);
+    padding:24px 32px;border-radius:16px;text-decoration:none;margin-top:22px;box-shadow:0 10px 34px rgba(91,80,240,.24);
     transition:transform .16s var(--ease),background .16s var(--ease)}
   .btn-big:active{transform:scale(.99)}
   @media(hover:hover){.btn-big:hover{background:var(--navy-d)}}
   .price-line{display:flex;align-items:baseline;gap:12px;margin-top:6px}
+  .impl-note{font-size:13px;color:var(--faint);font-weight:500;margin-top:10px}
+  .impl-note b{color:var(--mid);font-weight:600}
   .amt2{font-size:clamp(30px,4.6vw,46px);font-weight:800;color:var(--navy);letter-spacing:-.02em}
   .per{font-size:clamp(15px,1.7vw,18px);color:var(--mid);font-weight:600}
 
@@ -193,24 +195,6 @@
   .barwrap .cob{background:var(--ok);height:100%;width:0;transition:width .9s var(--ease)}
   .tile .cap{font-size:12.5px;color:var(--mid);margin-top:8px;font-weight:500}
 
-  /* foto-IA */
-  .fia{display:flex;flex-direction:column;gap:14px}
-  .fia-photo{position:relative;height:150px;border-radius:14px;overflow:hidden;border:1px solid var(--line2)}
-  .fia-photo svg{width:100%;height:100%;display:block}
-  .fia-scan{position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(0,29,126,.14));opacity:0;transition:opacity .3s var(--ease)}
-  .fia.scanning .fia-scan{opacity:1}
-  .fia-line{position:absolute;left:0;right:0;height:2px;background:rgba(0,29,126,.7);top:0;opacity:0}
-  .fia.scanning .fia-line{opacity:1;animation:scan 1s var(--ease)}
-  @keyframes scan{0%{top:0}100%{top:100%}}
-  .fia-out{background:#fff;border:1px solid var(--line);border-radius:13px;padding:15px 16px;opacity:0;transform:translateY(8px);transition:opacity .4s var(--ease),transform .4s var(--ease)}
-  .fia-out.show{opacity:1;transform:none}
-  .fia-out .eh{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--mid);margin-bottom:6px}
-  .fia-out .et{font-size:20px;font-weight:800;letter-spacing:-.02em;margin-bottom:10px}
-  .fia-out .et b{color:var(--navy)}
-  .conf{height:9px;background:var(--navy-soft);border-radius:6px;overflow:hidden}
-  .conf .cf{height:100%;width:0;background:var(--navy);border-radius:6px;transition:width .8s var(--ease)}
-  .fia-out .cc{font-size:12.5px;color:var(--mid);margin-top:7px;font-weight:600}
-
   /* grid de módulos ── */
   .mods{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:24px}
   @media(max-width:680px){.mods{grid-template-columns:1fr}}
@@ -224,7 +208,7 @@
 
   /* inversión */
   .price{background:var(--navy);color:#fff;border-radius:22px;padding:clamp(30px,5vw,50px);margin-top:24px;text-align:center;
-    box-shadow:0 10px 40px rgba(0,29,126,.18);position:relative;overflow:hidden}
+    box-shadow:0 10px 40px rgba(91,80,240,.18);position:relative;overflow:hidden}
   .price::after{content:"";position:absolute;top:-40%;right:-10%;width:340px;height:340px;border-radius:50%;
     background:radial-gradient(circle,rgba(255,255,255,.09),transparent 70%)}
   .price .pk{font-size:12.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.62);margin-bottom:14px;position:relative}
@@ -414,46 +398,12 @@
     </div></div>
   </section>
 
-  <!-- 5 · FOTO IA (interactivo) -->
-  <section class="sec">
-    <div class="lbl rv">Obras</div>
-    <h2 class="rv">Una foto, y el sistema sabe en qué etapa va.</h2>
-    <div class="show rv"><div class="show-grid">
-      <div class="show-copy">
-        <div class="cta-row">
-          <button class="moreinfo pulse" data-info="foto"><span class="pl">+</span> Cómo funciona</button>
-          <span class="hint">Contiene información clave</span>
-        </div>
-        <h3>Una foto, y la IA sabe en qué etapa está la obra.</h3>
-        <p>El vendedor toma la fotografía y la inteligencia artificial reconoce la etapa de la obra. Con cada fotografía, el sistema aprende cuánto demora cada etapa, permitiendo anticipar qué obra está por avanzar.</p>
-        <p>Y sugiere qué ofrecer a cada obra en el momento justo: si la obra entró en revoque, sugiere ofrecer pintura y accesorios.</p>
-        <span class="res">Nicolás ve el estado de cada obra sin salir de la oficina.</span>
-      </div>
-      <div class="stage">
-        <div class="demo-tag">Demo</div>
-        <div class="fia" id="fia">
-          <div class="fia-photo">
-            <svg viewBox="0 0 300 150" preserveAspectRatio="xMidYMid slice"><rect width="300" height="150" fill="#dfe1ea"/><rect y="96" width="300" height="54" fill="#cfd2dd"/><rect x="40" y="40" width="58" height="56" fill="#b9bccb"/><rect x="46" y="46" width="14" height="14" fill="#e7e9f0"/><rect x="70" y="46" width="14" height="14" fill="#e7e9f0"/><rect x="46" y="68" width="14" height="14" fill="#e7e9f0"/><rect x="70" y="68" width="14" height="14" fill="#e7e9f0"/><rect x="130" y="20" width="66" height="76" fill="#a7abbd"/><rect x="138" y="28" width="16" height="16" fill="#e7e9f0"/><rect x="164" y="28" width="16" height="16" fill="#e7e9f0"/><rect x="138" y="52" width="16" height="16" fill="#e7e9f0"/><rect x="164" y="52" width="16" height="16" fill="#e7e9f0"/><rect x="138" y="76" width="16" height="16" fill="#e7e9f0"/><rect x="164" y="76" width="16" height="16" fill="#e7e9f0"/><rect x="226" y="54" width="44" height="42" fill="#b9bccb"/><path d="M226 54l22-16 22 16z" fill="#a7abbd"/><rect x="150" y="4" width="4" height="90" fill="#8b8fa3"/><rect x="150" y="4" width="46" height="4" fill="#8b8fa3"/></svg>
-            <div class="fia-scan"></div><div class="fia-line"></div>
-          </div>
-          <button class="btn" id="fiaBtn">Analizar foto</button>
-          <div class="fia-out" id="fiaOut">
-            <div class="eh">Etapa detectada</div>
-            <div class="et"><b>Revestimiento</b></div>
-            <div class="conf"><div class="cf" id="fiaConf"></div></div>
-            <div class="cc" id="fiaCc">Confianza 87% · el vendedor confirma de un toque</div>
-          </div>
-        </div>
-      </div>
-    </div></div>
-  </section>
-
   <!-- Y ADEMÁS (grid) -->
   <section class="sec">
     <div class="lbl rv">Y además, todo esto</div>
     <h2 class="rv">El resto del sistema.</h2>
     <div class="mods">
-      <div class="mod rv"><h4>El día del vendedor</h4><p>Al abrir la aplicación, ve primero las oportunidades del día: presupuestos para retomar, clientes que dejaron de comprar y a quienes les corresponde una recompra, con recordatorio automático a los 14 días si el cliente no respondió. También su recorrido de obras del día y, más abajo, lo que tiene pendiente de cobro. <span class="res">No se pierde una venta ni un cobro por olvido.</span></p></div>
+      <div class="mod rv"><h4>El día del vendedor</h4><p>Al abrir la aplicación, ve primero las oportunidades del día: presupuestos para retomar, clientes que dejaron de comprar y a quienes les corresponde una recompra, con recordatorio automático a los 14 días si el cliente no respondió. En su recorrido de obras, una foto le alcanza para que el sistema registre en qué etapa está cada una. Más abajo ve lo que tiene pendiente de cobro. <span class="res">No se pierde una venta ni un cobro por olvido.</span></p></div>
       <div class="mod rv"><h4>Presupuestos</h4><p>El vendedor arma el presupuesto, la gerencia define los precios y aprueba, el vendedor lo envía y la gerencia confirma la venta. El total lo calcula el sistema. <span class="res">Precio y margen bajo control de la gerencia.</span></p></div>
       <div class="mod rv"><h4>Clientes</h4><p>Ficha con saldo, crédito, contacto e historial, incluido el precio de la última venta, para no resignar margen. En el mostrador no se concreta ninguna venta sin registrar quién es el cliente. <span class="res">Cada cliente queda en la empresa, no en la libreta.</span></p></div>
       <div class="mod rv"><h4>Stock en tiempo real</h4><p>El mostrador y los vendedores ven qué hay y en qué sucursal, con precio. <span class="res">No se pierde la venta por no saber qué hay.</span></p></div>
@@ -478,6 +428,7 @@
     <div class="lbl rv">La inversión</div>
     <p class="sec-intro rv">El sistema con sus cuatro roles, el asistente y el soporte, por un abono mensual:</p>
     <div class="price-line rv"><span class="amt2">USD 1.600</span><span class="per">por mes</span></div>
+    <p class="impl-note rv">Más <b>USD 5.400</b>, puesta en marcha, pago único.</p>
   </section>
 
   <!-- CÓMO ARRANCAMOS -->
@@ -559,11 +510,6 @@
     </ul>
     <p><b>Toda la información es accesible:</b> al seleccionar un número, se puede ver de dónde proviene, factura por factura. Ninguna cifra queda sin poder rastrearse.</p>
   </div>
-  <div id="src-foto" data-title="La foto que reconoce la obra">
-    <p>El vendedor toma una fotografía de la obra desde el teléfono. La inteligencia artificial la analiza y reconoce en qué etapa se encuentra, desde el pozo hasta la obra terminada.</p>
-    <p>Con esa información: al vendedor le surge la próxima oportunidad de venta, la gerencia y el dueño ven el avance sin salir de la oficina, y la etapa se actualiza automáticamente.</p>
-    <p>Es una fotografía común, tomada con el teléfono. No requiere equipos costosos ni complejos: lo difícil lo resuelve el sistema.</p>
-  </div>
 </div>
 
 <script>
@@ -588,7 +534,7 @@
 
   /* ── cue "↓ probalo" en los paneles interactivos ── */
   function addCue(panelId, txt){ var el=document.getElementById(panelId); if(!el){return;} var stage=el.closest('.stage'); if(!stage){return;} var c=document.createElement('div'); c.className='try-cue'; c.innerHTML=txt+' <span class="dn">↓</span>'; stage.insertBefore(c, stage.firstChild); }
-  addCue('vg','Probalo'); addCue('fia','Probalo'); addCue('chat','En vivo');
+  addCue('vg','Probalo'); addCue('chat','En vivo');
 
   /* ── 1 · venta global ── */
   var suc=[{n:'Centro',s:18},{n:'Cerro',s:12},{n:'Pando',s:9},{n:'La Paz',s:7}];
@@ -672,16 +618,6 @@
     setTimeout(function(){ var cb=document.getElementById('cobBar'); if(cb) cb.style.width='32%'; },200);
   } }); },{threshold:.4});
   tio.observe(document.getElementById('tiles'));
-
-  /* ── 5 · foto IA ── */
-  var fia=document.getElementById('fia'), fbtn=document.getElementById('fiaBtn'), fout=document.getElementById('fiaOut'), fconf=document.getElementById('fiaConf');
-  fbtn.onclick=function(){
-    fout.classList.remove('show'); fconf.style.width='0'; fia.classList.add('scanning'); fbtn.disabled=true; fbtn.textContent='Analizando…';
-    setTimeout(function(){
-      fia.classList.remove('scanning'); fout.classList.add('show'); fbtn.disabled=false; fbtn.textContent='Analizar de nuevo';
-      setTimeout(function(){ fconf.style.width='87%'; },80);
-    }, reduce?0:1050);
-  };
 })();
 </script>
 </body>
