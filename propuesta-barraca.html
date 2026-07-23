@@ -560,10 +560,11 @@
 
   /* ── 2 · chat ── */
   var script=[
-    {w:'cli',t:'Hola, ¿tienen cemento Portland?'},
-    {w:'bot',t:'Sí, hay stock. La bolsa de 50 kg está a $385. ¿Cuántas necesita?'},
-    {w:'cli',t:'100 bolsas, para retirar mañana.'},
-    {w:'bot',t:'Reservadas. Orden de compra: 100 bolsas Portland, $38.500. ¿Confirmo el retiro de mañana?'}
+    {w:'cli',t:'Hola, estoy buscando pintura para una pared.'},
+    {w:'bot',t:'¿Es interior o exterior, y para cuántos m² aproximadamente?'},
+    {w:'cli',t:'Interior, un dormitorio.'},
+    {w:'bot',t:'Le recomiendo el látex premium: con un balde le alcanza para todo el dormitorio.'},
+    {w:'bot',t:'Y si busca ahorrar, también tenemos una línea más económica que rinde igual para interior.'}
   ];
   var chat=document.getElementById('chat'), timers=[];
   function clearChat(){ timers.forEach(clearTimeout); timers=[]; chat.innerHTML=''; }
