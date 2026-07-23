@@ -165,10 +165,6 @@
   .bub.typing span{width:7px;height:7px;border-radius:50%;background:#b4b4bd;animation:blink 1.2s infinite}
   .bub.typing span:nth-child(2){animation-delay:.2s}.bub.typing span:nth-child(3){animation-delay:.4s}
   @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
-  .chat-divider{display:flex;align-items:center;gap:10px;margin:4px 0;color:var(--faint);font-size:11px;font-weight:700;
-    letter-spacing:.04em;text-transform:uppercase;opacity:0;transition:opacity .4s ease}
-  .chat-divider.in{opacity:1}
-  .chat-divider::before,.chat-divider::after{content:"";flex:1;height:1px;background:var(--line2)}
 
   /* finanzas roi */
   .roi-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
@@ -566,23 +562,17 @@
   var script=[
     {w:'cli',t:'Hola, ¿tienen cemento Portland?'},
     {w:'bot',t:'Sí, hay stock. La bolsa de 50 kg está a $385. ¿Cuántas necesita?'},
-    {w:'cli',t:'Necesito bastante, es para una platea grande.'},
-    {w:'bot',t:'Entendido. ¿Cuántos metros cuadrados tiene la platea? Así calculo la cantidad exacta.'},
-    {divider:'Dos horas después'},
-    {w:'bot',t:'Le escribo de nuevo: puedo reservarle 100 bolsas de Portland al precio de hoy. ¿Se las aparto?'}
+    {w:'cli',t:'100 bolsas, para retirar mañana.'},
+    {w:'bot',t:'Reservadas. Orden de compra: 100 bolsas Portland, $38.500. ¿Confirmo el retiro de mañana?'}
   ];
   var chat=document.getElementById('chat'), timers=[];
   function clearChat(){ timers.forEach(clearTimeout); timers=[]; chat.innerHTML=''; }
   function addBub(m){ var b=document.createElement('div'); b.className='bub '+m.w; b.textContent=m.t; chat.appendChild(b); requestAnimationFrame(function(){ b.classList.add('in'); }); }
-  function addDivider(text){ var d=document.createElement('div'); d.className='chat-divider'; d.innerHTML='<span>'+text+'</span>'; chat.appendChild(d); requestAnimationFrame(function(){ d.classList.add('in'); }); }
   function typing(){ var b=document.createElement('div'); b.className='bub bot typing'; b.innerHTML='<span></span><span></span><span></span>'; chat.appendChild(b); requestAnimationFrame(function(){ b.classList.add('in'); }); return b; }
   function playChat(){
     clearChat(); var d=300;
     script.forEach(function(m,i){
-      if(m.divider){
-        timers.push(setTimeout(function(){ addDivider(m.divider); }, d));
-        d+=900;
-      } else if(m.w==='bot'){
+      if(m.w==='bot'){
         timers.push(setTimeout(function(){ var tp=typing(); timers.push(setTimeout(function(){ tp.remove(); addBub(m); }, 750)); }, d));
         d+=750+600;
       } else {
@@ -592,7 +582,7 @@
   }
   document.getElementById('chatReplay').onclick=playChat;
   var chatStarted=false;
-  var cio=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && !chatStarted){ chatStarted=true; if(reduce){ script.forEach(function(m){ if(m.divider){ addDivider(m.divider);} else { addBub(m);} }); } else { playChat(); } } }); },{threshold:.4});
+  var cio=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && !chatStarted){ chatStarted=true; if(reduce){ script.forEach(addBub);} else { playChat(); } } }); },{threshold:.4});
   cio.observe(chat);
 
   /* ── 3 · finanzas roi ── */
